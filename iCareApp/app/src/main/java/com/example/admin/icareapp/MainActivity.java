@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private List<String> listOfDays;
     private List<String> listOfHours;
     private Map<String, List<String>> listOfHoursPerDay;
+    private ExpandableListViewAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +31,11 @@ public class MainActivity extends AppCompatActivity {
         listOfHours = new ArrayList<String>();
         listOfHoursPerDay = new HashMap<String, List<String>>();
 
-
+        myAdapter = new ExpandableListViewAdapter(this, listOfDays, listOfHoursPerDay);
+        expList.setAdapter(myAdapter);
         //test = (TextView) findViewById(R.id.testText);
         new JSONParse().execute("http://192.168.0.101/Select_Time.php");
-        expList.setAdapter(new ExapandableListViewAdapter(this, listOfDays, listOfHoursPerDay));
+
     }
 
     //for testing
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
             pDialog.dismiss();
             getHours(jsonArray);
             init();
+            myAdapter.notifyDataSetChanged();
         }
 
 

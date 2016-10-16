@@ -14,13 +14,13 @@ import java.util.Map;
  * Created by ADMIN on 16-Oct-16.
  */
 
-public class ExapandableListViewAdapter extends BaseExpandableListAdapter{
+public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
     private List<String> listOfDays;
     private Map<String,List<String>> listOfHoursPerDay;
     private Activity context;
     private ViewHolder holder;
 
-    public ExapandableListViewAdapter(Activity context, List listOfDays, Map listOfHoursPerDay){
+    public ExpandableListViewAdapter(Activity context, List listOfDays, Map listOfHoursPerDay){
         this.listOfDays = listOfDays;
         this.listOfHoursPerDay = listOfHoursPerDay;
         this.context = context;
