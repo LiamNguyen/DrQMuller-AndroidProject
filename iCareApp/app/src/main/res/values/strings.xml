@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">iCareApp</string>
+    <string name="username_input_hint">Tên Tài Khoản</string>
+    <string name="password_input_hint">Mật Khẩu</string>
+    <string name="sign_in_button">Đăng Nhập</string>
+    <string name="sign_up_button">Đăng Ký</string>
 </resources>

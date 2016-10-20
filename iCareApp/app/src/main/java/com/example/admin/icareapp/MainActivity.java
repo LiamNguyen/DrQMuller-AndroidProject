@@ -34,8 +34,7 @@ public class MainActivity extends AppCompatActivity {
         myAdapter = new ExpandableListViewAdapter(this, listOfDays, listOfHoursPerDay);
         expList.setAdapter(myAdapter);
         //test = (TextView) findViewById(R.id.testText);
-        new JSONParse().execute("http://192.168.0.101/Select_Time.php");
-
+        //new JSONParse().execute("http://192.168.0.101/Select_Time.php");
     }
 
     //for testing
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class JSONParse extends AsyncTask<String, Void, JSONArray>{
+    /*private class JSONParse extends AsyncTask<String, Void, JSONArray>{
         private ProgressDialog pDialog;
 
         @Override
@@ -94,5 +93,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-    }
+    }*/
 }
