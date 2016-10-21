@@ -3,7 +3,7 @@ package com.example.admin.icareapp;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
+import android.view.WindowManager;
 /**
  * Created by ADMIN on 17-Oct-16.
  */

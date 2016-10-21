@@ -32,7 +32,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.wel_sign_in_button:
-                System.out.println("Pressing");
                 frag_transaction = getFragmentManager().beginTransaction();
                 frag_transaction.replace(R.id.wel_fragment_container, new SignInFragment());
                 frag_transaction.addToBackStack(null);

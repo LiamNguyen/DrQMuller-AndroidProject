@@ -26,12 +26,26 @@
         android:text="Ten"
         android:ems="10" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:text="Ngay sinh" />
+
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:ems="10"
-        android:text="sdt" />
+        android:text="sdt"
+        android:visibility="visible" />
 
     <EditText
         android:layout_width="match_parent"

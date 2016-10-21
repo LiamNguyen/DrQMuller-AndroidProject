@@ -55,6 +55,7 @@
         android:weightSum="1"
         android:layout_below="@+id/si_password_input"
         android:layout_marginTop="66dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerInParent="true">
 
         <Button

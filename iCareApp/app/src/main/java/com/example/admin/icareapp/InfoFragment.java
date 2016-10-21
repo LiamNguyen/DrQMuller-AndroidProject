@@ -13,6 +13,13 @@ import android.widget.ImageButton;
  */
 
 public class InfoFragment extends Fragment implements View.OnClickListener{
+    private final String first_name_requirement = "[a-zA-Z]+";
+    private final String last_name_requirement = "[a-zA-Z]+";
+    private final String email_requirement = "[\\w]+@[^@]*[^@]$";
+    private final String phone_requirement = "\\d{1,16}";
+    private final String address_requirement = "\\w+";
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_info, container, false);
