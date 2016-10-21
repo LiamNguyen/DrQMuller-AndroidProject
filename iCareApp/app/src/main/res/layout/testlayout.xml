@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/su_back_button"
+            android:layout_width="40dp"
+            android:layout_weight="0"
+            app:srcCompat="@drawable/ic_back_button"
+            android:elevation="0dp"
+            android:background="@android:color/background_light"
+            android:scaleType="fitXY"
+            android:layout_height="40dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="AAAAAAAAAAAAA"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp">
+            <!-- LoginID Label -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/su_login_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/su_login_id_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:drawableLeft="@drawable/ic_user"
+                    android:drawablePadding="5dp"
+                    android:hint="@string/username_input_hint" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- Password Label -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/su_password_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:passwordToggleEnabled="false"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/su_password_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_password"
+                    android:drawablePadding="5dp"
+                    android:inputType="textPassword"
+                    android:hint="@string/password_input_hint"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/su_password_confirm_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:passwordToggleEnabled="false"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/su_password_confirm_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_pw_confirm"
+                    android:drawablePadding="5dp"
+                    android:inputType="textPassword"
+                    android:hint="@string/password_confirm_hint"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/su_sign_up_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="30dp"
+                android:padding="12dp"
+                android:text="@string/sign_up_button"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
