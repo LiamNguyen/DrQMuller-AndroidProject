@@ -1,6 +1,7 @@
 package com.example.admin.icareapp;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -42,7 +43,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
                 getFragmentManager().popBackStack();
                 break;
             case R.id.si_sign_in_button:
-                new QueryDatabase(getActivity(), this).execute("authenticate", "http://192.168.0.102/Select_ToAuthenticate.php", login_id.getText().toString(), password.getText().toString());
+                new QueryDatabase(getActivity(), this).execute("authenticate", "http://192.168.0.105/Select_ToAuthenticate.php", login_id.getText().toString(), password.getText().toString());
                 break;
             default:
                 break;
