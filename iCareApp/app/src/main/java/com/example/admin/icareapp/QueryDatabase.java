@@ -38,6 +38,12 @@ public class QueryDatabase extends AsyncTask<String,Void,Object>{
         }else if (params[0].equals("checkuser")) {
             JSONParser.getInstance().getURL(params[1]);
             obj = JSONParser.getInstance().checkUserExistence(params[2]);
+        }else if (params[0].equals("update_user")){
+            JSONParser.getInstance().getURL(params[1]);
+            obj = JSONParser.getInstance().updateUser(params[2], params[3], params[4], params[5], params[6], params[7], params[8], params[9]);
+        }else if (params[0].equals("num_users")){
+            JSONParser.getInstance().getURL(params[1]);
+            obj = JSONParser.getInstance().getNumberOfCustomers();
         }
 
         return obj;

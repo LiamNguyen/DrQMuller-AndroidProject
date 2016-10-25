@@ -12,4 +12,9 @@
     <string name="password_confirm_null">Xin vui lòng xác nhận lại mật khẩu</string>
     <string name="sign_in_button">Đăng Nhập</string>
     <string name="sign_up_button">Đăng Ký</string>
+    <string name="next_button">Tiếp Tục</string>
+    <string name="phone_hint">Số Điện Thoại</string>
+    <string name="address_hint">Địa Chỉ</string>
+    <string name="email_hint">Email</string>
+    <string name="name_hint">Họ và Tên</string>
 </resources>

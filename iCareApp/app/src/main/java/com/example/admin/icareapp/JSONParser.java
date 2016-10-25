@@ -36,42 +36,29 @@ public class JSONParser {
         this.url_str = url;
     }
 
-    public JSONArray getJSONFromUrl(){
+    public String getNumberOfCustomers(){
         try{
             url = new URL(url_str);
-            try {
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.connect();
-            }catch (IOException e){
-                System.out.println("CANNOT CONNECTTTT");
-            }
-
-            reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
-
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null){
-                System.out.println(line);
-                sb.append(line);
-            }
-            reader.close();
-            line = sb.toString();
-            try {
-
-                jArray = new JSONArray(line);
-
-            } catch (JSONException e) {
-                System.out.println("Error parsing JSON data");
-            }
-
-        } catch (MalformedURLException e) {
+        }catch (MalformedURLException e){
             System.out.println("No legal protocol is found in URL String or URL String cannot be parsed");
-        } catch (IOException ioe){
+        }
+
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+        }catch (IOException e){
             System.out.println("Cannot open URL connection");
         }
 
-        return jArray;
+        String line = "";
+
+        try{
+            reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            line = reader.readLine();
+        }catch (IOException ioe){
+            System.out.println("Cannot open IO Stream");
+        }
+
+        return line;
     }
 
     public String getAuthenticateAndInsertNewUser(String login_id, String password){
@@ -102,6 +89,32 @@ public class JSONParser {
     public String checkUserExistence(String login_id){
         try{
             url = new URL(url_str + "?login_id=" + login_id);
+        }catch (MalformedURLException e){
+            System.out.println("No legal protocol is found in URL String or URL String cannot be parsed");
+        }
+
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+        }catch (IOException e){
+            System.out.println("Cannot open URL connection");
+        }
+
+        String line = "";
+
+        try{
+            reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            line = reader.readLine();
+        }catch (IOException ioe){
+            System.out.println("Cannot open IO Stream");
+        }
+
+        return line;
+    }
+
+    public String updateUser(String cus_id, String name, String dob, String gender, String phone, String address, String email, String update_date){
+        try{
+            url = new URL(url_str + "?cus_id=" + cus_id + "&name=" + name + "&dob=" + dob + "&gender=" + gender + "&phone=" + phone + "&address=" + address + "&email=" + email + "&update_date=" + update_date);
+            System.out.println(url.toString());
         }catch (MalformedURLException e){
             System.out.println("No legal protocol is found in URL String or URL String cannot be parsed");
         }

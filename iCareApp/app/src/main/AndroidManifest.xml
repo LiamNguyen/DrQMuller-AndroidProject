@@ -19,6 +19,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".UserInfo.UserInfoActivity">
+        </activity>
+
         <activity android:name=".MainActivity">
         </activity>
 
