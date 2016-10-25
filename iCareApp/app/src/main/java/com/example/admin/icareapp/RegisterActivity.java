@@ -16,6 +16,7 @@ public class RegisterActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        //Initialize Fragment
         frag_transaction = getSupportFragmentManager().beginTransaction();
         frag_transaction.add(R.id.wel_fragment_container, new RegisterFragment());
         frag_transaction.commit();

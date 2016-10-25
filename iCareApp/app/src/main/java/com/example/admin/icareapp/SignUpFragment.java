@@ -40,20 +40,25 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Vi
         validPWConf = false;
 
         ImageButton back_button = (ImageButton) view.findViewById(R.id.su_back_button);
+        back_button.setOnClickListener(this);
+
         AppCompatButton sign_in_button = (AppCompatButton) view.findViewById(R.id.su_sign_up_button);
+        sign_in_button.setOnClickListener(this);
+
         login_id = (EditText) view.findViewById(R.id.su_login_id_input);
+        login_id.addTextChangedListener(this);
+
         password = (EditText) view.findViewById(R.id.su_password_input);
+        password.addTextChangedListener(this);
+
         password_confirm = (EditText) view.findViewById(R.id.su_password_confirm_input);
+        password_confirm.addTextChangedListener(this);
+
         login_id_container = (TextInputLayout) view.findViewById(R.id.su_login_container);
         password_container = (TextInputLayout) view.findViewById(R.id.su_password_container);
         password_confirm_container = (TextInputLayout) view.findViewById(R.id.su_password_confirm_container);
 
-        back_button.setOnClickListener(this);
-        sign_in_button.setOnClickListener(this);
 
-        login_id.addTextChangedListener(this);
-        password.addTextChangedListener(this);
-        password_confirm.addTextChangedListener(this);
 
         return view;
     }
@@ -65,8 +70,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Vi
                 getFragmentManager().popBackStack();
                 break;
             case R.id.su_sign_up_button:
-                //if (validID && validPW)
-                    //new QueryDatabase(getActivity(), this).execute("insert_user", "http://192.168.0.102/Insert_NewCustomer.php", login_id.getText().toString(), password.getText().toString());
                 if (validID && validPW && validPWConf)
                     new QueryDatabase(getActivity(), this).execute("checkuser", "http://192.168.0.105/Select_CheckUserExistence.php", get_login_id);
                 else {
@@ -105,8 +108,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Vi
         String status = (String) o;
 
         if (status.equals("NotExist")) {
-            //login_id.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person_black_24dp, 0, R.drawable.ic_verified_user_black_24dp, 0);
-            //validID = true;
             new QueryDatabase(getActivity(), this).execute("insert_user", "http://192.168.0.105/Insert_NewCustomer.php", login_id.getText().toString(), password.getText().toString());
             Intent intent = new Intent(getActivity(), UserInfoActivity.class);
             startActivity(intent);
