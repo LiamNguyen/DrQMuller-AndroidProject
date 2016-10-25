@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instant-run
+    api-level="22"
+    density="xhdpi"
+    format="8"
+    plugin-version="2.2.0"
+    timestamp="16850394117243"
+    token="-900452153076761869"
+    verifier="COLD_SWAP_REQUESTED" >
+
+    <task
+        name="javac"
+        duration="354" />
+    <task
+        name="instant-run-dex"
+        duration="0" />
+    <task
+        name="instant-run-transform"
+        duration="88" />
+    <task
+        name="verifier"
+        duration="16" />
+
+    <artifact
+        location="/Users/DoNguyen/Documents/LiamNguyen/iCare/TestKeyboard/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_1/classes.dex"
+        type="DEX" />
+
+    <build
+        timestamp="15266485090121"
+        verifier="MANIFEST_FILE_CHANGE" >
+        <artifact
+            location="/Users/DoNguyen/Documents/LiamNguyen/iCare/TestKeyboard/app/build/outputs/apk/app-debug.apk"
+            type="MAIN" />
+    </build>
+    <build
+        timestamp="16568404103076"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="/Users/DoNguyen/Documents/LiamNguyen/iCare/TestKeyboard/app/build/intermediates/instant-run-resources/resources-debug.ir.ap_"
+            type="RESOURCES" />
+        <artifact
+            location="/Users/DoNguyen/Documents/LiamNguyen/iCare/TestKeyboard/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_4/classes.dex"
+            type="DEX" />
+    </build>
+    <build
+        timestamp="16850394117243"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="/Users/DoNguyen/Documents/LiamNguyen/iCare/TestKeyboard/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_1/classes.dex"
+            type="DEX" />
+    </build>
+
+</instant-run>

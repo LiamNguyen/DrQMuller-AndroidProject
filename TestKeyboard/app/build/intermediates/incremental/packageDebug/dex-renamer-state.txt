@@ -1,0 +1,7 @@
+#Fri Oct 21 15:54:38 EEST 2016
+base.0=/Users/DoNguyen/Documents/LiamNguyen/iCare/TestKeyboard/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_2a9f108afa2bfbfff5fe3961b02aeee8b7f2eac5
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=/Users/DoNguyen/Documents/LiamNguyen/iCare/TestKeyboard/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_267068fcb714a2ac11b0ddab21679ad755f85d33/classes.dex
+base.1=/Users/DoNguyen/Documents/LiamNguyen/iCare/TestKeyboard/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_267068fcb714a2ac11b0ddab21679ad755f85d33
+file.0=/Users/DoNguyen/Documents/LiamNguyen/iCare/TestKeyboard/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_2a9f108afa2bfbfff5fe3961b02aeee8b7f2eac5/classes.dex

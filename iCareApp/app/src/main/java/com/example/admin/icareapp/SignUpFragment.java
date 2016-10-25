@@ -68,7 +68,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Vi
                 //if (validID && validPW)
                     //new QueryDatabase(getActivity(), this).execute("insert_user", "http://192.168.0.102/Insert_NewCustomer.php", login_id.getText().toString(), password.getText().toString());
                 if (validID && validPW && validPWConf)
-                    new QueryDatabase(getActivity(), this).execute("checkuser", "http://192.168.0.105/Select_CheckUserExistence.php", get_login_id);
+                    new QueryDatabase(getActivity(), this).execute("checkuser", "http://192.168.2.5/Select_CheckUserExistence.php", get_login_id);
                 else {
                     if (!validID){
                         if (login_id.getText().toString().equals(""))

@@ -43,7 +43,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
                 getFragmentManager().popBackStack();
                 break;
             case R.id.si_sign_in_button:
-                new QueryDatabase(getActivity(), this).execute("authenticate", "http://192.168.0.105/Select_ToAuthenticate.php", login_id.getText().toString(), password.getText().toString());
+                new QueryDatabase(getActivity(), this).execute("authenticate", "http://192.168.2.5/Select_ToAuthenticate.php", login_id.getText().toString(), password.getText().toString());
                 break;
             default:
                 break;
