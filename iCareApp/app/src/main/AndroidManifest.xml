@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".RegisterActivity"
+        <activity android:name=".Register.RegisterActivity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".UserInfo.UserInfoActivity">
+        <activity android:name=".UserInfo.UserInfoActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
 
         <activity android:name=".MainActivity">

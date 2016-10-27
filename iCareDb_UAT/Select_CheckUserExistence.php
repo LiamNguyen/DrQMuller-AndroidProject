@@ -5,7 +5,7 @@ $username = "longvh";
 $password = "12345";
 
 // Data to get from Android
-$LOGIN_ID = $_GET['login_id']; //GET FROM TEXTFIELD
+$LOGIN_ID = $_POST['login_id']; //GET FROM TEXTFIELD
 
 // Create connection
 $con = mysqli_connect($server,$username,$password,$database);
@@ -20,9 +20,9 @@ $sql = "SELECT CUSTOMER_ID FROM icaredb.tbl_Customers WHERE LOGIN_ID = BINARY '"
 $result = mysqli_query($con, $sql);
 
 if (mysqli_num_rows($result) > 0) {
-    echo "Exist";
+    echo json_encode(array("Select_CheckUserExistence" => "Exist"));
 } else {
-    echo "NotExist";
+    echo json_encode(array("Select_CheckUserExistence" => "Not Exist"));
 }
 
 mysqli_close($con);

@@ -5,8 +5,8 @@ $username = "longvh";
 $password = "12345";
 
 // Data to get from Android
-$LOGIN_ID = $_GET['login_id']; //GET FROM TEXTFIELD
-$PASSWORD = $_GET['password']; //GET FROM TEXTFIELD
+$LOGIN_ID = $_POST['login_id']; //GET FROM TEXTFIELD
+$PASSWORD = $_POST['password']; //GET FROM TEXTFIELD
 
 // Create connection
 $con = mysqli_connect($server,$username,$password,$database);
@@ -24,9 +24,9 @@ if (mysqli_num_rows($result) > 0) {
 //if ($result){
     // output data of each row
     //$row = mysqli_fetch_assoc($result);
-    echo "1";
+    echo json_encode(array("Select_ToAuthenticate" => "Success"));
 } else {
-    echo "0";
+    echo json_encode(array("Select_ToAuthenticate" => "Fail"));
 }
 
 mysqli_close($con);

@@ -1,4 +1,4 @@
-package com.example.admin.icareapp;
+package com.example.admin.icareapp.Model;
 
 /**
  * Created by ADMIN on 19-Oct-16.

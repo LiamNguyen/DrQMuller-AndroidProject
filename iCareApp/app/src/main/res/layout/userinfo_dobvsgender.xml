@@ -21,7 +21,7 @@
             android:layout_height="40dp" />
 
         <TextView
-            android:text="TextView"
+            android:text="@string/dob"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView"
@@ -37,7 +37,7 @@
             style="@android:style/Widget.Material.DatePicker" />
 
         <TextView
-            android:text="TextView"
+            android:text="@string/gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView2"
@@ -47,12 +47,13 @@
         <RadioGroup
             android:id="@+id/ui_radio_group"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center">
             <RadioButton
                 android:id="@+id/ui_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Male"
+                android:text="@string/male"
                 android:button="@null"
                 android:drawableEnd="@android:drawable/btn_radio"
                 android:drawableStart="@drawable/ic_user"
@@ -61,7 +62,7 @@
                 android:id="@+id/ui_female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Female"
+                android:text="@string/female"
                 android:button="@null"
                 android:drawableEnd="@android:drawable/btn_radio"
                 android:drawableStart="@drawable/ic_user"

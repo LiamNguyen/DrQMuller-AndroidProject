@@ -13,7 +13,7 @@ if (mysqli_connect_errno())
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
  
-$sqlSelect = "SELECT COUNT(CUSTOMER_ID)+1 as 'Number Of Customer' FROM icaredb.tbl_customers";
+$sqlSelect = "SELECT COUNT(CUSTOMER_ID) as 'Number Of Customer' FROM icaredb.tbl_customers";
 
 // Check if there are results
 /*if ($result = mysqli_query($con, $sqlSelect))
@@ -38,9 +38,9 @@ $sqlSelect = "SELECT COUNT(CUSTOMER_ID)+1 as 'Number Of Customer' FROM icaredb.t
 $result = mysqli_query($con, $sqlSelect);
 if ($data=mysqli_fetch_assoc($result)) {
     //$num_rows = mysqli_num_rows($result);
-    echo $data['Number Of Customer'];
+    echo json_encode(array("Select_NumberOfCustomers" => $data['Number Of Customer']));
 } else {
-    echo "Get no of customers failed";
+    echo json_encode(array("Select_NumberOfCustomers" => -1));
 }
  
 // Close connections

@@ -5,8 +5,8 @@ $username = "longvh";
 $password = "12345";
 
 //Credential Information
-$LOGIN_ID = $_GET['login_id']; //GET FROM TEXTFIELD
-$PASSWORD = $_GET['password']; //GET FROM TEXTFIELD
+$LOGIN_ID = $_POST['login_id']; //GET FROM TEXTFIELD
+$PASSWORD = $_POST['password']; //GET FROM TEXTFIELD
 
 // Create connection
 $con=mysqli_connect($server,$username,$password,$database);
@@ -25,9 +25,9 @@ $sqlInsert = "INSERT INTO icaredb.tbl_customers (LOGIN_ID, PASSWORD) VALUES ('" 
 // Check if there are results
 if ($result = mysqli_query($con, $sqlInsert))
 {
-	echo "Inserted";
+	echo json_encode(array("Insert_NewCustomer" => "Inserted"));
 } else {
-	echo "Failed";
+	echo json_encode(array("Insert_NewCustomer" => "Failed"));
 }
 
 // Close connections

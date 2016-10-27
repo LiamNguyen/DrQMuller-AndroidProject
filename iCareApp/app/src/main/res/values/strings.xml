@@ -1,20 +1,40 @@
 <resources>
     <string name="app_name">iCareApp</string>
+
     <string name="username_input_hint">Tên Đăng Nhập</string>
     <string name="username_invalid">Tên đăng nhập đã được sử dụng</string>
     <string name="username_null">Xin vui lòng nhập tên đăng nhập</string>
     <string name="username_requirement">Ít nhất 6 kí tự - Không có ký tự đặc biệt ở đầu và cuối</string>
+
     <string name="password_input_hint">Mật Khẩu</string>
     <string name="password_requirement">Ít nhất 8 kí tự - Ít nhất 1 chữ viết hoa và 1 số / kí tự đặc biệt</string>
     <string name="password_null">Xin vui lòng nhập mật khẩu</string>
+
     <string name="password_confirm_hint">Xác Nhận Mật Khẩu</string>
     <string name="password_confirm_requirement">Mật khẩu không đúng</string>
     <string name="password_confirm_null">Xin vui lòng xác nhận lại mật khẩu</string>
+
     <string name="sign_in_button">Đăng Nhập</string>
     <string name="sign_up_button">Đăng Ký</string>
     <string name="next_button">Tiếp Tục</string>
+
     <string name="phone_hint">Số Điện Thoại</string>
+
     <string name="address_hint">Địa Chỉ</string>
+    <string name="address_null">Xin vui lòng nhập địa chỉ</string>
+    <string name="address_requirement">Không dùng kí tự đặc biệt ngoại trừ -, ., \'</string>
+
     <string name="email_hint">Email</string>
+
     <string name="name_hint">Họ và Tên</string>
+    <string name="name_null">Xin vui lòng nhập họ và tên</string>
+    <string name="name_requirement">Không dùng kí tự đặc biệt và số ngoại trừ -, ., \'</string>
+
+    <string name="gender">Giới Tính</string>
+    <string name="male">Nam</string>
+    <string name="female">Nữ</string>
+
+    <string name="dob">Ngày Sinh</string>
+    <string name="name_location">Tên Và Địa Chỉ</string>
+    <string name="contact">Cách Thức Liên Lạc</string>
 </resources>
