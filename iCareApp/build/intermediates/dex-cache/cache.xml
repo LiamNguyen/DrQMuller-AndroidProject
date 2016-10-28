@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="062593beef502f1ce0f2e98184cd2fb83cfedb84">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_a695c9e9009b71f7c80b5e7fd0dea3df2236732c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-24.2.1_985fc24610fd8960b7a3fa78848c4b8f52ad2863\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-fragment-24.2.1_ed631327a0504a7f811d695d2b9ce8b8798d2de4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_bc05de28e9f023fc8f1a6d3f7fa68e83b1206074\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_1a6d04b7ccf9698575c2bb7a9c28acfcd89df7dc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_edaf45f3f34038ad35341cf4cb48e5ac29ca01a8\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-24.2.1_6f0c9a30857354b58c6755e6f25553bfa62ffac4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="7521486d9bfd2cd9e756e0cf75ed7d97f2ce2d3b">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-24.2.1_1a86b94de8ea825bdf3c9d5cd14a57c201ca0f80\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-24.2.1_5c20e081af4071b8c0da36427fc5c9b79a1bae09\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\ADMIN\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.2.1\support-annotations-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.2.1_9fec56370ba7902b7a9e51ffb8d5bc94968373d3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-24.2.1_483ce26df390b96d9cffe2864f528a751d768380\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-24.2.1_b88af097b83bc943f3ece3e388facce7d1f73d54\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-media-compat-24.2.1_445937f81a7b1ae1b8b979c000c0ce429e612062\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-24.2.1_5b81f2653ccdd42824c57a5210796f6c89ff882b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-24.2.1_1b3bc82780ea8bc871b53e8d17a42919840a3eae\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\design\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="e03f47f3d1017a093bb3239d4ec47c3447f40744">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-24.2.1_d2fafc476ee4e5bc96ef75543c5f1f6dc628105c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="7676c13898347d67858e31515b26751faf873d3f">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_ebf3eaa57d91990873e5dd23de1bb18c3da4a3c3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="867dad63c33388ff8c7644b236579355036d075f">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_1c5a8e1d77aa17e861666748cc1e5ba59a3d798d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
+        <dex dex="D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_21c1ac7b99e4c17b335732a8458e23e0526088ec\classes.dex" />
+    </item>
+
+</items>

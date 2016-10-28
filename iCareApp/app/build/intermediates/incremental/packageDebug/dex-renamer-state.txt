@@ -1,0 +1,7 @@
+#Fri Oct 28 00:43:24 EEST 2016
+base.0=D\:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_ebf3eaa57d91990873e5dd23de1bb18c3da4a3c3
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=D\:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_a695c9e9009b71f7c80b5e7fd0dea3df2236732c\\classes.dex
+base.1=D\:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_a695c9e9009b71f7c80b5e7fd0dea3df2236732c
+file.0=D\:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_ebf3eaa57d91990873e5dd23de1bb18c3da4a3c3\\classes.dex
