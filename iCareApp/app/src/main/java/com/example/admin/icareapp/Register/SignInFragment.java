@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 import com.example.admin.icareapp.Controller.Controller;
 import com.example.admin.icareapp.Model.DatabaseObserver;
 import com.example.admin.icareapp.Model.ModelURL;
-import com.example.admin.icareapp.Model.BackgroundTask;
 import com.example.admin.icareapp.R;
 
 import org.json.JSONException;
@@ -30,7 +29,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
+        View view = inflater.inflate(R.layout.register_sign_in, container, false);
 
         ImageButton back_button = (ImageButton) view.findViewById(R.id.si_back_button);
         back_button.setOnClickListener(this);
@@ -38,7 +37,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
         AppCompatButton sign_in_button = (AppCompatButton) view.findViewById(R.id.si_sign_in_button);
         sign_in_button.setOnClickListener(this);
 
-        login_id = (TextInputEditText) view.findViewById(R.id.si_login_id_input);
+        login_id = (TextInputEditText) view.findViewById(R.id.si_username_input);
         password = (TextInputEditText) view.findViewById(R.id.si_password_input);
 
         aController = Controller.getInstance();
@@ -55,7 +54,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
             case R.id.si_sign_in_button:
                 aController.getAccount().setLoginID(login_id.getText().toString());
                 aController.getAccount().setPassword(password.getText().toString());
-                new BackgroundTask(getActivity(), this).execute("authenticate", ModelURL.SELECT_TOAUTHENTICATE.getUrl(), aController.getAccount().getPostData());
+                aController.sendQuery(getActivity(), this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(), aController.getAccount().getPostData());
                 break;
             default:
                 break;

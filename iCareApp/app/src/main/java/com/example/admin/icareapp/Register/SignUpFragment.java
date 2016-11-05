@@ -14,8 +14,8 @@ import android.widget.ImageButton;
 
 import com.example.admin.icareapp.Controller.Controller;
 import com.example.admin.icareapp.Model.DatabaseObserver;
+import com.example.admin.icareapp.Model.ModelInputRequirement;
 import com.example.admin.icareapp.Model.ModelURL;
-import com.example.admin.icareapp.Model.BackgroundTask;
 import com.example.admin.icareapp.R;
 
 import org.json.JSONException;
@@ -26,22 +26,20 @@ import org.json.JSONObject;
  */
 
 public class SignUpFragment extends Fragment implements View.OnClickListener, DatabaseObserver, TextWatcher {
-    private final String login_in_requirement = "^[^.\\-@](?!.*\\s).{4,62}[^.\\-@]$";
-    private final String password_requirement = "^[^\\s](?=.*[\\d\\W])(?=.*[a-zA-Z]).{6,253}[^\\s]$";
-    private TextInputEditText login_id;
+    private TextInputEditText username;
     private TextInputEditText password;
     private TextInputEditText password_confirm;
-    private TextInputLayout login_id_container;
+    private TextInputLayout username_container;
     private TextInputLayout password_container;
     private TextInputLayout password_confirm_container;
-    private boolean validID, validPW, validPWConf;
+    private boolean validUN, validPW, validPWConf;
     private Controller aController;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.register_sign_up, container, false);
 
-        validID = false;
+        validUN = false;
         validPW = false;
         validPWConf = false;
         aController = Controller.getInstance();
@@ -52,8 +50,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
         AppCompatButton sign_in_button = (AppCompatButton) view.findViewById(R.id.su_sign_up_button);
         sign_in_button.setOnClickListener(this);
 
-        login_id = (TextInputEditText) view.findViewById(R.id.su_login_id_input);
-        login_id.addTextChangedListener(this);
+        username = (TextInputEditText) view.findViewById(R.id.su_username_input);
+        username.addTextChangedListener(this);
 
         password = (TextInputEditText) view.findViewById(R.id.su_password_input);
         password.addTextChangedListener(this);
@@ -61,7 +59,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
         password_confirm = (TextInputEditText) view.findViewById(R.id.su_password_confirm_input);
         password_confirm.addTextChangedListener(this);
 
-        login_id_container = (TextInputLayout) view.findViewById(R.id.su_login_container);
+        username_container = (TextInputLayout) view.findViewById(R.id.su_username_container);
         password_container = (TextInputLayout) view.findViewById(R.id.su_password_container);
         password_confirm_container = (TextInputLayout) view.findViewById(R.id.su_password_confirm_container);
 
@@ -77,18 +75,18 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
                 ((RegisterActivity) getActivity()).navigateBack();
                 break;
             case R.id.su_sign_up_button:
-                if (validID && validPW && validPWConf) {
-                    aController.getAccount().setLoginID(login_id.getText().toString());
+                if (validUN && validPW && validPWConf) {
+                    aController.getAccount().setLoginID(username.getText().toString());
                     aController.getAccount().setPassword(password.getText().toString());
-                    new BackgroundTask(getActivity(), this).execute("check_user", ModelURL.SELECT_CHECKUSEREXISTENCE.getUrl(), aController.getAccount().getPostLoginID());
+                    aController.sendQuery(getActivity(), this, ModelURL.SELECT_CHECKUSEREXISTENCE.getUrl(), aController.getAccount().getPostUsername());
                 }
                 else {
-                    if (!validID){
-                        if (login_id.getText().toString().equals(""))
-                            login_id_container.setError(getString(R.string.username_null));
+                    if (!validUN){
+                        if (username.getText().toString().equals(""))
+                            username_container.setError(getString(R.string.username_null));
                         else
-                            login_id_container.setError(getString(R.string.username_requirement));
-                        login_id_container.setErrorEnabled(true);
+                            username_container.setError(getString(R.string.username_requirement));
+                        username_container.setErrorEnabled(true);
                     }
 
                     if (!validPW){
@@ -119,16 +117,19 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
     @Override
     public void update(Object o) {
         JSONObject status = (JSONObject) o;
+
         try {
             if (status.has("Select_CheckUserExistence")){
                 String result = status.getString("Select_CheckUserExistence");
                 if (result.equals("Not Exist")){
-                    new BackgroundTask(getActivity(), this).execute("insert_user", ModelURL.INSERT_NEWCUSTOMER.getUrl(), aController.getAccount().getPostData());
+                    System.out.println("Not Exist");
+                    aController.sendQuery(getActivity(), this, ModelURL.INSERT_NEWCUSTOMER.getUrl(), aController.getAccount().getPostData());
                 }else {
-                    login_id.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, R.drawable.ic_invalid_input, 0);
-                    login_id_container.setError(getString(R.string.username_invalid));
-                    login_id_container.setErrorEnabled(true);
-                    validID = false;
+                    System.out.println("Exist");
+                    username.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, R.drawable.ic_invalid_input, 0);
+                    username_container.setError(getString(R.string.username_invalid));
+                    username_container.setErrorEnabled(true);
+                    validUN = false;
                 }
             }else if (status.has("Insert_NewCustomer")){
                 String result = status.getString("Insert_NewCustomer");
@@ -153,28 +154,28 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
     //Check user input by input to see whether it meets the requirements of login id or password
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (login_id.getText().hashCode() == s.hashCode()){ //Check username
-            String get_login_id = s.toString();
-            get_login_id.trim();
-            if (!get_login_id.equals("")){
-                if (get_login_id.matches(login_in_requirement)) {
-                    login_id.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, R.drawable.ic_valid_input, 0);
-                    login_id_container.setErrorEnabled(false);
-                    validID = true;
+        if (username.getText().hashCode() == s.hashCode()){ //Check username
+            String get_username = s.toString();
+            get_username.trim();
+            if (!get_username.equals("")){
+                if (get_username.matches(ModelInputRequirement.USERNAME)) {
+                    username.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, R.drawable.ic_valid_input, 0);
+                    username_container.setErrorEnabled(false);
+                    validUN = true;
                 } else {
-                    login_id.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, R.drawable.ic_invalid_input, 0);
-                    validID = false;
+                    username.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, R.drawable.ic_invalid_input, 0);
+                    validUN = false;
                 }
             }
             else {
-                login_id.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, 0, 0);
-                validID = false;
+                username.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, 0, 0);
+                validUN = false;
             }
         } else if (password.getText().hashCode() == s.hashCode()){ //Check password
             String get_pw = s.toString();
             get_pw.trim();
             if (!get_pw.equals("")){
-                if (get_pw.matches(password_requirement)) {
+                if (get_pw.matches(ModelInputRequirement.PASSWORD)) {
                     password.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_password, 0, R.drawable.ic_valid_input, 0);
                     password_container.setErrorEnabled(false);
                     validPW = true;

@@ -7,7 +7,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.airbnb.deeplinkdispatch.DeepLink;
 import com.example.admin.icareapp.MainActivity;
+import com.example.admin.icareapp.Model.ModelURL;
 import com.example.admin.icareapp.R;
 import com.example.admin.icareapp.UserInfo.UserInfoActivity;
 
@@ -18,6 +20,7 @@ import java.util.List;
  * Created by ADMIN on 17-Oct-16.
  */
 
+@DeepLink("icare://192.168.0.102/verify")
 public class RegisterActivity extends AppCompatActivity{
     private FragmentManager fragmentManager;
     private RegisterFragment chooseFragment;
@@ -27,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_register);
 
         //Initialize Fragment
         chooseFragment = new RegisterFragment();

@@ -1,5 +1,9 @@
 package com.example.admin.icareapp.Controller;
 
+import android.content.Context;
+
+import com.example.admin.icareapp.Model.BackgroundTask;
+import com.example.admin.icareapp.Model.DatabaseObserver;
 import com.example.admin.icareapp.Model.DatabaseQuery;
 import com.example.admin.icareapp.Model.ModelAccount;
 import com.example.admin.icareapp.Model.ModelUserInfo;
@@ -34,5 +38,9 @@ public class Controller {
 
     public DatabaseQuery getDatabaseQuery(){
         return databaseQuery;
+    }
+
+    public void sendQuery(Context ctxt, DatabaseObserver ob, String url, String data){
+        new BackgroundTask(ctxt, ob).execute(url, data);
     }
 }

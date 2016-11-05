@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.admin.icareapp.Controller.Controller;
 import com.example.admin.icareapp.Model.DatabaseObserver;
+import com.example.admin.icareapp.Model.ModelInputRequirement;
 import com.example.admin.icareapp.Model.ModelURL;
 import com.example.admin.icareapp.Model.BackgroundTask;
 import com.example.admin.icareapp.R;
@@ -30,8 +31,6 @@ import java.util.Calendar;
  */
 
 public class ContactFragment extends Fragment implements View.OnClickListener, TextWatcher, DatabaseObserver{
-    private final String email_requirement = "[\\w]+@[^@]*[^@]$";
-    private final String phone_requirement = "\\d{1,16}";
     private TextInputEditText email;
     private TextInputEditText phone;
     private TextInputLayout email_container;
@@ -67,7 +66,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
                     aController.getUserInfo().addInfo("email", email.getText().toString());
                     aController.getUserInfo().addInfo("phone", phone.getText().toString());
                     aController.getUserInfo().addInfo("update_date", getCurrentDate());
-                    new BackgroundTask(getActivity(), this).execute("num_users", ModelURL.SELECT_NoOFCUSTOMERS.getUrl());
+                    aController.sendQuery(getActivity(), this, ModelURL.SELECT_NoOFCUSTOMERS.getUrl(), "");
                 }
                 break;
             case R.id.back_button:
@@ -93,7 +92,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
             String get_email = email.getText().toString();
             get_email.trim();
             if (!get_email.equals("")){
-                if (get_email.matches(email_requirement)){
+                if (get_email.matches(ModelInputRequirement.EMAIL)){
                     email.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_email, 0, R.drawable.ic_valid_input, 0);
                     email_container.setErrorEnabled(false);
                     validEmail = true;
@@ -109,7 +108,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
             String get_phone = phone.getText().toString();
             get_phone.toString();
             if (!get_phone.equals("")){
-                if (get_phone.matches(phone_requirement)){
+                if (get_phone.matches(ModelInputRequirement.PHONE)){
                     phone.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_phone, 0, R.drawable.ic_valid_input, 0);
                     phone_container.setErrorEnabled(false);
                     validPhone = true;
@@ -135,7 +134,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
      */
     @Override
     public void update(Object o) {
-         JSONObject status = (JSONObject) o;
+        JSONObject status = (JSONObject) o;
 
         try {
             if (status.has("Update_CustomerInfo")){
@@ -151,20 +150,9 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
                     System.out.println("Fail to get number of customers");
                 }else{
                     aController.getUserInfo().addInfo("cus_id", Integer.toString(result));
-                    new BackgroundTask(getActivity(), this).execute("update_user", ModelURL.UPDATE_CUSTOMERINFO.getUrl(), aController.getUserInfo().getPostData());
+                    aController.sendQuery(getActivity(), this, ModelURL.UPDATE_CUSTOMERINFO.getUrl(), aController.getUserInfo().getPostData());
                 }
             }
-
-                /*if (status.equals("Updated")) {
-                    System.out.println("Updated");
-                    ((UserInfoActivity) getActivity()).navigateToBooking();
-                } else if (!status.equals("Get no of customers failed")) {
-                    aController.getUserInfo().addInfo("cus_id", status);
-                    System.out.println(aController.getUserInfo().getInfoMap().toString());
-                    new BackgroundTask(getActivity(), this).execute("update_user", ModelURL.UPDATE_CUSTOMERINFO.getUrl(), aController.getUserInfo().getPostData());
-                } else {
-
-                }*/
         } catch (JSONException je){
             System.out.println("Problem with JSON API");
         }

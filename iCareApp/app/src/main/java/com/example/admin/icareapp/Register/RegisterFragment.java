@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.admin.icareapp.R;
-import com.example.admin.icareapp.Register.RegisterActivity;
 
 /**
  * Created by ADMIN on 18-Oct-16.
@@ -19,7 +18,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_register, container, false);
+        View view = inflater.inflate(R.layout.register_choose, container, false);
 
         Button sign_in_button = (Button) view.findViewById(R.id.wel_sign_in_button);
         sign_in_button.setOnClickListener(this);

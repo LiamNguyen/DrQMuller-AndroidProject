@@ -37,4 +37,7 @@
     <string name="dob">Ngày Sinh</string>
     <string name="name_location">Tên Và Địa Chỉ</string>
     <string name="contact">Cách Thức Liên Lạc</string>
+    
+    <string name="remember_me">Ghi Nhớ</string>
+    <string name="forget_password">Quên Mật Khẩu</string>
 </resources>

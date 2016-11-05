@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.admin.icareapp.Controller.Controller;
+import com.example.admin.icareapp.Model.ModelInputRequirement;
 import com.example.admin.icareapp.R;
 
 /**
@@ -22,14 +23,11 @@ import com.example.admin.icareapp.R;
  */
 
 public class NameAndLocationFragment extends Fragment implements View.OnClickListener, TextWatcher{
-    private final String name_requirement = "[a-zA-Z\\-.\\s']{0,100}";
-    private final String address_requirement = "[\\w\\-.\\s,'\"]{0,50}";
     private TextInputEditText name;
     private TextInputEditText address;
     private TextInputLayout name_container;
     private TextInputLayout address_container;
     private Controller aController;
-    //private UserInfoListener uiListener;
     private boolean validName, validAddress;
 
     @Override
@@ -102,7 +100,7 @@ public class NameAndLocationFragment extends Fragment implements View.OnClickLis
             String get_name = name.getText().toString();
             get_name.trim();
             if (!get_name.equals("")){
-                if (get_name.matches(name_requirement)){
+                if (get_name.matches(ModelInputRequirement.NAME)){
                     name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_input, 0, R.drawable.ic_valid_input, 0);
                     name_container.setErrorEnabled(false);
                     validName = true;
@@ -118,7 +116,7 @@ public class NameAndLocationFragment extends Fragment implements View.OnClickLis
             String get_address = address.getText().toString();
             get_address.toString();
             if (!get_address.equals("")){
-                if (get_address.matches(address_requirement)){
+                if (get_address.matches(ModelInputRequirement.ADDRESS)){
                     address.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_location, 0, R.drawable.ic_valid_input, 0);
                     address_container.setErrorEnabled(false);
                     validAddress = true;

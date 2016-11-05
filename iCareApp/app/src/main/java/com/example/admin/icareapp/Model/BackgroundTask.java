@@ -36,13 +36,10 @@ public class BackgroundTask extends AsyncTask<String,Void,Object>{
     @Override
     protected Object doInBackground(String... params){
         Object obj = null;
-        if (params[0].equals("num_users")){
-            aController.getDatabaseQuery().getURL(params[1]);
-            obj = aController.getDatabaseQuery().getNumberOfCustomers();
-        }else{
-            aController.getDatabaseQuery().getURL(params[1]);
-            obj = aController.getDatabaseQuery().doQuery(params[2]);
-        }
+
+        aController.getDatabaseQuery().getURL(params[0]);
+        obj = aController.getDatabaseQuery().doQuery(params[1]);
+
         /*if (params[0].equals("authenticate") || params[0].equals("insert_user")) {
             aController.getDatabaseQuery().getURL(params[1]);
             obj = aController.getDatabaseQuery().getAuthenticateAndInsertNewUser(params[2], params[3]);
