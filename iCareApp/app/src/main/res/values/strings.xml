@@ -17,27 +17,40 @@
     <string name="sign_in_button">Đăng Nhập</string>
     <string name="sign_up_button">Đăng Ký</string>
     <string name="next_button">Tiếp Tục</string>
+    <string name="change_button">Thay Đổi</string>
+    <string name="resend_email_button">Gửi Email Kích Hoạt</string>
+    <string name="change_email_button">Thay Đổi Email</string>
 
     <string name="phone_hint">Số Điện Thoại</string>
+    <string name="phone_null">Xin vui lòng nhập số điện thoại</string>
+    <string name="phone_requirement">Số điện thoại không hợp lệ</string>
 
     <string name="address_hint">Địa Chỉ</string>
     <string name="address_null">Xin vui lòng nhập địa chỉ</string>
     <string name="address_requirement">Không dùng kí tự đặc biệt ngoại trừ -, ., \'</string>
 
     <string name="email_hint">Email</string>
+    <string name="email_null">Xin vui lòng nhập email</string>
+    <string name="email_requirement">Email không hợp lệ</string>
 
     <string name="name_hint">Họ và Tên</string>
     <string name="name_null">Xin vui lòng nhập họ và tên</string>
     <string name="name_requirement">Không dùng kí tự đặc biệt và số ngoại trừ -, ., \'</string>
 
     <string name="gender">Giới Tính</string>
+    <string name="gender_null">Xin vui lòng chọn giới tính</string>
     <string name="male">Nam</string>
     <string name="female">Nữ</string>
 
     <string name="dob">Ngày Sinh</string>
+    <string name="dob_null">Xin vui lòng chọn ngày sinh</string>
+
     <string name="name_location">Tên Và Địa Chỉ</string>
     <string name="contact">Cách Thức Liên Lạc</string>
     
     <string name="remember_me">Ghi Nhớ</string>
     <string name="forget_password">Quên Mật Khẩu</string>
+
+    <string name="validate_noti_fail">Gửi email không thành công \n Vui lòng kiểm tra lại mạng, email hoặc Gửi Email Kích Hoạt để gửi lại email</string>
+    <string name="validate_noti_success">Gửi email thành công \n Vui lòng kiểm tra email để kích hoạt tài khoản</string>
 </resources>

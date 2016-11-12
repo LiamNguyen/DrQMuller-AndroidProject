@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.example.admin.icareapp.Controller.Controller;
 import com.example.admin.icareapp.Model.DatabaseObserver;
@@ -42,6 +43,8 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.userinfo_contacts, container, false);
 
+        ImageButton back = (ImageButton) view.findViewById(R.id.back_button);
+        back.setOnClickListener(this);
         AppCompatButton button = (AppCompatButton) view.findViewById(R.id.ui_next_button_p3) ;
         button.setOnClickListener(this);
         email = (TextInputEditText) view.findViewById(R.id.ui_email_input);
@@ -51,7 +54,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
         email_container = (TextInputLayout) view.findViewById(R.id.ui_email_container);
         phone_container = (TextInputLayout) view.findViewById(R.id.ui_phone_container);
 
-        validEmail = true;
+        validEmail = false;
         validPhone = false;
         aController = Controller.getInstance();
 
@@ -67,6 +70,23 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
                     aController.getUserInfo().addInfo("phone", phone.getText().toString());
                     aController.getUserInfo().addInfo("update_date", getCurrentDate());
                     aController.sendQuery(getActivity(), this, ModelURL.SELECT_NoOFCUSTOMERS.getUrl(), "");
+                }else{
+                    if (!validEmail){
+                        if (email.getText().toString().equals("")){
+                            email_container.setError(getString(R.string.email_null));
+                        }else {
+                            email_container.setError(getString(R.string.email_requirement));
+                        }
+                        email_container.setErrorEnabled(true);
+                    }
+                    if (!validPhone){
+                        if (phone.getText().toString().equals("")){
+                            phone_container.setError(getString(R.string.phone_null));
+                        }else {
+                            phone_container.setError(getString(R.string.phone_requirement));
+                        }
+                        phone_container.setErrorEnabled(true);
+                    }
                 }
                 break;
             case R.id.back_button:
@@ -102,7 +122,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
                 }
             }else {
                 email.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_email, 0, 0, 0);
-                validEmail = true;
+                validEmail = false;
             }
         }else if (phone.getText().hashCode() == s.hashCode()){
             String get_phone = phone.getText().toString();
@@ -140,7 +160,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
             if (status.has("Update_CustomerInfo")){
                 String result = status.getString("Update_CustomerInfo");
                 if (result.equals("Updated")){
-                    ((UserInfoActivity) getActivity()).navigateToBooking();
+                    ((UserInfoActivity) getActivity()).navigateToValidate();
                 }else{
                     System.out.println("Update fail");
                 }

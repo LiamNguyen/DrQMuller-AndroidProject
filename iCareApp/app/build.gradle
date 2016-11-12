@@ -25,5 +25,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.airbnb:deeplinkdispatch:2.0.1'
+    compile 'com.auth0:java-jwt:2.2.1'
     apt 'com.airbnb:deeplinkdispatch-processor:2.0.1'
 }

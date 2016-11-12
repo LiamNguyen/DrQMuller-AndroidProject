@@ -24,6 +24,20 @@ public class ModelUserInfo {
         return info.containsKey(k);
     }
 
+    //Get email under post data for HTTP body ---> send email for activation
+    public String getPostEmail(){
+        StringBuilder result = new StringBuilder();
+
+        try {
+            result.append("email=").append(URLEncoder.encode(info.get("email"), "UTF-8"));
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
+
+        return result.toString();
+    }
+
+    //Get all data under post data for HTTP body
     public String getPostData(){
         StringBuilder result = new StringBuilder();
         Boolean firstPara = true;

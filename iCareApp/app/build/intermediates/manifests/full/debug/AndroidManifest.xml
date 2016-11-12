@@ -24,27 +24,20 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="com.example.admin.icareapp.UserInfo.UserInfoActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" >
-        </activity>
-        <activity android:name="com.example.admin.icareapp.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="192.168.0.102"
-                    android:pathPattern="/verify.*"
-                    android:scheme="http" />
-                <data
-                    android:host="192.168.0.102"
-                    android:pathPattern="/verify.*"
-                    android:scheme="http" />
+                <data android:scheme="icare" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.admin.icareapp.UserInfo.UserInfoActivity"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity android:name="com.example.admin.icareapp.MainActivity" >
         </activity>
     </application>
 

@@ -1,11 +1,14 @@
 package com.example.admin.icareapp.Register;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.airbnb.deeplinkdispatch.DeepLink;
 import com.example.admin.icareapp.MainActivity;
@@ -20,7 +23,7 @@ import java.util.List;
  * Created by ADMIN on 17-Oct-16.
  */
 
-@DeepLink("icare://192.168.0.102/verify")
+@DeepLink("icare://192.168.0.101")
 public class RegisterActivity extends AppCompatActivity{
     private FragmentManager fragmentManager;
     private RegisterFragment chooseFragment;
@@ -84,6 +87,9 @@ public class RegisterActivity extends AppCompatActivity{
     public void navigateBack(){
         fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack();
+
+        //Hide soft keyboard if it is open
+        hideSoftKeyboard();
     }
 
     /*
@@ -134,6 +140,14 @@ public class RegisterActivity extends AppCompatActivity{
         }
 
         return fragmentTransaction;
+    }
+
+    public void hideSoftKeyboard(){
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
 }

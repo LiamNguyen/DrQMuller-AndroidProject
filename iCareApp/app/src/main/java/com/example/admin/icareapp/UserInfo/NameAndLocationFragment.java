@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.example.admin.icareapp.Controller.Controller;
@@ -55,8 +56,6 @@ public class NameAndLocationFragment extends Fragment implements View.OnClickLis
         switch (v.getId()){
             case R.id.ui_next_button_p1:
                 if (validName && validAddress){
-
-                    System.out.println("pressed");
                     aController.getUserInfo().addInfo("name", name.getText().toString());
                     aController.getUserInfo().addInfo("address", address.getText().toString());
                     ((UserInfoActivity) getActivity()).navigateToDOBvsGender();

@@ -13,8 +13,6 @@ public class ModelAccount {
     private String username;
     private String password;
 
-
-
     public void setLoginID(String username){
         this.username = username;
     }
@@ -23,7 +21,7 @@ public class ModelAccount {
         StringBuilder result = new StringBuilder();
 
         try {
-            result.append("login_id=").append(URLEncoder.encode(username, "UTF-8"));
+            result.append("username=").append(URLEncoder.encode(username, "UTF-8"));
         }catch (UnsupportedEncodingException e){
             e.printStackTrace();
         }
@@ -39,7 +37,7 @@ public class ModelAccount {
         StringBuilder result = new StringBuilder();
 
         try {
-            result.append("login_id=").append(URLEncoder.encode(username, "UTF-8")).append("&password=").append(URLEncoder.encode(password, "UTF-8"));
+            result.append("username=").append(URLEncoder.encode(username, "UTF-8")).append("&password=").append(URLEncoder.encode(password, "UTF-8"));
         }catch (UnsupportedEncodingException e){
             e.printStackTrace();
         }

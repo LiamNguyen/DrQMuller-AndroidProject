@@ -5,15 +5,16 @@ package com.example.admin.icareapp.Model;
  */
 
 public enum ModelURL {
-    INSERT_NEWCUSTOMER("http://192.168.0.102/Insert_NewCustomer.php"),
-    SELECT_TOAUTHENTICATE("http://192.168.0.102/Select_ToAuthenticate.php"),
-    SELECT_CHECKUSEREXISTENCE("http://192.168.0.102/Select_CheckUserExistence.php"),
-    SELECT_NoOFCUSTOMERS("http://192.168.0.102/Select_NumberOfCustomer.php"),
-    UPDATE_CUSTOMERINFO("http://192.168.0.102/Update_CustomerInfo.php");
+    INSERT_NEWCUSTOMER("http://192.168.0.106/Insert_NewCustomer"),
+    SELECT_TOAUTHENTICATE("http://192.168.0.106/Select_ToAuthenticate"),
+    SELECT_CHECKUSEREXISTENCE("http://192.168.0.106/Select_CheckUserExistence"),
+    SELECT_NoOFCUSTOMERS("http://192.168.0.106/Select_NumberOfCustomer"),
+    UPDATE_CUSTOMERINFO("http://192.168.0.106/Update_CustomerInfo"),
+    SEND_EMAIL("http://192.168.0.106/sendemail");
 
     private String url;
 
-    private ModelURL(String url){
+    ModelURL(String url){
         this.url = url;
     }
 

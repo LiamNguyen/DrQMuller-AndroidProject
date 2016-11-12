@@ -23,7 +23,7 @@ import org.json.JSONObject;
  */
 
 public class SignInFragment extends Fragment implements View.OnClickListener, DatabaseObserver {
-    private TextInputEditText login_id;
+    private TextInputEditText username;
     private TextInputEditText password;
     private Controller aController;
 
@@ -37,7 +37,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
         AppCompatButton sign_in_button = (AppCompatButton) view.findViewById(R.id.si_sign_in_button);
         sign_in_button.setOnClickListener(this);
 
-        login_id = (TextInputEditText) view.findViewById(R.id.si_username_input);
+        username = (TextInputEditText) view.findViewById(R.id.si_username_input);
         password = (TextInputEditText) view.findViewById(R.id.si_password_input);
 
         aController = Controller.getInstance();
@@ -52,7 +52,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
                 ((RegisterActivity) getActivity()).navigateBack();
                 break;
             case R.id.si_sign_in_button:
-                aController.getAccount().setLoginID(login_id.getText().toString());
+                aController.getAccount().setLoginID(username.getText().toString());
                 aController.getAccount().setPassword(password.getText().toString());
                 aController.sendQuery(getActivity(), this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(), aController.getAccount().getPostData());
                 break;

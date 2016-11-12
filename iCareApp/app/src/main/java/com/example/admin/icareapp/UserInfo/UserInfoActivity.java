@@ -1,11 +1,14 @@
 package com.example.admin.icareapp.UserInfo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.example.admin.icareapp.MainActivity;
 import com.example.admin.icareapp.R;
@@ -23,6 +26,8 @@ public class UserInfoActivity extends AppCompatActivity{
     private NameAndLocationFragment nameLocationFragment;
     private DOBvsGenderFragment dobGenderFragment;
     private ContactFragment contactFragment;
+    private ValidateFragment validateFragment;
+    private ChangeEmailFragment changeEmailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,8 @@ public class UserInfoActivity extends AppCompatActivity{
         nameLocationFragment = new NameAndLocationFragment();
         dobGenderFragment = new DOBvsGenderFragment();
         contactFragment = new ContactFragment();
+        validateFragment = new ValidateFragment();
+        changeEmailFragment = new ChangeEmailFragment();
 
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.ui_fragment_container, nameLocationFragment, nameLocationFragment.getClass().getName()).commit();
@@ -54,6 +61,9 @@ public class UserInfoActivity extends AppCompatActivity{
         }
 
         fragmentTransaction.addToBackStack(null).commit();
+
+        //Hide soft keyboard if it is open
+        hideSoftKeyboard();
     }
 
     /*
@@ -72,6 +82,45 @@ public class UserInfoActivity extends AppCompatActivity{
         }
 
         fragmentTransaction.addToBackStack(null).commit();
+
+        //Hide soft keyboard if it is open
+        hideSoftKeyboard();
+    }
+
+    public void navigateToValidate(){
+        fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        hideAllVisibleFragments(fragmentTransaction);
+
+        if (!validateFragment.isAdded()){
+            fragmentTransaction.add(R.id.ui_fragment_container, validateFragment, validateFragment.getClass().getName());
+        }else{
+            fragmentTransaction.show(validateFragment);
+        }
+
+        fragmentTransaction.addToBackStack(null).commit();
+
+        //Hide soft keyboard if it is open
+        hideSoftKeyboard();
+    }
+
+    public void navigateToChangeEmail(){
+        fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        hideAllVisibleFragments(fragmentTransaction);
+
+        if (!changeEmailFragment.isAdded()){
+            fragmentTransaction.add(R.id.ui_fragment_container, changeEmailFragment, changeEmailFragment.getClass().getName());
+        }else{
+            fragmentTransaction.show(changeEmailFragment);
+        }
+
+        fragmentTransaction.addToBackStack(null).commit();
+
+        //Hide soft keyboard if it is open
+        hideSoftKeyboard();
     }
 
     /*
@@ -80,6 +129,9 @@ public class UserInfoActivity extends AppCompatActivity{
     public void navigateBack(){
         fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack();
+
+        //Hide soft keyboard if it is open
+        hideSoftKeyboard();
     }
 
     /*
@@ -105,6 +157,12 @@ public class UserInfoActivity extends AppCompatActivity{
         if (contactFragment.isVisible()){
             result.add(contactFragment);
         }
+        if (validateFragment.isVisible()){
+            result.add(contactFragment);
+        }
+        if (changeEmailFragment.isVisible()){
+            result.add(contactFragment);
+        }
 
         return result;
     }
@@ -117,19 +175,11 @@ public class UserInfoActivity extends AppCompatActivity{
         return fragmentTransaction;
     }
 
-    /*@Override
-    public void addUserInfo(String k, String v) {
-        userInfo.put(k, v);
-        System.out.println(userInfo.toString());
+    public void hideSoftKeyboard(){
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
-
-    @Override
-    public boolean checkUserInfo(String k) {
-        return userInfo.containsKey(k);
-    }
-
-    @Override
-    public String getUserInfo(String k) {
-        return userInfo.get(k);
-    }*/
 }

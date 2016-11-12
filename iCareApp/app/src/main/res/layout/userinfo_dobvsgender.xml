@@ -24,7 +24,6 @@
             android:text="@string/dob"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView"
             android:gravity="center_horizontal" />
 
         <DatePicker
@@ -37,12 +36,19 @@
             style="@android:style/Widget.Material.DatePicker" />
 
         <TextView
+            android:id="@+id/ui_dob_noti"
+            android:text="@string/dob_null"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:visibility="invisible"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
             android:text="@string/gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView2"
             android:gravity="center_horizontal" />
-
 
         <RadioGroup
             android:id="@+id/ui_radio_group"
@@ -68,6 +74,14 @@
                 android:drawableStart="@drawable/ic_user"
                 />
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/ui_gender_noti"
+            android:text="@string/gender_null"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:visibility="invisible"/>
 
         <LinearLayout
             android:layout_width="match_parent"
