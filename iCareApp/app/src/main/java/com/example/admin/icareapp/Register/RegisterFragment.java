@@ -3,11 +3,13 @@ package com.example.admin.icareapp.Register;
 import android.support.v4.app.Fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.admin.icareapp.ForTesting;
 import com.example.admin.icareapp.R;
 
 /**
@@ -20,23 +22,29 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.register_choose, container, false);
 
-        Button sign_in_button = (Button) view.findViewById(R.id.wel_sign_in_button);
+        AppCompatButton sign_in_button = (AppCompatButton) view.findViewById(R.id.wel_sign_in_button);
         sign_in_button.setOnClickListener(this);
 
-        Button sign_up_button = (Button) view.findViewById(R.id.wel_sign_up_button);
+        AppCompatButton sign_up_button = (AppCompatButton) view.findViewById(R.id.wel_sign_up_button);
         sign_up_button.setOnClickListener(this);
 
         return view;
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden)
+            ((ForTesting) getActivity()).showBottomNavigationView();
+    }
+
+    @Override
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.wel_sign_in_button:
-                ((RegisterActivity) getActivity()).navigateToSignIn();
+                ((ForTesting) getActivity()).navigateToSignIn();
                 break;
             case R.id.wel_sign_up_button:
-                ((RegisterActivity) getActivity()).navigateToSignUp();
+                ((ForTesting) getActivity()).navigateToSignUp();
                 break;
             default:
                 break;

@@ -49,7 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:drawableLeft="@drawable/ic_user"
+                    android:drawableStart="@drawable/ic_user"
                     android:drawablePadding="5dp"
                     android:hint="@string/username_input_hint" />
             </android.support.design.widget.TextInputLayout>
@@ -66,7 +66,7 @@
                     android:id="@+id/su_password_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_password"
+                    android:drawableStart="@drawable/ic_password"
                     android:drawablePadding="5dp"
                     android:inputType="textPassword"
                     android:hint="@string/password_input_hint"/>
@@ -83,7 +83,7 @@
                     android:id="@+id/su_password_confirm_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_pw_confirm"
+                    android:drawableStart="@drawable/ic_pw_confirm"
                     android:drawablePadding="5dp"
                     android:inputType="textPassword"
                     android:hint="@string/password_confirm_hint"/>

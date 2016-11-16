@@ -40,7 +40,7 @@ public class Controller {
         return databaseQuery;
     }
 
-    public void sendQuery(Context ctxt, DatabaseObserver ob, String url, String data){
+    public void setRequestData(Context ctxt, DatabaseObserver ob, String url, String data){
         new BackgroundTask(ctxt, ob).execute(url, data);
     }
 }

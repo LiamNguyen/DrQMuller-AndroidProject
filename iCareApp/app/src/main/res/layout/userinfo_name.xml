@@ -29,7 +29,7 @@
                 android:id="@+id/ui_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_input"
+                android:drawableStart="@drawable/ic_input"
                 android:drawablePadding="5dp"
                 android:inputType="text"
                 android:hint="@string/name_hint"/>
@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:drawableLeft="@drawable/ic_location"
+                android:drawableStart="@drawable/ic_location"
                 android:drawablePadding="5dp"
                 android:hint="@string/address_hint"
                 android:ems="10"/>

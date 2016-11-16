@@ -18,19 +18,16 @@
         android:id="@+id/wel_sign_in_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_horizontal"
-        android:weightSum="1"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
         android:layout_below="@+id/wel_text"
         android:layout_alignParentStart="true">
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/wel_sign_in_button"
             android:text="@string/sign_in_button"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/rounded_corner_button"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"/>
     </LinearLayout>
@@ -38,20 +35,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_horizontal"
-        android:weightSum="1"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/wel_sign_in_layout"
         android:layout_alignParentStart="true">
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/wel_sign_up_button"
             android:text="@string/sign_up_button"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/rounded_corner_button"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"/>
     </LinearLayout>

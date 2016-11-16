@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.example.admin.icareapp.Controller.Controller;
+import com.example.admin.icareapp.ForTesting;
 import com.example.admin.icareapp.Model.ModelInputRequirement;
 import com.example.admin.icareapp.R;
 
@@ -58,7 +59,7 @@ public class NameAndLocationFragment extends Fragment implements View.OnClickLis
                 if (validName && validAddress){
                     aController.getUserInfo().addInfo("name", name.getText().toString());
                     aController.getUserInfo().addInfo("address", address.getText().toString());
-                    ((UserInfoActivity) getActivity()).navigateToDOBvsGender();
+                    ((ForTesting) getActivity()).navigateToDOBvsGender();
                 }
                 else{
                     if (!validName){
@@ -100,15 +101,15 @@ public class NameAndLocationFragment extends Fragment implements View.OnClickLis
             get_name.trim();
             if (!get_name.equals("")){
                 if (get_name.matches(ModelInputRequirement.NAME)){
-                    name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_input, 0, R.drawable.ic_valid_input, 0);
+                    name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_input, 0, R.drawable.ic_valid_input, 0);
                     name_container.setErrorEnabled(false);
                     validName = true;
                 }else{
-                    name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_input, 0, R.drawable.ic_invalid_input, 0);
+                    name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_input, 0, R.drawable.ic_invalid_input, 0);
                     validName = false;
                 }
             }else {
-                name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_input, 0, 0, 0);
+                name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_input, 0, 0, 0);
                 validName = false;
             }
         }else if (address.getText().hashCode() == s.hashCode()){//Edit Address
@@ -116,15 +117,15 @@ public class NameAndLocationFragment extends Fragment implements View.OnClickLis
             get_address.toString();
             if (!get_address.equals("")){
                 if (get_address.matches(ModelInputRequirement.ADDRESS)){
-                    address.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_location, 0, R.drawable.ic_valid_input, 0);
+                    address.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_location, 0, R.drawable.ic_valid_input, 0);
                     address_container.setErrorEnabled(false);
                     validAddress = true;
                 }else{
-                    address.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_location, 0, R.drawable.ic_invalid_input, 0);
+                    address.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_location, 0, R.drawable.ic_invalid_input, 0);
                     validAddress = false;
                 }
             }else {
-                address.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_location, 0, 0, 0);
+                address.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_location, 0, 0, 0);
                 validAddress = false;
             }
         }

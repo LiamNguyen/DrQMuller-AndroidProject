@@ -53,7 +53,7 @@ public class ModelUserInfo {
             }
             firstPara = false;
         }
-        System.out.println(result.toString());
+
         return result.toString();
     }
 }

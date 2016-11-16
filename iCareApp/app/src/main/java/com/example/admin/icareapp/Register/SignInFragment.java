@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.example.admin.icareapp.Controller.Controller;
+import com.example.admin.icareapp.ForTesting;
 import com.example.admin.icareapp.Model.DatabaseObserver;
 import com.example.admin.icareapp.Model.ModelURL;
 import com.example.admin.icareapp.R;
@@ -49,12 +50,12 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.si_back_button:
-                ((RegisterActivity) getActivity()).navigateBack();
+                ((ForTesting) getActivity()).navigateBack();
                 break;
             case R.id.si_sign_in_button:
                 aController.getAccount().setLoginID(username.getText().toString());
                 aController.getAccount().setPassword(password.getText().toString());
-                aController.sendQuery(getActivity(), this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(), aController.getAccount().getPostData());
+                aController.setRequestData(getActivity(), this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(), aController.getAccount().getPostData());
                 break;
             default:
                 break;
@@ -69,7 +70,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
             if (status.has("Select_ToAuthenticate")){
                 String result = status.getString("Select_ToAuthenticate");
                 if (result.equals("Success")){
-                    ((RegisterActivity) getActivity()).navigateToBookingActivity();
+
                 }else{
                     System.out.println("Login fail");
                 }

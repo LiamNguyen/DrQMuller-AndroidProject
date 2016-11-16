@@ -10,13 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.example.admin.icareapp.MainActivity;
 import com.example.admin.icareapp.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 /**
  * Created by ADMIN on 22-Oct-16.
  */
@@ -137,11 +135,11 @@ public class UserInfoActivity extends AppCompatActivity{
     /*
      *Navigate to Booking Activity
      */
-    public void navigateToBooking(){
+    /*public void navigateToBooking(){
         Intent toBooking = new Intent(this, MainActivity.class);
         startActivity(toBooking);
         finish();
-    }
+    }*/
 
     public List<Fragment> getVisibleFragments(){
         //Create array of 3 for 3 fragments

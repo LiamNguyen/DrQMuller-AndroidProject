@@ -1,8 +1,5 @@
 package com.example.admin.icareapp.Model;
 
-import com.example.admin.icareapp.JSONParser;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,8 +11,6 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.Map;
 
 /**
  * Created by ADMIN on 27-Oct-16.
@@ -32,7 +27,7 @@ public class DatabaseQuery {
         this.url_str = url;
     }
 
-    public JSONObject doQuery(String m){
+    public JSONObject sendRequest(String m){
         try{
             url = new URL(url_str);
             System.out.println(url.toString());

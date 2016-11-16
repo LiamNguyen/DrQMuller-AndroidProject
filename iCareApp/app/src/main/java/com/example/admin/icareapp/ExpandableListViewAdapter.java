@@ -20,7 +20,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
     private Activity context;
     private ViewHolder holder;
 
-    public ExpandableListViewAdapter(Activity context, List listOfDays, Map listOfHoursPerDay){
+    public ExpandableListViewAdapter(Activity context, List<String> listOfDays, Map<String,List<String>> listOfHoursPerDay){
         this.listOfDays = listOfDays;
         this.listOfHoursPerDay = listOfHoursPerDay;
         this.context = context;

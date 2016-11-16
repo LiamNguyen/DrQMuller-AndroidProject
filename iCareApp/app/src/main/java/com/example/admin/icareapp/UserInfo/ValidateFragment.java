@@ -1,8 +1,6 @@
 package com.example.admin.icareapp.UserInfo;
 
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
@@ -12,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.admin.icareapp.Controller.Controller;
+import com.example.admin.icareapp.ForTesting;
 import com.example.admin.icareapp.Model.DatabaseObserver;
 import com.example.admin.icareapp.Model.ModelURL;
 import com.example.admin.icareapp.R;
@@ -28,7 +27,7 @@ public class ValidateFragment extends Fragment implements View.OnClickListener, 
     private TextView noti;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        aController.sendQuery(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(), aController.getUserInfo().getPostEmail());
+        aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(), aController.getUserInfo().getPostEmail());
 
         View view = inflater.inflate(R.layout.userinfo_validate, container, false);
 
@@ -47,13 +46,13 @@ public class ValidateFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ui_resend_email_button:
-                aController.sendQuery(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(), aController.getUserInfo().getPostEmail());
+                aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(), aController.getUserInfo().getPostEmail());
                 break;
             case R.id.ui_change_email_button:
-                ((UserInfoActivity) getActivity()).navigateToChangeEmail();
+                ((ForTesting) getActivity()).navigateToChangeEmail();
                 break;
             case R.id.back_button:
-                ((UserInfoActivity) getActivity()).navigateBack();
+                ((ForTesting) getActivity()).navigateBack();
                 break;
             default:
                 break;

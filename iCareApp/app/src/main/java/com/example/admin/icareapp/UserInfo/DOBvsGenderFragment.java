@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.admin.icareapp.Controller.Controller;
+import com.example.admin.icareapp.ForTesting;
 import com.example.admin.icareapp.R;
 
 /**
@@ -72,7 +73,7 @@ public class DOBvsGenderFragment extends Fragment implements DatePicker.OnDateCh
         switch (v.getId()){
             case R.id.ui_next_button_p2:
                 if (aController.getUserInfo().isInfoExist("dob") && aController.getUserInfo().isInfoExist("gender")){
-                    ((UserInfoActivity) getActivity()).navigateToContact();
+                    ((ForTesting) getActivity()).navigateToContact();
                 }else {
                     if (!aController.getUserInfo().isInfoExist("dob")){
                         dob_noti.setVisibility(View.VISIBLE);
@@ -83,7 +84,7 @@ public class DOBvsGenderFragment extends Fragment implements DatePicker.OnDateCh
                 }
                 break;
             case R.id.back_button:
-                ((UserInfoActivity) getActivity()).navigateBack();
+                ((ForTesting) getActivity()).navigateBack();
                 break;
             default:
                 break;

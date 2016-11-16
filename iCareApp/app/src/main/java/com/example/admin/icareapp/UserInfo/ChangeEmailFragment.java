@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.example.admin.icareapp.Controller.Controller;
+import com.example.admin.icareapp.ForTesting;
 import com.example.admin.icareapp.Model.DatabaseObserver;
 import com.example.admin.icareapp.Model.ModelInputRequirement;
 import com.example.admin.icareapp.Model.ModelURL;
@@ -51,7 +52,7 @@ public class ChangeEmailFragment extends Fragment implements View.OnClickListene
             case R.id.ui_change_button:
                 if (validEmail) {
                     aController.getUserInfo().addInfo("email", email.getText().toString());
-                    ((UserInfoActivity) getActivity()).navigateToChangeEmail();
+                    ((ForTesting) getActivity()).navigateToChangeEmail();
                 }else {
                     if (!validEmail) {
                         if (email.getText().toString().equals("")) {
@@ -64,7 +65,7 @@ public class ChangeEmailFragment extends Fragment implements View.OnClickListene
                 }
                 break;
             case R.id.back_button:
-                ((UserInfoActivity) getActivity()).navigateBack();
+                ((ForTesting) getActivity()).navigateBack();
                 break;
             default:
                 break;
@@ -81,15 +82,15 @@ public class ChangeEmailFragment extends Fragment implements View.OnClickListene
             get_email.trim();
             if (!get_email.equals("")){
                 if (get_email.matches(ModelInputRequirement.EMAIL)){
-                    email.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_email, 0, R.drawable.ic_valid_input, 0);
+                    email.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_email, 0, R.drawable.ic_valid_input, 0);
                     email_container.setErrorEnabled(false);
                     validEmail = true;
                 }else{
-                    email.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_email, 0, R.drawable.ic_invalid_input, 0);
+                    email.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_email, 0, R.drawable.ic_invalid_input, 0);
                     validEmail = false;
                 }
             }else {
-                email.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_email, 0, 0, 0);
+                email.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_email, 0, 0, 0);
                 validEmail = false;
             }
         }

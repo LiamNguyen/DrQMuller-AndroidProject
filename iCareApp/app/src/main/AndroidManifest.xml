@@ -11,12 +11,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".Register.RegisterActivity"
+        <activity android:name=".ForTesting"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".Register.RegisterActivity"
+            android:windowSoftInputMode="adjustResize">
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -29,9 +34,6 @@
             android:windowSoftInputMode="stateHidden">
         </activity>
 
-        <activity android:name=".MainActivity">
-        </activity>
 
     </application>
-
 </manifest>

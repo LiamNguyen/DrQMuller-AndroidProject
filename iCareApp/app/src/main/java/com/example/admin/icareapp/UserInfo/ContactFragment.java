@@ -13,13 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.example.admin.icareapp.Controller.Controller;
+import com.example.admin.icareapp.ForTesting;
 import com.example.admin.icareapp.Model.DatabaseObserver;
 import com.example.admin.icareapp.Model.ModelInputRequirement;
 import com.example.admin.icareapp.Model.ModelURL;
-import com.example.admin.icareapp.Model.BackgroundTask;
 import com.example.admin.icareapp.R;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -69,7 +68,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
                     aController.getUserInfo().addInfo("email", email.getText().toString());
                     aController.getUserInfo().addInfo("phone", phone.getText().toString());
                     aController.getUserInfo().addInfo("update_date", getCurrentDate());
-                    aController.sendQuery(getActivity(), this, ModelURL.SELECT_NoOFCUSTOMERS.getUrl(), "");
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_NoOFCUSTOMERS.getUrl(), "");
                 }else{
                     if (!validEmail){
                         if (email.getText().toString().equals("")){
@@ -90,7 +89,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
                 }
                 break;
             case R.id.back_button:
-                ((UserInfoActivity) getActivity()).navigateBack();
+                ((ForTesting) getActivity()).navigateBack();
                 break;
             default:
                 break;
@@ -113,31 +112,31 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
             get_email.trim();
             if (!get_email.equals("")){
                 if (get_email.matches(ModelInputRequirement.EMAIL)){
-                    email.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_email, 0, R.drawable.ic_valid_input, 0);
+                    email.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_email, 0, R.drawable.ic_valid_input, 0);
                     email_container.setErrorEnabled(false);
                     validEmail = true;
                 }else{
-                    email.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_email, 0, R.drawable.ic_invalid_input, 0);
+                    email.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_email, 0, R.drawable.ic_invalid_input, 0);
                     validEmail = false;
                 }
             }else {
-                email.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_email, 0, 0, 0);
+                email.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_email, 0, 0, 0);
                 validEmail = false;
             }
         }else if (phone.getText().hashCode() == s.hashCode()){
             String get_phone = phone.getText().toString();
-            get_phone.toString();
+            get_phone.trim();
             if (!get_phone.equals("")){
                 if (get_phone.matches(ModelInputRequirement.PHONE)){
-                    phone.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_phone, 0, R.drawable.ic_valid_input, 0);
+                    phone.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_phone, 0, R.drawable.ic_valid_input, 0);
                     phone_container.setErrorEnabled(false);
                     validPhone = true;
                 }else{
-                    phone.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_phone, 0, R.drawable.ic_invalid_input, 0);
+                    phone.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_phone, 0, R.drawable.ic_invalid_input, 0);
                     validPhone = false;
                 }
             }else {
-                phone.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_phone, 0, 0, 0);
+                phone.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_phone, 0, 0, 0);
                 validPhone = false;
             }
         }
@@ -160,7 +159,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
             if (status.has("Update_CustomerInfo")){
                 String result = status.getString("Update_CustomerInfo");
                 if (result.equals("Updated")){
-                    ((UserInfoActivity) getActivity()).navigateToValidate();
+                    ((ForTesting) getActivity()).navigateToValidate();
                 }else{
                     System.out.println("Update fail");
                 }
@@ -170,7 +169,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
                     System.out.println("Fail to get number of customers");
                 }else{
                     aController.getUserInfo().addInfo("cus_id", Integer.toString(result));
-                    aController.sendQuery(getActivity(), this, ModelURL.UPDATE_CUSTOMERINFO.getUrl(), aController.getUserInfo().getPostData());
+                    aController.setRequestData(getActivity(), this, ModelURL.UPDATE_CUSTOMERINFO.getUrl(), aController.getUserInfo().getPostData());
                 }
             }
         } catch (JSONException je){

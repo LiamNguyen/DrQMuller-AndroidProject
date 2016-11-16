@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.admin.icareapp.Controller.Controller;
-import com.example.admin.icareapp.JSONParser;
 
 /**
  * Created by ADMIN on 19-Oct-16.
@@ -35,10 +34,10 @@ public class BackgroundTask extends AsyncTask<String,Void,Object>{
 
     @Override
     protected Object doInBackground(String... params){
-        Object obj = null;
+        Object obj;
 
         aController.getDatabaseQuery().getURL(params[0]);
-        obj = aController.getDatabaseQuery().doQuery(params[1]);
+        obj = aController.getDatabaseQuery().sendRequest(params[1]);
 
         /*if (params[0].equals("authenticate") || params[0].equals("insert_user")) {
             aController.getDatabaseQuery().getURL(params[1]);

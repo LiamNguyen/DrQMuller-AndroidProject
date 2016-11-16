@@ -17,13 +17,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.admin.icareapp.Register.RegisterActivity"
+            android:name="com.example.admin.icareapp.ForTesting"
             android:windowSoftInputMode="adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.admin.icareapp.Register.RegisterActivity"
+            android:windowSoftInputMode="adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -36,8 +40,6 @@
         <activity
             android:name="com.example.admin.icareapp.UserInfo.UserInfoActivity"
             android:windowSoftInputMode="stateHidden" >
-        </activity>
-        <activity android:name="com.example.admin.icareapp.MainActivity" >
         </activity>
     </application>
 
