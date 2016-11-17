@@ -5,7 +5,7 @@ $username = "longvh";
 $password = "12345";
 
 //Credential Information
-$LOGIN_ID = $_POST['login_id']; //GET FROM TEXTFIELD
+$LOGIN_ID = $_POST['username']; //GET FROM TEXTFIELD
 $PASSWORD = $_POST['password']; //GET FROM TEXTFIELD
 
 // Create connection

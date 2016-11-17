@@ -4,8 +4,6 @@ $database = "icaredb";
 $username = "longvh";
 $password = "12345";
 
-//$COUNTRY_ID = $_GET['id'];
-
 // Create connection
 $con=mysqli_connect($server,$username,$password,$database);
  
@@ -15,11 +13,11 @@ if (mysqli_connect_errno())
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
  
-$sqlSelect = "SELECT * FROM icaredb.tbl_cities";
-echo "asd";
+$sqlSelect = "SELECT COUNTRY_ID, COUNTRY FROM icaredb.tbl_countries";
+
 // Check if there are results
 if ($result = mysqli_query($con, $sqlSelect))
-{   echo "ahihi";
+{
 	// If so, then create a results array and a temporary one
 	// to hold the data
 	$resultArray = array();
@@ -34,9 +32,7 @@ if ($result = mysqli_query($con, $sqlSelect))
 	}
  
 	// Finally, encode the array to JSON and output the results
-	echo json_encode(array("Select_Cities" => $resultArray));
-}else{
-    echo "fail";
+	echo json_encode(array("Select_Countries" => $resultArray));
 }
  
 // Close connections

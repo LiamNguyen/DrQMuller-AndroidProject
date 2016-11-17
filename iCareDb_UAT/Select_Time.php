@@ -2,7 +2,7 @@
 $servername = "127.0.0.1";
 $username = "longvh";
 $password = "12345";
-$dbname = "icaredb_uat";
+$dbname = "iCareDb";
 $JSONdata = array();
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);

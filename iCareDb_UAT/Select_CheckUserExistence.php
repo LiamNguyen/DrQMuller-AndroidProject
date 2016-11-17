@@ -5,7 +5,7 @@ $username = "longvh";
 $password = "12345";
 
 // Data to get from Android
-$LOGIN_ID = $_POST['login_id']; //GET FROM TEXTFIELD
+$LOGIN_ID = $_POST['username']; //GET FROM TEXTFIELD
 
 // Create connection
 $con = mysqli_connect($server,$username,$password,$database);

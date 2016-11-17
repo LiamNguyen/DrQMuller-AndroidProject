@@ -4,7 +4,7 @@ $database = "icaredb";
 $username = "longvh";
 $password = "12345";
 
-//$COUNTRY_ID = $_GET['id'];
+$DISTRICT_ID = $_POST['district_id'];
 
 // Create connection
 $con=mysqli_connect($server,$username,$password,$database);
@@ -14,12 +14,15 @@ if (mysqli_connect_errno())
 {
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
+
+//Specifies the character set when sending data to and from database
+mysqli_set_charset($con,"utf8");
  
-$sqlSelect = "SELECT * FROM icaredb.tbl_cities";
-echo "asd";
+$sqlSelect = "SELECT LOCATION_ID, LOCATION_NAME FROM icaredb.tbl_locations where DISTRICT_ID = " . $DISTRICT_ID;
+
 // Check if there are results
 if ($result = mysqli_query($con, $sqlSelect))
-{   echo "ahihi";
+{
 	// If so, then create a results array and a temporary one
 	// to hold the data
 	$resultArray = array();
@@ -34,9 +37,7 @@ if ($result = mysqli_query($con, $sqlSelect))
 	}
  
 	// Finally, encode the array to JSON and output the results
-	echo json_encode(array("Select_Cities" => $resultArray));
-}else{
-    echo "fail";
+	echo json_encode(array("Select_Locations" => $resultArray));
 }
  
 // Close connections
