@@ -144,10 +144,6 @@
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\layout\\userinfo_name.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\boking_book.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\layout\\boking_book.xml"
-    },
-    {
         "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_media_custom.xml",
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\notification_template_media_custom.xml"
     },
@@ -184,6 +180,10 @@
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\abc_action_mode_close_item_material.xml"
     },
     {
+        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\booking_spinner_item.xml",
+        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\layout\\booking_spinner_item.xml"
+    },
+    {
         "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\userinfo_contacts.xml",
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\layout\\userinfo_contacts.xml"
     },
@@ -200,12 +200,16 @@
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\notification_template_big_media_narrow_custom.xml"
     },
     {
+        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\booking_select.xml",
+        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\layout\\booking_select.xml"
+    },
+    {
         "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_radio.xml",
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\abc_list_menu_item_radio.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\booking_select.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\layout\\booking_select.xml"
+        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\booking_book.xml",
+        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\layout\\booking_book.xml"
     },
     {
         "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_menu_item.xml",
@@ -270,10 +274,6 @@
     {
         "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\toolbar.xml",
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\layout\\toolbar.xml"
-    },
-    {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_main.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\layout\\activity_main.xml"
     },
     {
         "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_content_include.xml",

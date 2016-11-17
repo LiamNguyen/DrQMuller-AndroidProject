@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Dr.Q'Muller</string>
+    <string name="app_name">Dr.QMuller</string>
 
     <string name="username_input_hint">Tên Đăng Nhập</string>
     <string name="username_invalid">Tên đăng nhập đã được sử dụng</string>
@@ -55,19 +55,29 @@
     <string name="validate_noti_fail">Gửi email không thành công \n Vui lòng kiểm tra lại mạng, email hoặc Gửi Email Kích Hoạt để gửi lại email</string>
     <string name="validate_noti_success">Gửi email thành công \n Vui lòng kiểm tra email để kích hoạt tài khoản</string>
 
+    <!-- NEWS TAB -->
+    <string name="news_tab">Mới</string>
+
     <!-- USER TAB -->
+    <string name="user_tab">Tài Khoản</string>
     <string name="user_name">Tên Khách Hàng</string>
     <string name="user_detail">Xem Và Sửa Đổi Thông Tin Cá Nhân</string>
     <string name="user_option_bag">Giỏ Hàng</string>
     <string name="user_option_settings">Cài Đặt</string>
 
     <!-- BOOKING TAB -->
+    <string name="booking_tab">Lịch Hẹn</string>
     <string name="booking_country_hint">Chọn Quốc Gia</string>
     <string name="booking_city_hint">Chọn Thành Phố</string>
     <string name="booking_district_hint">Chọn Quận</string>
     <string name="booking_location_hint">Chọn Địa Điểm</string>
     <string name="booking_voucher_hint">Chọn Voucher</string>
     <string name="booking_type_hint">Chọn Phương Thức</string>
+    <string name="booking_type_free">Tự Do</string>
+    <string name="booking_type_fixed">Cố Định</string>
+    <string name="booking_start_date">Ngày Bắt Đầu</string>
+    <string name="booking_end_date">Ngày Kết Thúc</string>
+    <string name="booking_error_date">Ngày không hợp lệ. Xin vui lòng chọn lại</string>
     <string name="monday">Thứ Hai</string>
     <string name="tuesday">Thứ Ba</string>
     <string name="wednesday">Thứ Tư</string>

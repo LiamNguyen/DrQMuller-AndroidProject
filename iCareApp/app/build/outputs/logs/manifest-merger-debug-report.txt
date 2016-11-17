@@ -101,6 +101,7 @@ MERGED from [com.android.support:animated-vector-drawable:25.0.0] D:\Metropolia\
 MERGED from [com.android.support:recyclerview-v7:25.0.0] D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\25.0.0\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:transition:25.0.0] D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\transition\25.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.mikepenz:actionitembadge:3.3.0] D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.mikepenz\actionitembadge\3.3.0\AndroidManifest.xml:8:5-10:41
+MERGED from [com.mikepenz:iconics-core:2.8.0] D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.mikepenz\iconics-core\2.8.0\AndroidManifest.xml:8:5-10:41
 	tools:overrideLibrary
 		ADDED from [com.android.support:design:25.0.0] D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\design\25.0.0\AndroidManifest.xml:23:9-59
 	android:targetSdkVersion

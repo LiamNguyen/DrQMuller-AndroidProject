@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/colorWhite"
     android:fillViewport="true">
 
     <LinearLayout
@@ -27,15 +27,13 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
-                android:gravity="center"
-                android:clickable="false"
                 android:spinnerMode="dropdown"/>
 
             <View
                 android:layout_toStartOf="@+id/drop_down_icon_countries"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/darkGray"/>
+                android:background="@color/colorDarkGray"/>
 
 
             <ImageView
@@ -63,14 +61,13 @@
                 android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
                 android:gravity="center"
-                android:clickable="false"
                 android:spinnerMode="dropdown"/>
 
             <View
                 android:layout_toStartOf="@+id/drop_down_icon_cities"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/darkGray"/>
+                android:background="@color/colorDarkGray"/>
 
             <ImageView
                 android:id="@+id/drop_down_icon_cities"
@@ -98,14 +95,13 @@
                 android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
                 android:gravity="center"
-                android:clickable="false"
                 android:spinnerMode="dropdown" />
 
             <View
                 android:layout_toStartOf="@+id/drop_down_icon_districts"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/darkGray"/>
+                android:background="@color/colorDarkGray"/>
 
             <ImageView
                 android:id="@+id/drop_down_icon_districts"
@@ -133,14 +129,13 @@
                 android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
                 android:gravity="center"
-                android:clickable="false"
                 android:spinnerMode="dropdown" />
 
             <View
                 android:layout_toStartOf="@+id/drop_down_icon_locations"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/darkGray"/>
+                android:background="@color/colorDarkGray"/>
 
             <ImageView
                 android:id="@+id/drop_down_icon_locations"
@@ -167,14 +162,13 @@
                 android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
                 android:gravity="center"
-                android:clickable="false"
                 android:spinnerMode="dropdown" />
 
             <View
                 android:layout_toStartOf="@+id/drop_down_icon_vouchers"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/darkGray"/>
+                android:background="@color/colorDarkGray"/>
 
             <ImageView
                 android:id="@+id/drop_down_icon_vouchers"
@@ -196,20 +190,19 @@
             android:background="@drawable/spinner_border">
 
             <Spinner
-                android:id="@+id/spinner_booking_type"
+                android:id="@+id/spinner_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
                 android:gravity="center"
-                android:clickable="false"
                 android:spinnerMode="dropdown" />
 
             <View
                 android:layout_toStartOf="@+id/drop_down_icon_booking_type"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/darkGray"/>
+                android:background="@color/colorDarkGray"/>
 
             <ImageView
                 android:id="@+id/drop_down_icon_booking_type"
@@ -226,45 +219,34 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/booking_startdate_container"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/booking_startdate"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/booking_startdate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="date"
-                    android:hint="dd/mm/yyyy" />
-            </android.support.design.widget.TextInputLayout>
+                android:layout_weight="1"
+                android:inputType="date"
+                android:enabled="false"
+                android:focusable="false"
+                android:text="@string/booking_start_date"/>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/booking_enddate_container"
-                android:layout_weight="1"
-                android:layout_toRightOf="@+id/booking_startdate_container"
-                android:layout_width="match_parent"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/booking_enddate"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/booking_enddate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="date"
-                    android:hint="dd/mm/yyyy" />
-            </android.support.design.widget.TextInputLayout>
+                android:layout_weight="1"
+                android:inputType="date"
+                android:enabled="false"
+                android:focusable="false"
+                android:text="@string/booking_end_date"/>
         </LinearLayout>
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/su_sign_up_button"
+            android:id="@+id/booking_next_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="10dp"
             android:layout_gravity="bottom"
-            android:text="abcbcbc"/>
+            android:text="@string/next_button"/>
     </LinearLayout>
 
 </ScrollView>

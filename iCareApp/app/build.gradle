@@ -29,4 +29,5 @@ dependencies {
     compile 'com.auth0:java-jwt:2.2.1'
     apt 'com.airbnb:deeplinkdispatch-processor:2.0.1'
     compile 'com.mikepenz:actionitembadge:3.3.0@aar'
+    compile 'com.mikepenz:iconics-core:2.8.0@aar'
 }

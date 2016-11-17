@@ -4,16 +4,19 @@
     <item
         android:id="@+id/action_news"
         android:enabled="true"
-        android:title="News"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/ic_news_tab"
+        android:title="@string/news_tab"
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_booking"
         android:enabled="true"
-        android:title="Booking"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/ic_booking_tab"
+        android:title="@string/booking_tab"
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_user"
         android:enabled="true"
-        android:title="User"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/ic_user_tab"
+        android:title="@string/user_tab"
+        app:showAsAction="always" />
 </menu>

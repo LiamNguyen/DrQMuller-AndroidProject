@@ -26,6 +26,8 @@ import com.example.admin.icareapp.UserInfo.NameAndLocationFragment;
 import com.example.admin.icareapp.UserInfo.ValidateFragment;
 import com.mikepenz.actionitembadge.library.ActionItemBadge;
 import com.mikepenz.actionitembadge.library.ActionItemBadgeAdder;
+import com.mikepenz.actionitembadge.library.utils.BadgeStyle;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,16 +90,15 @@ public class ForTesting extends AppCompatActivity implements BottomNavigationVie
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
 
         if (badgeCount > 0) {
-            ActionItemBadge.update(this, menu.findItem(R.id.item_samplebadge), cartIcon, ActionItemBadge.BadgeStyles.DARK_GREY, badgeCount);
-        } else {
-            ActionItemBadge.hide(menu.findItem(R.id.item_samplebadge));
-        }
+            ActionItemBadge.update(this, menu.findItem(R.id.item_samplebadge), cartIcon, ActionItemBadge.BadgeStyles.RED, badgeCount);
+        }else
+            ActionItemBadge.update(this, menu.findItem(R.id.item_samplebadge), cartIcon, ActionItemBadge.BadgeStyles.RED, Integer.MIN_VALUE);
 
         return true;
     }
 
 
-    /* =============================== USER TAB ===============================*/
+    /* =============================== USER TAB =============================== */
     /* ------------- NOT LOGIN ------------- */
     //"Choose Fragment" by default
     //If user chose SIGN IN -> navigate to "Sign In Fragment"

@@ -24,6 +24,14 @@
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_phone.png"
     },
     {
+        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_booking_tab.png",
+        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_booking_tab.png"
+    },
+    {
+        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_news_tab.png",
+        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_news_tab.png"
+    },
+    {
         "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_drop_down2.png",
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_drop_down2.png"
     },
@@ -40,12 +48,20 @@
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_drop_down.png"
     },
     {
+        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_shopping_cart.png",
+        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_shopping_cart.png"
+    },
+    {
         "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_password.png",
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_password.png"
     },
     {
         "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_invalid_input.png",
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_invalid_input.png"
+    },
+    {
+        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_user_tab.png",
+        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_user_tab.png"
     },
     {
         "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_user.png",
