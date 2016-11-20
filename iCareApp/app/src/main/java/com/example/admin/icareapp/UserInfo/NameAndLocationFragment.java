@@ -1,7 +1,5 @@
 package com.example.admin.icareapp.UserInfo;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -12,11 +10,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import com.example.admin.icareapp.Controller.Controller;
-import com.example.admin.icareapp.ForTesting;
 import com.example.admin.icareapp.Model.ModelInputRequirement;
 import com.example.admin.icareapp.R;
 
@@ -59,7 +54,7 @@ public class NameAndLocationFragment extends Fragment implements View.OnClickLis
                 if (validName && validAddress){
                     aController.getUserInfo().addInfo("name", name.getText().toString());
                     aController.getUserInfo().addInfo("address", address.getText().toString());
-                    ((ForTesting) getActivity()).navigateToDOBvsGender();
+                    ((UserInfoActivity) getActivity()).navigateToDOBvsGender();
                 }
                 else{
                     if (!validName){

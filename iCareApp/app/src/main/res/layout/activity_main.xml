@@ -2,14 +2,12 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/aaa"
     android:fitsSystemWindows="true"
     android:background="@color/colorWhite"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/main"
         android:layout_above="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

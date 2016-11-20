@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.example.admin.icareapp.Controller.Controller;
-import com.example.admin.icareapp.ForTesting;
 import com.example.admin.icareapp.Model.DatabaseObserver;
 import com.example.admin.icareapp.Model.ModelInputRequirement;
 import com.example.admin.icareapp.Model.ModelURL;
@@ -71,7 +70,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.su_back_button:
-                ((ForTesting) getActivity()).navigateBack();
+                ((RegisterActivity) getActivity()).navigateBack();
                 break;
             case R.id.su_sign_up_button:
                 if (validUN && validPW && validPWConf) {
@@ -134,7 +133,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
                 String result = status.getString("Insert_NewCustomer");
                 if (result.equals("Inserted")){
                     System.out.println("Insert successfully");
-                    ((ForTesting) getActivity()).navigateToNameAndLocation();
+                    ((RegisterActivity) getActivity()).navigateToUserInfo();
                 }else {
                     System.out.println("Insert failed");
                 }

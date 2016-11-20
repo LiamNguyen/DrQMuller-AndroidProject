@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.example.admin.icareapp.Controller.Controller;
-import com.example.admin.icareapp.ForTesting;
 import com.example.admin.icareapp.Model.DatabaseObserver;
 import com.example.admin.icareapp.Model.ModelInputRequirement;
 import com.example.admin.icareapp.Model.ModelURL;
@@ -89,7 +88,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
                 }
                 break;
             case R.id.back_button:
-                ((ForTesting) getActivity()).navigateBack();
+                ((UserInfoActivity) getActivity()).navigateBack();
                 break;
             default:
                 break;
@@ -159,7 +158,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
             if (status.has("Update_CustomerInfo")){
                 String result = status.getString("Update_CustomerInfo");
                 if (result.equals("Updated")){
-                    ((ForTesting) getActivity()).navigateToValidate();
+                    ((UserInfoActivity) getActivity()).navigateToValidate();
                 }else{
                     System.out.println("Update fail");
                 }

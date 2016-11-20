@@ -1,21 +1,17 @@
 package com.example.admin.icareapp.UserInfo;
 
 import android.support.v4.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.admin.icareapp.Controller.Controller;
-import com.example.admin.icareapp.ForTesting;
 import com.example.admin.icareapp.R;
 
 /**
@@ -73,7 +69,7 @@ public class DOBvsGenderFragment extends Fragment implements DatePicker.OnDateCh
         switch (v.getId()){
             case R.id.ui_next_button_p2:
                 if (aController.getUserInfo().isInfoExist("dob") && aController.getUserInfo().isInfoExist("gender")){
-                    ((ForTesting) getActivity()).navigateToContact();
+                    ((UserInfoActivity) getActivity()).navigateToContact();
                 }else {
                     if (!aController.getUserInfo().isInfoExist("dob")){
                         dob_noti.setVisibility(View.VISIBLE);
@@ -84,7 +80,7 @@ public class DOBvsGenderFragment extends Fragment implements DatePicker.OnDateCh
                 }
                 break;
             case R.id.back_button:
-                ((ForTesting) getActivity()).navigateBack();
+                ((UserInfoActivity) getActivity()).navigateBack();
                 break;
             default:
                 break;

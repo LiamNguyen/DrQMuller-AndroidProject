@@ -7,9 +7,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.example.admin.icareapp.ForTesting;
 import com.example.admin.icareapp.R;
 
 /**
@@ -32,19 +30,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        if (!hidden)
-            ((ForTesting) getActivity()).showBottomNavigationView();
-    }
-
-    @Override
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.wel_sign_in_button:
-                ((ForTesting) getActivity()).navigateToSignIn();
+                ((RegisterActivity) getActivity()).navigateToSignIn();
                 break;
             case R.id.wel_sign_up_button:
-                ((ForTesting) getActivity()).navigateToSignUp();
+                ((RegisterActivity) getActivity()).navigateToSignUp();
                 break;
             default:
                 break;

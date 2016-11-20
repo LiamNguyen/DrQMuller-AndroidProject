@@ -2,9 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/item_samplebadge"
+        android:id="@+id/shopping_cart"
         app:actionLayout="@layout/menu_action_item_badge"
-        android:icon="@drawable/ic_shopping_cart"
         app:showAsAction="always"
-        android:title="HELLOO"/>
+        android:title="Shopping Cart"/>
 </menu>

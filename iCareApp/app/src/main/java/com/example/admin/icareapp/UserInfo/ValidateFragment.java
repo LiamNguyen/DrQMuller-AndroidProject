@@ -10,7 +10,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.admin.icareapp.Controller.Controller;
-import com.example.admin.icareapp.ForTesting;
 import com.example.admin.icareapp.Model.DatabaseObserver;
 import com.example.admin.icareapp.Model.ModelURL;
 import com.example.admin.icareapp.R;
@@ -49,10 +48,10 @@ public class ValidateFragment extends Fragment implements View.OnClickListener, 
                 aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(), aController.getUserInfo().getPostEmail());
                 break;
             case R.id.ui_change_email_button:
-                ((ForTesting) getActivity()).navigateToChangeEmail();
+                ((UserInfoActivity) getActivity()).navigateToChangeEmail();
                 break;
             case R.id.back_button:
-                ((ForTesting) getActivity()).navigateBack();
+                ((UserInfoActivity) getActivity()).navigateBack();
                 break;
             default:
                 break;

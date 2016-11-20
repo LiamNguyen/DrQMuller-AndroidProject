@@ -1,4 +1,4 @@
-package com.example.admin.icareapp;
+package com.example.admin.icareapp.BookingTab;
 
 import android.app.Activity;
 import android.graphics.Typeface;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+
+import com.example.admin.icareapp.R;
+
 import java.util.List;
 import java.util.Map;
 
@@ -15,14 +18,20 @@ import java.util.Map;
  */
 
 public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
-    private List<String> listOfDays;
-    private Map<String,List<String>> listOfHoursPerDay;
+    private List<String> listOfDays, listOfHours;
+    //private Map<String,List<String>> listOfHoursPerDay;
     private Activity context;
     private ViewHolder holder;
 
-    public ExpandableListViewAdapter(Activity context, List<String> listOfDays, Map<String,List<String>> listOfHoursPerDay){
+    /*public ExpandableListViewAdapter(Activity context, List<String> listOfDays, Map<String,List<String>> listOfHoursPerDay){
         this.listOfDays = listOfDays;
         this.listOfHoursPerDay = listOfHoursPerDay;
+        this.context = context;
+    }*/
+
+    public ExpandableListViewAdapter(Activity context, List<String> listOfDays, List<String> listOfHours) {
+        this.listOfDays = listOfDays;
+        this.listOfHours = listOfHours;
         this.context = context;
     }
 
@@ -35,7 +44,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
     //Get an hour in the list of hours per day
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return listOfHoursPerDay.get(listOfDays.get(groupPosition)).get(childPosition);
+        //return listOfHoursPerDay.get(listOfDays.get(groupPosition)).get(childPosition);
+        return listOfHours.get(childPosition);
     }
 
     //Get the ID of an hour in the list of hours per day
@@ -59,16 +69,14 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
     //Get the total hours in a day
     @Override
     public int getChildrenCount(int groupPosition) {
-        return listOfHoursPerDay.get(listOfDays.get(groupPosition)).size();
+        //return listOfHoursPerDay.get(listOfDays.get(groupPosition)).size();
+        return listOfHours.size();
     }
-
 
     @Override
     public boolean hasStableIds() {
         return false;
     }
-
-
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
@@ -80,7 +88,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if (convertView == null){
             LayoutInflater inflater = context.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.day_of_week, null);
+            convertView = inflater.inflate(R.layout.booking_day_of_week, null);
             holder = new ViewHolder(convertView, R.id.day_of_week);
             convertView.setTag(holder);
         }else
@@ -100,7 +108,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         if (convertView == null){
             LayoutInflater inflater = context.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.time_of_day, null);
+            convertView = inflater.inflate(R.layout.booking_time_of_day, null);
             holder = new ViewHolder(convertView, R.id.time_of_day);
             convertView.setTag(holder);
         }else
@@ -132,4 +140,13 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
         }
     }
 
+    public void updateGroupList(List<String> l){
+        listOfDays = l;
+        this.notifyDataSetChanged();
+    }
+
+    public void updateChildList(List<String> l){
+        listOfHours = l;
+        this.notifyDataSetChanged();
+    }
 }

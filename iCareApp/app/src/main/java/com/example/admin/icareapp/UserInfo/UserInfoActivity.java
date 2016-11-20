@@ -47,7 +47,6 @@ public class UserInfoActivity extends AppCompatActivity{
      *Navigate to DOBvsGender Screen
      */
     public void navigateToDOBvsGender(){
-        fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         hideAllVisibleFragments(fragmentTransaction);
@@ -68,7 +67,6 @@ public class UserInfoActivity extends AppCompatActivity{
      *Navigate to Contact Screen
      */
     public void navigateToContact(){
-        fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         hideAllVisibleFragments(fragmentTransaction);
@@ -86,7 +84,6 @@ public class UserInfoActivity extends AppCompatActivity{
     }
 
     public void navigateToValidate(){
-        fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         hideAllVisibleFragments(fragmentTransaction);
@@ -104,7 +101,6 @@ public class UserInfoActivity extends AppCompatActivity{
     }
 
     public void navigateToChangeEmail(){
-        fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         hideAllVisibleFragments(fragmentTransaction);
@@ -125,7 +121,6 @@ public class UserInfoActivity extends AppCompatActivity{
      *Navigate back
      */
     public void navigateBack(){
-        fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack();
 
         //Hide soft keyboard if it is open
@@ -143,7 +138,7 @@ public class UserInfoActivity extends AppCompatActivity{
 
     public List<Fragment> getVisibleFragments(){
         //Create array of 3 for 3 fragments
-        List<Fragment> result = new ArrayList<>(3);
+        List<Fragment> result = new ArrayList<>(5);
 
         //Add each visble fragments
         if (nameLocationFragment.isVisible()){
@@ -173,6 +168,7 @@ public class UserInfoActivity extends AppCompatActivity{
         return fragmentTransaction;
     }
 
+    //Hide SoftKeyBoard when needed
     public void hideSoftKeyboard(){
         View view = this.getCurrentFocus();
         if (view != null) {

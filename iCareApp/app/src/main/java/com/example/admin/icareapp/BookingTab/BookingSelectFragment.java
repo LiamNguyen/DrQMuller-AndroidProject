@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.admin.icareapp.Controller.Controller;
+import com.example.admin.icareapp.MainActivity;
 import com.example.admin.icareapp.Model.DatabaseObserver;
 import com.example.admin.icareapp.Model.ModelURL;
 import com.example.admin.icareapp.R;
@@ -143,10 +145,13 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
         //Initialize data for Country Spinner first
         aController.setRequestData(getActivity(), this, ModelURL.SELECT_COUNTRIES.getUrl(), "");
 
+        AppCompatButton nextBut = (AppCompatButton) view.findViewById(R.id.booking_next_button);
+        nextBut.setOnClickListener(this);
+
         return view;
     }
 
-    private void updateLabel(TextInputEditText t) {
+    private void updateDateLabel(TextInputEditText t) {
         String myFormat = "dd-MM-yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
         t.setText(sdf.format(startCalendar.getTime()));
@@ -159,48 +164,52 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
 
     @Override
     public void onClick(View view) {
-        startCalendar = Calendar.getInstance();
+        if (view.getId() == R.id.booking_next_button){
+            aController.setRequestData(getActivity(), this, ModelURL.UPDATE_VALIDATEAPPOINTMENT.getUrl(), "");
+            ((MainActivity) getActivity()).navigateToBook();
+        }else {
+            startCalendar = Calendar.getInstance();
 
-        final View v = view;
+            final View v = view;
 
-        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                if (v.getId() == R.id.booking_startdate) {
-                    if (startCalendar.get(Calendar.YEAR)> year
-                        || (startCalendar.get(Calendar.YEAR) == year && startCalendar.get(Calendar.MONTH)> monthOfYear)
-                        || (startCalendar.get(Calendar.YEAR)== year && startCalendar.get(Calendar.MONTH) == monthOfYear && startCalendar.get(Calendar.DAY_OF_MONTH)> dayOfMonth)){
-                        Toast.makeText(getActivity(), getString(R.string.booking_error_date), Toast.LENGTH_LONG).show();
-                    }else{
-                        startCalendar.set(Calendar.YEAR, year);
-                        startCalendar.set(Calendar.MONTH, monthOfYear);
-                        startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        updateLabel((TextInputEditText) v);
+            DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    if (v.getId() == R.id.booking_startdate) {
+                        if (startCalendar.get(Calendar.YEAR) > year
+                                || (startCalendar.get(Calendar.YEAR) == year && startCalendar.get(Calendar.MONTH) > monthOfYear)
+                                || (startCalendar.get(Calendar.YEAR) == year && startCalendar.get(Calendar.MONTH) == monthOfYear && startCalendar.get(Calendar.DAY_OF_MONTH) > dayOfMonth)) {
+                            Toast.makeText(getActivity(), getString(R.string.booking_error_date), Toast.LENGTH_LONG).show();
+                        } else {
+                            startCalendar.set(Calendar.YEAR, year);
+                            startCalendar.set(Calendar.MONTH, monthOfYear);
+                            startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                            updateDateLabel((TextInputEditText) v);
+                        }
+                    } else {
+                        if (endCalendar.get(Calendar.YEAR) > year
+                                || (endCalendar.get(Calendar.YEAR) == year && endCalendar.get(Calendar.MONTH) > monthOfYear)
+                                || (endCalendar.get(Calendar.YEAR) == year && endCalendar.get(Calendar.MONTH) == monthOfYear && endCalendar.get(Calendar.DAY_OF_MONTH) > dayOfMonth)) {
+                            Toast.makeText(getActivity(), getString(R.string.booking_error_date), Toast.LENGTH_LONG).show();
+                        } else {
+                            startCalendar.set(Calendar.YEAR, year);
+                            startCalendar.set(Calendar.MONTH, monthOfYear);
+                            startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                            updateDateLabel((TextInputEditText) v);
+                        }
                     }
                 }
-                else{
-                    if (endCalendar.get(Calendar.YEAR)> year
-                            || (endCalendar.get(Calendar.YEAR) == year && endCalendar.get(Calendar.MONTH)> monthOfYear)
-                            || (endCalendar.get(Calendar.YEAR)== year && endCalendar.get(Calendar.MONTH) == monthOfYear && endCalendar.get(Calendar.DAY_OF_MONTH)> dayOfMonth)){
-                        Toast.makeText(getActivity(), getString(R.string.booking_error_date), Toast.LENGTH_LONG).show();
-                    }else{
-                        startCalendar.set(Calendar.YEAR, year);
-                        startCalendar.set(Calendar.MONTH, monthOfYear);
-                        startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        updateLabel((TextInputEditText) v);
-                    }
-                }
-            }
 
-        };
-        DatePickerDialog datePicker = new DatePickerDialog(getActivity(), date, startCalendar.get(Calendar.YEAR), startCalendar.get(Calendar.MONTH), startCalendar.get(Calendar.DAY_OF_MONTH));
+            };
+            DatePickerDialog datePicker = new DatePickerDialog(getActivity(), date, startCalendar.get(Calendar.YEAR), startCalendar.get(Calendar.MONTH), startCalendar.get(Calendar.DAY_OF_MONTH));
 
-        if (v.getId() == R.id.booking_startdate)
-            datePicker.getDatePicker().setMinDate(startCalendar.getTimeInMillis());
-        else
-            datePicker.getDatePicker().setMinDate(endCalendar.getTimeInMillis());
-        
-        datePicker.show();
+            if (v.getId() == R.id.booking_startdate)
+                datePicker.getDatePicker().setMinDate(startCalendar.getTimeInMillis());
+            else
+                datePicker.getDatePicker().setMinDate(endCalendar.getTimeInMillis());
+
+            datePicker.show();
+        }
     }
 
     @Override

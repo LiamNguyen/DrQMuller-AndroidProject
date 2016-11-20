@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Dr.QMuller</string>
+    <string name="app_name">Dr.Q-Muller</string>
 
     <string name="username_input_hint">Tên Đăng Nhập</string>
     <string name="username_invalid">Tên đăng nhập đã được sử dụng</string>
@@ -83,5 +83,10 @@
     <string name="wednesday">Thứ Tư</string>
     <string name="thursday">Thứ Năm</string>
     <string name="friday">Thứ Sáu</string>
+    <string name="empty_cart">Giỏ Hàng Trống</string>
+    <string name="list_cart">Đã Đặt</string>
+    <string name="max_item">Tối đa 3 lịch hẹn</string>
+    <string name="finish_button">Hoàn Tất</string>
+    <string name="booking_confirm_hint">Nhập Mã Xác Nhận</string>
 
 </resources>

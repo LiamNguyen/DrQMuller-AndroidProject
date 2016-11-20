@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ForTesting"
+        <activity android:name=".MainActivity"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,6 +33,7 @@
         <activity android:name=".UserInfo.UserInfoActivity"
             android:windowSoftInputMode="stateHidden">
         </activity>
+        <activity android:name=".Confirm.ConfirmBookingActivity" />
 
 
     </application>

@@ -47,7 +47,6 @@ public class RegisterActivity extends AppCompatActivity{
      *Navigate to Sign In Screen
      */
     public void navigateToSignIn(){
-        fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                                 /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                                                         R.anim.slide_in_left, R.anim.slide_out_right);*/
@@ -65,7 +64,6 @@ public class RegisterActivity extends AppCompatActivity{
      *Navigate to Sign Up Screen
      */
     public void navigateToSignUp(){
-        fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                                 /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                                                         R.anim.slide_in_left, R.anim.slide_out_right);*/
@@ -83,7 +81,6 @@ public class RegisterActivity extends AppCompatActivity{
      *Navigate to last fragment
      */
     public void navigateBack(){
-        fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack();
 
         //Hide soft keyboard if it is open
@@ -140,6 +137,7 @@ public class RegisterActivity extends AppCompatActivity{
         return fragmentTransaction;
     }
 
+    //Hide SoftKeyBoard when needed
     public void hideSoftKeyboard(){
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -147,5 +145,4 @@ public class RegisterActivity extends AppCompatActivity{
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
-
 }

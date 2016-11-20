@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.admin.icareapp.ForTesting"
+            android:name="com.example.admin.icareapp.MainActivity"
             android:windowSoftInputMode="adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,6 +41,7 @@
             android:name="com.example.admin.icareapp.UserInfo.UserInfoActivity"
             android:windowSoftInputMode="stateHidden" >
         </activity>
+        <activity android:name="com.example.admin.icareapp.Confirm.ConfirmBookingActivity" />
     </application>
 
 </manifest>

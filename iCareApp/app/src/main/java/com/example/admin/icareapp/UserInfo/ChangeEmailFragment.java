@@ -13,10 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.example.admin.icareapp.Controller.Controller;
-import com.example.admin.icareapp.ForTesting;
-import com.example.admin.icareapp.Model.DatabaseObserver;
 import com.example.admin.icareapp.Model.ModelInputRequirement;
-import com.example.admin.icareapp.Model.ModelURL;
 import com.example.admin.icareapp.R;
 
 /**
@@ -52,7 +49,7 @@ public class ChangeEmailFragment extends Fragment implements View.OnClickListene
             case R.id.ui_change_button:
                 if (validEmail) {
                     aController.getUserInfo().addInfo("email", email.getText().toString());
-                    ((ForTesting) getActivity()).navigateToChangeEmail();
+                    ((UserInfoActivity) getActivity()).navigateToValidate();
                 }else {
                     if (!validEmail) {
                         if (email.getText().toString().equals("")) {
@@ -65,7 +62,7 @@ public class ChangeEmailFragment extends Fragment implements View.OnClickListene
                 }
                 break;
             case R.id.back_button:
-                ((ForTesting) getActivity()).navigateBack();
+                ((UserInfoActivity) getActivity()).navigateBack();
                 break;
             default:
                 break;
