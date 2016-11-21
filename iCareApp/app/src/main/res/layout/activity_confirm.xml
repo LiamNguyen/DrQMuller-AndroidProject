@@ -6,12 +6,13 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="TextView"
+        android:text="@string/booking_confirm_instruction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/booking_instruction"
-        android:layout_marginTop="110dp"
-        android:layout_marginBottom="100dp"
+        android:textSize="20sp"
+        android:layout_marginTop="80dp"
+        android:padding="50dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -23,7 +24,6 @@
         android:layout_below="@+id/booking_instruction"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp">
         <android.support.design.widget.TextInputEditText
             android:id="@+id/booking_confirm_input"
@@ -46,7 +46,7 @@
         android:layout_alignParentStart="true">
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/wel_sign_up_button"
-            android:text="@string/finish_button"
+            android:text="@string/booking_confirm_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="3dp"

@@ -34,6 +34,7 @@ import android.widget.TextView;
 
 import com.example.admin.icareapp.BookingTab.BookingBookFragment;
 import com.example.admin.icareapp.BookingTab.BookingSelectFragment;
+import com.example.admin.icareapp.Model.ModelBookingDetail;
 import com.example.admin.icareapp.Register.RegisterActivity;
 import com.example.admin.icareapp.UserTab.UserFragment;
 import com.mikepenz.actionitembadge.library.ActionItemBadge;
@@ -55,9 +56,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private ListPopupWindow popupWindow;
     private List<String> cartList;
     private ListView popupListView;
-    private BottomNavigationView bottomNavigationView;
-    private MyCustomAdapter popupAdapter;
-
+    private ModelBookingDetail bookingDetails;
     //BookingTab Fragment
     private BookingSelectFragment bookingSelectFragment;
     private BookingBookFragment bookingBookFragment;
@@ -70,9 +69,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Initialize ModelBookingDetails
+        bookingDetails = new ModelBookingDetail();
+
+        //Set up cart resource
         cartList = new ArrayList<>();
         cartList.add(getString(R.string.empty_cart));
-
         badgeCount = 0;
         cartIcon = getResources().getDrawable(R.drawable.ic_shopping_cart, null);
 
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setSupportActionBar(toolBar);
 
         //Bottom Navigation View
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
     }
 
@@ -146,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         height = (int) styledAttributes.getDimension(0, 0);
         //Create PopUpWindow
         popupWindow = new ListPopupWindow(this);
-        popupAdapter = new MyCustomAdapter(this, R.layout.activity_popup_item, cartList);
+        ListPopupWindowAdapter popupAdapter = new ListPopupWindowAdapter(this, R.layout.activity_popup_item, cartList);
         popupWindow.setAdapter(popupAdapter);
         popupWindow.setAnchorView(v);
         popupWindow.setWidth(450);
@@ -173,6 +175,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bookingBookFragment.refreshTimeList(s.substring(0, s.indexOf("-") - 1),s.substring(s.indexOf("-") +2, s.length()));
     }
 
+    public void emptyCart(){
+        cartList.clear();
+        cartList.add(getString(R.string.empty_cart));
+        badgeCount = 0;
+        invalidateOptionsMenu();
+    }
+
     public int numberOfCartItems(){
         return cartList.size() - 1;
     }
@@ -184,92 +193,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             removeSelectedItemFromCart(cartList.get(position));
     }
 
-    /* =============================== BOOKING TAB ===============================*/
-    /* ------------- ALREADY LOGIN ------------- */
-    //After select, move to "Book Fragment" to book date
-    public void navigateToBook(){
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                                /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                                                        R.anim.slide_in_left, R.anim.slide_out_right);*/
-        hideAllBookingTabVisibleFragments(fragmentTransaction);
-
-        if (!bookingBookFragment.isAdded()){
-            fragmentTransaction.add(R.id.fragment_container, bookingBookFragment, bookingBookFragment.getClass().getName());
-        }else{
-            fragmentTransaction.show(bookingBookFragment);
-        }
-
-        fragmentTransaction.addToBackStack(null).commit();
-    }
-
-    //Get all visible fragment in User Tab
-    private List<Fragment> getBookingTabVisibleFragments(){
-        // We have 3 fragments, so initialize the arrayList to 3 to optimize memory
-        List<Fragment> result = new ArrayList<>(2);
-
-        // Add each visible fragment to the result IF VISIBLE
-        //Add "Booking Select Fragment"
-        if (bookingSelectFragment.isVisible()) {
-            result.add(bookingSelectFragment);
-        }
-        if (bookingBookFragment.isVisible()) {
-            result.add(bookingBookFragment);
-        }
-
-        return result;
-    }
-
-    //Hide all visible fragment in User Tab
-    private FragmentTransaction hideAllBookingTabVisibleFragments(FragmentTransaction fragmentTransaction) {
-        for (Fragment fragment : getBookingTabVisibleFragments()) {
-            fragmentTransaction.hide(fragment);
-        }
-
-        return fragmentTransaction;
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        switch (item.getItemId()) {
-            case R.id.action_news:
-                /*
-                if (!userFragment.isAdded()){
-                    fragmentTransaction.add(R.id.fragment_container, userFragment, userFragment.getClass().getName());
-                }else{
-                    fragmentTransaction.show(userFragment);
-                }
-
-                fragmentTransaction.addToBackStack(null).commit();*/
-
-                break;
-            case R.id.action_booking:
-                //Hide ALL fragments from OTHER TABS
-                hideAllBookingTabVisibleFragments(fragmentTransaction);
-
-                //If user signed in, these are fragments that have to appear. "Booking Select Fragment" is default
-                //Initialize Fragment
-
-                if (!bookingSelectFragment.isAdded()){
-                    fragmentTransaction.add(R.id.fragment_container, bookingSelectFragment, bookingSelectFragment.getClass().getName());
-                }else{
-                    fragmentTransaction.show(bookingSelectFragment);
-                }
-
-                fragmentTransaction.addToBackStack(null).commit();
-                break;
-            case R.id.action_user:
-                Intent toRegister = new Intent(this, RegisterActivity.class);
-                startActivity(toRegister);
-                break;
-        }
-        return false;
-    }
-
-    class MyCustomAdapter extends ArrayAdapter<String> {
+    //Adapter for PopupWindow
+    class ListPopupWindowAdapter extends ArrayAdapter<String> {
         private List<String> list;
-        public MyCustomAdapter(Activity context, int textViewResourceId, List<String> l) {
+        public ListPopupWindowAdapter(Activity context, int textViewResourceId, List<String> l) {
             super(context, textViewResourceId, l);
             list = l;
         }
@@ -324,5 +251,94 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 return iv;
             }
         }
+    }
+
+    /* =============================== BOOKING TAB ===============================*/
+    /* ------------- ALREADY LOGIN ------------- */
+    //After select, move to "Book Fragment" to book date
+    public void navigateToBook(){
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                                /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                                                        R.anim.slide_in_left, R.anim.slide_out_right);*/
+        hideAllBookingTabVisibleFragments(fragmentTransaction);
+
+        if (!bookingBookFragment.isAdded()){
+            fragmentTransaction.add(R.id.fragment_container, bookingBookFragment, bookingBookFragment.getClass().getName());
+        }else{
+            fragmentTransaction.show(bookingBookFragment);
+        }
+
+        fragmentTransaction.addToBackStack(null).commit();
+    }
+
+    //Get all visible fragment in User Tab
+    private List<Fragment> getBookingTabVisibleFragments(){
+        // We have 3 fragments, so initialize the arrayList to 3 to optimize memory
+        List<Fragment> result = new ArrayList<>(2);
+
+        // Add each visible fragment to the result IF VISIBLE
+        //Add "Booking Select Fragment"
+        if (bookingSelectFragment.isVisible()) {
+            result.add(bookingSelectFragment);
+        }
+        if (bookingBookFragment.isVisible()) {
+            result.add(bookingBookFragment);
+        }
+
+        return result;
+    }
+
+    //Hide all visible fragment in User Tab
+    private FragmentTransaction hideAllBookingTabVisibleFragments(FragmentTransaction fragmentTransaction) {
+        for (Fragment fragment : getBookingTabVisibleFragments()) {
+            fragmentTransaction.hide(fragment);
+        }
+
+        return fragmentTransaction;
+    }
+
+    /* =============================== BOTTOM NAVIGATION VIEW ===============================*/
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        switch (item.getItemId()) {
+            case R.id.action_news:
+                /*
+                if (!userFragment.isAdded()){
+                    fragmentTransaction.add(R.id.fragment_container, userFragment, userFragment.getClass().getName());
+                }else{
+                    fragmentTransaction.show(userFragment);
+                }
+
+                fragmentTransaction.addToBackStack(null).commit();*/
+
+                break;
+            case R.id.action_booking:
+                //Hide ALL fragments from OTHER TABS
+                hideAllBookingTabVisibleFragments(fragmentTransaction);
+
+                //If user signed in, these are fragments that have to appear. "Booking Select Fragment" is default
+                //Initialize Fragment
+
+                if (!bookingSelectFragment.isAdded()){
+                    fragmentTransaction.add(R.id.fragment_container, bookingSelectFragment, bookingSelectFragment.getClass().getName());
+                }else{
+                    fragmentTransaction.show(bookingSelectFragment);
+                }
+
+                fragmentTransaction.addToBackStack(null).commit();
+                break;
+            case R.id.action_user:
+                Intent toRegister = new Intent(this, RegisterActivity.class);
+                startActivity(toRegister);
+                break;
+        }
+        return false;
+    }
+
+     /* =============================== DATA ===============================*/
+    public ModelBookingDetail getModelBooking(){
+        return bookingDetails;
     }
 }

@@ -73,11 +73,12 @@
     <string name="booking_location_hint">Chọn Địa Điểm</string>
     <string name="booking_voucher_hint">Chọn Voucher</string>
     <string name="booking_type_hint">Chọn Phương Thức</string>
-    <string name="booking_type_free">Tự Do</string>
-    <string name="booking_type_fixed">Cố Định</string>
+    <string name="booking_type_free">Tự do</string>
+    <string name="booking_type_fixed">Cố định</string>
     <string name="booking_start_date">Ngày Bắt Đầu</string>
     <string name="booking_end_date">Ngày Kết Thúc</string>
     <string name="booking_error_date">Ngày không hợp lệ. Xin vui lòng chọn lại</string>
+    <string name="missing_detail">Vui lòng điền đầy đủ thông tin</string>
     <string name="monday">Thứ Hai</string>
     <string name="tuesday">Thứ Ba</string>
     <string name="wednesday">Thứ Tư</string>
@@ -86,7 +87,11 @@
     <string name="empty_cart">Giỏ Hàng Trống</string>
     <string name="list_cart">Đã Đặt</string>
     <string name="max_item">Tối đa 3 lịch hẹn</string>
+    <string name="min_item">Vui lòng chọn ít nhất một thời gian cụ thể</string>
+    <string name="selected_day">Tối đa 1 giờ trong 1 ngày</string>
     <string name="finish_button">Hoàn Tất</string>
     <string name="booking_confirm_hint">Nhập Mã Xác Nhận</string>
+    <string name="booking_confirm_button">Xác Nhận</string>
+    <string name="booking_confirm_instruction">Quí khách vui lòng chờ bộ phận tiếp tân của trung tâm liên lạc trong giây lát</string>
 
 </resources>

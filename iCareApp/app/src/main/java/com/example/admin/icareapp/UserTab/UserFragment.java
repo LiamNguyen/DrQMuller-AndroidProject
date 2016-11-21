@@ -25,7 +25,7 @@ public class UserFragment extends Fragment{
         View view = inflater.inflate(R.layout.user, container, false);
         List<String> list = new ArrayList<>();
         list.add("LONG VU");
-        list.add("Settings");
+        list.add("Thông Tin Lịch Hẹn");
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.user_recycler_view);
         UserTabAdapter adapter = new UserTabAdapter(getActivity(), list);
         rv.setAdapter(adapter);

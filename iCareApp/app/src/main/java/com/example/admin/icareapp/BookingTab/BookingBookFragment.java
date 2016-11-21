@@ -1,8 +1,10 @@
 package com.example.admin.icareapp.BookingTab;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +13,14 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.admin.icareapp.Confirm.ConfirmBookingActivity;
 import com.example.admin.icareapp.Controller.Controller;
 import com.example.admin.icareapp.MainActivity;
 import com.example.admin.icareapp.Model.DatabaseObserver;
+import com.example.admin.icareapp.Model.ModelBookingDetail;
 import com.example.admin.icareapp.Model.ModelURL;
 import com.example.admin.icareapp.R;
+import com.example.admin.icareapp.Register.RegisterActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,13 +38,14 @@ import java.util.Map;
  * Created by ADMIN on 13-Nov-16.
  */
 
-public class BookingBookFragment extends Fragment implements DatabaseObserver, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupClickListener{
+public class BookingBookFragment extends Fragment implements DatabaseObserver, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupClickListener, View.OnClickListener{
     private Controller aController;
     private List<String> timeList, daysList, availableTime;
     private ExpandableListView list;
     private ExpandableListViewAdapter adapter;
     private TimeComparator timeComparator;
     private int day_id, time_id;
+    private ModelBookingDetail booking;
 
     @Nullable
     @Override
@@ -48,6 +54,11 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
 
         //Get controller
         aController = Controller.getInstance();
+        //Get ModelBookingDetails
+        booking = ((MainActivity) getActivity()).getModelBooking();
+        //Get finish button
+        AppCompatButton button = (AppCompatButton) view.findViewById(R.id.booking_finish_button);
+        button.setOnClickListener(this);
         //Create time comparator
         timeComparator = new TimeComparator();
         //Get expandable list
@@ -58,6 +69,18 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         daysList = new ArrayList<>();
         list.setOnChildClickListener(this);
         list.setOnGroupClickListener(this);
+        list.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            int previousItem = -1;
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                if(groupPosition != previousItem )
+                    list.collapseGroup(previousItem );
+                previousItem = groupPosition;
+                list.setSelectedGroup(groupPosition);
+            }
+        });
+
         //Initialize list adapter
         adapter = new ExpandableListViewAdapter(getActivity(), daysList, availableTime);
         list.setAdapter(adapter);
@@ -82,7 +105,10 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
             if (status.has("Select_DaysOfWeek")) {
                 //Receive response from Select_DaysOfWeek.php
                 JSONArray days = status.getJSONArray("Select_DaysOfWeek");//Get the array of days' JSONObject
-                for (int i = 0; i < days.length(); i++) {
+                int j = days.length();
+                if (booking.getVoucherID().equals("1"))
+                    j -= 2;
+                for (int i = 0; i < j; i++) {
                     JSONObject jOb = (JSONObject) days.get(i);
                     daysList.add(jOb.getString("DAY"));
                 }
@@ -98,7 +124,6 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                 availableTime.clear();
                 availableTime.addAll(timeList);
                 JSONArray selected = status.getJSONArray("Select_SelectedTime");//Get the array of time
-                System.out.println("array " + selected);
                 for (int i = 0; i < selected.length(); i++) {
                     JSONObject jOb = (JSONObject) selected.get(i);
                     if (availableTime.contains(jOb.getString("TIME")))
@@ -126,59 +151,110 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         TextView tv = (TextView) view.findViewById(R.id.time_of_day);
         switch (groupPosition){
             case 0://Monday
-                ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(0) + " - " + tv.getText().toString());
-                availableTime.remove(childPosition);
-                adapter.notifyDataSetChanged();
-                day_id = 1; time_id = timeList.indexOf(tv.getText().toString()) + 1;
-                aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(), "day_id=" + day_id + "&time_id=" + time_id);
+                if (!booking.checkDay("1")) {
+                    ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(0) + " - " + tv.getText().toString());
+                    availableTime.remove(childPosition);
+                    adapter.notifyDataSetChanged();
+                    day_id = 1;
+                    time_id = timeList.indexOf(tv.getText().toString()) + 1;
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(), "day_id=" + day_id + "&time_id=" + time_id);
+                    booking.saveBooking(Integer.toString(day_id), Integer.toString(time_id));
+                }else{
+                    Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_LONG).show();
+                    return false;
+                }
                 break;
             case 1://Tuesday
-                ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(1) + " - " + tv.getText().toString());
-                availableTime.remove(childPosition);
-                adapter.notifyDataSetChanged();
-                day_id = 2; time_id = timeList.indexOf(tv.getText().toString()) + 1;
-                aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(), "day_id=" + day_id + "&time_id=" + time_id);
+                if (!booking.checkDay("2")) {
+                    ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(1) + " - " + tv.getText().toString());
+                    availableTime.remove(childPosition);
+                    adapter.notifyDataSetChanged();
+                    day_id = 2;
+                    time_id = timeList.indexOf(tv.getText().toString()) + 1;
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(), "day_id=" + day_id + "&time_id=" + time_id);
+                    booking.saveBooking(Integer.toString(day_id), Integer.toString(time_id));
+                }else{
+                    Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_LONG).show();
+                    return false;
+                }
                 break;
             case 2://Wednesday
-                ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(2) + " - " + tv.getText().toString());
-                availableTime.remove(childPosition);
-                adapter.notifyDataSetChanged();
-                day_id = 3; time_id = timeList.indexOf(tv.getText().toString()) + 1;
-                aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(), "day_id=" + day_id + "&time_id=" + time_id);
+                if (!booking.checkDay("3")) {
+                    ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(2) + " - " + tv.getText().toString());
+                    availableTime.remove(childPosition);
+                    adapter.notifyDataSetChanged();
+                    day_id = 3;
+                    time_id = timeList.indexOf(tv.getText().toString()) + 1;
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(), "day_id=" + day_id + "&time_id=" + time_id);
+                    booking.saveBooking(Integer.toString(day_id), Integer.toString(time_id));
+                }else{
+                    Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_LONG).show();
+                    return false;
+                }
                 break;
             case 3://Thursday
-                ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(3) + " - " + tv.getText().toString());
-                availableTime.remove(childPosition);
-                adapter.notifyDataSetChanged();
-                day_id = 4; time_id = timeList.indexOf(tv.getText().toString()) + 1;
-                aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(), "day_id=" + day_id + "&time_id=" + time_id);
+                if (!booking.checkDay("4")) {
+                    ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(3) + " - " + tv.getText().toString());
+                    availableTime.remove(childPosition);
+                    adapter.notifyDataSetChanged();
+                    day_id = 4;
+                    time_id = timeList.indexOf(tv.getText().toString()) + 1;
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(), "day_id=" + day_id + "&time_id=" + time_id);
+                    booking.saveBooking(Integer.toString(day_id), Integer.toString(time_id));
+                }else{
+                    Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_LONG).show();
+                    return false;
+                }
                 break;
             case 4://Friday
-                ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(4) + " - " + tv.getText().toString());
-                availableTime.remove(childPosition);
-                adapter.notifyDataSetChanged();
-                day_id = 5; time_id = timeList.indexOf(tv.getText().toString()) + 1;
-                aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(), "day_id=" + day_id + "&time_id=" + time_id);
+                if (!booking.checkDay("5")) {
+                    ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(4) + " - " + tv.getText().toString());
+                    availableTime.remove(childPosition);
+                    adapter.notifyDataSetChanged();
+                    day_id = 5;
+                    time_id = timeList.indexOf(tv.getText().toString()) + 1;
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(), "day_id=" + day_id + "&time_id=" + time_id);
+                    booking.saveBooking(Integer.toString(day_id), Integer.toString(time_id));
+                }else{
+                    Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_LONG).show();
+                    return false;
+                }
                 break;
             case 5://Saturday
-                ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(5) + " - " + tv.getText().toString());
-                availableTime.remove(childPosition);
-                adapter.notifyDataSetChanged();
-                day_id = 6; time_id = timeList.indexOf(tv.getText().toString()) + 1;
-                aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(), "day_id=" + day_id + "&time_id=" + time_id);
+                if (!booking.checkDay("6")) {
+                    ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(5) + " - " + tv.getText().toString());
+                    availableTime.remove(childPosition);
+                    adapter.notifyDataSetChanged();
+                    day_id = 6;
+                    time_id = timeList.indexOf(tv.getText().toString()) + 1;
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(), "day_id=" + day_id + "&time_id=" + time_id);
+                    booking.saveBooking(Integer.toString(day_id), Integer.toString(time_id));
+                }else{
+                    Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_LONG).show();
+                    return false;
+                }
                 break;
             case 6://Sunday
-                ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(6) + " - " + tv.getText().toString());
-                availableTime.remove(childPosition);
-                adapter.notifyDataSetChanged();
-                day_id = 7; time_id = timeList.indexOf(tv.getText().toString()) + 1;
-                aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(), "day_id=" + day_id + "&time_id=" + time_id);
+                if (!booking.checkDay("7")) {
+                    ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(6) + " - " + tv.getText().toString());
+                    availableTime.remove(childPosition);
+                    adapter.notifyDataSetChanged();
+                    day_id = 7;
+                    time_id = timeList.indexOf(tv.getText().toString()) + 1;
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(), "day_id=" + day_id + "&time_id=" + time_id);
+                    booking.saveBooking(Integer.toString(day_id), Integer.toString(time_id));
+                }else{
+                    Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_LONG).show();
+                    return false;
+                }
                 break;
             default:
                 break;
         }
 
-         return true;
+        list.collapseGroup(groupPosition);
+
+        return true;
     }
 
     @Override
@@ -217,5 +293,23 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         Collections.sort(availableTime, timeComparator);
         adapter.notifyDataSetChanged();
         aController.setRequestData(getActivity(), this, ModelURL.UPDATE_UNCHOSENTIME.getUrl(), "day_id=" + (daysList.indexOf(day) + 1) + "&time_id=" + (timeList.indexOf(time) + 1));
+        booking.deleteBooking(Integer.toString(daysList.indexOf(day) + 1));
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (((MainActivity) getActivity()).numberOfCartItems() <= 0){
+            Toast.makeText(getActivity(), getString(R.string.max_item), Toast.LENGTH_LONG).show();
+        }else {
+            booking.generateCode();
+            aController.setRequestData(getActivity(), this, ModelURL.INSERT_NEWAPPOINTMENT.getUrl(), booking.getPostData());
+            for (String s: booking.getBookingDays()){
+                aController.setRequestData(getActivity(), this, ModelURL.INSERT_NEWBOOKING.getUrl(), "day_id=" + s + "&time_id=" + booking.getBookingTime(s) + "&code=" + booking.getCode());
+                System.out.println("day_id=" + s + "&time_id=" + booking.getBookingTime(s) + "&code=" + booking.getCode());
+            }
+            ((MainActivity) getActivity()).emptyCart();
+            Intent toConfirm = new Intent(getActivity(), ConfirmBookingActivity.class);
+            startActivity(toConfirm);
+        }
     }
 }

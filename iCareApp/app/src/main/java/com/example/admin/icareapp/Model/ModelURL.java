@@ -5,25 +5,27 @@ package com.example.admin.icareapp.Model;
  */
 
 public enum ModelURL {
-    SELECT_COUNTRIES("http://192.168.0.106/Select_Countries"),
-    SELECT_CITIES("http://192.168.0.106/Select_Cities"),
-    SELECT_DISTRICTS("http://192.168.0.106/Select_Districts"),
-    SELECT_LOCATIONS("http://192.168.0.106/Select_Locations"),
-    SELECT_VOUCHERS("http://192.168.0.106/Select_Vouchers"),
-    SELECT_ALLTIMEINADAY("http://192.168.0.106/Select_AllTime"),
-    SELECT_DAYSOFWEEK("http://192.168.0.106/Select_DaysOfWeek"),
-    SELECT_SELECTEDTIME("http://192.168.0.106/Select_SelectedTime"),
-    SELECT_CHECKTIMEEXISTENCE("http://192.168.0.106/Select_CheckTimeExistence"),
-    INSERT_NEWTEMPTIME("http://192.168.0.106/Insert_NewTempTime"),
-    UPDATE_CHOSENTIME("http://192.168.0.106/Update_ChosenTime"),
-    UPDATE_UNCHOSENTIME("http://192.168.0.106/Update_UnchosenTime"),
-    INSERT_NEWCUSTOMER("http://192.168.0.106/Insert_NewCustomer"),
-    SELECT_TOAUTHENTICATE("http://192.168.0.106/Select_ToAuthenticate"),
-    SELECT_CHECKUSEREXISTENCE("http://192.168.0.106/Select_CheckUserExistence"),
-    SELECT_NoOFCUSTOMERS("http://192.168.0.106/Select_NumberOfCustomer"),
-    UPDATE_CUSTOMERINFO("http://192.168.0.106/Update_CustomerInfo"),
-    UPDATE_VALIDATEAPPOINTMENT("http://192.168.0.106/Update_ValidateAppointment"),
-    SEND_EMAIL("http://192.168.0.106/sendemail");
+    SELECT_TOAUTHENTICATE("http://210.211.109.180/drmuller/Select_ToAuthenticate.php"),
+    SELECT_CHECKUSEREXISTENCE("http://210.211.109.180/drmuller/Select_CheckUserExistence.php"),
+    SELECT_NoOFCUSTOMERS("http://210.211.109.180/drmuller/Select_NumberOfCustomer.php"),
+    SELECT_COUNTRIES("http://210.211.109.180/drmuller/Select_Countries.php"),
+    SELECT_CITIES("http://210.211.109.180/drmuller/Select_Cities.php"),
+    SELECT_DISTRICTS("http://210.211.109.180/drmuller/Select_Districts.php"),
+    SELECT_LOCATIONS("http://210.211.109.180/drmuller/Select_Locations.php"),
+    SELECT_VOUCHERS("http://210.211.109.180/drmuller/Select_Vouchers.php"),
+    SELECT_ALLTIMEINADAY("http://210.211.109.180/drmuller/Select_AllTime.php"),
+    SELECT_DAYSOFWEEK("http://210.211.109.180/drmuller/Select_DaysOfWeek.php"),
+    SELECT_SELECTEDTIME("http://210.211.109.180/drmuller/Select_SelectedTime.php"),
+    SELECT_CHECKTIMEEXISTENCE("http://210.211.109.180/drmuller/Select_CheckTimeExistence.php"),
+    INSERT_NEWTEMPTIME("http://210.211.109.180/drmuller/Insert_NewTempTime.php"),
+    INSERT_NEWCUSTOMER("http://210.211.109.180/drmuller/Insert_NewCustomer.php"),
+    INSERT_NEWAPPOINTMENT("http://210.211.109.180/drmuller/Insert_NewAppointment.php"),
+    INSERT_NEWBOOKING("http://210.211.109.180/drmuller/Insert_NewBookingTime.php"),
+    UPDATE_CHOSENTIME("http://210.211.109.180/drmuller/Update_ChosenTime.php"),
+    UPDATE_UNCHOSENTIME("http://210.211.109.180/drmuller/Update_UnchosenTime.php"),
+    UPDATE_CUSTOMERINFO("http://210.211.109.180/drmuller/Update_CustomerInfo.php"),
+    UPDATE_VALIDATEAPPOINTMENT("http://210.211.109.180/drmuller/Update_ValidateAppointment.php"),
+    SEND_EMAIL("http://210.211.109.180/drmuller/sendemail.php");
 
     private String url;
 

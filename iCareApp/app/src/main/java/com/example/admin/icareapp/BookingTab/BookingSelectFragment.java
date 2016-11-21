@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.admin.icareapp.Controller.Controller;
 import com.example.admin.icareapp.MainActivity;
 import com.example.admin.icareapp.Model.DatabaseObserver;
+import com.example.admin.icareapp.Model.ModelBookingDetail;
 import com.example.admin.icareapp.Model.ModelURL;
 import com.example.admin.icareapp.R;
 
@@ -49,6 +50,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
     private Spinner countrySp, citySp, districtSp, locationSp, voucherSp, typeSp;
     private Calendar startCalendar, endCalendar;
     private TextInputEditText startDate, endDate;
+    private ModelBookingDetail booking;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,6 +58,9 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
 
         //Get controller instance
         aController = Controller.getInstance();
+
+        //BookingDetails object
+        booking = ((MainActivity) getActivity()).getModelBooking();
 
         /* =============================== SPINNER =============================== */
         //Initialize data and the first string is hint
@@ -155,7 +160,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
         String myFormat = "dd-MM-yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
         t.setText(sdf.format(startCalendar.getTime()));
-        
+
         if (t.getId() == R.id.booking_startdate){
             endDate.setEnabled(true);
             endCalendar = startCalendar;
@@ -165,8 +170,12 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.booking_next_button){
-            aController.setRequestData(getActivity(), this, ModelURL.UPDATE_VALIDATEAPPOINTMENT.getUrl(), "");
-            ((MainActivity) getActivity()).navigateToBook();
+            if (booking.isDataEmpty()){
+                Toast.makeText(getActivity(), getString(R.string.missing_detail), Toast.LENGTH_SHORT).show();
+            }else {
+                aController.setRequestData(getActivity(), this, ModelURL.UPDATE_VALIDATEAPPOINTMENT.getUrl(), "");
+                ((MainActivity) getActivity()).navigateToBook();
+            }
         }else {
             startCalendar = Calendar.getInstance();
 
@@ -185,6 +194,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                             startCalendar.set(Calendar.MONTH, monthOfYear);
                             startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                             updateDateLabel((TextInputEditText) v);
+                            booking.setStartDate(year + "-" + monthOfYear + "-" + dayOfMonth);
                         }
                     } else {
                         if (endCalendar.get(Calendar.YEAR) > year
@@ -196,6 +206,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                             startCalendar.set(Calendar.MONTH, monthOfYear);
                             startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                             updateDateLabel((TextInputEditText) v);
+                            booking.setExpireDate(year + "-" + monthOfYear + "-" + dayOfMonth);
                         }
                     }
                 }
@@ -215,6 +226,12 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
     @Override
     public void update(Object o) {
         JSONObject status = (JSONObject) o;
+
+        if (status == null) {
+            System.out.println("ERROR IN PHP FILE");
+            return;
+        }
+
         try {
             if (status.has("Select_Countries")) {
                 //Receive response from Select_Countries.php
@@ -241,9 +258,6 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                 JSONArray vouchers = status.getJSONArray("Select_Vouchers");//Get the array of vouchers' JSONObject
                 populateData(vouchersName, mapToVoucherID, vouchers, "VOUCHER_ID", "VOUCHER", "PRICE");//Populate districtsName list if data exists
                 voucherSp.setEnabled(true);//Set Spinner clickable to true
-            }
-            else{
-                System.out.println("ERROR IN PHP FILE");
             }
         }catch (JSONException je){
             je.printStackTrace();
@@ -283,12 +297,15 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                 break;
             case R.id.spinner_locations:
                 aController.setRequestData(getActivity(), this, ModelURL.SELECT_VOUCHERS.getUrl(), "");
+                booking.setLocationID(mapToLocationID.get(locationSp.getSelectedItem().toString()));
                 break;
             case R.id.spinner_vouchers:
                 typeSp.setEnabled(true);
+                booking.setVoucherID(mapToVoucherID.get(voucherSp.getSelectedItem().toString().substring(0, voucherSp.getSelectedItem().toString().indexOf("-") - 1)));
                 break;
             case R.id.spinner_type:
                 startDate.setEnabled(true);
+                booking.setType(typeSp.getSelectedItem().toString());
             default:
                 break;
         }

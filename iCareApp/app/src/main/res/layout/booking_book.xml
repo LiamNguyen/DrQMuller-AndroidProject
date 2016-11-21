@@ -6,25 +6,23 @@
 
     <ExpandableListView
         android:id="@+id/expListView"
+        android:layout_above="@+id/booking_finish_button"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="15dp">
     </ExpandableListView>
 
-    <LinearLayout
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/booking_finish_button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp">
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/booking_finish_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="30dp"
-            android:padding="12dp"
-            android:text="@string/finish_button"/>
-    </LinearLayout>
-
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:padding="12dp"
+        android:text="@string/finish_button"/>
 
 </RelativeLayout>
