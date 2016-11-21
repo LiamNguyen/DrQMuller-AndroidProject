@@ -1,9 +1,12 @@
 package com.example.admin.icareapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -341,4 +344,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public ModelBookingDetail getModelBooking(){
         return bookingDetails;
     }
+
+     /* =============================== CHECK FOR NETWORK ===============================*/
+     private boolean haveNetworkConnection() {
+         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+         return networkInfo != null && networkInfo.isConnected();
+     }
+
 }

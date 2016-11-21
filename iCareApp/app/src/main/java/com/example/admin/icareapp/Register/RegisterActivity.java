@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.airbnb.deeplinkdispatch.DeepLink;
+import com.example.admin.icareapp.MainActivity;
 import com.example.admin.icareapp.R;
 import com.example.admin.icareapp.UserInfo.UserInfoActivity;
 
@@ -97,13 +98,13 @@ public class RegisterActivity extends AppCompatActivity{
     }
 
     /*
-     *Navigate to Booking Activity
+     *Navigate to Booking Tab in MainActivity
      */
-    /*public void navigateToBookingActivity(){
+    public void navigateToBookingActivity(){
         Intent toBooking = new Intent(this, MainActivity.class);
         startActivity(toBooking);
         finish();
-    }*/
+    }
 
     /*
      *Get all visible fragments

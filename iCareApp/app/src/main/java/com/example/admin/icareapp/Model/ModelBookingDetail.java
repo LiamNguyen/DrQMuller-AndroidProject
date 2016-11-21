@@ -13,11 +13,11 @@ import java.util.Set;
  */
 
 public class ModelBookingDetail {
-    private String customer, location, voucher, type, start_date, expire_date, code;
+    private String customer, location, voucher, type, start_date, expire_date, code, address, voucherName;
     private Map<String,String> booking;
 
     public ModelBookingDetail(){
-        customer = ""; location = ""; voucher = ""; type = ""; start_date = ""; expire_date = ""; code = "";
+        customer = ""; location = ""; voucher = ""; type = ""; start_date = ""; expire_date = ""; code = ""; address = ""; voucherName = "";
         booking = new HashMap<>();
     }
 
@@ -31,21 +31,25 @@ public class ModelBookingDetail {
     }
 
     //Location ID
-    public void setLocationID(String s){
-        location = s;
+    public void setLocation(String locationID, String locationName, String districtName, String cityName, String countryName){
+        StringBuilder result = new StringBuilder();
+        location = locationID;
+        result.append(locationName).append(", ").append(districtName).append(", ").append(cityName).append(", ").append(countryName);
+        address = result.toString();
     }
 
-    public String getLocationID(){
-        return location;
+    public String getLocation(){
+        return address;
     }
 
     //Voucher ID
-    public void setVoucherID(String s){
-        voucher = s;
+    public void setVoucher(String id, String name){
+        voucher = id;
+        voucherName = name;
     }
 
-    public String getVoucherID(){
-        return voucher;
+    public String getVoucher(){
+        return voucherName;
     }
 
     //Type

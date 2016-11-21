@@ -1,6 +1,8 @@
 package com.example.admin.icareapp.BookingTab;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,8 +33,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by ADMIN on 13-Nov-16.
@@ -310,6 +314,22 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
             ((MainActivity) getActivity()).emptyCart();
             Intent toConfirm = new Intent(getActivity(), ConfirmBookingActivity.class);
             startActivity(toConfirm);
+            //putBookingToPref();
         }
+    }
+
+    public void putBookingToPref(){
+        Set<String> set = new HashSet<>();
+        set.add("Long Vu");
+        set.add(booking.getVoucher());
+        set.add(booking.getLocation());
+        set.add(booking.getStartDate());
+        set.add(booking.getExpireDate());
+        set.add(booking.getCode());
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putStringSet("booking"+set.hashCode(), set);
+        editor.apply();
+        editor.commit();
     }
 }

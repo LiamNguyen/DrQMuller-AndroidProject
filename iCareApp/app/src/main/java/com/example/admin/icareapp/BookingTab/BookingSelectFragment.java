@@ -88,7 +88,6 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
 
         //Set up Spinners
         countrySp = (Spinner) view.findViewById(R.id.spinner_countries);
-        //countrySp.setEnabled(false);
         countrySp.setEnabled(false);
         citySp = (Spinner) view.findViewById(R.id.spinner_cities);
         citySp.setEnabled(false);
@@ -251,7 +250,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
             }else if (status.has("Select_Locations")) {
                 //Receive response from Select_Districts.php
                 JSONArray locations = status.getJSONArray("Select_Locations");//Get the array of districts' JSONObject
-                populateData(locationsName, mapToLocationID, locations, "LOCATION_ID", "LOCATION_NAME");//Populate districtsName list if data exists
+                populateData(locationsName, mapToLocationID, locations, "LOCATION_ID", "ADDRESS");//Populate districtsName list if data exists
                 locationSp.setEnabled(true);//Set Spinner clickable to true
             }else if (status.has("Select_Vouchers")){
                 //Receive response from Select_Vouchers.php
@@ -297,11 +296,11 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                 break;
             case R.id.spinner_locations:
                 aController.setRequestData(getActivity(), this, ModelURL.SELECT_VOUCHERS.getUrl(), "");
-                booking.setLocationID(mapToLocationID.get(locationSp.getSelectedItem().toString()));
+                booking.setLocation(mapToLocationID.get(locationSp.getSelectedItem().toString()), locationSp.getSelectedItem().toString(), districtSp.getSelectedItem().toString(), citySp.getSelectedItem().toString(), countrySp.getSelectedItem().toString());
                 break;
             case R.id.spinner_vouchers:
                 typeSp.setEnabled(true);
-                booking.setVoucherID(mapToVoucherID.get(voucherSp.getSelectedItem().toString().substring(0, voucherSp.getSelectedItem().toString().indexOf("-") - 1)));
+                booking.setVoucher(mapToVoucherID.get(voucherSp.getSelectedItem().toString().substring(0, voucherSp.getSelectedItem().toString().indexOf("-") - 1)), voucherSp.getSelectedItem().toString());
                 break;
             case R.id.spinner_type:
                 startDate.setEnabled(true);
@@ -350,9 +349,9 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
             View view = super.getView(position, convertView, parent);
             TextView tv = (TextView) view;
 
-            if (parent.getId() == R.id.spinner_locations || parent.getId() == R.id.spinner_vouchers || parent.getId() == R.id.spinner_type){
+            if (parent.getId() == R.id.spinner_countries || parent.getId() == R.id.spinner_cities || parent.getId() == R.id.spinner_districts){
                 if (!parent.isEnabled())
-                    tv.setTextColor(getResources().getColor(R.color.colorLightGray));
+                    tv.setTextColor(getResources().getColor(R.color.colorBlack));
             }
 
             return view;
