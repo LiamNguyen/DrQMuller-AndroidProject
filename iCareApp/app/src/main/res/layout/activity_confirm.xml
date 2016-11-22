@@ -1,56 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:text="@string/booking_confirm_instruction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/booking_instruction"
-        android:textSize="20sp"
-        android:layout_marginTop="80dp"
-        android:padding="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/booking_confirm_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:passwordToggleEnabled="false"
-        android:layout_below="@+id/booking_instruction"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:layout_marginBottom="8dp">
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/booking_confirm_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:maxLength="10"
-            android:hint="@string/booking_confirm_hint"/>
-    </android.support.design.widget.TextInputLayout>
-
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/booking_confirm_container"
-        android:layout_alignParentStart="true">
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="@string/booking_confirm_instruction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/booking_instruction"
+            android:textSize="20sp"
+            android:layout_marginTop="80dp"
+            android:padding="50dp" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/booking_confirm_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="false"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:layout_marginBottom="8dp">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/booking_confirm_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLength="10"
+                android:hint="@string/booking_confirm_hint"/>
+        </android.support.design.widget.TextInputLayout>
+
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/wel_sign_up_button"
+            android:id="@+id/confirm_button"
             android:text="@string/booking_confirm_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="200dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"/>
     </LinearLayout>
 
-</RelativeLayout>
+</ScrollView>

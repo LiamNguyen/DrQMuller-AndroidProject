@@ -1,5 +1,8 @@
 package com.example.admin.icareapp.Model;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.auth0.jwt.internal.org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -123,8 +126,9 @@ public class ModelBookingDetail {
 
     public String getPostData() {
         StringBuilder result = new StringBuilder();
+
         try {
-            result.append("customer_id=").append("1")
+            result.append("customer_id=").append(customer)
                     .append("&location_id=").append(location)
                     .append("&voucher_id=").append(voucher)
                     .append("&type=").append(URLEncoder.encode(type, "UTF-8"))

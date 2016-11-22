@@ -307,6 +307,8 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         if (((MainActivity) getActivity()).numberOfCartItems() <= 0){
             Toast.makeText(getActivity(), getString(R.string.max_item), Toast.LENGTH_LONG).show();
         }else {
+            SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
+            booking.setCustomerID(sharedPref.getString("tokenID", ""));
             booking.generateCode();
             aController.setRequestData(getActivity(), this, ModelURL.INSERT_NEWAPPOINTMENT.getUrl(), booking.getPostData());
             for (String s: booking.getBookingDays()){
