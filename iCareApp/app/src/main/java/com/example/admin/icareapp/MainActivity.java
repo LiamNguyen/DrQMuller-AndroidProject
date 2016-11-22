@@ -103,19 +103,29 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         //Bottom Navigation View
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.getMenu().getItem(0).setChecked(false);
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
+        SharedPreferences sharedPref = this.getSharedPreferences("content", Context.MODE_PRIVATE);
         Intent i = getIntent();
         Bundle b = i.getExtras();
         if (b == null){
-            onNavigationItemSelected(bottomNavigationView.getMenu().getItem(2));
+            if (sharedPref.getString("tokenID", "").isEmpty()) {
+                onNavigationItemSelected(bottomNavigationView.getMenu().getItem(2));
+                bottomNavigationView.getMenu().getItem(2).setChecked(true);
+            }
+            else {
+                onNavigationItemSelected(bottomNavigationView.getMenu().getItem(1));
+                bottomNavigationView.getMenu().getItem(1).setChecked(true);
+            }
         }else {
             int n = b.getInt("isSignedIn");
             if (n == 1){
                 onNavigationItemSelected(bottomNavigationView.getMenu().getItem(1));
+                bottomNavigationView.getMenu().getItem(1).setChecked(true);
             }
         }
     }
