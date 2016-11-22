@@ -1,6 +1,7 @@
 package com.example.admin.icareapp.Service;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
@@ -8,9 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 
 import com.example.admin.icareapp.BookingTab.BookingBookFragment;
 import com.example.admin.icareapp.BookingTab.BookingSelectFragment;
+import com.example.admin.icareapp.MainActivity;
 import com.example.admin.icareapp.Model.ModelBookingDetail;
 import com.example.admin.icareapp.R;
 import com.example.admin.icareapp.UserTab.UserFragment;
@@ -45,6 +48,17 @@ public class BookingDetailsActivity extends AppCompatActivity{
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent toMain = new Intent(this, MainActivity.class);
+            toMain.putExtra("fromUserTab", true);
+            startActivity(toMain);
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public void listInit(List<BookingItem> list){

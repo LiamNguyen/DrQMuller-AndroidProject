@@ -143,6 +143,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                                 }
                             }).setCancelable(false).show();
                 }
+            }else if (b.containsKey("fromUserTab")){
+                if (b.getBoolean("fromUserTab"))
+                    onNavigationItemSelected(bottomNavigationView.getMenu().getItem(2));
             }
         }
     }

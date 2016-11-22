@@ -110,6 +110,7 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         try {
             if (status.has("Select_DaysOfWeek")) {
                 //Receive response from Select_DaysOfWeek.php
+                daysList.clear();
                 JSONArray days = status.getJSONArray("Select_DaysOfWeek");//Get the array of days' JSONObject
                 int j = days.length();
                 if (booking.getVoucherID().equals("1"))
@@ -321,6 +322,12 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
             putBookingToPref();
             booking.emptyDay();
         }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden && isVisible())
+            aController.setRequestData(getActivity(), this, ModelURL.SELECT_DAYSOFWEEK.getUrl(), "");
     }
 
     public void putBookingToPref(){
