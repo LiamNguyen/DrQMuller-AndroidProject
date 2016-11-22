@@ -130,11 +130,20 @@ public class UserInfoActivity extends AppCompatActivity{
     }
 
     /*
-     *Navigate to Booking Activity
+     *Navigate to Register Activity
      */
     public void navigateToRegister(){
         Intent toRegister = new Intent(this, RegisterActivity.class);
         startActivity(toRegister);
+        finish();
+    }
+
+    /*
+     *Navigate to Booking Activity
+     */
+    public void navigateToBooking(){
+        Intent toBooking = new Intent(this, MainActivity.class);
+        startActivity(toBooking);
         finish();
     }
 

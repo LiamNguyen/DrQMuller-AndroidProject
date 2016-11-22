@@ -56,4 +56,12 @@ public class ModelUserInfo {
 
         return result.toString();
     }
+
+    public String getID(){
+        return info.get("cus_id");
+
+    }
+    public String getName(){
+        return info.get("name");
+    }
 }

@@ -27,7 +27,7 @@ import java.util.List;
  * Created by ADMIN on 17-Oct-16.
  */
 
-@DeepLink("icare://192.168.0.101")
+@DeepLink("icare://210.211.109.180/drmuller/verify")
 public class RegisterActivity extends AppCompatActivity{
     private FragmentManager fragmentManager;
     private RegisterFragment chooseFragment;

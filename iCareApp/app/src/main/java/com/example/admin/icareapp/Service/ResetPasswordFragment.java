@@ -131,6 +131,8 @@ public class ResetPasswordFragment extends Fragment implements TextWatcher, View
                     }
                 }
                 break;
+            case R.id.resetpw_back_button:
+                ((ResetPasswordActivity) getActivity()).navigateBack();
             default:
                 break;
         }

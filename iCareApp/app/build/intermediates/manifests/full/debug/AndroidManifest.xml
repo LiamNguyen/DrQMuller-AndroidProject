@@ -30,6 +30,14 @@
             android:name="com.example.admin.icareapp.Register.RegisterActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="icare" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.example.admin.icareapp.UserInfo.UserInfoActivity"

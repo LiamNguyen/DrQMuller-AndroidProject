@@ -6,17 +6,26 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:fillViewport="true">
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ImageButton
+            android:id="@+id/resetpw_back_button"
+            android:layout_width="40dp"
+            app:srcCompat="@drawable/ic_back_button"
+            android:layout_alignParentTop="true"
+            android:elevation="0dp"
+            android:background="@android:color/background_light"
+            android:scaleType="fitXY"
+            android:layout_height="40dp" />
 
         <!-- Password Label -->
         <android.support.design.widget.TextInputLayout
             android:id="@+id/resetpw_password_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/resetpw_password_confirm_container"
             app:passwordToggleEnabled="false"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
@@ -34,6 +43,7 @@
             android:id="@+id/resetpw_password_confirm_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/resetpw_reset_button"
             app:passwordToggleEnabled="false"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
@@ -51,12 +61,13 @@
             android:id="@+id/resetpw_reset_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="170dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:padding="12dp"
             android:text="@string/resetpw_reset_pw_button"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 </ScrollView>

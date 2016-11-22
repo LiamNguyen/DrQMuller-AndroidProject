@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -28,7 +29,7 @@ import java.util.List;
  * Created by ADMIN on 22-Nov-16.
  */
 
-@DeepLink("icare://210.211.109.180/drmuller/restore?email")
+@DeepLink("icare://210.211.109.180/drmuller/restore")
 public class ResetPasswordActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private EmailForResetFragment emailForResetFragment;
@@ -90,15 +91,15 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                if (fragmentManager.findFragmentByTag(emailForResetFragment.getClass().getName()).isVisible())
-                    NavUtils.navigateUpFromSameTask(this);
-                else
-                    navigateBack();
-                return true;
-        }
+//        switch (item.getItemId()) {
+//            // Respond to the action bar's Up/Home button
+//            case android.R.id.home:
+//                if (fragmentManager.findFragmentByTag(emailForResetFragment.getClass().getName()).isVisible())
+//                    NavUtils.navigateUpFromSameTask(this);
+//                else
+//                    navigateBack();
+//                return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 

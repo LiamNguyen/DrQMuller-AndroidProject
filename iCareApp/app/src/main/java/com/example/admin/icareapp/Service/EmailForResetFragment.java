@@ -68,8 +68,8 @@ public class EmailForResetFragment extends Fragment implements TextWatcher, View
                     email_container.setErrorEnabled(true);
                 }
                 break;
-            case R.id.back_button:
-                ((UserInfoActivity) getActivity()).navigateBack();
+            case R.id.resetpw_back_button:
+                ((ResetPasswordActivity) getActivity()).navigateBack();
                 break;
             default:
                 break;

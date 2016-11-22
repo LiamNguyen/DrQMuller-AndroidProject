@@ -1,5 +1,8 @@
 package com.example.admin.icareapp.UserInfo;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -13,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.example.admin.icareapp.Controller.Controller;
+import com.example.admin.icareapp.MainActivity;
 import com.example.admin.icareapp.Model.DatabaseObserver;
 import com.example.admin.icareapp.Model.ModelInputRequirement;
 import com.example.admin.icareapp.Model.ModelURL;
@@ -158,7 +162,15 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
             if (status.has("Update_CustomerInfo")){
                 String result = status.getString("Update_CustomerInfo");
                 if (result.equals("Updated")){
-                    ((UserInfoActivity) getActivity()).navigateToValidate();
+                    //((UserInfoActivity) getActivity()).navigateToValidate();
+                    String tokenID, tokenName;
+                    tokenID = aController.getUserInfo().getID();
+                    tokenName = aController.getUserInfo().getName();
+                    putTokenToPref(tokenID, tokenName);
+                    Intent toMain = new Intent(getActivity(), MainActivity.class);
+                    toMain.putExtra("isSignedIn", 1);
+                    startActivity(toMain);
+                    getActivity().finish();
                 }else{
                     System.out.println("Update fail");
                 }
@@ -179,5 +191,14 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
     public String getCurrentDate(){
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         return df.format(Calendar.getInstance().getTime());
+    }
+
+    public void putTokenToPref(String id, String name){
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("tokenID", id);
+        editor.putString("tokenName", name);
+        editor.apply();
+        editor.commit();
     }
 }
