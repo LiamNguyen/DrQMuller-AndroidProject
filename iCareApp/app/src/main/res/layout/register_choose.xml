@@ -5,12 +5,13 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="TextView"
+        android:text="@string/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/wel_text"
+        android:textSize="20sp"
         android:layout_marginTop="110dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="150dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 

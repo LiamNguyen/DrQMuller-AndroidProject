@@ -48,6 +48,10 @@ public class ModelBookingDetail {
         voucherName = name;
     }
 
+    public String getVoucherID(){
+        return voucher;
+    }
+
     public String getVoucher(){
         return voucherName;
     }
@@ -103,6 +107,10 @@ public class ModelBookingDetail {
 
     public boolean checkDay(String s){
         return booking.containsKey(s);
+    }
+
+    public void emptyDay(){
+        booking.clear();
     }
 
     public Set<String> getBookingDays(){

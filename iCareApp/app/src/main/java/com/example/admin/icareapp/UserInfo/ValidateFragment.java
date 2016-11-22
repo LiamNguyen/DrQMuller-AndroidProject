@@ -30,12 +30,14 @@ public class ValidateFragment extends Fragment implements View.OnClickListener, 
 
         View view = inflater.inflate(R.layout.userinfo_validate, container, false);
 
-        ImageButton back = (ImageButton) view.findViewById(R.id.back_button);
-        back.setOnClickListener(this);
+        //ImageButton back = (ImageButton) view.findViewById(R.id.back_button);
+        //back.setOnClickListener(this);
         AppCompatButton resend = (AppCompatButton) view.findViewById(R.id.ui_resend_email_button);
         resend.setOnClickListener(this);
         AppCompatButton change = (AppCompatButton) view.findViewById(R.id.ui_change_email_button);
         change.setOnClickListener(this);
+        AppCompatButton back = (AppCompatButton) view.findViewById(R.id.ui_back_to_register);
+        back.setOnClickListener(this);
         noti = (TextView) view.findViewById(R.id.ui_validate_noti);
 
         return view;
@@ -50,8 +52,8 @@ public class ValidateFragment extends Fragment implements View.OnClickListener, 
             case R.id.ui_change_email_button:
                 ((UserInfoActivity) getActivity()).navigateToChangeEmail();
                 break;
-            case R.id.back_button:
-                ((UserInfoActivity) getActivity()).navigateBack();
+            case R.id.ui_back_to_register:
+                ((UserInfoActivity) getActivity()).navigateToRegister();
                 break;
             default:
                 break;
@@ -67,10 +69,13 @@ public class ValidateFragment extends Fragment implements View.OnClickListener, 
                 String result = status.getString("Send_Email");
                 if (result.equals("Message has been sent")){
                     noti.setText(R.string.validate_noti_success);
+                    noti.setTextColor(getResources().getColor(R.color.colorGreen));
                 }else{
                     System.out.println("Message could not be sent");
                     System.out.println(status.getString("ERROR"));
                     noti.setText(R.string.validate_noti_fail);
+                    noti.setTextColor(getResources().getColor(R.color.colorLightRed));
+
                 }
             }
         } catch (JSONException je){

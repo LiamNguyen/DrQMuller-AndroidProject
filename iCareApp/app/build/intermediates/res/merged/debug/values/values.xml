@@ -34,6 +34,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorBlack">#000000</color>
     <color name="colorDarkGray">#616161</color>
+    <color name="colorGreen">#00C853</color>
     <color name="colorLightBlack">#212121</color>
     <color name="colorLightGray">#9E9E9E</color>
     <color name="colorLightRed">#EF5350</color>
@@ -676,15 +677,18 @@
     <string name="next_button">Tiếp Tục</string>
     <string name="password_confirm_hint">Xác Nhận Mật Khẩu</string>
     <string name="password_confirm_null">Xin vui lòng xác nhận lại mật khẩu</string>
-    <string name="password_confirm_requirement">Mật khẩu không đúng</string>
+    <string name="password_confirm_requirement">Mật khẩu không trùng khớp</string>
     <string name="password_input_hint">Mật Khẩu</string>
     <string name="password_null">Xin vui lòng nhập mật khẩu</string>
     <string name="password_requirement">Ít nhất 8 kí tự - Ít nhất 1 chữ viết hoa và 1 số / kí tự đặc biệt</string>
     <string name="phone_hint">Số Điện Thoại</string>
+    <string name="phone_important">Vui lòng nhập chính xác số điện thoại\nTrung tâm sẽ liên lạc để xác nhận lịch hẹn</string>
     <string name="phone_null">Xin vui lòng nhập số điện thoại</string>
     <string name="phone_requirement">Số điện thoại không hợp lệ</string>
     <string name="remember_me">Ghi Nhớ</string>
     <string name="resend_email_button">Gửi Email Kích Hoạt</string>
+    <string name="resetpw_reset_pw_button">Khôi Phục</string>
+    <string name="resetpw_send_mail_button">Gửi Email Khôi Phục</string>
     <string name="search_menu_title">Search</string>
     <string name="selected_day">Tối đa 1 giờ trong 1 ngày</string>
     <string name="sign_in_button">Đăng Nhập</string>
@@ -701,9 +705,11 @@
     <string name="username_invalid">Tên đăng nhập đã được sử dụng</string>
     <string name="username_null">Xin vui lòng nhập tên đăng nhập</string>
     <string name="username_requirement">Ít nhất 6 kí tự - Không có ký tự đặc biệt ở đầu và cuối</string>
-    <string name="validate_noti_fail">Gửi email không thành công \n Vui lòng kiểm tra lại mạng, email hoặc Gửi Email Kích Hoạt để gửi lại email</string>
-    <string name="validate_noti_success">Gửi email thành công \n Vui lòng kiểm tra email để kích hoạt tài khoản</string>
+    <string name="validate_back_to_register">Trở Về Trang Đăng Nhập</string>
+    <string name="validate_noti_fail">Gửi email không thành công\nVui lòng kiểm tra lại mạng, email hoặc "Gửi Email Kích Hoạt" để gửi lại email</string>
+    <string name="validate_noti_success">Gửi email thành công\nVui lòng kiểm tra email để kích hoạt tài khoản</string>
     <string name="wednesday">Thứ Tư</string>
+    <string name="welcome">Chào Mừng Đến Với Dr.Q-Muller</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>

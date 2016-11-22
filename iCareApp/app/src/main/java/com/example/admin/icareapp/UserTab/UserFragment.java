@@ -1,5 +1,7 @@
 package com.example.admin.icareapp.UserTab;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,7 +26,8 @@ public class UserFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.user, container, false);
         List<String> list = new ArrayList<>();
-        list.add("LONG VU");
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
+        list.add(sharedPref.getString("tokenName", "Tên Khách Hàng"));
         list.add("Thông Tin Lịch Hẹn");
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.user_recycler_view);
         UserTabAdapter adapter = new UserTabAdapter(getActivity(), list);

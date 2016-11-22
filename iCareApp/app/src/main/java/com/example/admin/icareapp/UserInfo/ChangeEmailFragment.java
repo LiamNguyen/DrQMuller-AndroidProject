@@ -51,14 +51,12 @@ public class ChangeEmailFragment extends Fragment implements View.OnClickListene
                     aController.getUserInfo().addInfo("email", email.getText().toString());
                     ((UserInfoActivity) getActivity()).navigateToValidate();
                 }else {
-                    if (!validEmail) {
-                        if (email.getText().toString().equals("")) {
-                            email_container.setError(getString(R.string.email_null));
-                        } else {
-                            email_container.setError(getString(R.string.email_requirement));
-                        }
-                        email_container.setErrorEnabled(true);
+                    if (email.getText().toString().equals("")) {
+                        email_container.setError(getString(R.string.email_null));
+                    } else {
+                        email_container.setError(getString(R.string.email_requirement));
                     }
+                    email_container.setErrorEnabled(true);
                 }
                 break;
             case R.id.back_button:

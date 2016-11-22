@@ -42,7 +42,6 @@ public class ModelAccount {
             e.printStackTrace();
         }
 
-        System.out.println(result.toString());
         return result.toString();
     }
 

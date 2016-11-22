@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="10dp"
     >
 
     <android.support.v7.widget.CardView
@@ -10,46 +10,64 @@
         android:id="@+id/cv"
         >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp"
-            >
+            android:padding="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="aaaaaaaa"
+                android:layout_height="wrap_content"
                 android:id="@+id/name"
-                android:textSize="30sp"/>
+                android:textSize="20sp"/>
 
             <TextView
+                android:layout_below="@+id/name"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="aaaaaaaa"
-                android:textSize="30sp"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
                 android:id="@+id/voucher"/>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="aaaaaaaa"
-                android:textSize="30sp"
-                android:id="@+id/date" />
+                android:layout_height="wrap_content"
+                android:text="Từ"
+                android:id="@+id/startdatetitle"
+                android:layout_below="@id/voucher"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:layout_below="@+id/startdatetitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:id="@+id/startdate" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="aaaaaaaa"
-                android:textSize="30sp"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/enddate"
+                android:text="Đến"
+                android:id="@+id/enddatetitle"
+                android:layout_below="@id/voucher"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:layout_below="@+id/enddatetitle"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:id="@+id/enddate" />
+
+            <TextView
+                android:layout_below="@+id/startdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
                 android:id="@+id/status" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 

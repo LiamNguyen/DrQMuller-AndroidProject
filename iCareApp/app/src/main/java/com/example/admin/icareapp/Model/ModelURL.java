@@ -25,7 +25,8 @@ public enum ModelURL {
     UPDATE_UNCHOSENTIME("http://210.211.109.180/drmuller/Update_UnchosenTime.php"),
     UPDATE_CUSTOMERINFO("http://210.211.109.180/drmuller/Update_CustomerInfo.php"),
     UPDATE_VALIDATEAPPOINTMENT("http://210.211.109.180/drmuller/Update_ValidateAppointment.php"),
-    SEND_EMAIL("http://210.211.109.180/drmuller/sendemail.php");
+    SEND_EMAIL("http://210.211.109.180/drmuller/sendemail.php"),
+    SENDEMAIL_RESETPW("http://210.211.109.180/drmuller/SendMail_ResetPassword.php");
 
     private String url;
 

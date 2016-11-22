@@ -6,13 +6,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.airbnb.deeplinkdispatch.DeepLink;
 import com.example.admin.icareapp.MainActivity;
 import com.example.admin.icareapp.R;
+import com.example.admin.icareapp.Service.ResetPasswordActivity;
+import com.example.admin.icareapp.Service.ResetPasswordFragment;
 import com.example.admin.icareapp.UserInfo.UserInfoActivity;
 
 import java.util.ArrayList;
@@ -39,10 +44,30 @@ public class RegisterActivity extends AppCompatActivity{
         signInFragment = new SignInFragment();
         signUpFragment = new SignUpFragment();
 
+//        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolBar);
+//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_arrow);
+//        getSupportActionBar().setTitle("");
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         //Get ChooseFragment for when loading Acitivity
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.wel_fragment_container, chooseFragment, chooseFragment.getClass().getName()).commit();
     }
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            // Respond to the action bar's Up/Home button
+//            case android.R.id.home:
+//                if (fragmentManager.findFragmentByTag(emailForResetFragment.getClass().getName()).isVisible())
+//                    NavUtils.navigateUpFromSameTask(this);
+//                else
+//                    navigateBack();
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     /*
      *Navigate to Sign In Screen
@@ -94,6 +119,15 @@ public class RegisterActivity extends AppCompatActivity{
     public void navigateToUserInfo(){
         Intent toUserInfo = new Intent(this, UserInfoActivity.class);
         startActivity(toUserInfo);
+        finish();
+    }
+
+    /*
+     *Navigate to UserInfo Activity
+     */
+    public void navigateToResetPW(){
+        Intent toReset = new Intent(this, ResetPasswordActivity.class);
+        startActivity(toReset);
         finish();
     }
 

@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.example.admin.icareapp.MainActivity;
 import com.example.admin.icareapp.R;
 
 import java.util.ArrayList;
@@ -130,11 +131,11 @@ public class UserInfoActivity extends AppCompatActivity{
     /*
      *Navigate to Booking Activity
      */
-    /*public void navigateToBooking(){
+    public void navigateToRegister(){
         Intent toBooking = new Intent(this, MainActivity.class);
         startActivity(toBooking);
         finish();
-    }*/
+    }
 
     public List<Fragment> getVisibleFragments(){
         //Create array of 3 for 3 fragments
@@ -151,10 +152,10 @@ public class UserInfoActivity extends AppCompatActivity{
             result.add(contactFragment);
         }
         if (validateFragment.isVisible()){
-            result.add(contactFragment);
+            result.add(validateFragment);
         }
         if (changeEmailFragment.isVisible()){
-            result.add(contactFragment);
+            result.add(changeEmailFragment);
         }
 
         return result;

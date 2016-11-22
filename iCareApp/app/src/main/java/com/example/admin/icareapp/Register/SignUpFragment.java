@@ -152,7 +152,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
     //Check user input by input to see whether it meets the requirements of login id or password
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        System.out.println("aloooooo");
         if (username.getText().hashCode() == s.hashCode()){ //Check username
             String get_username = s.toString();
             get_username.trim();

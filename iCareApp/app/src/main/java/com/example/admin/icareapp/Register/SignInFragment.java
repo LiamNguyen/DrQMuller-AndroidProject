@@ -1,5 +1,8 @@
 package com.example.admin.icareapp.Register;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 
@@ -8,13 +11,19 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.admin.icareapp.Controller.Controller;
+import com.example.admin.icareapp.MainActivity;
 import com.example.admin.icareapp.Model.DatabaseObserver;
 import com.example.admin.icareapp.Model.ModelURL;
 import com.example.admin.icareapp.R;
+import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,6 +46,9 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
         AppCompatButton sign_in_button = (AppCompatButton) view.findViewById(R.id.si_sign_in_button);
         sign_in_button.setOnClickListener(this);
 
+        TextView forget_pw = (TextView) view.findViewById(R.id.si_forget_pw);
+        forget_pw.setOnClickListener(this);
+
         username = (TextInputEditText) view.findViewById(R.id.si_username_input);
         password = (TextInputEditText) view.findViewById(R.id.si_password_input);
 
@@ -56,6 +68,8 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
                 aController.getAccount().setPassword(password.getText().toString());
                 aController.setRequestData(getActivity(), this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(), aController.getAccount().getPostData());
                 break;
+            case R.id.si_forget_pw:
+                ((RegisterActivity) getActivity()).navigateToResetPW();
             default:
                 break;
         }
@@ -65,18 +79,43 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
     public void update(Object o) {
         JSONObject status = (JSONObject) o;
 
+        if (status == null) {
+            System.out.println("ERROR IN PHP FILE");
+            return;
+        }
+
         try{
             if (status.has("Select_ToAuthenticate")){
-                String result = status.getString("Select_ToAuthenticate");
-                if (result.equals("Success")){
-
-                }else{
-                    System.out.println("Login fail");
+                //String result = status.getString("Select_ToAuthenticate");
+                String response = status.getString("Select_ToAuthenticate");//Get the array of days' JSONObject
+                System.out.println(response);
+                if (!response.isEmpty()){
+                    if (response.equals("LoginFail") || response.equals("Fail")){
+                        Toast.makeText(getActivity(), "Tên Đăng Nhập Hoặc Mật Khẩu Sai", Toast.LENGTH_LONG).show();
+                    }else{
+                        String tokenID, tokenName;
+                        tokenID = response.substring(response.indexOf("+")+1, response.indexOf("-"));
+                        tokenName = response.substring(response.indexOf("-")+1, response.length());
+                        putTokenToPref(tokenID, tokenName);
+                        Intent toMain = new Intent(getActivity(), MainActivity.class);
+                        toMain.putExtra("isSignedIn", 1);
+                        startActivity(toMain);
+                        getActivity().finish();
+                    }
                 }
             }
         }catch (JSONException je){
             je.printStackTrace();
         }
 
+    }
+
+    public void putTokenToPref(String id, String name){
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("tokenID", id);
+        editor.putString("tokenName", name);
+        editor.apply();
+        editor.commit();
     }
 }
