@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:2:1-63:12
+ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:2:1-65:12
 	package
 		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:3:9-45
 		INJECTED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml
@@ -18,7 +18,7 @@ ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml
 	android:name
 		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:5:22-64
 application
-ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:7:5-62:19
+ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:7:5-64:19
 MERGED from [com.android.support:design:25.0.0] D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\design\25.0.0\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-v4:25.0.0] D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.0.0\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-compat:25.0.0] D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.0.0\AndroidManifest.xml:25:5-20
@@ -102,7 +102,7 @@ ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml
 	android:name
 		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:39:19-65
 activity#com.example.admin.icareapp.Service.BookingDetailsActivity
-ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:43:9-45:69
+ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:43:9-47:20
 	android:launchMode
 		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:44:13-43
 	android:windowSoftInputMode
@@ -110,21 +110,21 @@ ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml
 	android:name
 		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:43:19-65
 activity#com.example.admin.icareapp.Service.ResetPasswordActivity
-ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:47:9-60:20
+ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:49:9-62:20
 	android:parentActivityName
-		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:50:13-68
+		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:52:13-68
 	android:launchMode
-		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:48:13-43
+		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:50:13-43
 	android:windowSoftInputMode
-		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:49:13-67
+		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:51:13-67
 	android:name
-		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:47:19-64
+		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:49:19-64
 meta-data#android.support.PARENT_ACTIVITY
-ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:51:13-53:62
+ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:53:13-55:62
 	android:value
-		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:53:17-59
+		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:55:17-59
 	android:name
-		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:52:17-63
+		ADDED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml:54:17-63
 uses-sdk
 INJECTED from D:\Metropolia\Project\iCare\iCareApp\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:design:25.0.0] D:\Metropolia\Project\iCare\iCareApp\app\build\intermediates\exploded-aar\com.android.support\design\25.0.0\AndroidManifest.xml:21:5-23:62

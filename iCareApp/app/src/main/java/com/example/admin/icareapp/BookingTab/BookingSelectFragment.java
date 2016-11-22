@@ -193,7 +193,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                             startCalendar.set(Calendar.MONTH, monthOfYear);
                             startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                             updateDateLabel((TextInputEditText) v);
-                            booking.setStartDate(year + "-" + monthOfYear + "-" + dayOfMonth);
+                            booking.setStartDate(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                         }
                     } else {
                         if (endCalendar.get(Calendar.YEAR) > year
@@ -205,7 +205,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                             startCalendar.set(Calendar.MONTH, monthOfYear);
                             startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                             updateDateLabel((TextInputEditText) v);
-                            booking.setExpireDate(year + "-" + monthOfYear + "-" + dayOfMonth);
+                            booking.setExpireDate(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                         }
                     }
                 }

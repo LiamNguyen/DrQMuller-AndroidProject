@@ -67,8 +67,8 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
                     if (response.equals("Failed")){
                         Toast.makeText(this, "Mã xác nhận không hợp lệ", Toast.LENGTH_LONG).show();
                     }else{
-
                         Intent toMain = new Intent(this, MainActivity.class);
+                        toMain.putExtra("isBookingSuccess", 1);
                         startActivity(toMain);
                         finish();
                     }

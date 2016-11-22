@@ -2,6 +2,7 @@ package com.example.admin.icareapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -15,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.ListPopupWindow;
@@ -115,17 +117,32 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if (b == null){
             if (sharedPref.getString("tokenID", "").isEmpty()) {
                 onNavigationItemSelected(bottomNavigationView.getMenu().getItem(2));
-                bottomNavigationView.getMenu().getItem(2).setChecked(true);
+                //bottomNavigationView.getMenu().getItem(2).setChecked(true);
             }
             else {
                 onNavigationItemSelected(bottomNavigationView.getMenu().getItem(1));
-                bottomNavigationView.getMenu().getItem(1).setChecked(true);
+                //bottomNavigationView.getMenu().getItem(1).setChecked(true);
             }
         }else {
-            int n = b.getInt("isSignedIn");
-            if (n == 1){
-                onNavigationItemSelected(bottomNavigationView.getMenu().getItem(1));
-                bottomNavigationView.getMenu().getItem(1).setChecked(true);
+            if (b.containsKey("isSignedIn")) {
+                int n = b.getInt("isSignedIn");
+                if (n == 1) {
+                    onNavigationItemSelected(bottomNavigationView.getMenu().getItem(1));
+                    //bottomNavigationView.getMenu().getItem(1).setChecked(true);
+                }
+            }else if (b.containsKey("isBookingSuccess")){
+                int m = b.getInt("isBookingSuccess");
+                if (m == 1) {
+                    onNavigationItemSelected(bottomNavigationView.getMenu().getItem(1));
+                    //bottomNavigationView.getMenu().getItem(1).setChecked(true);
+                    new AlertDialog.Builder(this)
+                            .setMessage("Quí khách đã đặt lịch hẹn thành công")
+                            .setPositiveButton("Đóng", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).setCancelable(false).show();
+                }
             }
         }
     }
@@ -425,6 +442,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragmentTransaction.addToBackStack(null).commit();*/
                 break;
             case R.id.action_booking:
+                bottomNavigationView.getMenu().getItem(1).setChecked(true);
+                bottomNavigationView.getMenu().getItem(2).setChecked(false);
                 hideAllUserTabVisibleFragments(fragmentTransaction);
                 fragmentTransaction.commit();
                 //If user signed in, these are fragments that have to appear. "Booking Select Fragment" is default
@@ -436,6 +455,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                 break;
             case R.id.action_user:
+                bottomNavigationView.getMenu().getItem(2).setChecked(true);
+                bottomNavigationView.getMenu().getItem(1).setChecked(false);
                 hideAllBookingTabVisibleFragments(fragmentTransaction);
                 fragmentTransaction.commit();
                 if (!sharedPref.getString("tokenID", "").isEmpty()) {

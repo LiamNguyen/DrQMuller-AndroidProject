@@ -42,7 +42,9 @@
 
         <activity android:name=".Service.BookingDetailsActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+        </activity>
 
         <activity android:name=".Service.ResetPasswordActivity"
             android:launchMode="singleTop"
