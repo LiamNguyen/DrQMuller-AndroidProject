@@ -336,7 +336,7 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         data.put(booking.getLocation());
         data.put(booking.getStartDate());
         data.put(booking.getExpireDate());
-        data.put("Chua xac nhan");
+        data.put("Chưa Xác Nhận");
         data.put(booking.getCode());
 
         if (!sharedPref.getString("bookingCode", "").isEmpty())

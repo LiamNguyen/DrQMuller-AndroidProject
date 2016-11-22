@@ -16,7 +16,9 @@ import com.example.admin.icareapp.MainActivity;
 import com.example.admin.icareapp.Model.DatabaseObserver;
 import com.example.admin.icareapp.Model.ModelURL;
 import com.example.admin.icareapp.R;
+import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,15 +26,15 @@ import org.json.JSONObject;
  * Created by ADMIN on 20-Nov-16.
  */
 
-public class ConfirmBookingActivity extends AppCompatActivity implements View.OnClickListener, DatabaseObserver{
+public class ConfirmBookingActivity extends AppCompatActivity implements View.OnClickListener, DrQMuller.DrQMuller.Model.DatabaseObserver {
     private TextInputEditText edttxt;
-    private Controller aController;
+    private DrQMuller.DrQMuller.Controller.Controller aController;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm);
 
-        aController = Controller.getInstance();
+        aController = DrQMuller.DrQMuller.Controller.Controller.getInstance();
 
         AppCompatButton button = (AppCompatButton) findViewById(R.id.confirm_button);
         edttxt = (TextInputEditText) findViewById(R.id.booking_confirm_input);
@@ -46,7 +48,7 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
         }else {
             SharedPreferences sharedPref = this.getSharedPreferences("content", Context.MODE_PRIVATE);
             String cus_id = sharedPref.getString("tokenID", "");
-            aController.setRequestData(this, this, ModelURL.UPDATE_APPOINTMENT.getUrl(), "cus_id=" + cus_id + "&code=" + edttxt.getText().toString().trim());
+            aController.setRequestData(this, this, DrQMuller.DrQMuller.Model.ModelURL.UPDATE_APPOINTMENT.getUrl(), "cus_id=" + cus_id + "&code=" + edttxt.getText().toString().trim());
         }
     }
 
@@ -67,7 +69,8 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
                     if (response.equals("Failed")){
                         Toast.makeText(this, "Mã xác nhận không hợp lệ", Toast.LENGTH_LONG).show();
                     }else{
-                        Intent toMain = new Intent(this, MainActivity.class);
+                        updateBookingStatus(edttxt.getText().toString().trim());
+                        Intent toMain = new Intent(this, DrQMuller.DrQMuller.MainActivity.class);
                         toMain.putExtra("isBookingSuccess", 1);
                         startActivity(toMain);
                         finish();
@@ -77,6 +80,31 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
         }catch (JSONException je){
             je.printStackTrace();
         }
+    }
 
+    public void updateBookingStatus(String s){
+        Gson gson = new Gson();
+        JSONArray bookingCode;
+        SharedPreferences sharedPref = this.getSharedPreferences("content", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        bookingCode = gson.fromJson(sharedPref.getString("bookingCode", ""), JSONArray.class);
+
+        if (bookingCode != null && bookingCode.length() != 0){
+            for (int i = 0; i < bookingCode.length(); i ++) {
+                try {
+                    JSONArray data = gson.fromJson(sharedPref.getString(bookingCode.getString(i), ""), JSONArray.class);
+                    System.out.println(data);
+                    if (data.getString(6).equals(s)) {
+                        data.put(5, "Đã Xác Nhận");
+                        editor.putString(bookingCode.getString(i), gson.toJson(data));
+                        editor.apply();
+                        editor.commit();
+                        return;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
