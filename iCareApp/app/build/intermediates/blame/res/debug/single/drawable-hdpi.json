@@ -44,12 +44,12 @@
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_news_tab.png"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_drop_down2.png",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_drop_down2.png"
-    },
-    {
         "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_back_button.png",
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_back_button.png"
+    },
+    {
+        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_drop_down2.png",
+        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_drop_down2.png"
     },
     {
         "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_valid_input.png",

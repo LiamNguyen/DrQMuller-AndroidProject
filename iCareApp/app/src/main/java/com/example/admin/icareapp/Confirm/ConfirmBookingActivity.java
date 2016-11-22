@@ -26,15 +26,15 @@ import org.json.JSONObject;
  * Created by ADMIN on 20-Nov-16.
  */
 
-public class ConfirmBookingActivity extends AppCompatActivity implements View.OnClickListener, DrQMuller.DrQMuller.Model.DatabaseObserver {
+public class ConfirmBookingActivity extends AppCompatActivity implements View.OnClickListener, DatabaseObserver {
     private TextInputEditText edttxt;
-    private DrQMuller.DrQMuller.Controller.Controller aController;
+    private Controller aController;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm);
 
-        aController = DrQMuller.DrQMuller.Controller.Controller.getInstance();
+        aController = Controller.getInstance();
 
         AppCompatButton button = (AppCompatButton) findViewById(R.id.confirm_button);
         edttxt = (TextInputEditText) findViewById(R.id.booking_confirm_input);
@@ -48,7 +48,7 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
         }else {
             SharedPreferences sharedPref = this.getSharedPreferences("content", Context.MODE_PRIVATE);
             String cus_id = sharedPref.getString("tokenID", "");
-            aController.setRequestData(this, this, DrQMuller.DrQMuller.Model.ModelURL.UPDATE_APPOINTMENT.getUrl(), "cus_id=" + cus_id + "&code=" + edttxt.getText().toString().trim());
+            aController.setRequestData(this, this, ModelURL.UPDATE_APPOINTMENT.getUrl(), "cus_id=" + cus_id + "&code=" + edttxt.getText().toString().trim());
         }
     }
 
@@ -70,7 +70,7 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
                         Toast.makeText(this, "Mã xác nhận không hợp lệ", Toast.LENGTH_LONG).show();
                     }else{
                         updateBookingStatus(edttxt.getText().toString().trim());
-                        Intent toMain = new Intent(this, DrQMuller.DrQMuller.MainActivity.class);
+                        Intent toMain = new Intent(this, MainActivity.class);
                         toMain.putExtra("isBookingSuccess", 1);
                         startActivity(toMain);
                         finish();
