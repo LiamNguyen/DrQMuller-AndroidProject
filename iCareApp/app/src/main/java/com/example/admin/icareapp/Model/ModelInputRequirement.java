@@ -10,5 +10,5 @@ public class ModelInputRequirement {
     public static final String NAME = "[\\p{L}\\-.\\s']{0,100}";
     public static final String ADDRESS = "[\\p{L}\\p{N}\\-.\\s,'\"/]{0,50}";
     public static final String EMAIL = "[\\w._\\-]+@[^@]*[^@]$";
-    public static final String PHONE = "^[+\\d]\\d{1,16}";
+    public static final String PHONE = "^[+\\d][()\\d]{1,16}";
 }

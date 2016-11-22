@@ -16,6 +16,10 @@
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_delete_item.png"
     },
     {
+        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_back_arrow_2.png",
+        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_back_arrow_2.png"
+    },
+    {
         "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_input.png",
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_input.png"
     },

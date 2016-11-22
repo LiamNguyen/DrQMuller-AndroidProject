@@ -16,7 +16,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.airbnb.deeplinkdispatch.DeepLink;
+import com.example.admin.icareapp.MainActivity;
 import com.example.admin.icareapp.R;
+import com.example.admin.icareapp.Register.RegisterActivity;
 import com.example.admin.icareapp.Register.RegisterFragment;
 
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_arrow);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_arrow_2);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -59,13 +61,15 @@ public class ResetPasswordActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Uri data = intent.getData();
         if (data!=null) {
-            if (data.getPath().contains("/drmuller/recover") && data.getQueryParameterNames().size() == 1 && data.getQueryParameterNames().contains("email")) {
+            if (data.getPath().equals("/drmuller/restore") && data.getQueryParameterNames().size() == 1 && data.getQueryParameterNames().contains("email")) {
                 String queryParameter = data.getQueryParameter("email");
                 System.out.println(queryParameter);
                 Bundle bundle = new Bundle();
                 bundle.putString("email", queryParameter);
                 resetPasswordFragment.setArguments(bundle);
                 navigateToReset();
+            }else{
+                navigateToRegister();
             }
         }else {
             navigateToEmail();
@@ -140,6 +144,12 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         //Hide soft keyboard if it is open
         hideSoftKeyboard();
+    }
+
+    public void navigateToRegister(){
+        Intent toRegister = new Intent(this, RegisterActivity.class);
+        startActivity(toRegister);
+        finish();
     }
 
     /*

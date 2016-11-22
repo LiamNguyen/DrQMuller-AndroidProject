@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.example.admin.icareapp.MainActivity;
 import com.example.admin.icareapp.R;
+import com.example.admin.icareapp.Register.RegisterActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,8 +133,8 @@ public class UserInfoActivity extends AppCompatActivity{
      *Navigate to Booking Activity
      */
     public void navigateToRegister(){
-        Intent toBooking = new Intent(this, MainActivity.class);
-        startActivity(toBooking);
+        Intent toRegister = new Intent(this, RegisterActivity.class);
+        startActivity(toRegister);
         finish();
     }
 

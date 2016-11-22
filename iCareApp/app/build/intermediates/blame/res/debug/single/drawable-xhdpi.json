@@ -4,6 +4,10 @@
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_location.png"
     },
     {
+        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_back_arrow_2.png",
+        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_back_arrow_2.png"
+    },
+    {
         "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_password.png",
         "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_password.png"
     },
