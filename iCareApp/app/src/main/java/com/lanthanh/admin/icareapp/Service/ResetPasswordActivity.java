@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -41,11 +42,11 @@ public class ResetPasswordActivity extends AppCompatActivity {
         resetPasswordFragment = new ResetPasswordFragment();
         fragmentManager = getSupportFragmentManager();
 
-        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolBar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_arrow_2);
-        getSupportActionBar().setTitle("");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolBar);
+//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_arrow_2);
+//        getSupportActionBar().setTitle("");
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Get ChooseFragment for when loading Acitivity
         fragmentManager = getSupportFragmentManager();
@@ -185,5 +186,25 @@ public class ResetPasswordActivity extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            System.out.println("in reset");
+//            Intent toRegister = new Intent(this, RegisterActivity.class);
+//            startActivity(toRegister);
+//            finish();
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
+
+    @Override
+    public void onBackPressed() {
+        System.out.println("in reset");
+        Intent toRegister = new Intent(this, RegisterActivity.class);
+        startActivity(toRegister);
+        finish();
     }
 }

@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.Service;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -10,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.Controller.Controller;
@@ -17,6 +19,7 @@ import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
 import com.lanthanh.admin.icareapp.Model.ModelInputRequirement;
 import com.lanthanh.admin.icareapp.Model.ModelURL;
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.Register.RegisterActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +44,8 @@ public class EmailForResetFragment extends Fragment implements TextWatcher, View
         //back.setOnClickListener(this);
         AppCompatButton send = (AppCompatButton) view.findViewById(R.id.resetpw_send_button);
         send.setOnClickListener(this);
+        ImageButton back = (ImageButton) view.findViewById(R.id.resetpw_back_button);
+        back.setOnClickListener(this);
         email = (TextInputEditText) view.findViewById(R.id.resetpw_email_input);
         email.addTextChangedListener(this);
         email_container = (TextInputLayout) view.findViewById(R.id.resetpw_email_container);
@@ -68,7 +73,9 @@ public class EmailForResetFragment extends Fragment implements TextWatcher, View
                 }
                 break;
             case R.id.resetpw_back_button:
-                ((ResetPasswordActivity) getActivity()).navigateBack();
+                Intent toRegister = new Intent(getActivity(), RegisterActivity.class);
+                startActivity(toRegister);
+                getActivity().finish();
                 break;
             default:
                 break;

@@ -67,6 +67,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
                 break;
             case R.id.si_forget_pw:
                 ((RegisterActivity) getActivity()).navigateToResetPW();
+                getActivity().finish();
             default:
                 break;
         }
