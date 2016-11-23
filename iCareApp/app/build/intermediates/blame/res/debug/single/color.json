@@ -1,94 +1,94 @@
 [
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_hint_foreground_material_light.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_hint_foreground_material_light.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_tint_switch_thumb.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_tint_switch_thumb.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\spinner_disabled_color_default_item.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\color\\spinner_disabled_color_default_item.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_tint_spinner.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_tint_spinner.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_primary_text_disable_only_material_light.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_primary_text_disable_only_material_light.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_btn_colored_borderless_text_material.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_btn_colored_borderless_text_material.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_primary_text_material_light.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_primary_text_material_light.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_primary_text_material_dark.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_primary_text_material_dark.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_secondary_text_material_dark.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_secondary_text_material_dark.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_secondary_text_material_dark.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_secondary_text_material_dark.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_tint_default.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_tint_default.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_primary_text_disable_only_material_dark.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_primary_text_disable_only_material_dark.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_tint_edittext.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_tint_edittext.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/design_tint_password_toggle.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/design/25.0.0/res/color/design_tint_password_toggle.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_tint_seek_thumb.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_tint_seek_thumb.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_search_url_text.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_search_url_text.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_search_url_text.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_search_url_text.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_tint_btn_checkable.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_tint_btn_checkable.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\design_tint_password_toggle.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.0\\res\\color\\design_tint_password_toggle.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/switch_thumb_material_light.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/switch_thumb_material_light.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\switch_thumb_material_light.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\switch_thumb_material_light.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_tint_seek_thumb.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_tint_seek_thumb.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_tint_switch_track.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_tint_switch_track.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_tint_default.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_tint_default.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_tint_spinner.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_tint_spinner.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_hint_foreground_material_light.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_hint_foreground_material_light.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\design_error.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.0\\res\\color\\design_error.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_primary_text_material_light.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_primary_text_material_light.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_primary_text_material_dark.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_primary_text_material_dark.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_tint_edittext.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_tint_edittext.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_hint_foreground_material_dark.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_hint_foreground_material_dark.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_primary_text_disable_only_material_light.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_primary_text_disable_only_material_light.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_btn_colored_borderless_text_material.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_btn_colored_borderless_text_material.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/bottom_bar_item_color.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/src/main/res/color/bottom_bar_item_color.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_secondary_text_material_light.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_secondary_text_material_light.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/spinner_disabled_color_default_item.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/src/main/res/color/spinner_disabled_color_default_item.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_primary_text_disable_only_material_dark.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_primary_text_disable_only_material_dark.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_tint_switch_track.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_tint_switch_track.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\switch_thumb_material_dark.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\switch_thumb_material_dark.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/design_error.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/design/25.0.0/res/color/design_error.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_tint_switch_thumb.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_tint_switch_thumb.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_secondary_text_material_light.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_secondary_text_material_light.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\bottom_bar_item_color.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\src\\main\\res\\color\\bottom_bar_item_color.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/abc_hint_foreground_material_dark.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/abc_hint_foreground_material_dark.xml"
     },
     {
-        "merged": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_tint_btn_checkable.xml",
-        "source": "D:\\Metropolia\\Project\\iCare\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color\\abc_tint_btn_checkable.xml"
+        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/res/merged/debug/color/switch_thumb_material_dark.xml",
+        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCare_Version1.0.1_AfterPRD/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/color/switch_thumb_material_dark.xml"
     }
 ]

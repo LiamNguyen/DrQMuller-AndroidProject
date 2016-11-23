@@ -5,7 +5,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "23.0.2"
     defaultConfig {
-        applicationId "com.example.admin.icareapp"
+        applicationId "com.lanthanh.admin.icareapp"
         minSdkVersion 21
         targetSdkVersion 24
         versionCode 1

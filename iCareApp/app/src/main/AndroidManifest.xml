@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.example.admin.icareapp">
+        package="com.lanthanh.admin.icareapp">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity"
+        <activity android:name="com.lanthanh.admin.icareapp.MainActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Register.RegisterActivity"
+        <activity android:name="com.lanthanh.admin.icareapp.Register.RegisterActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -31,28 +31,28 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".UserInfo.UserInfoActivity"
+        <activity android:name="com.lanthanh.admin.icareapp.UserInfo.UserInfoActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
 
-        <activity android:name=".Confirm.ConfirmBookingActivity"
+        <activity android:name="com.lanthanh.admin.icareapp.Confirm.ConfirmBookingActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
-        <activity android:name=".Service.BookingDetailsActivity"
+        <activity android:name="com.lanthanh.admin.icareapp.Service.BookingDetailsActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustResize">
 
         </activity>
 
-        <activity android:name=".Service.ResetPasswordActivity"
+        <activity android:name="com.lanthanh.admin.icareapp.Service.ResetPasswordActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustResize"
-            android:parentActivityName=".Register.RegisterActivity">
+            android:parentActivityName="com.lanthanh.admin.icareapp.Register.RegisterActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Register.RegisterActivity" />
+                android:value="com.lanthanh.admin.icareapp.Register.RegisterActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

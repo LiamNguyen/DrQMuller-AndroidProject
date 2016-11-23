@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.admin.icareapp.test">
+    package="com.lanthanh.admin.icareapp.test">
 
     <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="24" />
 
@@ -9,8 +9,8 @@
     </application>
 
     <instrumentation android:name="android.test.InstrumentationTestRunner"
-                     android:targetPackage="com.example.admin.icareapp"
+                     android:targetPackage="com.lanthanh.admin.icareapp"
                      android:handleProfiling="false"
                      android:functionalTest="false"
-                     android:label="Tests for com.example.admin.icareapp"/>
+                     android:label="Tests for com.lanthanh.admin.icareapp"/>
 </manifest>
