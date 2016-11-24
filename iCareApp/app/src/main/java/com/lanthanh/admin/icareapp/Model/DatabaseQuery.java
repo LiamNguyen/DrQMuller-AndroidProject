@@ -65,13 +65,15 @@ public class DatabaseQuery {
             reader.close();
             is.close();
         }catch (IOException ioe){
-            System.out.println("Cannot open input Stream");
+            System.out.println("Cannot open input stream");
         }
 
         try {
             jsonObj = new JSONObject(line);
         }catch (JSONException je){
             System.out.println("Problem with JSON API");
+        }catch (NullPointerException np){
+            System.out.println("No data received from server. Error in PHP files");
         }
 
         return jsonObj;

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.lanthanh.admin.icareapp.Controller.Controller;
+import com.lanthanh.admin.icareapp.MainActivity;
 import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
 import com.lanthanh.admin.icareapp.Model.ModelInputRequirement;
 import com.lanthanh.admin.icareapp.Model.ModelURL;
@@ -76,7 +77,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
                 if (validUN && validPW && validPWConf) {
                     aController.getAccount().setLoginID(username.getText().toString());
                     aController.getAccount().setPassword(password.getText().toString());
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKUSEREXISTENCE.getUrl(), aController.getAccount().getPostUsername());
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKUSEREXISTENCE.getUrl(MainActivity.isUAT), aController.getAccount().getPostUsername());
                 }
                 else {
                     if (!validUN){
@@ -121,7 +122,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
                 String result = status.getString("Select_CheckUserExistence");
                 if (result.equals("Not Exist")){
                     System.out.println("Not Exist");
-                    aController.setRequestData(getActivity(), this, ModelURL.INSERT_NEWCUSTOMER.getUrl(), aController.getAccount().getPostData());
+                    aController.setRequestData(getActivity(), this, ModelURL.INSERT_NEWCUSTOMER.getUrl(MainActivity.isUAT), aController.getAccount().getPostData());
                 }else {
                     System.out.println("Exist");
                     username.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, R.drawable.ic_invalid_input, 0);

@@ -51,6 +51,7 @@ import java.util.List;
  */
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener{
+    public final static boolean isUAT = true;
     private FragmentManager fragmentManager;
     private int badgeCount;
     private Drawable cartIcon;
@@ -220,10 +221,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     //Remove item from cart when user click on one of the items in cart
+    //NOTE: this method is only used when PopupWindow is displaying because PopupListView != null
     public void releaseSelectedItemFromCart(String s){
         cartList.remove(s);
-        if (popupListView != null)
-            popupListView.invalidateViews();
+        popupListView.invalidateViews();
         badgeCount --;
         invalidateOptionsMenu();
         bookingBookFragment.refreshTimeList(s.substring(0, s.indexOf("-") - 1),s.substring(s.indexOf("-") +2, s.length()));

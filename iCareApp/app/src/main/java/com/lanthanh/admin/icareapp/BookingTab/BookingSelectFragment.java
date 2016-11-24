@@ -147,7 +147,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
 
         /* =============================== LAST STEP =============================== */
         //Initialize data for Country Spinner first
-        aController.setRequestData(getActivity(), this, ModelURL.SELECT_COUNTRIES.getUrl(), "");
+        aController.setRequestData(getActivity(), this, ModelURL.SELECT_COUNTRIES.getUrl(MainActivity.isUAT), "");
 
         AppCompatButton nextBut = (AppCompatButton) view.findViewById(R.id.booking_next_button);
         nextBut.setOnClickListener(this);
@@ -172,7 +172,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
             if (booking.isDataEmpty()){
                 Toast.makeText(getActivity(), getString(R.string.missing_detail), Toast.LENGTH_SHORT).show();
             }else {
-                aController.setRequestData(getActivity(), this, ModelURL.UPDATE_VALIDATEAPPOINTMENT.getUrl(), "");
+                aController.setRequestData(getActivity(), this, ModelURL.UPDATE_VALIDATEAPPOINTMENT.getUrl(MainActivity.isUAT), "");
                 ((MainActivity) getActivity()).navigateToBook();
             }
         }else {
@@ -286,16 +286,16 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()){
             case R.id.spinner_countries:
-                aController.setRequestData(getActivity(), this, ModelURL.SELECT_CITIES.getUrl(), "country_id=" + mapToCountryID.get(countrySp.getSelectedItem().toString()));
+                aController.setRequestData(getActivity(), this, ModelURL.SELECT_CITIES.getUrl(MainActivity.isUAT), "country_id=" + mapToCountryID.get(countrySp.getSelectedItem().toString()));
                 break;
             case R.id.spinner_cities:
-                aController.setRequestData(getActivity(), this, ModelURL.SELECT_DISTRICTS.getUrl(), "city_id=" + mapToCityID.get(citySp.getSelectedItem().toString()));
+                aController.setRequestData(getActivity(), this, ModelURL.SELECT_DISTRICTS.getUrl(MainActivity.isUAT), "city_id=" + mapToCityID.get(citySp.getSelectedItem().toString()));
                 break;
             case R.id.spinner_districts:
-                aController.setRequestData(getActivity(), this, ModelURL.SELECT_LOCATIONS.getUrl(), "district_id=" + mapToDistrictID.get(districtSp.getSelectedItem().toString()));
+                aController.setRequestData(getActivity(), this, ModelURL.SELECT_LOCATIONS.getUrl(MainActivity.isUAT), "district_id=" + mapToDistrictID.get(districtSp.getSelectedItem().toString()));
                 break;
             case R.id.spinner_locations:
-                aController.setRequestData(getActivity(), this, ModelURL.SELECT_VOUCHERS.getUrl(), "");
+                aController.setRequestData(getActivity(), this, ModelURL.SELECT_VOUCHERS.getUrl(MainActivity.isUAT), "");
                 booking.setLocation(mapToLocationID.get(locationSp.getSelectedItem().toString()), locationSp.getSelectedItem().toString(), districtSp.getSelectedItem().toString(), citySp.getSelectedItem().toString(), countrySp.getSelectedItem().toString());
                 break;
             case R.id.spinner_vouchers:

@@ -71,7 +71,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
                     aController.getUserInfo().addInfo("email", email.getText().toString());
                     aController.getUserInfo().addInfo("phone", phone.getText().toString());
                     aController.getUserInfo().addInfo("update_date", getCurrentDate());
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_NoOFCUSTOMERS.getUrl(), "");
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_NoOFCUSTOMERS.getUrl(MainActivity.isUAT), "");
                 }else{
                     if (!validEmail){
                         if (email.getText().toString().equals("")){
@@ -180,7 +180,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
                     System.out.println("Fail to get number of customers");
                 }else{
                     aController.getUserInfo().addInfo("cus_id", Integer.toString(result));
-                    aController.setRequestData(getActivity(), this, ModelURL.UPDATE_CUSTOMERINFO.getUrl(), aController.getUserInfo().getPostData());
+                    aController.setRequestData(getActivity(), this, ModelURL.UPDATE_CUSTOMERINFO.getUrl(MainActivity.isUAT), aController.getUserInfo().getPostData());
                 }
             }
         } catch (JSONException je){

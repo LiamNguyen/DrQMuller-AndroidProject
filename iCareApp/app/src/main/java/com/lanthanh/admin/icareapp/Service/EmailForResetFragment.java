@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.Controller.Controller;
+import com.lanthanh.admin.icareapp.MainActivity;
 import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
 import com.lanthanh.admin.icareapp.Model.ModelInputRequirement;
 import com.lanthanh.admin.icareapp.Model.ModelURL;
@@ -61,7 +62,7 @@ public class EmailForResetFragment extends Fragment implements TextWatcher, View
         switch (v.getId()){
             case R.id.resetpw_send_button:
                 if (validEmail) {
-                    aController.setRequestData(getActivity(), this, ModelURL.SENDEMAIL_RESETPW.getUrl(), "email=" + email.getText().toString());
+                    aController.setRequestData(getActivity(), this, ModelURL.SENDEMAIL_RESETPW.getUrl(MainActivity.isUAT), "email=" + email.getText().toString());
                     System.out.println("email=" + email.getText().toString());
                 }else {
                     if (email.getText().toString().equals("")) {

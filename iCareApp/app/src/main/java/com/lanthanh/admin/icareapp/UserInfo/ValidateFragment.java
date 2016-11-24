@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.Controller.Controller;
+import com.lanthanh.admin.icareapp.MainActivity;
 import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
 import com.lanthanh.admin.icareapp.Model.ModelURL;
 import com.lanthanh.admin.icareapp.R;
@@ -25,7 +26,7 @@ public class ValidateFragment extends Fragment implements View.OnClickListener, 
     private TextView noti;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(), aController.getUserInfo().getPostEmail());
+        aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(MainActivity.isUAT), aController.getUserInfo().getPostEmail());
 
         View view = inflater.inflate(R.layout.userinfo_validate, container, false);
 
@@ -46,7 +47,7 @@ public class ValidateFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ui_resend_email_button:
-                aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(), aController.getUserInfo().getPostEmail());
+                aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(MainActivity.isUAT), aController.getUserInfo().getPostEmail());
                 break;
             case R.id.ui_change_email_button:
                 ((UserInfoActivity) getActivity()).navigateToChangeEmail();

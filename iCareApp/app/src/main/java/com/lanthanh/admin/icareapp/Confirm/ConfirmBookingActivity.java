@@ -48,7 +48,7 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
         }else {
             SharedPreferences sharedPref = this.getSharedPreferences("content", Context.MODE_PRIVATE);
             String cus_id = sharedPref.getString("tokenID", "");
-            aController.setRequestData(this, this, ModelURL.UPDATE_APPOINTMENT.getUrl(), "cus_id=" + cus_id + "&code=" + edttxt.getText().toString().trim());
+            aController.setRequestData(this, this, ModelURL.UPDATE_APPOINTMENT.getUrl(MainActivity.isUAT), "cus_id=" + cus_id + "&code=" + edttxt.getText().toString().trim());
         }
     }
 
