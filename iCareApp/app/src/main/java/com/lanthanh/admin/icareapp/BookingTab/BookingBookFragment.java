@@ -295,7 +295,6 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
 
     public void refreshTimeList(String day, String time){
         if (adapter.getGroup(day_id-1).equals(day)) {
-            System.out.println(adapter.getGroup(day_id-1) + " check w " + day);
             availableTime.add(time);
             Collections.sort(availableTime, timeComparator);
             adapter.notifyDataSetChanged();

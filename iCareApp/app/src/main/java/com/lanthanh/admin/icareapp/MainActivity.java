@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         cartList = new ArrayList<>();
         //cartList.add(getString(R.string.empty_cart));
         badgeCount = 0;
-        cartIcon = getResources().getDrawable(R.drawable.ic_shopping_cart, null);
+        cartIcon = getResources().getDrawable(R.drawable.ic_shopping_cart_white_36dp, null);
 
         //Get Fragment Manager
         fragmentManager = getSupportFragmentManager();
@@ -230,16 +230,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bookingBookFragment.refreshTimeList(s.substring(0, s.indexOf("-") - 1),s.substring(s.indexOf("-") +2, s.length()));
     }
 
-    //Empty cart when user reselect in BookSelectFragment
+    //Release cart when user reselect in BookSelectFragment
     public void releaseCartWhenReselect(){
-        for (Iterator<String> iter = cartList.listIterator(); iter.hasNext(); ) {
-            System.out.println(iter.toString());
+        for (Iterator<String> iter = cartList.iterator(); iter.hasNext(); ) {
             String s = iter.next();
-            System.out.println(s);
-            releaseSelectedItemFromCart(s);
+            iter.remove();
+            badgeCount --;
+            invalidateOptionsMenu();
+            bookingBookFragment.refreshTimeList(s.substring(0, s.indexOf("-") - 1),s.substring(s.indexOf("-") +2, s.length()));
         }
     }
 
+    //Empty cart after finished booking
     public void emptyCart(){
         cartList.clear();
         badgeCount = 0;
