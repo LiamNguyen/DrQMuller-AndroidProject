@@ -6,11 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -41,6 +43,7 @@ import com.lanthanh.admin.icareapp.UserTab.UserFragment;
 import com.mikepenz.actionitembadge.library.ActionItemBadge;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         //Set up cart resource
         cartList = new ArrayList<>();
-        cartList.add(getString(R.string.empty_cart));
+        //cartList.add(getString(R.string.empty_cart));
         badgeCount = 0;
         cartIcon = getResources().getDrawable(R.drawable.ic_shopping_cart, null);
 
@@ -91,6 +94,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         //Toolbar
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Typeface titleFont = Typeface.createFromAsset(getAssets(), "fonts/SourceSansPro-Semibold.ttf");
+        TextView title = (TextView) toolBar.findViewById(R.id.toolbar_title);
+        title.setTypeface(titleFont);
 
         //Bottom Navigation View
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -213,17 +220,28 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     //Remove item from cart when user click on one of the items in cart
-    public void removeSelectedItemFromCart(String s){
+    public void releaseSelectedItemFromCart(String s){
         cartList.remove(s);
-        popupListView.invalidateViews();
+        popupListView = popupWindow.getListView();
+        if (popupListView != null)
+            popupListView.invalidateViews();
         badgeCount --;
         invalidateOptionsMenu();
         bookingBookFragment.refreshTimeList(s.substring(0, s.indexOf("-") - 1),s.substring(s.indexOf("-") +2, s.length()));
     }
 
+    //Empty cart when user reselect in BookSelectFragment
+    public void releaseCartWhenReselect(){
+        for (Iterator<String> iter = cartList.listIterator(); iter.hasNext(); ) {
+            System.out.println(iter.toString());
+            String s = iter.next();
+            System.out.println(s);
+            releaseSelectedItemFromCart(s);
+        }
+    }
+
     public void emptyCart(){
         cartList.clear();
-        cartList.add(getString(R.string.empty_cart));
         badgeCount = 0;
         invalidateOptionsMenu();
     }
@@ -236,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         if (position != 0)
-            removeSelectedItemFromCart(cartList.get(position));
+            releaseSelectedItemFromCart((String) adapterView.getAdapter().getItem(position));
     }
 
     //Adapter for PopupWindow
@@ -245,6 +263,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         public ListPopupWindowAdapter(Activity context, int textViewResourceId, List<String> l) {
             super(context, textViewResourceId, l);
             list = l;
+        }
+
+        @Override
+        public int getCount() {
+            return list.size() + 1;
+        }
+
+        @Nullable
+        @Override
+        public String getItem(int position) {
+            return list.get(position-1);
         }
 
         @Override
@@ -261,13 +290,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 holder = (ViewHolder) row.getTag();
 
             TextView label = holder.getTextView();
-            if (list.size() == 1) {
-                label.setText(list.get(position));
+            if (list.size() <= 0) {
+                label.setText(getString(R.string.empty_cart));
             }else{
                 if (position == 0) {
                     label.setText(getString(R.string.list_cart));
                 } else {
-                    label.setText(list.get(position));
+                    label.setText(getItem(position));
                     ImageView icon = holder.getImageView();
                     icon.setImageResource(R.drawable.ic_delete_item);
                 }

@@ -299,6 +299,8 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                 booking.setLocation(mapToLocationID.get(locationSp.getSelectedItem().toString()), locationSp.getSelectedItem().toString(), districtSp.getSelectedItem().toString(), citySp.getSelectedItem().toString(), countrySp.getSelectedItem().toString());
                 break;
             case R.id.spinner_vouchers:
+                if (!booking.getVoucher().isEmpty() && !booking.getVoucher().equals(voucherSp.getSelectedItem().toString()))
+                    ((MainActivity) getActivity()).releaseCartWhenReselect();
                 typeSp.setEnabled(true);
                 booking.setVoucher(mapToVoucherID.get(voucherSp.getSelectedItem().toString().substring(0, voucherSp.getSelectedItem().toString().indexOf("-") - 1)), voucherSp.getSelectedItem().toString());
                 break;

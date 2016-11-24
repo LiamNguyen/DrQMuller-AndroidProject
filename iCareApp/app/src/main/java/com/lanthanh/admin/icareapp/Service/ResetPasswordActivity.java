@@ -188,18 +188,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            System.out.println("in reset");
-//            Intent toRegister = new Intent(this, RegisterActivity.class);
-//            startActivity(toRegister);
-//            finish();
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
-
     @Override
     public void onBackPressed() {
         System.out.println("in reset");

@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -27,7 +26,7 @@ import java.util.List;
 @DeepLink("icare://210.211.109.180/drmuller/verify")
 public class RegisterActivity extends AppCompatActivity{
     private FragmentManager fragmentManager;
-    private RegisterFragment chooseFragment;
+    private ChooseFragment chooseFragment;
     private SignInFragment signInFragment;
     private SignUpFragment signUpFragment;
 
@@ -37,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity{
         setContentView(R.layout.activity_register);
 
         //Initialize Fragment
-        chooseFragment = new RegisterFragment();
+        chooseFragment = new ChooseFragment();
         signInFragment = new SignInFragment();
         signUpFragment = new SignUpFragment();
 
@@ -47,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity{
 //        getSupportActionBar().setTitle("");
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //Get ChooseFragment for when loading Acitivity
+        //ChooseFragment as default
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.wel_fragment_container, chooseFragment, chooseFragment.getClass().getName()).commit();
     }
@@ -178,12 +177,11 @@ public class RegisterActivity extends AppCompatActivity{
         }
     }
 
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            System.out.println("in register");
-//            finish();
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
+    @Override
+    public void onBackPressed() {
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+        homeIntent.addCategory( Intent.CATEGORY_HOME );
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(homeIntent);
+    }
 }

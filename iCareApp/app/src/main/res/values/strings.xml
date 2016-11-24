@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Dr.Q-Muller</string>
-    <string name="welcome">Chào Mừng Đến Với Dr.Q-Muller</string>
+    <string name="welcome">Welcome to\nDr.Q-Muller</string>
 
     <string name="username_input_hint">Tên Đăng Nhập</string>
     <string name="username_invalid">Tên đăng nhập đã được sử dụng</string>

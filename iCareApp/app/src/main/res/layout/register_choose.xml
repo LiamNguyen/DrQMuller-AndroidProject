@@ -9,46 +9,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/wel_text"
-        android:textSize="20sp"
+        android:textSize="60sp"
+        android:textColor="@color/colorWhite"
+        android:gravity="center"
         android:layout_marginTop="110dp"
         android:layout_marginBottom="150dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <LinearLayout
-        android:id="@+id/wel_sign_in_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:layout_below="@+id/wel_text"
-        android:layout_alignParentStart="true">
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/wel_sign_in_button"
-            android:text="@string/sign_in_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"/>
-    </LinearLayout>
 
-    <LinearLayout
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/wel_log_in_button"
+        android:text="@string/sign_in_button"
+        android:textSize="18sp"
+        android:background="@drawable/button_style"
+        android:textColor="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
+        android:layout_above="@+id/wel_sign_up_button"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/wel_sign_up_button"
+        android:text="@string/sign_up_button"
+        android:textSize="18sp"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/button_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/wel_sign_in_layout"
-        android:layout_alignParentStart="true">
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/wel_sign_up_button"
-            android:text="@string/sign_up_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"/>
-    </LinearLayout>
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="100dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"/>
 
 </RelativeLayout>
