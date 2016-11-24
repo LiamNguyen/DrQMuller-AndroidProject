@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -40,11 +42,10 @@ public class RegisterActivity extends AppCompatActivity{
         signInFragment = new SignInFragment();
         signUpFragment = new SignUpFragment();
 
-//        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolBar);
-//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_arrow);
-//        getSupportActionBar().setTitle("");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolBar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp);
 
         //ChooseFragment as default
         fragmentManager = getSupportFragmentManager();
@@ -56,7 +57,7 @@ public class RegisterActivity extends AppCompatActivity{
 //        switch (item.getItemId()) {
 //            // Respond to the action bar's Up/Home button
 //            case android.R.id.home:
-//                if (fragmentManager.findFragmentByTag(emailForResetFragment.getClass().getName()).isVisible())
+//                if (fragmentManager.findFragmentByTag(emailForRe.getClass().getName()).isVisible())
 //                    NavUtils.navigateUpFromSameTask(this);
 //                else
 //                    navigateBack();

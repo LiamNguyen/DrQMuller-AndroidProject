@@ -222,7 +222,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     //Remove item from cart when user click on one of the items in cart
     public void releaseSelectedItemFromCart(String s){
         cartList.remove(s);
-        popupListView = popupWindow.getListView();
         if (popupListView != null)
             popupListView.invalidateViews();
         badgeCount --;
@@ -249,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     public int numberOfCartItems(){
-        return cartList.size() - 1;
+        return cartList.size();
     }
 
     //Response to user click on cart window

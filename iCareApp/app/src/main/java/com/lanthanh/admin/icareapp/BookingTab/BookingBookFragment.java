@@ -306,7 +306,7 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
     @Override
     public void onClick(View view) {
         if (((MainActivity) getActivity()).numberOfCartItems() <= 0){
-            Toast.makeText(getActivity(), getString(R.string.max_item), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.min_item), Toast.LENGTH_LONG).show();
         }else {
             SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
             booking.setCustomerID(sharedPref.getString("tokenID", ""));

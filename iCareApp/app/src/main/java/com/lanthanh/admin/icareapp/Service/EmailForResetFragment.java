@@ -132,7 +132,6 @@ public class EmailForResetFragment extends Fragment implements TextWatcher, View
                     System.out.println(status.getString("ERROR"));
                     noti.setText(R.string.validate_noti_fail);
                     noti.setTextColor(getResources().getColor(R.color.colorLightRed));
-
                 }
             }
         } catch (JSONException je){
