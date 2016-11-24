@@ -8,9 +8,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.airbnb.deeplinkdispatch.DeepLink;
 import com.lanthanh.admin.icareapp.MainActivity;
@@ -31,6 +33,8 @@ public class RegisterActivity extends AppCompatActivity{
     private ChooseFragment chooseFragment;
     private SignInFragment signInFragment;
     private SignUpFragment signUpFragment;
+    private Toolbar toolBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,29 +46,32 @@ public class RegisterActivity extends AppCompatActivity{
         signInFragment = new SignInFragment();
         signUpFragment = new SignUpFragment();
 
-        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
+        toolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //ChooseFragment as default
+        TextView title = (TextView) toolBar.findViewById(R.id.toolbar_title);
+        title.setVisibility(View.GONE);
+
+        //ChooseFragment as default -> hide ToolBar
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.wel_fragment_container, chooseFragment, chooseFragment.getClass().getName()).commit();
+        toolBar.setVisibility(View.GONE);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            // Respond to the action bar's Up/Home button
-//            case android.R.id.home:
-//                if (fragmentManager.findFragmentByTag(emailForRe.getClass().getName()).isVisible())
-//                    NavUtils.navigateUpFromSameTask(this);
-//                else
-//                    navigateBack();
-//                return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                navigateBack();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     /*
      *Navigate to Sign In Screen
@@ -178,11 +185,22 @@ public class RegisterActivity extends AppCompatActivity{
         }
     }
 
+    //Hide/show tool bar
+    public void isToolBarHidden(boolean hidden){
+        if (hidden)
+            toolBar.setVisibility(View.GONE);
+        else
+            toolBar.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public void onBackPressed() {
-        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-        homeIntent.addCategory( Intent.CATEGORY_HOME );
-        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(homeIntent);
+        if (chooseFragment.isVisible()){
+            Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+            homeIntent.addCategory( Intent.CATEGORY_HOME );
+            homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(homeIntent);
+        }else
+            navigateBack();
     }
 }

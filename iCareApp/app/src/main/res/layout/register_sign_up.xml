@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/colorPrimary"
     android:fillViewport="true">
 
     <LinearLayout
@@ -12,38 +12,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/su_back_button"
-            android:layout_width="40dp"
-            android:layout_weight="0"
-            app:srcCompat="@drawable/ic_back_button"
-            android:elevation="0dp"
-            android:background="@android:color/background_light"
-            android:scaleType="fitXY"
-            android:layout_height="40dp" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:orientation="vertical"
             android:layout_weight="1"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="50dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp">
+
             <!-- Username Label -->
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/su_username_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
+                android:theme="@style/TextLabel"
+                android:layout_marginBottom="8dp"
+                app:errorTextAppearance="@style/ErrorAppearance">
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/su_username_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:drawableStart="@drawable/ic_user"
+                    android:drawableStart="@drawable/ic_person_white_36dp"
                     android:drawablePadding="5dp"
+                    android:textColor="@color/colorWhite"
                     android:hint="@string/username_input_hint" />
             </android.support.design.widget.TextInputLayout>
 
@@ -52,16 +45,19 @@
                 android:id="@+id/su_password_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:theme="@style/TextLabel"
                 app:passwordToggleEnabled="false"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="8dp"
+                app:errorTextAppearance="@style/ErrorAppearance">
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/su_password_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_password"
+                    android:drawableStart="@drawable/ic_lock_white_36dp"
                     android:drawablePadding="5dp"
                     android:inputType="textPassword"
+                    android:textColor="@color/colorWhite"
                     android:hint="@string/password_input_hint"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -69,16 +65,19 @@
                 android:id="@+id/su_password_confirm_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:theme="@style/TextLabel"
                 app:passwordToggleEnabled="false"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="8dp"
+                app:errorTextAppearance="@style/ErrorAppearance">
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/su_password_confirm_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_pw_confirm"
+                    android:drawableStart="@drawable/ic_security_white_36dp"
                     android:drawablePadding="5dp"
                     android:inputType="textPassword"
+                    android:textColor="@color/colorWhite"
                     android:hint="@string/password_confirm_hint"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -87,11 +86,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="30dp"
-                android:background="@drawable/button_test"
+                android:layout_marginBottom="100dp"
+                android:background="@drawable/button_style"
                 android:textColor="@color/colorWhite"
                 android:layout_gravity="bottom"
                 android:padding="12dp"
+                android:textSize="18sp"
                 android:text="@string/sign_up_button"/>
         </LinearLayout>
 

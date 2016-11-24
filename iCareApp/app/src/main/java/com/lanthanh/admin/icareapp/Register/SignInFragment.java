@@ -3,12 +3,15 @@ package com.lanthanh.admin.icareapp.Register;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -36,20 +39,28 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.register_sign_in, container, false);
-
-        ImageButton back_button = (ImageButton) view.findViewById(R.id.si_back_button);
-        back_button.setOnClickListener(this);
-
+        
+        aController = Controller.getInstance();
+        
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        
         AppCompatButton sign_in_button = (AppCompatButton) view.findViewById(R.id.si_sign_in_button);
         sign_in_button.setOnClickListener(this);
-
+        sign_in_button.setTypeface(font);
+        
         TextView forget_pw = (TextView) view.findViewById(R.id.si_forget_pw);
         forget_pw.setOnClickListener(this);
-
+        forget_pw.setTypeface(font);
+        
         username = (TextInputEditText) view.findViewById(R.id.si_username_input);
+        username.setTypeface(font);
         password = (TextInputEditText) view.findViewById(R.id.si_password_input);
+        password.setTypeface(font);
 
-        aController = Controller.getInstance();
+        TextInputLayout username_container = (TextInputLayout) view.findViewById(R.id.si_username_container);
+        username_container.setTypeface(font);
+        TextInputLayout password_container = (TextInputLayout) view.findViewById(R.id.si_password_container);
+        password_container.setTypeface(font);
 
         return view;
     }
@@ -57,9 +68,9 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.si_back_button:
-                ((RegisterActivity) getActivity()).navigateBack();
-                break;
+//            case R.id.si_back_button:
+//                ((RegisterActivity) getActivity()).navigateBack();
+//                break;
             case R.id.si_sign_in_button:
                 aController.getAccount().setLoginID(username.getText().toString());
                 aController.getAccount().setPassword(password.getText().toString());

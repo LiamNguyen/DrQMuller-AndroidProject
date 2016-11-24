@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.lanthanh.admin.icareapp.MainActivity;
 import com.lanthanh.admin.icareapp.R;
 
 /**
@@ -39,6 +40,14 @@ public class ChooseFragment extends Fragment implements View.OnClickListener{
         sign_up_button.setTypeface(font2);
 
         return view;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden && isVisible())
+            ((RegisterActivity) getActivity()).isToolBarHidden(true);
+        else
+            ((RegisterActivity) getActivity()).isToolBarHidden(false);
     }
 
     @Override

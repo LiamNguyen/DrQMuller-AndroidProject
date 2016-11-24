@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.Register;
 
+import android.graphics.Typeface;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -45,24 +46,28 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
         validPWConf = false;
         aController = Controller.getInstance();
 
-        ImageButton back_button = (ImageButton) view.findViewById(R.id.su_back_button);
-        back_button.setOnClickListener(this);
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
 
-        AppCompatButton sign_in_button = (AppCompatButton) view.findViewById(R.id.su_sign_up_button);
-        sign_in_button.setOnClickListener(this);
+        AppCompatButton sign_up_button = (AppCompatButton) view.findViewById(R.id.su_sign_up_button);
+        sign_up_button.setOnClickListener(this);
+        sign_up_button.setTypeface(font);
 
         username = (TextInputEditText) view.findViewById(R.id.su_username_input);
         username.addTextChangedListener(this);
-
+        username.setTypeface(font);
         password = (TextInputEditText) view.findViewById(R.id.su_password_input);
         password.addTextChangedListener(this);
-
+        username.setTypeface(font);
         password_confirm = (TextInputEditText) view.findViewById(R.id.su_password_confirm_input);
         password_confirm.addTextChangedListener(this);
+        password_confirm.setTypeface(font);
 
         username_container = (TextInputLayout) view.findViewById(R.id.su_username_container);
+        username_container.setTypeface(font);
         password_container = (TextInputLayout) view.findViewById(R.id.su_password_container);
+        password_container.setTypeface(font);
         password_confirm_container = (TextInputLayout) view.findViewById(R.id.su_password_confirm_container);
+        password_confirm_container.setTypeface(font);
 
         return view;
     }
@@ -70,9 +75,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.su_back_button:
-                ((RegisterActivity) getActivity()).navigateBack();
-                break;
             case R.id.su_sign_up_button:
                 if (validUN && validPW && validPWConf) {
                     aController.getAccount().setLoginID(username.getText().toString());
@@ -125,7 +127,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
                     aController.setRequestData(getActivity(), this, ModelURL.INSERT_NEWCUSTOMER.getUrl(MainActivity.isUAT), aController.getAccount().getPostData());
                 }else {
                     System.out.println("Exist");
-                    username.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_user, 0, R.drawable.ic_invalid_input, 0);
+                    username.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, R.drawable.ic_invalid_input, 0);
                     username_container.setError(getString(R.string.username_invalid));
                     username_container.setErrorEnabled(true);
                     validUN = false;
@@ -158,16 +160,16 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
             get_username.trim();
             if (!get_username.equals("")){
                 if (get_username.matches(ModelInputRequirement.USERNAME)) {
-                    username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_user, 0, R.drawable.ic_valid_input, 0);
+                    username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, R.drawable.ic_valid_input, 0);
                     username_container.setErrorEnabled(false);
                     validUN = true;
                 } else {
-                    username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_user, 0, R.drawable.ic_invalid_input, 0);
+                    username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, R.drawable.ic_invalid_input, 0);
                     validUN = false;
                 }
             }
             else {
-                username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_user, 0, 0, 0);
+                username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, 0, 0);
                 validUN = false;
             }
         } else if (password.getText().hashCode() == s.hashCode()){ //Check password
@@ -175,17 +177,17 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
             get_pw.trim();
             if (!get_pw.equals("")){
                 if (get_pw.matches(ModelInputRequirement.PASSWORD)) {
-                    password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_password, 0, R.drawable.ic_valid_input, 0);
+                    password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0, R.drawable.ic_valid_input, 0);
                     password_container.setErrorEnabled(false);
                     validPW = true;
                 }
                 else{
-                    password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_password, 0 , R.drawable.ic_invalid_input, 0);
+                    password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0 , R.drawable.ic_invalid_input, 0);
                     validPW = false;
                 }
             }
             else{
-                password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_password, 0 , 0, 0);
+                password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0 , 0, 0);
                 validPW = false;
             }
         } else if (password_confirm.getText().hashCode() == s.hashCode()){ //Check password
@@ -193,17 +195,17 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
             pwconf.trim();
             if (!pwconf.equals("")){
                 if (pwconf.equals(password.getText().toString())) {
-                    password_confirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pw_confirm, 0, R.drawable.ic_valid_input, 0);
+                    password_confirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_valid_input, 0);
                     password_confirm_container.setErrorEnabled(false);
                     validPWConf = true;
                 }
                 else{
-                    password_confirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pw_confirm, 0 , R.drawable.ic_invalid_input, 0);
+                    password_confirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0 , R.drawable.ic_invalid_input, 0);
                     validPWConf = false;
                 }
             }
             else{
-                password_confirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pw_confirm, 0 , 0, 0);
+                password_confirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0 , 0, 0);
                 validPWConf = false;
             }
         }
