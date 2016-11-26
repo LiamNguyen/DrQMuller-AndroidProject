@@ -19,12 +19,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/name"
+                android:textColor="@color/colorLightBlack"
                 android:textSize="20sp"/>
 
             <TextView
                 android:layout_below="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorLightBlack"
                 android:textSize="20sp"
                 android:id="@+id/voucher"/>
 
@@ -32,6 +34,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Từ"
+                android:textStyle="bold"
+                android:textColor="@color/colorLightBlack"
                 android:id="@+id/startdatetitle"
                 android:layout_below="@id/voucher"
                 android:textSize="20sp"/>
@@ -40,6 +44,7 @@
                 android:layout_below="@+id/startdatetitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorLightBlack"
                 android:textSize="20sp"
                 android:id="@+id/startdate" />
 
@@ -48,6 +53,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/enddate"
                 android:text="Đến"
+                android:textStyle="bold"
+                android:textColor="@color/colorLightBlack"
                 android:id="@+id/enddatetitle"
                 android:layout_below="@id/voucher"
                 android:textSize="20sp"/>
@@ -58,6 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
+                android:textColor="@color/colorLightBlack"
                 android:id="@+id/enddate" />
 
             <TextView
@@ -65,6 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
+                android:textColor="@color/colorLightBlack"
                 android:id="@+id/status" />
 
         </RelativeLayout>

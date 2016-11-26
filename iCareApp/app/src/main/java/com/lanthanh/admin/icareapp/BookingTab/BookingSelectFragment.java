@@ -180,7 +180,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.booking_next_button){
-            if (booking.isDataEmpty()){
+            if (booking.isDataEmpty(typeSp.getSelectedItem().toString().equals(getString(R.string.booking_type_fixed)))){
                 Toast.makeText(getActivity(), getString(R.string.missing_detail), Toast.LENGTH_SHORT).show();
             }else {
                 aController.setRequestData(getActivity(), this, ModelURL.UPDATE_VALIDATEAPPOINTMENT.getUrl(MainActivity.isUAT), "");
@@ -316,7 +316,11 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                 booking.setVoucher(mapToVoucherID.get(voucherSp.getSelectedItem().toString().substring(0, voucherSp.getSelectedItem().toString().indexOf("-") - 1)), voucherSp.getSelectedItem().toString());
                 break;
             case R.id.spinner_type:
-                startDate.setEnabled(true);
+                System.out.println(typeSp.getSelectedItem().toString().equals(getString(R.string.booking_type_fixed)));
+                if (typeSp.getSelectedItem().toString().equals(getString(R.string.booking_type_fixed)))
+                    startDate.setEnabled(true);
+                else
+                    startDate.setEnabled(false);
                 booking.setType(typeSp.getSelectedItem().toString());
             default:
                 break;

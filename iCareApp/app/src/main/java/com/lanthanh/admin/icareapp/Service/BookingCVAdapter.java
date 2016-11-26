@@ -2,6 +2,7 @@ package com.lanthanh.admin.icareapp.Service;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +19,14 @@ import java.util.List;
  */
 
 public class BookingCVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener{
-
         private List<BookingItem> list;
         private Activity ctx;
+        private Typeface font;
 
         public BookingCVAdapter(Activity context, List<BookingItem> list){
             ctx = context;
             this.list = list;
+            font = Typeface.createFromAsset(ctx.getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
         }
 
 
@@ -77,10 +79,15 @@ public class BookingCVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 super(itemView);
 
                 txt1 = (TextView) itemView.findViewById(R.id.name);
+                txt1.setTypeface(font);
                 txt2 = (TextView) itemView.findViewById(R.id.voucher);
+                txt2.setTypeface(font);
                 txt3 = (TextView) itemView.findViewById(R.id.startdate);
+                txt3.setTypeface(font);
                 txt4 = (TextView) itemView.findViewById(R.id.enddate);
+                txt4.setTypeface(font);
                 txt5 = (TextView) itemView.findViewById(R.id.status);
+                txt5.setTypeface(font);
             }
 
             public void setName(String s) {

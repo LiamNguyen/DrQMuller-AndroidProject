@@ -92,8 +92,11 @@ public class ModelBookingDetail {
         return code;
     }
 
-    public boolean isDataEmpty(){
-        return (location.isEmpty() || voucher.isEmpty() || type.isEmpty() || start_date.isEmpty() || expire_date.isEmpty());
+    public boolean isDataEmpty(boolean isFixed){
+        if (isFixed)
+            return (location.isEmpty() || voucher.isEmpty() || type.isEmpty() || start_date.isEmpty() || expire_date.isEmpty());
+        else
+            return (location.isEmpty() || voucher.isEmpty() || type.isEmpty());
     }
 
     //Booking Day & Time
