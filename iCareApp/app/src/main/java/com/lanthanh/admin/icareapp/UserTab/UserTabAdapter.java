@@ -1,6 +1,7 @@
 package com.lanthanh.admin.icareapp.UserTab;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +23,14 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int TYPE_BODY = 1;
     private List<String> list;
     private Activity ctx;
+    private Typeface fontName;
+    private Typeface fontNorm;
 
     public UserTabAdapter(Activity context, List<String> list){
         ctx = context;
         this.list = list;
+        this.fontName = Typeface.createFromAsset(ctx.getAssets(), "fonts/OpenSans-Bold.ttf");//Custom font
+        this.fontNorm = Typeface.createFromAsset(ctx.getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
     }
 
     @Override
@@ -63,12 +68,17 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((HeaderViewHolder) holder).setName(list.get(position));
         }else{
             ((BodyViewHolder) holder).setOption(list.get(position));
-            ((BodyViewHolder) holder).getView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((MainActivity) ctx).navigateToBookingDetails();
-                }
-            });
+            if (position == 1) {
+                ((BodyViewHolder) holder).setOptionImage(R.drawable.ic_bag);
+                ((BodyViewHolder) holder).getView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ((MainActivity) ctx).navigateToBookingDetails();
+                    }
+                });
+            }else  if (position == 2){
+                ((BodyViewHolder) holder).setOptionImage(R.drawable.ic_logout);
+            }
         }
     }
 
@@ -77,7 +87,7 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         // for any view that will be set as you render a row
         private TextView txtName;
         private TextView txtDetail;
-        private ImageView img;
+//        private ImageView img;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -87,8 +97,10 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(itemView);
 
             txtName = (TextView) itemView.findViewById(R.id.user_name);
+            txtName.setTypeface(fontName);
             txtDetail = (TextView) itemView.findViewById(R.id.user_detail);
-            img = (ImageView) itemView.findViewById(R.id.user_img);
+            txtDetail.setTypeface(fontNorm);
+//            img = (ImageView) itemView.findViewById(R.id.user_img);
         }
 
         public void setName(String s){
@@ -97,24 +109,24 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public class BodyViewHolder extends RecyclerView.ViewHolder {
-        // Your holder should contain a member variable
-        // for any view that will be set as you render a row
         private TextView txtOpt;
         private ImageView img;
         private View itemView;
-        // We also create a constructor that accepts the entire item row
-        // and does the view lookups to find each subview
+
         public BodyViewHolder(View itemView) {
-            // Stores the itemView in a public final member variable that can be used
-            // to access the context from any ViewHolder instance.
             super(itemView);
             this.itemView = itemView;
             txtOpt = (TextView) itemView.findViewById(R.id.user_option);
+            txtOpt.setTypeface(fontNorm);
             img = (ImageView) itemView.findViewById(R.id.user_img);
         }
 
         public void setOption(String s){
             txtOpt.setText(s);
+        }
+
+        public void setOptionImage(int resId){
+            img.setImageResource(resId);
         }
 
         public View getView(){

@@ -4,24 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/colorPrimary"
     android:fillViewport="true">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageButton
-            android:id="@+id/back_button"
-            android:layout_width="40dp"
-            android:layout_weight="0"
-            app:srcCompat="@drawable/ic_back_button"
-            android:elevation="0dp"
-            android:background="@android:color/background_light"
-            android:scaleType="fitXY"
-            android:layout_height="40dp" />
-
         <TextView
+            android:id="@+id/ui_dob_txt"
             android:text="@string/dob"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal" />
@@ -29,6 +22,7 @@
         <DatePicker
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:id="@+id/datePicker"
             android:datePickerMode="spinner"
             android:spinnersShown="true"
@@ -38,6 +32,7 @@
         <TextView
             android:id="@+id/ui_dob_noti"
             android:text="@string/dob_null"
+            android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -45,7 +40,10 @@
             android:layout_marginBottom="20dp"/>
 
         <TextView
+            android:id="@+id/ui_gender_txt"
             android:text="@string/gender"
+            android:textSize="20dp"
+            android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal" />
@@ -54,15 +52,17 @@
             android:id="@+id/ui_radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:gravity="center">
             <RadioButton
                 android:id="@+id/ui_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/male"
+                android:textColor="@color/colorWhite"
                 android:button="@null"
                 android:drawableEnd="@android:drawable/btn_radio"
-                android:drawableStart="@drawable/ic_user"
+                android:drawableStart="@drawable/ic_person_white_36dp"
                 />
             <RadioButton
                 android:id="@+id/ui_female"
@@ -70,34 +70,35 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:text="@string/female"
+                android:textColor="@color/colorWhite"
                 android:button="@null"
                 android:drawableEnd="@android:drawable/btn_radio"
-                android:drawableStart="@drawable/ic_user"
+                android:drawableStart="@drawable/ic_person_white_36dp"
                 />
         </RadioGroup>
 
         <TextView
             android:id="@+id/ui_gender_noti"
             android:text="@string/gender_null"
+            android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:visibility="invisible"/>
 
-        <LinearLayout
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/ui_next_button_p2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp">
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/ui_next_button_p2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="30dp"
-                android:padding="12dp"
-                android:text="@string/next_button"/>
-        </LinearLayout>
-
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:padding="12dp"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/button_style"
+            android:textSize="18sp"
+            android:text="@string/next_button"/>
     </LinearLayout>
 </ScrollView>

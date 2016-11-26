@@ -9,11 +9,11 @@
         layout="@layout/toolbar"/>
 
     <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/wel_fragment_container"
         android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </FrameLayout>
+
 </RelativeLayout>
 

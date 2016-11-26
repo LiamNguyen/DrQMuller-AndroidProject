@@ -128,19 +128,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     onNavigationItemSelected(bottomNavigationView.getMenu().getItem(1));
                     //bottomNavigationView.getMenu().getItem(1).setChecked(true);
                 }
-            }else if (b.containsKey("isBookingSuccess")){
-                int m = b.getInt("isBookingSuccess");
-                if (m == 1) {
-                    onNavigationItemSelected(bottomNavigationView.getMenu().getItem(1));
-                    //bottomNavigationView.getMenu().getItem(1).setChecked(true);
-                    new AlertDialog.Builder(this)
-                            .setMessage("Quí khách đã đặt lịch hẹn thành công")
-                            .setPositiveButton("Đóng", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            }).setCancelable(false).show();
-                }
             }else if (b.containsKey("fromUserTab")){
                 if (b.getBoolean("fromUserTab"))
                     onNavigationItemSelected(bottomNavigationView.getMenu().getItem(2));
@@ -261,10 +248,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     //Adapter for PopupWindow
     class ListPopupWindowAdapter extends ArrayAdapter<String> {
+        private Typeface font;
         private List<String> list;
         public ListPopupWindowAdapter(Activity context, int textViewResourceId, List<String> l) {
             super(context, textViewResourceId, l);
             list = l;
+            font = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Semibold.ttf");//Custom font
         }
 
         @Override
@@ -294,11 +283,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             TextView label = holder.getTextView();
             if (list.size() <= 0) {
                 label.setText(getString(R.string.empty_cart));
+                label.setTypeface(font);
             }else{
                 if (position == 0) {
                     label.setText(getString(R.string.list_cart));
+                    label.setTypeface(font);
                 } else {
                     label.setText(getItem(position));
+                    label.setTypeface(font);
                     ImageView icon = holder.getImageView();
                     icon.setImageResource(R.drawable.ic_delete_item);
                 }

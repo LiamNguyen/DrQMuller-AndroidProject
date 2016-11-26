@@ -1,5 +1,7 @@
 package com.lanthanh.admin.icareapp.UserInfo;
 
+import android.graphics.Typeface;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -27,14 +30,26 @@ public class DOBvsGenderFragment extends Fragment implements DatePicker.OnDateCh
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.userinfo_dobvsgender, container, false);
 
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+
+        //Header
+        TextView dob_txt = (TextView) view.findViewById(R.id.ui_dob_txt);
+        dob_txt.setTypeface(font);
+        TextView gender_txt = (TextView) view.findViewById(R.id.ui_gender_txt);
+        gender_txt.setTypeface(font);
+        //Date picker
         DatePicker dPicker = (DatePicker) view.findViewById(R.id.datePicker);
         dPicker.init(1998, 0, 1, this);
+        //Gender group
         RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.ui_radio_group);
         radioGroup.setOnCheckedChangeListener(this);
-        AppCompatButton button = (AppCompatButton) view.findViewById(R.id.ui_next_button_p2) ;
+        AppCompatButton button = (AppCompatButton) view.findViewById(R.id.ui_next_button_p2);
+        RadioButton male = (RadioButton) view.findViewById(R.id.ui_male);
+        male.setTypeface(font);
+        RadioButton female = (RadioButton) view.findViewById(R.id.ui_female);
+        female.setTypeface(font);
         button.setOnClickListener(this);
-        ImageButton back = (ImageButton) view.findViewById(R.id.back_button);
-        back.setOnClickListener(this);
+        button.setTypeface(font);
         dob_noti = (TextView) view.findViewById(R.id.ui_dob_noti);
         gender_noti = (TextView) view.findViewById(R.id.ui_gender_noti);
 
@@ -78,9 +93,6 @@ public class DOBvsGenderFragment extends Fragment implements DatePicker.OnDateCh
                         gender_noti.setVisibility(View.VISIBLE);
                     }
                 }
-                break;
-            case R.id.back_button:
-                ((UserInfoActivity) getActivity()).navigateBack();
                 break;
             default:
                 break;

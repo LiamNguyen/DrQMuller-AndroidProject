@@ -35,7 +35,7 @@
     <color name="colorBlack">#000000</color>
     <color name="colorDarkGray">#616161</color>
     <color name="colorGreen">#00C853</color>
-    <color name="colorLightBlack">#212121</color>
+    <color name="colorLightBlack">#424242</color>
     <color name="colorLightGray">#9E9E9E</color>
     <color name="colorLightPurple">#BA68C8</color>
     <color name="colorLightRed">#EF5350</color>
@@ -609,8 +609,10 @@
     <string name="booking_district_hint">Chọn Quận</string>
     <string name="booking_end_date">Ngày Kết Thúc</string>
     <string name="booking_error_date">Ngày không hợp lệ. Xin vui lòng chọn lại</string>
+    <string name="booking_fail">Nhập mã xác nhận chưa hoàn tất\nQuí khách có thể bấm vào thông tin lịch hẹn để hoàn thành xác nhận</string>
     <string name="booking_location_hint">Chọn Địa Điểm</string>
     <string name="booking_start_date">Ngày Bắt Đầu</string>
+    <string name="booking_success">Quí khách đã đặt lịch hẹn thành công</string>
     <string name="booking_tab">Lịch Hẹn</string>
     <string name="booking_type_fixed">Cố định</string>
     <string name="booking_type_free">Tự do</string>
@@ -620,6 +622,7 @@
     <string name="change_button">Thay Đổi</string>
     <string name="change_email_button">Thay Đổi Email</string>
     <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
+    <string name="close_dialog">Đóng</string>
     <string name="contact">Cách Thức Liên Lạc</string>
     <string name="define_AndroidActionItemBadge">year;owner</string>
     <string name="define_AndroidIconics">year;owner</string>
@@ -677,6 +680,7 @@
     <string name="name_requirement">Không dùng kí tự đặc biệt và số ngoại trừ -, ., \'</string>
     <string name="news_tab">Mới</string>
     <string name="next_button">Tiếp Tục</string>
+    <string name="not_confirm_yet">Chưa Xác Nhận</string>
     <string name="password_confirm_hint">Xác Nhận Mật Khẩu</string>
     <string name="password_confirm_null">Xin vui lòng xác nhận lại mật khẩu</string>
     <string name="password_confirm_requirement">Mật khẩu không trùng khớp</string>
@@ -700,8 +704,8 @@
     <string name="tuesday">Thứ Ba</string>
     <string name="user_detail">Xem Và Sửa Đổi Thông Tin Cá Nhân</string>
     <string name="user_name">Tên Khách Hàng</string>
-    <string name="user_option_bag">Giỏ Hàng</string>
-    <string name="user_option_settings">Cài Đặt</string>
+    <string name="user_option_bag">Thông Tin Lịch Hẹn</string>
+    <string name="user_option_logout">Đăng Xuất</string>
     <string name="user_tab">Tài Khoản</string>
     <string name="username_input_hint">Tên Đăng Nhập</string>
     <string name="username_invalid">Tên đăng nhập đã được sử dụng</string>
@@ -721,7 +725,7 @@
         <item name="android:windowExitAnimation">@anim/design_bottom_sheet_slide_out</item>
     </style>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+        
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -2018,13 +2022,22 @@
     <style name="TextAppearance.Widget.AppCompat.Toolbar.Title" parent="Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
     </style>
     <style name="TextLabel" parent="Widget.Design.TextInputLayout">
-        <!-- Hint color and label color in FALSE state -->
+        
         <item name="android:textColorHint">@color/colorWhite</item>
         <item name="android:textSize">20sp</item>
-        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        
 
         <item name="colorControlNormal">@color/colorWhite</item>
         <item name="colorControlActivated">@color/colorWhite</item>
+    </style>
+    <style name="TextLabelMain" parent="Widget.Design.TextInputLayout">
+        
+        <item name="android:textColorHint">@color/colorPrimary</item>
+        <item name="android:textSize">20sp</item>
+        
+
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
     <style name="Theme.AppCompat" parent="Base.Theme.AppCompat"/>
     <style name="Theme.AppCompat.CompactMenu" parent="Base.Theme.AppCompat.CompactMenu"/>
@@ -2087,14 +2100,14 @@
     <style name="ThemeOverlay.AppCompat.Dialog.Alert" parent="Base.ThemeOverlay.AppCompat.Dialog.Alert"/>
     <style name="ThemeOverlay.AppCompat.Light" parent="Base.ThemeOverlay.AppCompat.Light"/>
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <!-- Applies to views in their normal state. -->
+        
         <item name="colorControlNormal">@color/colorWhite</item>
-        <!-- Applies to views in their activated state (i.e checked or switches) -->
+        
         <item name="colorControlActivated">@color/colorWhite</item>
-        <!-- Applied to framework control highlights (i.e ripples or list selectors) -->
+        
         <item name="colorControlHighlight">@color/colorPrimaryDark</item>
 
-        <!-- Enable these below if you want clicking icons to trigger a ripple effect -->
+        
 
         <item name="selectableItemBackground">?android:selectableItemBackground</item>
         <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>

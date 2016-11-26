@@ -3,6 +3,7 @@ package com.lanthanh.admin.icareapp.BookingTab;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -54,8 +55,10 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         //Get ModelBookingDetails
         booking = ((MainActivity) getActivity()).getModelBooking();
         //Get finish button
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
         AppCompatButton button = (AppCompatButton) view.findViewById(R.id.booking_finish_button);
         button.setOnClickListener(this);
+        button.setTypeface(font);
         //Create time comparator
         timeComparator = new TimeComparator();
         //Get expandable list
@@ -310,7 +313,7 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         data.put(booking.getLocation());
         data.put(booking.getStartDate());
         data.put(booking.getExpireDate());
-        data.put("Chưa Xác Nhận");
+        data.put(getActivity().getString(R.string.not_confirm_yet));
         data.put(booking.getCode());
 
         if (!sharedPref.getString("bookingCode", "").isEmpty())

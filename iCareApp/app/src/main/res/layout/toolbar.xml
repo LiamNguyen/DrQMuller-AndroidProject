@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
+    app:layout_scrollFlags="scroll|enterAlways"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:minHeight="?attr/actionBarSize"
@@ -17,5 +18,6 @@
         android:textSize="25sp"
         android:gravity="center"
         android:layout_gravity="start"
-        android:id="@+id/toolbar_title" />
+        android:id="@+id/toolbar_title"
+        />
 </android.support.v7.widget.Toolbar>

@@ -4,13 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:padding="20dp">
+    android:paddingBottom="10dp"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp">
 
     <TextView
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:textColor="@color/colorLightBlack"
         android:textSize="30sp"/>
 
     <TextView
@@ -18,14 +21,23 @@
         android:layout_below="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@color/colorLightBlack"
         android:layout_marginTop="10dp"
         android:text="@string/user_detail"/>
 
-    <ImageView
-        android:id="@+id/user_img"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerInParent="true"
-        android:src="@drawable/ic_user_2" />
+    <!--<ImageView-->
+        <!--android:id="@+id/user_img"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:src="@drawable/ic_user_2" />-->
+
+    <View
+        android:id="@+id/line"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorVeryLightGray"/>
 </RelativeLayout>

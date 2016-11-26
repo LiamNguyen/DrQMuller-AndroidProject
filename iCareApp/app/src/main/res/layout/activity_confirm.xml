@@ -24,6 +24,7 @@
             android:id="@+id/booking_confirm_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@style/TextLabelMain"
             app:passwordToggleEnabled="false"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
@@ -34,12 +35,16 @@
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:maxLength="10"
+                android:textColor="@color/colorPrimary"
                 android:hint="@string/booking_confirm_hint"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/confirm_button"
             android:text="@string/booking_confirm_button"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorPrimary"
+            android:textSize="18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"

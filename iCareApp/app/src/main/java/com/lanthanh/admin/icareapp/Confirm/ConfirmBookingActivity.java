@@ -3,12 +3,15 @@ package com.lanthanh.admin.icareapp.Confirm;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.Controller.Controller;
@@ -17,6 +20,7 @@ import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
 import com.lanthanh.admin.icareapp.Model.ModelURL;
 import com.lanthanh.admin.icareapp.R;
 import com.google.gson.Gson;
+import com.lanthanh.admin.icareapp.Service.BookingDetailsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,9 +40,16 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
 
         aController = Controller.getInstance();
 
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
         AppCompatButton button = (AppCompatButton) findViewById(R.id.confirm_button);
-        edttxt = (TextInputEditText) findViewById(R.id.booking_confirm_input);
         button.setOnClickListener(this);
+        button.setTypeface(font);
+        edttxt = (TextInputEditText) findViewById(R.id.booking_confirm_input);
+        edttxt.setTypeface(font);
+        TextInputLayout edttxt_container = (TextInputLayout) findViewById(R.id.booking_confirm_container);
+        edttxt_container.setTypeface(font);
+        TextView txt = (TextView) findViewById(R.id.booking_instruction);
+        txt.setTypeface(font);
     }
 
     @Override
@@ -50,6 +61,14 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
             String cus_id = sharedPref.getString("tokenID", "");
             aController.setRequestData(this, this, ModelURL.UPDATE_APPOINTMENT.getUrl(MainActivity.isUAT), "cus_id=" + cus_id + "&code=" + edttxt.getText().toString().trim());
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent toDetails = new Intent(this, BookingDetailsActivity.class);
+        toDetails.putExtra("isBookingSuccess", 0);
+        startActivity(toDetails);
+        finish();
     }
 
     @Override
@@ -70,9 +89,9 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
                         Toast.makeText(this, "Mã xác nhận không hợp lệ", Toast.LENGTH_LONG).show();
                     }else{
                         updateBookingStatus(edttxt.getText().toString().trim());
-                        Intent toMain = new Intent(this, MainActivity.class);
-                        toMain.putExtra("isBookingSuccess", 1);
-                        startActivity(toMain);
+                        Intent toDetails = new Intent(this, BookingDetailsActivity.class);
+                        toDetails.putExtra("isBookingSuccess", 1);
+                        startActivity(toDetails);
                         finish();
                     }
                 }
@@ -93,7 +112,6 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
             for (int i = 0; i < bookingCode.length(); i ++) {
                 try {
                     JSONArray data = gson.fromJson(sharedPref.getString(bookingCode.getString(i), ""), JSONArray.class);
-                    System.out.println(data);
                     if (data.getString(6).equals(s)) {
                         data.put(5, "Đã Xác Nhận");
                         editor.putString(bookingCode.getString(i), gson.toJson(data));

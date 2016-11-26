@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.UserInfo;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -31,14 +32,21 @@ public class NameAndLocationFragment extends Fragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.userinfo_name, container, false);
 
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+
         name = (TextInputEditText) view.findViewById(R.id.ui_name_input);
         name.addTextChangedListener(this);
+        name.setTypeface(font);
         address = (TextInputEditText) view.findViewById(R.id.ui_address_input);
         address.addTextChangedListener(this);
+        address.setTypeface(font);
         AppCompatButton button = (AppCompatButton) view.findViewById(R.id.ui_next_button_p1);
         button.setOnClickListener(this);
+        button.setTypeface(font);
         name_container = (TextInputLayout) view.findViewById(R.id.ui_name_container);
+        name_container.setTypeface(font);
         address_container = (TextInputLayout) view.findViewById(R.id.ui_address_container);
+        address_container.setTypeface(font);
 
         validName = false;
         validAddress = false;
@@ -96,15 +104,15 @@ public class NameAndLocationFragment extends Fragment implements View.OnClickLis
             get_name.trim();
             if (!get_name.equals("")){
                 if (get_name.matches(ModelInputRequirement.NAME)){
-                    name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_input, 0, R.drawable.ic_valid_input, 0);
+                    name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_mode_edit_white_36dp, 0, R.drawable.ic_valid_input, 0);
                     name_container.setErrorEnabled(false);
                     validName = true;
                 }else{
-                    name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_input, 0, R.drawable.ic_invalid_input, 0);
+                    name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_mode_edit_white_36dp, 0, R.drawable.ic_invalid_input, 0);
                     validName = false;
                 }
             }else {
-                name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_input, 0, 0, 0);
+                name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_mode_edit_white_36dp, 0, 0, 0);
                 validName = false;
             }
         }else if (address.getText().hashCode() == s.hashCode()){//Edit Address
@@ -112,15 +120,15 @@ public class NameAndLocationFragment extends Fragment implements View.OnClickLis
             get_address.toString();
             if (!get_address.equals("")){
                 if (get_address.matches(ModelInputRequirement.ADDRESS)){
-                    address.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_location, 0, R.drawable.ic_valid_input, 0);
+                    address.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pin_drop_white_36dp, 0, R.drawable.ic_valid_input, 0);
                     address_container.setErrorEnabled(false);
                     validAddress = true;
                 }else{
-                    address.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_location, 0, R.drawable.ic_invalid_input, 0);
+                    address.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pin_drop_white_36dp, 0, R.drawable.ic_invalid_input, 0);
                     validAddress = false;
                 }
             }else {
-                address.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_location, 0, 0, 0);
+                address.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pin_drop_white_36dp, 0, 0, 0);
                 validAddress = false;
             }
         }

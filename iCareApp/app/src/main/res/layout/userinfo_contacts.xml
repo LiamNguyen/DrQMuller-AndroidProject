@@ -4,33 +4,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/colorPrimary"
     android:fillViewport="true">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageButton
-            android:id="@+id/back_button"
-            android:layout_width="40dp"
-            android:layout_weight="0"
-            app:srcCompat="@drawable/ic_back_button"
-            android:elevation="0dp"
-            android:background="@android:color/background_light"
-            android:scaleType="fitXY"
-            android:layout_height="40dp" />
+        android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/ui_contacts_noti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:padding="30dp"
+            android:textColor="@color/colorWhite"
             android:text="@string/phone_important"/>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/ui_email_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@style/TextLabel"
+            app:errorTextAppearance="@style/ErrorAppearance"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
             <android.support.design.widget.TextInputEditText
@@ -38,7 +33,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:drawableStart="@drawable/ic_email"
+                android:drawableStart="@drawable/ic_local_post_office_white_36dp"
+                android:textColor="@color/colorWhite"
                 android:drawablePadding="5dp"
                 android:hint="@string/email_hint"
                 android:ems="10"/>
@@ -48,17 +44,20 @@
             android:id="@+id/ui_phone_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@style/TextLabel"
+            app:errorTextAppearance="@style/ErrorAppearance"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/ui_phone_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:drawableStart="@drawable/ic_phone"
-            android:drawablePadding="5dp"
-            android:hint="@string/phone_hint"
-            android:ems="10"/>
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/ui_phone_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:drawableStart="@drawable/ic_local_phone_white_36dp"
+                android:drawablePadding="5dp"
+                android:hint="@string/phone_hint"
+                android:textColor="@color/colorWhite"
+                android:ems="10"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
@@ -69,8 +68,10 @@
             android:layout_marginBottom="30dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/button_style"
+            android:textSize="18sp"
             android:padding="12dp"
             android:text="@string/next_button"/>
-
     </LinearLayout>
 </ScrollView>

@@ -7,8 +7,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.MainActivity;
 import com.lanthanh.admin.icareapp.R;
@@ -28,6 +31,7 @@ public class UserInfoActivity extends AppCompatActivity{
     private ContactFragment contactFragment;
     private ValidateFragment validateFragment;
     private ChangeEmailFragment changeEmailFragment;
+    private Toolbar toolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +45,32 @@ public class UserInfoActivity extends AppCompatActivity{
         validateFragment = new ValidateFragment();
         changeEmailFragment = new ChangeEmailFragment();
 
+        toolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolBar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView title = (TextView) toolBar.findViewById(R.id.toolbar_title);
+        title.setVisibility(View.GONE);
+
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.ui_fragment_container, nameLocationFragment, nameLocationFragment.getClass().getName()).commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (nameLocationFragment.isVisible())
+                    navigateToRegister();
+                else
+                    navigateBack();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /*
@@ -100,6 +128,8 @@ public class UserInfoActivity extends AppCompatActivity{
 
         //Hide soft keyboard if it is open
         hideSoftKeyboard();
+
+        toolBar.setVisibility(View.GONE);
     }
 
     public void navigateToChangeEmail(){
@@ -186,5 +216,21 @@ public class UserInfoActivity extends AppCompatActivity{
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    //Hide/show tool bar
+    public void isToolBarHidden(boolean hidden){
+        if (hidden)
+            toolBar.setVisibility(View.GONE);
+        else
+            toolBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (nameLocationFragment.isVisible())
+            navigateToRegister();
+        else
+            navigateBack();
     }
 }

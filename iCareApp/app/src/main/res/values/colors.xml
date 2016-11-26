@@ -10,7 +10,7 @@
     <color name="colorVeryLightGray">#EEEEEE</color>
     <color name="colorLightRed">#EF5350</color>
     <color name="colorBlack">#000000</color>
-    <color name="colorLightBlack">#212121</color>
+    <color name="colorLightBlack">#424242</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGreen">#00C853</color>
 </resources>

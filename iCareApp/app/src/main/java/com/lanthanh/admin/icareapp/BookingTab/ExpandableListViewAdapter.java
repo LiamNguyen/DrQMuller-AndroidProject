@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
     private List<String> listOfDays, listOfHours;
-    //private Map<String,List<String>> listOfHoursPerDay;
+    private Typeface fontDay, fontTime;
     private Activity context;
     private ViewHolder holder;
 
@@ -32,6 +32,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
         this.listOfDays = listOfDays;
         this.listOfHours = listOfHours;
         this.context = context;
+        this.fontDay = Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Regular.ttf");//Custom font
+        this.fontTime = Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
     }
 
     //Get one header (a day of week) of the group
@@ -96,7 +98,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
 
         TextView dayDisplay = holder.getTextDisplay();
         dayDisplay.setText((String)getGroup(groupPosition));
-        dayDisplay.setTypeface(null, Typeface.BOLD);
+        dayDisplay.setTypeface(fontDay);
 
         return convertView;
     }
@@ -116,6 +118,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
 
         TextView timeDisplay = holder.getTextDisplay();
         timeDisplay.setText((String)getChild(groupPosition, childPosition));
+        timeDisplay.setTypeface(fontTime);
 
         return convertView;
     }
@@ -126,12 +129,12 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
         private int viewID;
         private TextView text;
 
-        public ViewHolder(View base, int id){
+        ViewHolder(View base, int id){
             this.base = base;
             this.viewID = id;
         }
 
-        public TextView getTextDisplay(){
+        TextView getTextDisplay(){
             if (text == null)
                 text = (TextView) base.findViewById(viewID);
 
@@ -139,12 +142,12 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
         }
     }
 
-    public void updateGroupList(List<String> l){
+    void updateGroupList(List<String> l){
         listOfDays = l;
         this.notifyDataSetChanged();
     }
 
-    public void updateChildList(List<String> l){
+    void updateChildList(List<String> l){
         listOfHours = l;
         this.notifyDataSetChanged();
     }

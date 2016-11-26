@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -140,10 +141,13 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
 
         /* =============================== PICK DATE =============================== */
         //Initialize TextInputEditText
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
         startDate = (TextInputEditText) view.findViewById(R.id.booking_startdate);
         startDate.setOnClickListener(this);
+        startDate.setTypeface(font);
         endDate = (TextInputEditText) view.findViewById(R.id.booking_enddate);
         endDate.setOnClickListener(this);
+        endDate.setTypeface(font);
 
         /* =============================== LAST STEP =============================== */
         //Initialize data for Country Spinner first
@@ -151,8 +155,15 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
 
         AppCompatButton nextBut = (AppCompatButton) view.findViewById(R.id.booking_next_button);
         nextBut.setOnClickListener(this);
+        nextBut.setTypeface(font);
 
         return view;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden && isVisible())
+            aController.setRequestData(getActivity(), this, ModelURL.SELECT_COUNTRIES.getUrl(MainActivity.isUAT), "");
     }
 
     private void updateDateLabel(TextInputEditText t) {
@@ -313,6 +324,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
     }
 
     private class CustomSpinnerAdapter extends ArrayAdapter{
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
 
         public CustomSpinnerAdapter(Context ctx, int layout, List<String> list){
             super(ctx, layout, list);
@@ -338,10 +350,10 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
             TextView tv = (TextView) view;
 
             if(position == 0)
-                tv.setTextColor(Color.GRAY);// Set the hint text color gray
+                tv.setTextColor(getResources().getColor(R.color.colorLightGray));// Set the hint text color gray
             else
-                tv.setTextColor(Color.BLACK);
-
+                tv.setTextColor(getResources().getColor(R.color.colorLightBlack));
+            tv.setTypeface(font);
             return view;
         }
 
@@ -349,11 +361,12 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = super.getView(position, convertView, parent);
+            ((TextView) view).setTypeface(font);
             TextView tv = (TextView) view;
 
             if (parent.getId() == R.id.spinner_countries || parent.getId() == R.id.spinner_cities || parent.getId() == R.id.spinner_districts){
                 if (!parent.isEnabled())
-                    tv.setTextColor(getResources().getColor(R.color.colorBlack));
+                    tv.setTextColor(getResources().getColor(R.color.colorLightBlack));
             }
 
             return view;

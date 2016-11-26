@@ -27,8 +27,9 @@ public class UserFragment extends Fragment{
         View view = inflater.inflate(R.layout.user, container, false);
         List<String> list = new ArrayList<>();
         SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
-        list.add(sharedPref.getString("tokenName", "Tên Khách Hàng"));
-        list.add("Thông Tin Lịch Hẹn");
+        list.add(sharedPref.getString("tokenName", getString(R.string.user_name)));
+        list.add(getString(R.string.user_option_bag));
+        list.add(getString(R.string.user_option_logout));
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.user_recycler_view);
         UserTabAdapter adapter = new UserTabAdapter(getActivity(), list);
         rv.setAdapter(adapter);
