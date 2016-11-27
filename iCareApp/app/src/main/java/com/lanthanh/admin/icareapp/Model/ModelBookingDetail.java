@@ -96,10 +96,14 @@ public class ModelBookingDetail {
         if (isFixed)
             return (location.isEmpty() || voucher.isEmpty() || type.isEmpty() || start_date.isEmpty() || expire_date.isEmpty());
         else
-            return (location.isEmpty() || voucher.isEmpty() || type.isEmpty());
+            return (location.isEmpty() || voucher.isEmpty() || type.isEmpty() || expire_date.isEmpty());
     }
 
     //Booking Day & Time
+    public void saveBookingInfo(String s){
+
+    }
+
     public void saveBooking(String day, String time){
         booking.put(day, time);
     }

@@ -125,6 +125,7 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                 availableTime.clear();
                 availableTime.addAll(timeList);
                 JSONArray selected = status.getJSONArray("Select_SelectedTime");//Get the array of time
+                System.out.println(selected);
                 for (int i = 0; i < selected.length(); i++) {
                     JSONObject jOb = (JSONObject) selected.get(i);
                     if (availableTime.contains(jOb.getString("TIME")))
@@ -258,7 +259,6 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(groupPosition) + " - " + tv.getText().toString());
         availableTime.remove(childPosition);
         adapter.notifyDataSetChanged();
-        //day_id = 7;
         time_id = timeList.indexOf(tv.getText().toString()) + 1;
         aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
         booking.saveBooking(Integer.toString(day_id), Integer.toString(time_id));
@@ -301,6 +301,7 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
     }
 
     public void putBookingToPref(){
+        int count = 0;
         Gson gson = new Gson();
 
         JSONArray data = new JSONArray();
@@ -313,8 +314,21 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         data.put(booking.getLocation());
         data.put(booking.getStartDate());
         data.put(booking.getExpireDate());
-        data.put(getActivity().getString(R.string.not_confirm_yet));
+        data.put(getActivity().getString(R.string.confirmed));
         data.put(booking.getCode());
+        for (String s: booking.getBookingDays()){
+            int day = Integer.parseInt(s);
+            int time = Integer.parseInt(booking.getBookingTime(s));
+            data.put(daysList.get(day - 1) + " - " + timeList.get(time - 1));
+            count++;
+        }
+        if (count == 2){
+            data.put("");
+        }else if (count == 1){
+            data.put("");
+            data.put("");
+        }
+        data.put(booking.getType());
 
         if (!sharedPref.getString("bookingCode", "").isEmpty())
             bookingCode = gson.fromJson(sharedPref.getString("bookingCode", ""), JSONArray.class);

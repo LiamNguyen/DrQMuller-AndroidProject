@@ -33,7 +33,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Từ"
+                android:text="@string/from_date"
                 android:textStyle="bold"
                 android:textColor="@color/colorLightBlack"
                 android:id="@+id/startdatetitle"
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/enddate"
-                android:text="Đến"
+                android:text="@string/to_date"
                 android:textStyle="bold"
                 android:textColor="@color/colorLightBlack"
                 android:id="@+id/enddatetitle"

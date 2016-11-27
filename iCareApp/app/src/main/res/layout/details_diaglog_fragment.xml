@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:fillViewport="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+        <TextView
+            android:id="@+id/nametitle"
+            android:textColor="@color/colorLightBlack"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="@string/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/name"
+            android:textColor="@color/colorLightBlack"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nametitle"/>
+
+        <TextView
+            android:id="@+id/addresstitle"
+            android:textColor="@color/colorLightBlack"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="@string/address"
+            android:layout_below="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/address"
+            android:textColor="@color/colorLightBlack"
+            android:textSize="20sp"
+            android:layout_below="@+id/addresstitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/vouchertitle"
+            android:textColor="@color/colorLightBlack"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="@string/voucher"
+            android:layout_below="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/voucher"
+            android:layout_below="@+id/vouchertitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorLightBlack"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/typetitle"
+            android:textColor="@color/colorLightBlack"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="@string/type"
+            android:layout_below="@+id/voucher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_below="@+id/typetitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorLightBlack"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/from_date"
+            android:textStyle="bold"
+            android:textColor="@color/colorLightBlack"
+            android:id="@+id/startdatetitle"
+            android:layout_below="@id/type"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:layout_below="@+id/startdatetitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorLightBlack"
+            android:textSize="20sp"
+            android:id="@+id/startdate" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/enddate"
+            android:text="@string/to_date"
+            android:textStyle="bold"
+            android:textColor="@color/colorLightBlack"
+            android:id="@+id/enddatetitle"
+            android:layout_below="@+id/type"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/enddate"
+            android:layout_below="@+id/enddatetitle"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/colorLightBlack"/>
+
+        <TextView
+            android:id="@+id/appointmenttitle"
+            android:textColor="@color/colorLightBlack"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="@string/appointment"
+            android:layout_below="@+id/enddate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/appointment_1"
+            android:layout_below="@+id/appointmenttitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/colorLightBlack"/>
+
+        <TextView
+            android:id="@+id/appointment_2"
+            android:layout_below="@+id/appointment_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:textColor="@color/colorLightBlack"/>
+
+        <TextView
+            android:id="@+id/appointment_3"
+            android:layout_below="@+id/appointment_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:textColor="@color/colorLightBlack"/>
+
+        <TextView
+            android:id="@+id/codetitle"
+            android:textColor="@color/colorLightBlack"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="@string/confirm_code"
+            android:layout_below="@+id/appointment_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/confirm_code"
+            android:layout_below="@+id/codetitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/colorLightBlack"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/confirm_code"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorPrimary"
+            android:textSize="18sp"
+            android:text="@string/close_dialog"/>
+
+    </RelativeLayout>
+
+</ScrollView>

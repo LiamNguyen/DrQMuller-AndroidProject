@@ -113,7 +113,7 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
                 try {
                     JSONArray data = gson.fromJson(sharedPref.getString(bookingCode.getString(i), ""), JSONArray.class);
                     if (data.getString(6).equals(s)) {
-                        data.put(5, "Đã Xác Nhận");
+                        data.put(5, getString(R.string.confirmed));
                         editor.putString(bookingCode.getString(i), gson.toJson(data));
                         editor.apply();
                         editor.commit();

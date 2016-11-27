@@ -325,20 +325,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     /* =============================== BOOKING TAB ===============================*/
     /* ------------- ALREADY LOGIN ------------- */
     //After select, move to "Book Fragment" to book date
-    public void navigateToNotSignedIn(){
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                                /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                                                        R.anim.slide_in_left, R.anim.slide_out_right);*/
-        hideAllBookingTabVisibleFragments(fragmentTransaction);
-
-        if (!bookingNotSignedIn.isAdded()){
-            fragmentTransaction.add(R.id.fragment_container, bookingNotSignedIn, bookingNotSignedIn.getClass().getName());
-        }else{
-            fragmentTransaction.show(bookingNotSignedIn);
-        }
-
-        fragmentTransaction.addToBackStack(null).commit();
-    }
 
     public void navigateToSelect(){
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -373,13 +359,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     //Get all visible fragment in Booking Tab
     private List<Fragment> getBookingTabVisibleFragments(){
         // We have 3 fragments, so initialize the arrayList to 3 to optimize memory
-        List<Fragment> result = new ArrayList<>(3);
+        List<Fragment> result = new ArrayList<>(2);
 
         // Add each visible fragment to the result IF VISIBLE
         //Add "Booking Select Fragment"
-        if (bookingNotSignedIn.isVisible()){
-            result.add(bookingNotSignedIn);
-        }
         if (bookingSelectFragment.isVisible()) {
             result.add(bookingSelectFragment);
         }
@@ -415,9 +398,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         fragmentTransaction.addToBackStack(null).commit();
     }
 
+    public void navigateToRegister(){
+        Intent toRegister = new Intent(this, RegisterActivity.class);
+        startActivity(toRegister);
+    }
+
     public void navigateToBookingDetails(){
-        Intent test = new Intent(this, BookingDetailsActivity.class);
-        startActivity(test);
+        Intent toBookingDetails = new Intent(this, BookingDetailsActivity.class);
+        startActivity(toBookingDetails);
     }
 
     private List<Fragment> getUserTabVisibleFragments(){
@@ -464,10 +452,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragmentTransaction.commit();
                 //If user signed in, these are fragments that have to appear. "Booking Select Fragment" is default
                 //Initialize Fragment
-                if (sharedPref.getString("tokenID", "").isEmpty())
-                    navigateToNotSignedIn();
-                else
-                    navigateToSelect();
+                navigateToSelect();
 
                 break;
             case R.id.action_user:

@@ -226,8 +226,12 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
 
             if (v.getId() == R.id.booking_startdate)
                 datePicker.getDatePicker().setMinDate(startCalendar.getTimeInMillis());
-            else
-                datePicker.getDatePicker().setMinDate(endCalendar.getTimeInMillis());
+            else {
+                if (endCalendar != null)
+                    datePicker.getDatePicker().setMinDate(endCalendar.getTimeInMillis());
+                else
+                    datePicker.getDatePicker().setMinDate(startCalendar.getTimeInMillis());
+            }
 
             datePicker.show();
         }
@@ -316,11 +320,16 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                 booking.setVoucher(mapToVoucherID.get(voucherSp.getSelectedItem().toString().substring(0, voucherSp.getSelectedItem().toString().indexOf("-") - 1)), voucherSp.getSelectedItem().toString());
                 break;
             case R.id.spinner_type:
-                System.out.println(typeSp.getSelectedItem().toString().equals(getString(R.string.booking_type_fixed)));
+                startDate.setEnabled(false);
+                startDate.setText(getString(R.string.booking_start_date));
+                endDate.setEnabled(false);
+                endDate.setText(getString(R.string.booking_end_date));
+                endCalendar = null;
                 if (typeSp.getSelectedItem().toString().equals(getString(R.string.booking_type_fixed)))
                     startDate.setEnabled(true);
-                else
-                    startDate.setEnabled(false);
+                else {
+                    endDate.setEnabled(true);
+                }
                 booking.setType(typeSp.getSelectedItem().toString());
             default:
                 break;

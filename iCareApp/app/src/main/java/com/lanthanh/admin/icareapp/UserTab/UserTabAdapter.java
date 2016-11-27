@@ -1,6 +1,8 @@
 package com.lanthanh.admin.icareapp.UserTab;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -78,6 +80,17 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 });
             }else  if (position == 2){
                 ((BodyViewHolder) holder).setOptionImage(R.drawable.ic_logout);
+                ((BodyViewHolder) holder).getView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SharedPreferences preferences = ctx.getSharedPreferences("content", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.clear();
+                        editor.apply();
+                        editor.commit();
+                        ((MainActivity) ctx).navigateToRegister();
+                    }
+                });
             }
         }
     }

@@ -52,6 +52,8 @@ public class DOBvsGenderFragment extends Fragment implements DatePicker.OnDateCh
         button.setTypeface(font);
         dob_noti = (TextView) view.findViewById(R.id.ui_dob_noti);
         gender_noti = (TextView) view.findViewById(R.id.ui_gender_noti);
+        dob_noti.setTypeface(font);
+        gender_noti.setTypeface(font);
 
         aController = Controller.getInstance();
 
