@@ -16,6 +16,7 @@ public enum ModelURL {
     SELECT_ALLTIMEINADAY("http://210.211.109.180/drmuller/Select_AllTime.php", "http://drqmuller.com/drmuller/Select_AllTime.php"),
     SELECT_DAYSOFWEEK("http://210.211.109.180/drmuller/Select_DaysOfWeek.php", "http://drqmuller.com/drmuller/Select_DaysOfWeek.php"),
     SELECT_SELECTEDTIME("http://210.211.109.180/drmuller/Select_SelectedTime.php", "http://drqmuller.com/drmuller/Select_SelectedTime.php"),
+    SELECT_CHECKTIMECONCURRENCE("http://210.211.109.180/drmuller/Select_CheckTimeConcurrence.php","http://drqmuller.com/drmuller/Select_CheckTimeConcurrence.php"),
     SELECT_CHECKTIMEEXISTENCE("http://210.211.109.180/drmuller/Select_CheckTimeExistence.php", "http://drqmuller.com/drmuller/Select_CheckTimeExistence.php"),
     INSERT_NEWTEMPTIME("http://210.211.109.180/drmuller/Insert_NewTempTime.php", "http://drqmuller.com/drmuller/Insert_NewTempTime.php"),
     INSERT_NEWCUSTOMER("http://210.211.109.180/drmuller/Insert_NewCustomer.php", "http://drqmuller.com/drmuller/Insert_NewCustomer.php"),

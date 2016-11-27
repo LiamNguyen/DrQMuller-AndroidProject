@@ -133,6 +133,18 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                         availableTime.remove(jOb.getString("TIME"));
                 }
                 adapter.updateChildList(availableTime);
+            }else if (status.has("Select_CheckTimeConcurrence")){
+                if (status.getString("Select_CheckTimeConcurrence").equals("Exist")){
+                    Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }else{
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(day_id - 1) + " - " + timeList.get(time_id - 1));
+                    availableTime.remove(timeList.get(time_id - 1));
+                    adapter.notifyDataSetChanged();
+                    booking.saveBooking(Integer.toString(day_id), Integer.toString(time_id));
+                }
             }else if (status.has("Select_CheckTimeExistence")){
                 if (status.getString("Select_CheckTimeExistence").equals("Exist"))
                     aController.setRequestData(getActivity(), this, ModelURL.UPDATE_CHOSENTIME.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
@@ -154,10 +166,11 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         }
 
         TextView tv = (TextView) view.findViewById(R.id.time_of_day);
+        time_id = timeList.indexOf(tv.getText().toString()) + 1;
         switch (groupPosition){
             case 0://Monday
                 if (!booking.checkDay("1")) {
-                    addSelectedItemToCart(tv, groupPosition, childPosition);
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
                 }else{
                     Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
@@ -167,49 +180,61 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                 break;
             case 1://Tuesday
                 if (!booking.checkDay("2")) {
-                    addSelectedItemToCart(tv, groupPosition, childPosition);
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
                 }else{
-                    Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     return false;
                 }
                 break;
             case 2://Wednesday
                 if (!booking.checkDay("3")) {
-                    addSelectedItemToCart(tv, groupPosition, childPosition);
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
                 }else{
-                    Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     return false;
                 }
                 break;
             case 3://Thursday
                 if (!booking.checkDay("4")) {
-                    addSelectedItemToCart(tv, groupPosition, childPosition);
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
                 }else{
-                    Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     return false;
                 }
                 break;
             case 4://Friday
                 if (!booking.checkDay("5")) {
-                    addSelectedItemToCart(tv, groupPosition, childPosition);
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
                 }else{
-                    Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     return false;
                 }
                 break;
             case 5://Saturday
                 if (!booking.checkDay("6")) {
-                    addSelectedItemToCart(tv, groupPosition, childPosition);
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
                 }else{
-                    Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     return false;
                 }
                 break;
             case 6://Sunday
                 if (!booking.checkDay("7")) {
-                    addSelectedItemToCart(tv, groupPosition, childPosition);
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
                 }else{
-                    Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     return false;
                 }
                 break;
@@ -260,14 +285,14 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         return false;
     }
 
-    public void addSelectedItemToCart(TextView tv, int groupPosition, int childPosition){
-        ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(groupPosition) + " - " + tv.getText().toString());
-        availableTime.remove(childPosition);
-        adapter.notifyDataSetChanged();
-        time_id = timeList.indexOf(tv.getText().toString()) + 1;
-        aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
-        booking.saveBooking(Integer.toString(day_id), Integer.toString(time_id));
-    }
+//    public void addSelectedItemToCart(TextView tv, int groupPosition, int childPosition){
+//        ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(groupPosition) + " - " + tv.getText().toString());
+//        availableTime.remove(childPosition);
+//        adapter.notifyDataSetChanged();
+////        time_id = timeList.indexOf(tv.getText().toString()) + 1;
+//        aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+//        booking.saveBooking(Integer.toString(day_id), Integer.toString(time_id));
+//    }
 
     public void refreshTimeList(String day, String time){
         if (adapter.getGroup(day_id-1).equals(day)) {
