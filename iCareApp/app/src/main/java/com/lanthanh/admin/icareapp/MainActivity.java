@@ -2,7 +2,6 @@ package com.lanthanh.admin.icareapp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -17,7 +16,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.Toolbar;
@@ -34,7 +32,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.BookingTab.BookingBookFragment;
-import com.lanthanh.admin.icareapp.BookingTab.BookingNotSignedIn;
 import com.lanthanh.admin.icareapp.BookingTab.BookingSelectFragment;
 import com.lanthanh.admin.icareapp.Model.ModelBookingDetail;
 import com.lanthanh.admin.icareapp.Register.RegisterActivity;
@@ -60,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private ListView popupListView;
     private ModelBookingDetail bookingDetails;
     //BookingTab Fragment
-    private BookingNotSignedIn bookingNotSignedIn;
     private BookingSelectFragment bookingSelectFragment;
     private BookingBookFragment bookingBookFragment;
 
@@ -87,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         fragmentManager = getSupportFragmentManager();
 
         //Init Fragment
-        bookingNotSignedIn = new BookingNotSignedIn();
         bookingSelectFragment = new BookingSelectFragment();
         bookingBookFragment = new BookingBookFragment();
         userFragment = new UserFragment();

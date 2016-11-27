@@ -17,6 +17,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/ui_name_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="false"
+            android:theme="@style/TextLabel"
+            app:errorTextAppearance="@style/ErrorAppearance"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="8dp">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/ui_name_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_mode_edit_white_36dp"
+                android:drawablePadding="5dp"
+                android:inputType="text"
+                android:textColor="@color/colorWhite"
+                android:hint="@string/name_hint"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/ui_address_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextLabel"
+            app:errorTextAppearance="@style/ErrorAppearance"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/ui_address_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:drawableStart="@drawable/ic_pin_drop_white_36dp"
+                android:drawablePadding="5dp"
+                android:textColor="@color/colorWhite"
+                android:hint="@string/address_hint"
+                android:ems="10"/>
+        </android.support.design.widget.TextInputLayout>
 
 
 

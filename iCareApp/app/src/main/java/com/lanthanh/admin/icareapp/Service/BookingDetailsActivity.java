@@ -30,6 +30,7 @@ import java.util.List;
  */
 
 public class BookingDetailsActivity extends AppCompatActivity{
+    List<BookingItem> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class BookingDetailsActivity extends AppCompatActivity{
         TextView title = (TextView) toolBar.findViewById(R.id.toolbar_title);
         title.setVisibility(View.GONE);
 
-        List<BookingItem> list = new ArrayList<>();
+        list = new ArrayList<>();
         listInit(list);
         RecyclerView rv = (RecyclerView)findViewById(R.id.bookingdet_recycler_view);
 
@@ -81,6 +82,17 @@ public class BookingDetailsActivity extends AppCompatActivity{
                                 }
                             }).setCancelable(false).show();
                 }
+            }
+        }else{
+            if (list.isEmpty()){
+                new AlertDialog.Builder(this)
+                        .setMessage(getString(R.string.empty_appointment))
+                        .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                onBackPressed();
+                            }
+                        }).setCancelable(false).show();
             }
         }
     }

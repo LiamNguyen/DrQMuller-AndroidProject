@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -174,6 +175,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
         if (t.getId() == R.id.booking_startdate){
             endDate.setEnabled(true);
             endCalendar = startCalendar;
+            endCalendar.add(Calendar.DATE, 1);
         }
     }
 
@@ -181,7 +183,9 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
     public void onClick(View view) {
         if (view.getId() == R.id.booking_next_button){
             if (booking.isDataEmpty(typeSp.getSelectedItem().toString().equals(getString(R.string.booking_type_fixed)))){
-                Toast.makeText(getActivity(), getString(R.string.missing_detail), Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(getActivity(), getString(R.string.missing_detail), Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
             }else {
                 aController.setRequestData(getActivity(), this, ModelURL.UPDATE_VALIDATEAPPOINTMENT.getUrl(MainActivity.isUAT), "");
                 ((MainActivity) getActivity()).navigateToBook();
@@ -198,7 +202,9 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                         if (startCalendar.get(Calendar.YEAR) > year
                                 || (startCalendar.get(Calendar.YEAR) == year && startCalendar.get(Calendar.MONTH) > monthOfYear)
                                 || (startCalendar.get(Calendar.YEAR) == year && startCalendar.get(Calendar.MONTH) == monthOfYear && startCalendar.get(Calendar.DAY_OF_MONTH) > dayOfMonth)) {
-                            Toast.makeText(getActivity(), getString(R.string.booking_error_date), Toast.LENGTH_LONG).show();
+                            Toast toast = Toast.makeText(getActivity(), getString(R.string.booking_error_date), Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
                         } else {
                             startCalendar.set(Calendar.YEAR, year);
                             startCalendar.set(Calendar.MONTH, monthOfYear);
@@ -207,10 +213,14 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                             booking.setStartDate(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                         }
                     } else {
+                        if (endCalendar == null)
+                            endCalendar = startCalendar;
                         if (endCalendar.get(Calendar.YEAR) > year
                                 || (endCalendar.get(Calendar.YEAR) == year && endCalendar.get(Calendar.MONTH) > monthOfYear)
                                 || (endCalendar.get(Calendar.YEAR) == year && endCalendar.get(Calendar.MONTH) == monthOfYear && endCalendar.get(Calendar.DAY_OF_MONTH) > dayOfMonth)) {
-                            Toast.makeText(getActivity(), getString(R.string.booking_error_date), Toast.LENGTH_LONG).show();
+                            Toast toast = Toast.makeText(getActivity(), getString(R.string.booking_error_date), Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
                         } else {
                             startCalendar.set(Calendar.YEAR, year);
                             startCalendar.set(Calendar.MONTH, monthOfYear);

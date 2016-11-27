@@ -115,4 +115,5 @@
     <string name="appointment">Lịch Hẹn</string>
     <string name="confirm_code">Mã Xác Nhận</string>
     <string name="bill">Hóa Đơn</string>
+    <string name="empty_appointment">Quí khách hiện chưa có lịch hẹn nào</string>
 </resources>

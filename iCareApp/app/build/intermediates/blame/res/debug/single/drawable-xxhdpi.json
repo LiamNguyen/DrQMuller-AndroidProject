@@ -1,11 +1,11 @@
 [
     {
-        "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\ic_mode_edit_white_36dp.png",
-        "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\drawable-xxhdpi\\ic_mode_edit_white_36dp.png"
-    },
-    {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\ic_lock_white_36dp.png",
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\drawable-xxhdpi\\ic_lock_white_36dp.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\ic_mode_edit_white_36dp.png",
+        "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\drawable-xxhdpi\\ic_mode_edit_white_36dp.png"
     },
     {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\ic_drop_down2.png",

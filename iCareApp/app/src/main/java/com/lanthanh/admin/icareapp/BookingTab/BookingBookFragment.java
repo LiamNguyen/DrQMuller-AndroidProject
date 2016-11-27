@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,7 +147,9 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
     @Override
     public boolean onChildClick(ExpandableListView expandableListView, View view,  int groupPosition, int childPosition, long childId) {
         if (((MainActivity) getActivity()).numberOfCartItems() == 3) {
-            Toast.makeText(getActivity(), getString(R.string.max_item), Toast.LENGTH_LONG).show();
+            Toast toast = Toast.makeText(getActivity(), getString(R.string.max_item), Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
             return false;
         }
 
@@ -156,7 +159,9 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                 if (!booking.checkDay("1")) {
                     addSelectedItemToCart(tv, groupPosition, childPosition);
                 }else{
-                    Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     return false;
                 }
                 break;
@@ -277,7 +282,9 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
     @Override
     public void onClick(View view) {
         if (((MainActivity) getActivity()).numberOfCartItems() <= 0){
-            Toast.makeText(getActivity(), getString(R.string.min_item), Toast.LENGTH_LONG).show();
+            Toast toast = Toast.makeText(getActivity(), getString(R.string.min_item), Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         }else {
             SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
             booking.setCustomerID(sharedPref.getString("tokenID", ""));
