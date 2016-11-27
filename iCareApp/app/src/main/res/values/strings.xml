@@ -84,6 +84,7 @@
     <string name="booking_type_fixed">Cố định</string>
     <string name="booking_start_date">Ngày Bắt Đầu</string>
     <string name="booking_end_date">Ngày Kết Thúc</string>
+    <string name="booking_do_date">Ngày Thực Hiện</string>
     <string name="booking_error_date">Ngày không hợp lệ. Xin vui lòng chọn lại</string>
     <string name="missing_detail">Vui lòng điền đầy đủ thông tin</string>
     <string name="monday">Thứ Hai</string>

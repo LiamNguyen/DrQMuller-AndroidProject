@@ -610,6 +610,7 @@
     <string name="booking_confirm_instruction">Quí khách vui lòng chờ bộ phận tiếp tân của trung tâm liên lạc trong giây lát</string>
     <string name="booking_country_hint">Chọn Quốc Gia</string>
     <string name="booking_district_hint">Chọn Quận</string>
+    <string name="booking_do_date">Ngày Thực Hiện</string>
     <string name="booking_end_date">Ngày Kết Thúc</string>
     <string name="booking_error_date">Ngày không hợp lệ. Xin vui lòng chọn lại</string>
     <string name="booking_fail">Nhập mã xác nhận chưa hoàn tất\nQuí khách có thể bấm vào thông tin lịch hẹn để hoàn thành xác nhận</string>
