@@ -125,8 +125,8 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
             }else if (status.has("Select_SelectedTime")){
                 availableTime.clear();
                 availableTime.addAll(timeList);
+                System.out.println(status);
                 JSONArray selected = status.getJSONArray("Select_SelectedTime");//Get the array of time
-                System.out.println(selected);
                 for (int i = 0; i < selected.length(); i++) {
                     JSONObject jOb = (JSONObject) selected.get(i);
                     if (availableTime.contains(jOb.getString("TIME")))
@@ -139,7 +139,8 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 }else{
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    System.out.println(day_id);
+                    //aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
                     ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(day_id - 1) + " - " + timeList.get(time_id - 1));
                     availableTime.remove(timeList.get(time_id - 1));
                     adapter.notifyDataSetChanged();
@@ -170,7 +171,8 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         switch (groupPosition){
             case 0://Monday
                 if (!booking.checkDay("1")) {
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    aController.setRequestData(getActivity(), this, ModelURL.BOOKING.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    //aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
                 }else{
                     Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
@@ -180,7 +182,8 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                 break;
             case 1://Tuesday
                 if (!booking.checkDay("2")) {
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    aController.setRequestData(getActivity(), this, ModelURL.BOOKING.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    //aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
                 }else{
                     Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
@@ -190,7 +193,8 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                 break;
             case 2://Wednesday
                 if (!booking.checkDay("3")) {
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    aController.setRequestData(getActivity(), this, ModelURL.BOOKING.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    //aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
                 }else{
                     Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
@@ -200,7 +204,8 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                 break;
             case 3://Thursday
                 if (!booking.checkDay("4")) {
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    aController.setRequestData(getActivity(), this, ModelURL.BOOKING.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    //aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
                 }else{
                     Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
@@ -210,7 +215,8 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                 break;
             case 4://Friday
                 if (!booking.checkDay("5")) {
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    aController.setRequestData(getActivity(), this, ModelURL.BOOKING.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    //aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
                 }else{
                     Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
@@ -220,7 +226,8 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                 break;
             case 5://Saturday
                 if (!booking.checkDay("6")) {
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    aController.setRequestData(getActivity(), this, ModelURL.BOOKING.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    //aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
                 }else{
                     Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
@@ -230,7 +237,8 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                 break;
             case 6://Sunday
                 if (!booking.checkDay("7")) {
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    aController.setRequestData(getActivity(), this, ModelURL.BOOKING.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                    //aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMECONCURRENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
                 }else{
                     Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
