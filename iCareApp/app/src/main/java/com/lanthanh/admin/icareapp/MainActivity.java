@@ -1,8 +1,10 @@
 package com.lanthanh.admin.icareapp;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
@@ -36,6 +38,7 @@ import com.lanthanh.admin.icareapp.BookingTab.BookingSelectFragment;
 import com.lanthanh.admin.icareapp.Model.ModelBookingDetail;
 import com.lanthanh.admin.icareapp.Register.RegisterActivity;
 import com.lanthanh.admin.icareapp.Service.BookingDetailsActivity;
+import com.lanthanh.admin.icareapp.Service.ExpireService;
 import com.lanthanh.admin.icareapp.UserTab.UserFragment;
 import com.mikepenz.actionitembadge.library.ActionItemBadge;
 
@@ -63,7 +66,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     //UserTab Fragment
     private UserFragment userFragment;
 
-    BottomNavigationView bottomNavigationView;
+    private BottomNavigationView bottomNavigationView;
+    private BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +103,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.getMenu().getItem(0).setChecked(false);
+
+        //Broadcast Receiver
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getBooleanExtra("isExpired", false)) {
+                    releaseCartWhenReselect();
+
+                }
+            }
+        };
     }
 
     @Override
@@ -128,6 +143,35 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     onNavigationItemSelected(bottomNavigationView.getMenu().getItem(2));
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(broadcastReceiver, new IntentFilter(ExpireService.COUNTDOWN_BR));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    protected void onStop() {
+        try {
+            unregisterReceiver(broadcastReceiver);
+        } catch (Exception e) {
+            // Receiver was probably already stopped in onPause()
+        }
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        releaseCartWhenReselect();
+        stopService(new Intent(this, ExpireService.class));
+        super.onDestroy();
     }
 
     /* =============================== TOOLBAR ===============================*/

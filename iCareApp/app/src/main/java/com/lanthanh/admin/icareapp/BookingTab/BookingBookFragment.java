@@ -133,18 +133,18 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                         availableTime.remove(jOb.getString("TIME"));
                 }
                 adapter.updateChildList(availableTime);
-            }else if (status.has("Select_CheckTimeConcurrence")){
-                if (status.getString("Select_CheckTimeConcurrence").equals("Exist")){
+            }else if (status.has("BookingTransaction")){
+                if (status.getString("BookingTransaction").equals("Exist")){
                     Toast toast = Toast.makeText(getActivity(), getString(R.string.selected_day), Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
-                }else{
-                    System.out.println(day_id);
-                    //aController.setRequestData(getActivity(), this, ModelURL.SELECT_CHECKTIMEEXISTENCE.getUrl(MainActivity.isUAT), "day_id=" + day_id + "&time_id=" + time_id);
+                }else if (status.getString("BookingTransaction").equals("NonExist")){
                     ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(day_id - 1) + " - " + timeList.get(time_id - 1));
                     availableTime.remove(timeList.get(time_id - 1));
                     adapter.notifyDataSetChanged();
                     booking.saveBooking(Integer.toString(day_id), Integer.toString(time_id));
+                }else if (status.getString("BookingTransaction").equals("QueryFailed")){
+                    System.out.println("Query Failed");
                 }
             }else if (status.has("Select_CheckTimeExistence")){
                 if (status.getString("Select_CheckTimeExistence").equals("Exist"))
