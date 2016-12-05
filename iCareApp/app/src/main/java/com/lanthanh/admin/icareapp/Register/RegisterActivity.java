@@ -3,7 +3,7 @@ package com.lanthanh.admin.icareapp.Register;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,14 +11,12 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.airbnb.deeplinkdispatch.DeepLink;
 import com.lanthanh.admin.icareapp.Controller.Controller;
 import com.lanthanh.admin.icareapp.MainActivity;
 import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
@@ -27,7 +25,6 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.Service.ResetPasswordActivity;
 import com.lanthanh.admin.icareapp.UserInfo.UserInfoActivity;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -83,8 +80,24 @@ public class RegisterActivity extends AppCompatActivity implements DatabaseObser
             if (b != null) {
                 if (!b.getString("cus_id", "").isEmpty()) {
                     aController.setRequestData(this, this, ModelURL.UPDATE_VERIFYACC.getUrl(MainActivity.isUAT), "cus_id=" + intent.getStringExtra("cus_id"));
-                } else {
-                    System.out.println("Problem in DeepLinkActivity");
+                }else if (b.getInt("fromResetPw", 0) == 0){
+                    new AlertDialog.Builder(this)
+                            .setMessage(getString(R.string.reset_fail))
+                            .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).setCancelable(false).show();
+                }else if (b.getInt("fromResetPw", 0) == 1){
+                    new AlertDialog.Builder(this)
+                            .setMessage(getString(R.string.reset_success))
+                            .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).setCancelable(false).show();
+                }else {
+                    System.out.println("Problem in DeepLinkActivity or ResetPw");
                 }
             }
         }

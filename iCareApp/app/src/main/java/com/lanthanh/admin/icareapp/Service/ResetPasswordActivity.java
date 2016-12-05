@@ -2,7 +2,7 @@ package com.lanthanh.admin.icareapp.Service;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,12 +10,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
-import com.airbnb.deeplinkdispatch.DeepLink;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.Register.RegisterActivity;
 
@@ -25,12 +25,11 @@ import java.util.List;
 /**
  * Created by ADMIN on 22-Nov-16.
  */
-
-@DeepLink("icare://210.211.109.180/drmuller/restore")
 public class ResetPasswordActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private EmailForResetFragment emailForResetFragment;
     private ResetPasswordFragment resetPasswordFragment;
+    private Toolbar toolBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,11 +41,15 @@ public class ResetPasswordActivity extends AppCompatActivity {
         resetPasswordFragment = new ResetPasswordFragment();
         fragmentManager = getSupportFragmentManager();
 
-//        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolBar);
-//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_arrow_2);
-//        getSupportActionBar().setTitle("");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolBar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView title = (TextView) toolBar.findViewById(R.id.toolbar_title);
+        title.setVisibility(View.GONE);
 
         //Get ChooseFragment for when loading Acitivity
         fragmentManager = getSupportFragmentManager();
@@ -56,47 +59,37 @@ public class ResetPasswordActivity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        Intent intent = getIntent();
-        Uri data = intent.getData();
-        if (data!=null) {
-            if (data.getPath().equals("/drmuller/restore") && data.getQueryParameterNames().size() == 1 && data.getQueryParameterNames().contains("email")) {
-                String queryParameter = data.getQueryParameter("email");
-                System.out.println(queryParameter);
-                Bundle bundle = new Bundle();
-                bundle.putString("email", queryParameter);
-                resetPasswordFragment.setArguments(bundle);
-                navigateToReset();
-            }else{
-                navigateToRegister();
+        if (getIntent() != null) {
+            Intent intent = getIntent();
+            Bundle b = intent.getExtras();
+            if (b != null) {
+                if (!b.getString("login_id", "").isEmpty()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("login_id", b.getString("login_id", ""));
+                    resetPasswordFragment.setArguments(bundle);
+                    navigateToReset();
+                } else {
+                    System.out.println("Problem in DeepLinkActivity");
+                    navigateToRegister();
+                }
+            }else {
+                navigateToEmail();
             }
-        }else {
-            navigateToEmail();
         }
-        /*if (intent.getBooleanExtra(DeepLink.IS_DEEP_LINK, false)) {
-            Bundle parameters = intent.getExtras();
-
-            if (parameters != null && parameters.getString("email") != null) {
-                String queryParameter = parameters.getString("email");
-                System.out.println(queryParameter);
-                Bundle bundle = new Bundle();
-                bundle.putString("email", queryParameter);
-                resetPasswordFragment.setArguments(bundle);
-                navigateToReset();
-            }
-        }*/
+        setIntent(null);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            // Respond to the action bar's Up/Home button
-//            case android.R.id.home:
-//                if (fragmentManager.findFragmentByTag(emailForResetFragment.getClass().getName()).isVisible())
-//                    NavUtils.navigateUpFromSameTask(this);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+//                if (emailForResetFragment.isVisible())
+                    navigateToRegister();
 //                else
 //                    navigateBack();
-//                return true;
-//        }
+                return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -115,6 +108,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
         }
 
         fragmentTransaction.addToBackStack(null).commit();
+
+        //Hide soft keyboard if it is open
+        hideSoftKeyboard();
     }
 
     /*
@@ -132,6 +128,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
         }
 
         fragmentTransaction.addToBackStack(null).commit();
+
+        //Hide soft keyboard if it is open
+        hideSoftKeyboard();
     }
 
     /*
@@ -148,6 +147,19 @@ public class ResetPasswordActivity extends AppCompatActivity {
         Intent toRegister = new Intent(this, RegisterActivity.class);
         startActivity(toRegister);
         finish();
+
+        //Hide soft keyboard if it is open
+        hideSoftKeyboard();
+    }
+
+    public void navigateToRegisterAfterReset(int n){
+        Intent toRegister = new Intent(this, RegisterActivity.class);
+        toRegister.putExtra("fromResetPw", n);
+        startActivity(toRegister);
+        finish();
+
+        //Hide soft keyboard if it is open
+        hideSoftKeyboard();
     }
 
     /*
@@ -190,9 +202,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        System.out.println("in reset");
-        Intent toRegister = new Intent(this, RegisterActivity.class);
-        startActivity(toRegister);
-        finish();
+//        if (emailForResetFragment.isVisible())
+            navigateToRegister();
+//        else
+//            navigateBack();
     }
 }

@@ -28,6 +28,7 @@ public enum ModelURL {
     UPDATE_VALIDATEAPPOINTMENT("http://210.211.109.180/drmuller/Update_ValidateAppointment.php", "http://drqmuller.com/drmuller/Update_ValidateAppointment.php"),
     UPDATE_APPOINTMENT("http://210.211.109.180/drmuller/Update_Appointment.php", "http://drqmuller.com/drmuller/Update_Appointment.php"),
     UPDATE_VERIFYACC("http://210.211.109.180/drmuller/Update_VerifyAcc.php", "http://drqmuller.com/drmuller/Update_VerifyAcc.php"),
+    UPDATE_RESETPW("http://210.211.109.180/drmuller/Update_ResetPw.php", "http://drqmuller.com/drmuller/Update_ResetPw.php"),
     SEND_EMAIL("http://210.211.109.180/drmuller/SendMail_VerifyAcc.php", "http://drqmuller.com/drmuller/SendMail_VerifyAcc.php"),
     SENDEMAIL_RESETPW("http://210.211.109.180/drmuller/SendMail_ResetPassword.php", "http://drqmuller.com/drmuller/SendMail_ResetPassword.php"),
     BOOKING("http://210.211.109.180/drmuller/BookingTransaction.php", "http://drqmuller.com/drmuller/BookingTransaction.php");

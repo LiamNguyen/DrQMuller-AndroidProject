@@ -1,6 +1,7 @@
 package com.lanthanh.admin.icareapp.Service;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -31,9 +32,9 @@ import org.json.JSONObject;
 
 public class EmailForResetFragment extends Fragment implements TextWatcher, View.OnClickListener, DatabaseObserver{
     private Controller aController = Controller.getInstance();
-    private TextInputEditText email;
-    private TextInputLayout email_container;
-    private boolean validEmail;
+    private TextInputEditText email, username;
+    private TextInputLayout email_container, username_container;
+    private boolean validEmail, validUN;
     private TextView noti;
 
     @Override
@@ -41,18 +42,25 @@ public class EmailForResetFragment extends Fragment implements TextWatcher, View
 
         View view = inflater.inflate(R.layout.resetpw_email, container, false);
 
-        //ImageButton back = (ImageButton) view.findViewById(R.id.back_button);
-        //back.setOnClickListener(this);
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+
         AppCompatButton send = (AppCompatButton) view.findViewById(R.id.resetpw_send_button);
         send.setOnClickListener(this);
-        ImageButton back = (ImageButton) view.findViewById(R.id.resetpw_back_button);
-        back.setOnClickListener(this);
+        send.setTypeface(font);
         email = (TextInputEditText) view.findViewById(R.id.resetpw_email_input);
         email.addTextChangedListener(this);
+        email.setTypeface(font);
         email_container = (TextInputLayout) view.findViewById(R.id.resetpw_email_container);
+        email_container.setTypeface(font);
+        username = (TextInputEditText) view.findViewById(R.id.resetpw_username_input);
+        username.addTextChangedListener(this);
+        username.setTypeface(font);
+        username_container = (TextInputLayout) view.findViewById(R.id.resetpw_username_container);
+        username_container.setTypeface(font);
         noti = (TextView) view.findViewById(R.id.resetpw_email_noti);
+        noti.setTypeface(font);
 
-        validEmail = false;
+        validEmail = false; validUN = false;
 
         return view;
     }
@@ -61,22 +69,26 @@ public class EmailForResetFragment extends Fragment implements TextWatcher, View
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.resetpw_send_button:
-                if (validEmail) {
-                    aController.setRequestData(getActivity(), this, ModelURL.SENDEMAIL_RESETPW.getUrl(MainActivity.isUAT), "email=" + email.getText().toString());
+                if (validEmail && validUN) {
+                    aController.setRequestData(getActivity(), this, ModelURL.SENDEMAIL_RESETPW.getUrl(MainActivity.isUAT), "email=" + email.getText().toString().trim() + "&login_id=" + username.getText().toString().trim());
                     System.out.println("email=" + email.getText().toString());
                 }else {
-                    if (email.getText().toString().equals("")) {
-                        email_container.setError(getString(R.string.email_null));
-                    } else {
-                        email_container.setError(getString(R.string.email_requirement));
+                    if (!validEmail) {
+                        if (email.getText().toString().equals("")) {
+                            email_container.setError(getString(R.string.email_null));
+                        } else {
+                            email_container.setError(getString(R.string.email_requirement));
+                        }
+                        email_container.setErrorEnabled(true);
                     }
-                    email_container.setErrorEnabled(true);
+                    if (!validUN){
+                        if (username.getText().toString().equals(""))
+                            username_container.setError(getString(R.string.username_null));
+                        else
+                            username_container.setError(getString(R.string.username_requirement));
+                        username_container.setErrorEnabled(true);
+                    }
                 }
-                break;
-            case R.id.resetpw_back_button:
-                Intent toRegister = new Intent(getActivity(), RegisterActivity.class);
-                startActivity(toRegister);
-                getActivity().finish();
                 break;
             default:
                 break;
@@ -93,16 +105,32 @@ public class EmailForResetFragment extends Fragment implements TextWatcher, View
             get_email.trim();
             if (!get_email.equals("")){
                 if (get_email.matches(ModelInputRequirement.EMAIL)){
-                    email.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_email, 0, R.drawable.ic_valid_input, 0);
+                    email.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_post_office_white_36dp, 0, R.drawable.ic_valid_input, 0);
                     email_container.setErrorEnabled(false);
                     validEmail = true;
                 }else{
-                    email.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_email, 0, R.drawable.ic_invalid_input, 0);
+                    email.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_post_office_white_36dp, 0, R.drawable.ic_invalid_input, 0);
                     validEmail = false;
                 }
             }else {
-                email.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_email, 0, 0, 0);
+                email.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_post_office_white_36dp, 0, 0, 0);
                 validEmail = false;
+            }
+        }else if (username.getText().hashCode() == s.hashCode()) { //Check username
+            String get_username = s.toString();
+            get_username.trim();
+            if (!get_username.equals("")) {
+                if (get_username.matches(ModelInputRequirement.USERNAME)) {
+                    username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                    username_container.setErrorEnabled(false);
+                    validUN = true;
+                } else {
+                    username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, R.drawable.ic_invalid_input, 0);
+                    validUN = false;
+                }
+            } else {
+                username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, 0, 0);
+                validUN = false;
             }
         }
     }

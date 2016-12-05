@@ -32,8 +32,8 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.lanthanh.admin.icareapp.Register.DeepLinkActivity"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:noHistory="true"
+            android:theme="@android:style/Theme.NoDisplay" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -55,25 +55,11 @@
         <activity
             android:name="com.lanthanh.admin.icareapp.Service.BookingDetailsActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name="com.lanthanh.admin.icareapp.Service.ResetPasswordActivity"
             android:launchMode="singleTop"
-            android:parentActivityName="com.lanthanh.admin.icareapp.Register.RegisterActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.lanthanh.admin.icareapp.Register.RegisterActivity" />
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="icare" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.lanthanh.admin.icareapp.UserDetails.UserDetailsActivity"

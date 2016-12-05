@@ -4,37 +4,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/colorPrimary"
     android:fillViewport="true">
-    <RelativeLayout
+    <LinearLayout
         android:orientation="vertical"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageButton
-            android:id="@+id/resetpw_back_button"
-            android:layout_width="40dp"
-            app:srcCompat="@drawable/ic_back_button"
-            android:layout_alignParentTop="true"
-            android:elevation="0dp"
-            android:background="@android:color/background_light"
-            android:scaleType="fitXY"
-            android:layout_height="40dp" />
 
         <!-- Password Label -->
         <android.support.design.widget.TextInputLayout
             android:id="@+id/resetpw_password_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/resetpw_password_confirm_container"
+            android:theme="@style/TextLabel"
+            app:errorTextAppearance="@style/ErrorAppearance"
             app:passwordToggleEnabled="false"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="8dp">
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/resetpw_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_password"
+                android:drawableStart="@drawable/ic_lock_white_36dp"
                 android:drawablePadding="5dp"
+                android:textColor="@color/colorWhite"
                 android:inputType="textPassword"
                 android:hint="@string/password_input_hint"/>
         </android.support.design.widget.TextInputLayout>
@@ -43,7 +37,8 @@
             android:id="@+id/resetpw_password_confirm_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/resetpw_reset_button"
+            android:theme="@style/TextLabel"
+            app:errorTextAppearance="@style/ErrorAppearance"
             app:passwordToggleEnabled="false"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
@@ -51,8 +46,9 @@
                 android:id="@+id/resetpw_password_confirm_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_pw_confirm"
+                android:drawableStart="@drawable/ic_security_white_36dp"
                 android:drawablePadding="5dp"
+                android:textColor="@color/colorWhite"
                 android:inputType="textPassword"
                 android:hint="@string/password_confirm_hint"/>
         </android.support.design.widget.TextInputLayout>
@@ -61,13 +57,15 @@
             android:id="@+id/resetpw_reset_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="170dp"
+            android:layout_marginBottom="80dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+            android:background="@drawable/button_style"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
             android:padding="12dp"
             android:text="@string/resetpw_reset_pw_button"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 </ScrollView>
