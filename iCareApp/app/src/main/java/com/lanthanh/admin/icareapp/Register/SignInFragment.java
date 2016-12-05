@@ -76,10 +76,12 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
                 aController.getAccount().setLoginID(username.getText().toString());
                 aController.getAccount().setPassword(password.getText().toString());
                 aController.setRequestData(getActivity(), this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(MainActivity.isUAT), aController.getAccount().getPostData());
+                ((RegisterActivity) getActivity()).hideSoftKeyboard();
                 break;
             case R.id.si_forget_pw:
                 ((RegisterActivity) getActivity()).navigateToResetPW();
                 getActivity().finish();
+                ((RegisterActivity) getActivity()).hideSoftKeyboard();
             default:
                 break;
         }

@@ -93,6 +93,7 @@ public class EmailForResetFragment extends Fragment implements TextWatcher, View
             default:
                 break;
         }
+        ((ResetPasswordActivity) getActivity()).hideSoftKeyboard();
     }
 
     /*

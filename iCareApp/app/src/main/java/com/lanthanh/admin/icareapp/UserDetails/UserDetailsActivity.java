@@ -19,6 +19,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.Controller.Controller;
@@ -315,6 +316,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
             default:
                 break;
         }
+        hideSoftKeyboard();
     }
 
     @Override
@@ -467,6 +469,15 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
         AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
         if (behavior != null) {
             behavior.onNestedFling(coordinatorLayout, appBarLayout, null, 0, -1000, true);
+        }
+    }
+
+    //Hide SoftKeyBoard when needed
+    public void hideSoftKeyboard(){
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 }

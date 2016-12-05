@@ -170,6 +170,7 @@ public class ResetPasswordFragment extends Fragment implements TextWatcher, View
             default:
                 break;
         }
+        ((ResetPasswordActivity) getActivity()).hideSoftKeyboard();
     }
 
     @Override

@@ -66,6 +66,7 @@ public class ChangeEmailFragment extends Fragment implements View.OnClickListene
             default:
                 break;
         }
+        ((UserInfoActivity) getActivity()).hideSoftKeyboard();
     }
 
     /*

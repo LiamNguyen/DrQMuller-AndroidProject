@@ -106,6 +106,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
                         password_confirm_container.setErrorEnabled(true);
                     }
                 }
+                ((RegisterActivity) getActivity()).hideSoftKeyboard();
                 break;
             default:
                 break;

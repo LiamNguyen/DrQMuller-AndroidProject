@@ -11,6 +11,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +62,7 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
             String cus_id = sharedPref.getString("tokenID", "");
             aController.setRequestData(this, this, ModelURL.UPDATE_APPOINTMENT.getUrl(MainActivity.isUAT), "cus_id=" + cus_id + "&code=" + edttxt.getText().toString().trim());
         }
+        hideSoftKeyboard();
     }
 
     @Override
@@ -125,6 +127,15 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    //Hide SoftKeyBoard when needed
+    public void hideSoftKeyboard(){
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 }
