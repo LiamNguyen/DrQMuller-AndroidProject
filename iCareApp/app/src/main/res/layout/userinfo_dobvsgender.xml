@@ -25,8 +25,7 @@
             android:id="@+id/datePicker"
             android:datePickerMode="spinner"
             android:spinnersShown="true"
-            android:calendarViewShown="false"
-            style="@android:style/Widget.Material.DatePicker" />
+            android:calendarViewShown="false"/>
 
         <TextView
             android:id="@+id/ui_dob_noti"
@@ -41,7 +40,7 @@
         <TextView
             android:id="@+id/ui_gender_txt"
             android:text="@string/gender"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,6 +51,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="100dp"
             android:gravity="center">
             <RadioButton
                 android:id="@+id/ui_male"
@@ -67,9 +68,9 @@
                 android:id="@+id/ui_female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
                 android:text="@string/female"
                 android:textColor="@color/colorWhite"
+                android:layout_marginRight="5dp"
                 android:button="@null"
                 android:drawableEnd="@android:drawable/btn_radio"
                 android:drawableStart="@drawable/ic_person_white_36dp"

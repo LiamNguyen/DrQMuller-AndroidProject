@@ -33,6 +33,7 @@
     <color name="cardview_shadow_start_color">#37000000</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorBlue">#0277BD</color>
     <color name="colorDarkGray">#616161</color>
     <color name="colorGreen">#00C853</color>
     <color name="colorLightBlack">#424242</color>
@@ -596,6 +597,7 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
+    <string name="abort_button">Hủy Bỏ</string>
     <string name="address">Địa Điểm</string>
     <string name="address_hint">Địa Chỉ</string>
     <string name="address_null">Xin vui lòng nhập địa chỉ</string>
@@ -629,7 +631,6 @@
     <string name="close_dialog">Đóng</string>
     <string name="confirm_code">Mã Xác Nhận</string>
     <string name="confirmed">Đã Xác Nhận</string>
-    <string name="contact">Cách Thức Liên Lạc</string>
     <string name="define_AndroidActionItemBadge">year;owner</string>
     <string name="define_AndroidIconics">year;owner</string>
     <string name="dob">Ngày Sinh</string>
@@ -639,6 +640,7 @@
     <string name="email_requirement">Email không hợp lệ</string>
     <string name="empty_appointment">Quí khách hiện chưa có lịch hẹn nào</string>
     <string name="empty_cart">Giỏ Hàng Trống</string>
+    <string name="empty_code">Quí khách chưa nhập mã xác nhận</string>
     <string name="female">Nữ</string>
     <string name="finish_button">Hoàn Tất</string>
     <string name="forget_password">Quên Mật Khẩu</string>
@@ -683,7 +685,6 @@
     <string name="missing_detail">Vui lòng điền đầy đủ thông tin</string>
     <string name="monday">Thứ Hai</string>
     <string name="name_hint">Họ và Tên</string>
-    <string name="name_location">Tên Và Địa Chỉ</string>
     <string name="name_null">Xin vui lòng nhập họ và tên</string>
     <string name="name_requirement">Không dùng kí tự đặc biệt và số ngoại trừ -, ., \'</string>
     <string name="news_tab">Mới</string>
@@ -724,9 +725,13 @@
     <string name="validate_back_to_register">Trở Về Trang Đăng Nhập</string>
     <string name="validate_noti_fail">Gửi email không thành công\nVui lòng kiểm tra lại mạng, email hoặc "Gửi Email Kích Hoạt" để gửi lại email</string>
     <string name="validate_noti_success">Gửi email thành công\nVui lòng kiểm tra email để kích hoạt tài khoản</string>
+    <string name="verify_already">Tài khoản đã được kích hoạt</string>
+    <string name="verify_fail">Kích hoạt tài khoản thất bại</string>
+    <string name="verify_success">Kích hoạt tài khoản thành công</string>
     <string name="voucher">Voucher</string>
     <string name="wednesday">Thứ Tư</string>
     <string name="welcome">Welcome to\nDr.Q-Muller</string>
+    <string name="wrong_code">Mã xác nhận không chính xác</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>
@@ -1773,6 +1778,15 @@
     <style name="ErrorAppearance" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorVeryLightPurple</item>
         <item name="android:textSize">18sp</item>
+    </style>
+    <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">@color/colorWhite</item>
+        <item name="android:calendarTextColor">@color/colorWhite</item>
+        <item name="android:dayOfWeekBackground">@color/colorWhite</item>
+        <item name="android:yearListSelectorColor">@color/colorWhite</item>
+    </style>
+    <style name="PickerDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorWhite</item>
     </style>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>

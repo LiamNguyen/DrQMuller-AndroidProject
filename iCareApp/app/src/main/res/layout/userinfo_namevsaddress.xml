@@ -24,7 +24,7 @@
                 android:id="@+id/ui_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_mode_edit_white_36dp"
+                android:drawableStart="@drawable/ic_person_pin_white_36dp"
                 android:drawablePadding="5dp"
                 android:inputType="text"
                 android:textColor="@color/colorWhite"

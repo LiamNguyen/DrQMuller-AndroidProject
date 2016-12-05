@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/ud_dob_txt"
+        android:text="@string/dob"
+        android:textSize="20sp"
+        android:textColor="@color/colorLightBlack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" />
+
+    <DatePicker
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/datePicker"
+        android:datePickerMode="spinner"
+        android:spinnersShown="true"
+        android:calendarViewShown="false"/>
+
+    <TextView
+        android:id="@+id/ud_dob_noti"
+        android:text="@string/dob_null"
+        android:textColor="@color/colorLightBlack"
+        android:textSize="15sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+        android:layout_marginBottom="15dp"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/button_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/button_style"
+        android:textSize="18sp"
+        android:text="@string/close_dialog"/>
+
+</LinearLayout>

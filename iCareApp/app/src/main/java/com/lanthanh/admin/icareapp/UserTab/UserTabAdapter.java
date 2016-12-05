@@ -68,6 +68,12 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         if(i == TYPE_HEADER){
             ((HeaderViewHolder) holder).setName(list.get(position));
+            ((HeaderViewHolder) holder).getTxtDetail().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((MainActivity) ctx).navigateToUserDetails();
+                }
+            });
         }else{
             ((BodyViewHolder) holder).setOption(list.get(position));
             if (position == 1) {
@@ -118,6 +124,10 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public void setName(String s){
             txtName.setText(s);
+        }
+
+        public TextView getTxtDetail(){
+            return txtDetail;
         }
     }
 

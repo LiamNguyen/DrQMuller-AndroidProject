@@ -55,7 +55,7 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View view) {
         if (edttxt.getText().toString().isEmpty()){
-            Toast.makeText(this, "Mã xác nhận không hợp lệ", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.empty_code), Toast.LENGTH_SHORT).show();
         }else {
             SharedPreferences sharedPref = this.getSharedPreferences("content", Context.MODE_PRIVATE);
             String cus_id = sharedPref.getString("tokenID", "");
@@ -86,13 +86,15 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
                 String response = status.getString("Update_Appointment");//Get the array of days' JSONObject
                 if (!response.isEmpty()){
                     if (response.equals("Failed")){
-                        Toast.makeText(this, "Mã xác nhận không hợp lệ", Toast.LENGTH_LONG).show();
-                    }else{
+                        Toast.makeText(this, getString(R.string.wrong_code), Toast.LENGTH_SHORT).show();
+                    }else if(response.equals("Updated")){
                         updateBookingStatus(edttxt.getText().toString().trim());
                         Intent toDetails = new Intent(this, BookingDetailsActivity.class);
                         toDetails.putExtra("isBookingSuccess", 1);
                         startActivity(toDetails);
                         finish();
+                    }else if (response.equals("QueryFailed")){
+                        System.out.println("Query Failed");
                     }
                 }
             }

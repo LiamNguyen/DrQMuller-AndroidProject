@@ -1,7 +1,6 @@
 package com.lanthanh.admin.icareapp.UserInfo;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.design.widget.TextInputEditText;
@@ -14,7 +13,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.Controller.Controller;
@@ -77,10 +75,10 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
         switch (v.getId()){
             case R.id.ui_next_button_p3:
                 if (validEmail && validPhone){
-                    aController.getUserInfo().addInfo("email", email.getText().toString());
-                    aController.getUserInfo().addInfo("phone", phone.getText().toString());
+                    aController.getUserInfo().addInfo("email", email.getText().toString().trim());
+                    aController.getUserInfo().addInfo("phone", phone.getText().toString().trim());
                     aController.getUserInfo().addInfo("update_date", getCurrentDate());
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_NoOFCUSTOMERS.getUrl(MainActivity.isUAT), "");
+                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_NoOFCUSTOMERS.getUrl(MainActivity.isUAT), aController.getAccount().getPostUsername());
                 }else{
                     if (!validEmail){
                         if (email.getText().toString().equals("")){
@@ -168,15 +166,15 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
             if (status.has("Update_CustomerInfo")){
                 String result = status.getString("Update_CustomerInfo");
                 if (result.equals("Updated")){
-//                    ((UserInfoActivity) getActivity()).navigateToValidate();
-                    String tokenID, tokenName;
-                    tokenID = aController.getUserInfo().getID();
-                    tokenName = aController.getUserInfo().getName();
-                    putTokenToPref(tokenID, tokenName);
-                    Intent toMain = new Intent(getActivity(), MainActivity.class);
-                    toMain.putExtra("isSignedIn", 1);
-                    startActivity(toMain);
-                    getActivity().finish();
+                    ((UserInfoActivity) getActivity()).navigateToValidate();
+//                    String tokenID, tokenName;
+//                    tokenID = aController.getUserInfo().getID();
+//                    tokenName = aController.getUserInfo().getName();
+//                    putTokenToPref(tokenID, tokenName);
+//                    Intent toMain = new Intent(getActivity(), MainActivity.class);
+//                    toMain.putExtra("isSignedIn", 1);
+//                    startActivity(toMain);
+//                    getActivity().finish();
                 }else{
                     System.out.println("Update fail");
                 }
@@ -185,7 +183,12 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
                 if (result == -1){
                     System.out.println("Fail to get number of customers");
                 }else{
-                    aController.getUserInfo().addInfo("cus_id", Integer.toString(result));
+                    SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
+                    if (sharedPref.getString("tokenID", "").isEmpty()) {
+                        aController.getUserInfo().addInfo("cus_id", Integer.toString(result));
+                    }else{
+                        aController.getUserInfo().addInfo("cus_id", sharedPref.getString("tokenID", ""));
+                    }
                     aController.setRequestData(getActivity(), this, ModelURL.UPDATE_CUSTOMERINFO.getUrl(MainActivity.isUAT), aController.getUserInfo().getPostData());
                 }
             }

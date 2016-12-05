@@ -50,7 +50,7 @@ public class BookingDetailsActivity extends AppCompatActivity{
         list = new ArrayList<>();
         listInit(list);
         RecyclerView rv = (RecyclerView)findViewById(R.id.bookingdet_recycler_view);
-
+    
         BookingCVAdapter adapter = new BookingCVAdapter(this, list);
         rv.setAdapter(adapter);
         LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -64,7 +64,7 @@ public class BookingDetailsActivity extends AppCompatActivity{
         Bundle b = i.getExtras();
         if (b != null){
             if (b.containsKey("isBookingSuccess")) {
-                int m = b.getInt("isBookingSuccess");
+                int m = b.getInt("isBookingSuccess", 0);
                 if (m == 1) {
                     new AlertDialog.Builder(this)
                             .setMessage(getString(R.string.booking_success))

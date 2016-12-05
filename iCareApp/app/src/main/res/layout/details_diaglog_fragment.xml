@@ -182,7 +182,7 @@
             android:layout_below="@+id/confirm_code"
             android:layout_marginTop="30dp"
             android:textColor="@color/colorWhite"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/button_style"
             android:textSize="18sp"
             android:text="@string/close_dialog"/>
 

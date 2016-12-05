@@ -39,6 +39,7 @@ import com.lanthanh.admin.icareapp.Model.ModelBookingDetail;
 import com.lanthanh.admin.icareapp.Register.RegisterActivity;
 import com.lanthanh.admin.icareapp.Service.BookingDetailsActivity;
 import com.lanthanh.admin.icareapp.Service.ExpireService;
+import com.lanthanh.admin.icareapp.UserDetails.UserDetailsActivity;
 import com.lanthanh.admin.icareapp.UserTab.UserFragment;
 import com.mikepenz.actionitembadge.library.ActionItemBadge;
 
@@ -51,7 +52,7 @@ import java.util.List;
  */
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener{
-    public final static boolean isUAT = true;
+    public final static boolean isUAT = false;
     private FragmentManager fragmentManager;
     private int badgeCount;
     private Drawable cartIcon;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private BottomNavigationView bottomNavigationView;
     private BroadcastReceiver broadcastReceiver;
-
+    public static boolean isCounting = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             public void onReceive(Context context, Intent intent) {
                 if (intent.getBooleanExtra("isExpired", false)) {
                     releaseCartWhenReselect();
-
+                    stopService(new Intent(MainActivity.this, ExpireService.class));
                 }
             }
         };
@@ -123,9 +124,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Intent i = getIntent();
         Bundle b = i.getExtras();
         if (b == null){
-            if (sharedPref.getString("tokenID", "").isEmpty()) {
-                onNavigationItemSelected(bottomNavigationView.getMenu().getItem(2));
+            if (sharedPref.getString("tokenID", "").isEmpty() || sharedPref.getString("active", "0").equals("0")) {
+                //onNavigationItemSelected(bottomNavigationView.getMenu().getItem(2));
                 //bottomNavigationView.getMenu().getItem(2).setChecked(true);
+                Intent toRegister = new Intent(this, RegisterActivity.class);
+                startActivity(toRegister);
             }
             else {
                 onNavigationItemSelected(bottomNavigationView.getMenu().getItem(1));
@@ -154,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onPause() {
         super.onPause();
+        releaseCartWhenReselect();
         unregisterReceiver(broadcastReceiver);
     }
 
@@ -437,6 +441,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         fragmentTransaction.addToBackStack(null).commit();
     }
 
+    public void navigateToUserDetails(){
+        Intent toUserDetails = new Intent(this, UserDetailsActivity.class);
+        startActivity(toUserDetails);
+    }
+
     public void navigateToRegister(){
         Intent toRegister = new Intent(this, RegisterActivity.class);
         startActivity(toRegister);
@@ -472,7 +481,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        SharedPreferences sharedPref = this.getSharedPreferences("content", Context.MODE_PRIVATE);
+
         switch (item.getItemId()) {
             case R.id.action_news:
                 /*
@@ -499,13 +508,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 bottomNavigationView.getMenu().getItem(1).setChecked(false);
                 hideAllBookingTabVisibleFragments(fragmentTransaction);
                 fragmentTransaction.commit();
-                if (!sharedPref.getString("tokenID", "").isEmpty()) {
-                    navigateToUser();
-                }
-                else {
-                    Intent toRegister = new Intent(this, RegisterActivity.class);
-                    startActivity(toRegister);
-                }
+                navigateToUser();
                 break;
         }
         return false;

@@ -1,7 +1,6 @@
 package com.lanthanh.admin.icareapp.Register;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.design.widget.TextInputEditText;
@@ -11,21 +10,23 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.auth0.jwt.JWTVerifier;
 import com.lanthanh.admin.icareapp.Controller.Controller;
 import com.lanthanh.admin.icareapp.MainActivity;
 import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
 import com.lanthanh.admin.icareapp.Model.ModelURL;
 import com.lanthanh.admin.icareapp.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Map;
 
 /**
  * Created by ADMIN on 17-Oct-16.
@@ -87,29 +88,35 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
     @Override
     public void update(Object o) {
         JSONObject status = (JSONObject) o;
-
+        System.out.println(status);
         if (status == null) {
             System.out.println("ERROR IN PHP FILE");
             return;
         }
 
         try{
-            if (status.has("Select_ToAuthenticate")){
+            if (status.has("Select_ToAuthenticate")) {
                 //String result = status.getString("Select_ToAuthenticate");
-                String response = status.getString("Select_ToAuthenticate");//Get the array of days' JSONObject
-                System.out.println(response);
-                if (!response.isEmpty()){
-                    if (response.equals("LoginFail") || response.equals("Fail")){
-                        Toast.makeText(getActivity(), "Tên Đăng Nhập Hoặc Mật Khẩu Sai", Toast.LENGTH_LONG).show();
+                if (status.get("Select_ToAuthenticate") instanceof String) {
+                    String response = status.getString("Select_ToAuthenticate");
+                    if (!response.isEmpty()) {
+                        if (response.equals("LoginFail") || response.equals("Fail")) {
+                            Toast.makeText(getActivity(), "Tên Đăng Nhập Hoặc Mật Khẩu Sai", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+//                    String tokenID, tokenName;
+//                    tokenID = response.substring(response.indexOf("+") + 1, response.indexOf("-"));
+//                    tokenName = response.substring(response.indexOf("-") + 1, response.length());
+//                    putTokenToPref(tokenID, tokenName);
+                }else {
+                    JSONArray jArray = status.getJSONArray("Select_ToAuthenticate");//Get the array of time
+                    JSONObject jObJWT = jArray.getJSONObject(0);
+                    parseJWT(jObJWT.getString("jwt"));
+                    SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
+                    if (sharedPref.getString("active", "0").equals("0")){
+                        ((RegisterActivity) getActivity()).navigateToUserInfo();
                     }else{
-                        String tokenID, tokenName;
-                        tokenID = response.substring(response.indexOf("+")+1, response.indexOf("-"));
-                        tokenName = response.substring(response.indexOf("-")+1, response.length());
-                        putTokenToPref(tokenID, tokenName);
-                        Intent toMain = new Intent(getActivity(), MainActivity.class);
-                        toMain.putExtra("isSignedIn", 1);
-                        startActivity(toMain);
-                        getActivity().finish();
+                        ((RegisterActivity) getActivity()).navigateToBookingActivity();
                     }
                 }
             }
@@ -126,5 +133,42 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
         editor.putString("tokenName", name);
         editor.apply();
         editor.commit();
+    }
+
+    public void parseJWT(String jwt){
+        try {
+            final JWTVerifier verifier = new JWTVerifier("drmuller");
+            final Map<String, String> jwtClaims= (Map<String,String>) verifier.verify(jwt).get("data");
+
+            SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("tokenID", (String)jwtClaims.get("userId"));
+            editor.putString("tokenName", (String)jwtClaims.get("userName"));
+            editor.putString("tokenAddress", (String)jwtClaims.get("userAddress"));
+            editor.putString("tokenDob", formatDate((String)jwtClaims.get("userDob")));
+            if (jwtClaims.get("userGender").equals("Male")){
+                editor.putString("tokenGender", getActivity().getString(R.string.male));
+            }else{
+                editor.putString("tokenGender", getActivity().getString(R.string.female));
+            }
+            editor.putString("tokenEmail", (String)jwtClaims.get("userEmail"));
+            editor.putString("tokenPhone", (String)jwtClaims.get("userPhone"));
+            editor.putString("step", (String)jwtClaims.get("step"));
+            editor.putString("active", (String)jwtClaims.get("active"));
+            editor.apply();
+            editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String formatDate(String s){
+        StringBuilder builder = new StringBuilder();
+        builder.append(s.substring(s.lastIndexOf("-")+1, s.length()));
+        builder.append("-");
+        builder.append(s.substring(s.indexOf("-")+1, s.lastIndexOf("-")));
+        builder.append("-");
+        builder.append(s.substring(0, s.indexOf("-")));
+        return builder.toString();
     }
 }

@@ -1,5 +1,7 @@
 package com.lanthanh.admin.icareapp.UserInfo;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,7 +31,11 @@ public class ValidateFragment extends Fragment implements View.OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Send email asa user go to this fragment
-        aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(MainActivity.isUAT), aController.getUserInfo().getPostEmail());
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
+        if (sharedPref.getString("tokenEmail","").isEmpty() && sharedPref.getString("tokenID","").isEmpty())
+            aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(MainActivity.isUAT), aController.getUserInfo().getPostEmail() + "&cus_id=" + aController.getUserInfo().getID());
+        else
+            aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(MainActivity.isUAT), "email=" + sharedPref.getString("tokenEmail","") + "&cus_id=" + sharedPref.getString("tokenID",""));
 
         View view = inflater.inflate(R.layout.userinfo_validate, container, false);
 
@@ -64,7 +70,11 @@ public class ValidateFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ui_resend_email_button:
-                aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(MainActivity.isUAT), aController.getUserInfo().getPostEmail());
+                SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
+                if (sharedPref.getString("tokenEmail","").isEmpty() && sharedPref.getString("tokenID","").isEmpty())
+                    aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(MainActivity.isUAT), aController.getUserInfo().getPostEmail() + "&cus_id=" + aController.getUserInfo().getID());
+                else
+                    aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(MainActivity.isUAT), "email=" + sharedPref.getString("tokenEmail","") + "&cus_id=" + sharedPref.getString("tokenID",""));
                 break;
             case R.id.ui_change_email_button:
                 ((UserInfoActivity) getActivity()).navigateToChangeEmail();

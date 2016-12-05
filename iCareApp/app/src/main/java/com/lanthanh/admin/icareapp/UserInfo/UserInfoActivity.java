@@ -2,6 +2,7 @@ package com.lanthanh.admin.icareapp.UserInfo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -26,7 +27,7 @@ import java.util.List;
 
 public class UserInfoActivity extends AppCompatActivity{
     private FragmentManager fragmentManager;
-    private NameAndLocationFragment nameLocationFragment;
+    private NameAndAddressFragment nameLocationFragment;
     private DOBvsGenderFragment dobGenderFragment;
     private ContactFragment contactFragment;
     private ValidateFragment validateFragment;
@@ -39,7 +40,7 @@ public class UserInfoActivity extends AppCompatActivity{
         setContentView(R.layout.activity_userinfo);
 
         //Init Fragment
-        nameLocationFragment = new NameAndLocationFragment();
+        nameLocationFragment = new NameAndAddressFragment();
         dobGenderFragment = new DOBvsGenderFragment();
         contactFragment = new ContactFragment();
         validateFragment = new ValidateFragment();
@@ -57,6 +58,14 @@ public class UserInfoActivity extends AppCompatActivity{
 
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.ui_fragment_container, nameLocationFragment, nameLocationFragment.getClass().getName()).commit();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        SharedPreferences sharedPref = this.getSharedPreferences("content", Context.MODE_PRIVATE);
+        if (!sharedPref.getString("step", "0").equals("0"))
+            navigateToValidate();
     }
 
     @Override

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/ud_gender_txt"
+        android:text="@string/gender"
+        android:textSize="20sp"
+        android:textColor="@color/colorLightBlack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" />
+
+    <RadioGroup
+        android:id="@+id/ud_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center">
+        <RadioButton
+            android:id="@+id/ud_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/male"
+            android:textColor="@color/colorLightBlack"
+            android:button="@null"
+            android:drawableEnd="@android:drawable/btn_radio"
+            android:drawableStart="@drawable/ic_user"
+            />
+        <RadioButton
+            android:id="@+id/ud_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="@string/female"
+            android:textColor="@color/colorLightBlack"
+            android:button="@null"
+            android:drawableEnd="@android:drawable/btn_radio"
+            android:drawableStart="@drawable/ic_user"
+            />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/ud_gender_noti"
+        android:text="@string/gender_null"
+        android:textSize="15sp"
+        android:textColor="@color/colorLightBlack"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:visibility="gone"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/button_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/button_style"
+        android:textSize="18sp"
+        android:text="@string/close_dialog"/>
+</LinearLayout>

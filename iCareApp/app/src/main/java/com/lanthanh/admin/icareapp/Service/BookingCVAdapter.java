@@ -25,7 +25,6 @@ public class BookingCVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Activity ctx;
     private Typeface font;
     private FragmentManager fm;
-    private List<String> temp;
 
     public BookingCVAdapter(Activity context, List<BookingItem> list){
         ctx = context;

@@ -5,5 +5,5 @@
         android:id="@+id/shopping_cart"
         app:actionLayout="@layout/menu_action_item_badge"
         app:showAsAction="always"
-        android:title="Shopping Cart"/>
+        android:title="Giỏ Hàng"/>
 </menu>

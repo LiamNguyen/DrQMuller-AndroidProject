@@ -20,7 +20,7 @@ import com.lanthanh.admin.icareapp.R;
  * Created by ADMIN on 22-Oct-16.
  */
 
-public class NameAndLocationFragment extends Fragment implements View.OnClickListener, TextWatcher{
+public class NameAndAddressFragment extends Fragment implements View.OnClickListener, TextWatcher{
     private TextInputEditText name;
     private TextInputEditText address;
     private TextInputLayout name_container;
@@ -30,7 +30,7 @@ public class NameAndLocationFragment extends Fragment implements View.OnClickLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.userinfo_name, container, false);
+        View view = inflater.inflate(R.layout.userinfo_namevsaddress, container, false);
 
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
 
@@ -60,8 +60,8 @@ public class NameAndLocationFragment extends Fragment implements View.OnClickLis
         switch (v.getId()){
             case R.id.ui_next_button_p1:
                 if (validName && validAddress){
-                    aController.getUserInfo().addInfo("name", name.getText().toString());
-                    aController.getUserInfo().addInfo("address", address.getText().toString());
+                    aController.getUserInfo().addInfo("name", name.getText().toString().trim());
+                    aController.getUserInfo().addInfo("address", address.getText().toString().trim());
                     ((UserInfoActivity) getActivity()).navigateToDOBvsGender();
                 }
                 else{
@@ -104,15 +104,15 @@ public class NameAndLocationFragment extends Fragment implements View.OnClickLis
             get_name.trim();
             if (!get_name.equals("")){
                 if (get_name.matches(ModelInputRequirement.NAME)){
-                    name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_mode_edit_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                    name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_pin_white_36dp, 0, R.drawable.ic_valid_input, 0);
                     name_container.setErrorEnabled(false);
                     validName = true;
                 }else{
-                    name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_mode_edit_white_36dp, 0, R.drawable.ic_invalid_input, 0);
+                    name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_pin_white_36dp, 0, R.drawable.ic_invalid_input, 0);
                     validName = false;
                 }
             }else {
-                name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_mode_edit_white_36dp, 0, 0, 0);
+                name.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_pin_white_36dp, 0, 0, 0);
                 validName = false;
             }
         }else if (address.getText().hashCode() == s.hashCode()){//Edit Address
