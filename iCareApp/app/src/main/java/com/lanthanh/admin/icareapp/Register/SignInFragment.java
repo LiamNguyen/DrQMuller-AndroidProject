@@ -144,19 +144,19 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
 
             SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("tokenID", (String)jwtClaims.get("userId"));
-            editor.putString("tokenName", (String)jwtClaims.get("userName"));
-            editor.putString("tokenAddress", (String)jwtClaims.get("userAddress"));
-            editor.putString("tokenDob", formatDate((String)jwtClaims.get("userDob")));
+            editor.putString("tokenID", jwtClaims.get("userId"));
+            editor.putString("tokenName", jwtClaims.get("userName"));
+            editor.putString("tokenAddress", jwtClaims.get("userAddress"));
+            editor.putString("tokenDob", formatDate(jwtClaims.get("userDob")));
             if (jwtClaims.get("userGender").equals("Male")){
                 editor.putString("tokenGender", getActivity().getString(R.string.male));
             }else{
                 editor.putString("tokenGender", getActivity().getString(R.string.female));
             }
-            editor.putString("tokenEmail", (String)jwtClaims.get("userEmail"));
-            editor.putString("tokenPhone", (String)jwtClaims.get("userPhone"));
-            editor.putString("step", (String)jwtClaims.get("step"));
-            editor.putString("active", (String)jwtClaims.get("active"));
+            editor.putString("tokenEmail", jwtClaims.get("userEmail"));
+            editor.putString("tokenPhone", jwtClaims.get("userPhone"));
+            editor.putString("step", jwtClaims.get("step"));
+            editor.putString("active", jwtClaims.get("active"));
             editor.apply();
             editor.commit();
             return true;

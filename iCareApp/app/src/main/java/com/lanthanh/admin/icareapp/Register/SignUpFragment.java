@@ -57,7 +57,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
         username.setTypeface(font);
         password = (TextInputEditText) view.findViewById(R.id.su_password_input);
         password.addTextChangedListener(this);
-        username.setTypeface(font);
+        password.setTypeface(font);
         password_confirm = (TextInputEditText) view.findViewById(R.id.su_password_confirm_input);
         password_confirm.addTextChangedListener(this);
         password_confirm.setTypeface(font);
@@ -184,6 +184,15 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Da
                 else{
                     password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0 , R.drawable.ic_invalid_input, 0);
                     validPW = false;
+                }
+                if (!password_confirm.getText().toString().isEmpty()) {
+                    if (!get_pw.equals(password_confirm.getText().toString())) {
+                        password_confirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_invalid_input, 0);
+                        validPWConf = false;
+                    } else {
+                        password_confirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                        validPWConf = true;
+                    }
                 }
             }
             else{
