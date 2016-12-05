@@ -111,12 +111,14 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
                 }else {
                     JSONArray jArray = status.getJSONArray("Select_ToAuthenticate");//Get the array of time
                     JSONObject jObJWT = jArray.getJSONObject(0);
-                    parseJWT(jObJWT.getString("jwt"));
+                    boolean check = parseJWT(jObJWT.getString("jwt"));
                     SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
-                    if (sharedPref.getString("active", "0").equals("0")){
-                        ((RegisterActivity) getActivity()).navigateToUserInfo();
-                    }else{
-                        ((RegisterActivity) getActivity()).navigateToBookingActivity();
+                    if (check) {
+                        if (sharedPref.getString("active", "0").equals("0")) {
+                            ((RegisterActivity) getActivity()).navigateToUserInfo();
+                        } else {
+                            ((RegisterActivity) getActivity()).navigateToBookingActivity();
+                        }
                     }
                 }
             }
@@ -135,7 +137,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
         editor.commit();
     }
 
-    public void parseJWT(String jwt){
+    public boolean parseJWT(String jwt){
         try {
             final JWTVerifier verifier = new JWTVerifier("drmuller");
             final Map<String, String> jwtClaims= (Map<String,String>) verifier.verify(jwt).get("data");
@@ -157,8 +159,10 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
             editor.putString("active", (String)jwtClaims.get("active"));
             editor.apply();
             editor.commit();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
