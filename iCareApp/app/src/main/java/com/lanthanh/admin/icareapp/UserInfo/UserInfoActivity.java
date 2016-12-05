@@ -175,6 +175,9 @@ public class UserInfoActivity extends AppCompatActivity{
         Intent toRegister = new Intent(this, RegisterActivity.class);
         startActivity(toRegister);
         finish();
+
+        //Hide soft keyboard if it is open
+        hideSoftKeyboard();
     }
 
     /*

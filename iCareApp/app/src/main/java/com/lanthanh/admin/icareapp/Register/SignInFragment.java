@@ -147,11 +147,19 @@ public class SignInFragment extends Fragment implements View.OnClickListener, Da
             editor.putString("tokenID", jwtClaims.get("userId"));
             editor.putString("tokenName", jwtClaims.get("userName"));
             editor.putString("tokenAddress", jwtClaims.get("userAddress"));
-            editor.putString("tokenDob", formatDate(jwtClaims.get("userDob")));
-            if (jwtClaims.get("userGender").equals("Male")){
-                editor.putString("tokenGender", getActivity().getString(R.string.male));
+            if (jwtClaims.get("userDob") != null) {
+                editor.putString("tokenDob", formatDate(jwtClaims.get("userDob")));
             }else{
-                editor.putString("tokenGender", getActivity().getString(R.string.female));
+                editor.putString("tokenDob", jwtClaims.get("userDob"));
+            }
+            if (jwtClaims.get("userGender") != null) {
+                if (jwtClaims.get("userGender").equals("Male")) {
+                    editor.putString("tokenGender", getActivity().getString(R.string.male));
+                } else {
+                    editor.putString("tokenGender", getActivity().getString(R.string.female));
+                }
+            }else {
+                editor.putString("tokenGender", jwtClaims.get("userGender"));
             }
             editor.putString("tokenEmail", jwtClaims.get("userEmail"));
             editor.putString("tokenPhone", jwtClaims.get("userPhone"));
