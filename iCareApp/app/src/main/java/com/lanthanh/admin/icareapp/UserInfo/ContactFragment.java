@@ -166,6 +166,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
             if (status.has("Update_CustomerInfo")){
                 String result = status.getString("Update_CustomerInfo");
                 if (result.equals("Updated")){
+                     ((UserInfoActivity) getActivity()).navigateToRegister();
 //                    ((UserInfoActivity) getActivity()).navigateToValidate();
 //                    String tokenID, tokenName;
 //                    tokenID = aController.getUserInfo().getID();

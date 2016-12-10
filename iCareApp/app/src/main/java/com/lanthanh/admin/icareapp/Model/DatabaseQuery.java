@@ -67,7 +67,7 @@ public class DatabaseQuery {
         }catch (IOException ioe){
             System.out.println("Cannot open input stream");
         }
-
+        System.out.println(line);
         try {
             jsonObj = new JSONObject(line);
         }catch (JSONException je){
