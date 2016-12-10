@@ -177,6 +177,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
 //                    startActivity(toMain);
 //                    getActivity().finish();
                 }else{
+                    ((UserInfoActivity) getActivity()).navigateToRegister();
                     System.out.println("Update fail");
                 }
             }else if (status.has("Select_NumberOfCustomers")){
