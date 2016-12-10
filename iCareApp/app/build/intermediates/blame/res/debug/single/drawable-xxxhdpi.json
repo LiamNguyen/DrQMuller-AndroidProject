@@ -12,6 +12,10 @@
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_security_white_36dp.png"
     },
     {
+        "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi\\ic_account_circle.png",
+        "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_account_circle.png"
+    },
+    {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi\\ic_pin_drop_white_36dp.png",
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_pin_drop_white_36dp.png"
     },
@@ -28,12 +32,12 @@
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_mode_edit_white_36dp.png"
     },
     {
-        "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi\\ic_person_white_36dp.png",
-        "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_person_white_36dp.png"
-    },
-    {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi\\ic_local_phone_white_36dp.png",
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_local_phone_white_36dp.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi\\ic_person_white_36dp.png",
+        "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_person_white_36dp.png"
     },
     {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi\\ic_shopping_cart_white_36dp.png",

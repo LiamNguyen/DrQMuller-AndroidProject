@@ -1,5 +1,9 @@
 [
     {
+        "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi\\ic_launcher_default.png",
+        "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_default.png"
+    },
+    {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi\\ic_launcher.png",
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
     }

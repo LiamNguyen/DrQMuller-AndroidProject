@@ -38,7 +38,7 @@ MERGED from [com.android.support:cardview-v7:25.0.0] D:\longv\app\iCare\iCare-Pr
 	android:allowBackup
 		ADDED from D:\longv\app\iCare\iCare-Project\iCareApp\app\src\main\AndroidManifest.xml:8:9-35
 	android:icon
-		ADDED from D:\longv\app\iCare\iCare-Project\iCareApp\app\src\main\AndroidManifest.xml:9:9-43
+		ADDED from D:\longv\app\iCare\iCare-Project\iCareApp\app\src\main\AndroidManifest.xml:9:9-51
 	android:theme
 		ADDED from D:\longv\app\iCare\iCare-Project\iCareApp\app\src\main\AndroidManifest.xml:12:9-40
 activity#com.lanthanh.admin.icareapp.MainActivity

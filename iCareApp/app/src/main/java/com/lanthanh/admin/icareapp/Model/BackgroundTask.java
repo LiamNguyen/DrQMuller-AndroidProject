@@ -21,16 +21,16 @@ public class BackgroundTask extends AsyncTask<String,Void,Object>{
         this.observer = observer;
         aController = Controller.getInstance();
     }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Loading Data ...");
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
-    }
+//
+//    @Override
+//    protected void onPreExecute() {
+//        super.onPreExecute();
+//        pDialog = new ProgressDialog(context);
+//        pDialog.setMessage("Loading Data ...");
+//        pDialog.setIndeterminate(false);
+//        pDialog.setCancelable(false);
+//        pDialog.show();
+//    }
 
     @Override
     protected Object doInBackground(String... params){
@@ -59,7 +59,7 @@ public class BackgroundTask extends AsyncTask<String,Void,Object>{
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        pDialog.dismiss();
+//        pDialog.dismiss();
         if (o != null)
             observer.update(o);
         else

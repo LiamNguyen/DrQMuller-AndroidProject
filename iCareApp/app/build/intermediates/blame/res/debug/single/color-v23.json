@@ -16,12 +16,12 @@
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_tint_seek_thumb.xml"
     },
     {
-        "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_color_highlight_material.xml",
-        "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_color_highlight_material.xml"
-    },
-    {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color-v23\\design_tint_password_toggle.xml",
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.0\\res\\color-v23\\design_tint_password_toggle.xml"
+    },
+    {
+        "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_color_highlight_material.xml",
+        "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\color-v23\\abc_color_highlight_material.xml"
     },
     {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_spinner.xml",

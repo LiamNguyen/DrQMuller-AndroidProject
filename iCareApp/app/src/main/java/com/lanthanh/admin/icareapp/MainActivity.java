@@ -82,7 +82,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         cartList = new ArrayList<>();
         //cartList.add(getString(R.string.empty_cart));
         badgeCount = 0;
-        cartIcon = getResources().getDrawable(R.drawable.ic_shopping_cart_white_36dp, null);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
+            // Do something for lollipop and above versions
+            cartIcon = getResources().getDrawable(R.drawable.ic_shopping_cart_white_36dp, null);
+        } else{
+            // do something for phones running an SDK before lollipop
+            cartIcon = getResources().getDrawable(R.drawable.ic_shopping_cart_white_36dp);
+        }
 
         //Get Fragment Manager
         fragmentManager = getSupportFragmentManager();

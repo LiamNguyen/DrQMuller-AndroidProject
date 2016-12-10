@@ -88,12 +88,12 @@
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\layout\\booking_day_of_week.xml"
     },
     {
-        "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_select_dialog_material.xml",
-        "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\abc_select_dialog_material.xml"
-    },
-    {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\register_sign_up.xml",
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\layout\\register_sign_up.xml"
+    },
+    {
+        "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_select_dialog_material.xml",
+        "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\abc_select_dialog_material.xml"
     },
     {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_booking_details.xml",
@@ -164,12 +164,20 @@
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\layout\\activity_popup_item.xml"
     },
     {
+        "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_icon_group.xml",
+        "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\notification_template_icon_group.xml"
+    },
+    {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\userdetails_gender.xml",
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\layout\\userdetails_gender.xml"
     },
     {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_expanded_menu_layout.xml",
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\abc_expanded_menu_layout.xml"
+    },
+    {
+        "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_action.xml",
+        "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\notification_action.xml"
     },
     {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_item.xml",
@@ -196,12 +204,12 @@
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\abc_popup_menu_header_item_layout.xml"
     },
     {
-        "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_checkbox.xml",
-        "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\abc_list_menu_item_checkbox.xml"
-    },
-    {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\register_choose.xml",
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\layout\\register_choose.xml"
+    },
+    {
+        "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_checkbox.xml",
+        "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\abc_list_menu_item_checkbox.xml"
     },
     {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\user_body.xml",
@@ -262,6 +270,10 @@
     {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\user.xml",
         "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\src\\main\\res\\layout\\user.xml"
+    },
+    {
+        "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_action_tombstone.xml",
+        "source": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\notification_action_tombstone.xml"
     },
     {
         "merged": "D:\\longv\\app\\iCare\\iCare-Project\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_snackbar_include.xml",

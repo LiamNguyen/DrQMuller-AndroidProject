@@ -17,7 +17,7 @@ public class ModelBookingDetail {
     private Map<String,String> booking;
 
     public ModelBookingDetail(){
-        customer = ""; location = ""; voucher = ""; type = ""; start_date = "0000-00-00"; expire_date = ""; code = ""; address = ""; voucherName = "";
+        customer = ""; location = ""; voucher = ""; type = ""; start_date = "1111-11-11"; expire_date = ""; code = ""; address = ""; voucherName = "";
         booking = new HashMap<>();
     }
 
