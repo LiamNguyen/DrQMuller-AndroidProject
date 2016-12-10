@@ -1,6 +1,7 @@
 package com.lanthanh.admin.icareapp.UserInfo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.design.widget.TextInputEditText;
@@ -166,16 +167,17 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
             if (status.has("Update_CustomerInfo")){
                 String result = status.getString("Update_CustomerInfo");
                 if (result.equals("Updated")){
-                     ((UserInfoActivity) getActivity()).navigateToRegister();
 //                    ((UserInfoActivity) getActivity()).navigateToValidate();
 //                    String tokenID, tokenName;
 //                    tokenID = aController.getUserInfo().getID();
 //                    tokenName = aController.getUserInfo().getName();
-//                    putTokenToPref(tokenID, tokenName);
-//                    Intent toMain = new Intent(getActivity(), MainActivity.class);
-//                    toMain.putExtra("isSignedIn", 1);
-//                    startActivity(toMain);
-//                    getActivity().finish();
+                    putTokenToPref(aController.getUserInfo().getID(), aController.getUserInfo().getName()
+                                 , aController.getUserInfo().getAddress(), aController.getUserInfo().getDOB()
+                                 , aController.getUserInfo().getGender(), aController.getUserInfo().getEmail(), aController.getUserInfo().getPhone());
+                    Intent toMain = new Intent(getActivity(), MainActivity.class);
+                    toMain.putExtra("isSignedIn", 1);
+                    startActivity(toMain);
+                    getActivity().finish();
                 }else{
                     ((UserInfoActivity) getActivity()).navigateToRegister();
                     System.out.println("Update fail");
@@ -204,11 +206,22 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
         return df.format(Calendar.getInstance().getTime());
     }
 
-    public void putTokenToPref(String id, String name){
+    public void putTokenToPref(String id, String name, String address, String dob, String gender, String email, String phone){
         SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("tokenID", id);
         editor.putString("tokenName", name);
+        editor.putString("tokenAddress", address);
+        editor.putString("tokenDob", dob);
+        if (gender.equals("Male")) {
+            editor.putString("tokenGender", getActivity().getString(R.string.male));
+        } else {
+            editor.putString("tokenGender", getActivity().getString(R.string.female));
+        }
+        editor.putString("tokenEmail", email);
+        editor.putString("tokenPhone", phone);
+        editor.putString("step", "1");
+        editor.putString("active", "1");
         editor.apply();
         editor.commit();
     }

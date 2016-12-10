@@ -61,7 +61,38 @@ public class ModelUserInfo {
         return info.get("cus_id");
 
     }
+
     public String getName(){
         return info.get("name");
+    }
+
+    public String getAddress(){
+        return info.get("address");
+    }
+
+    public String getDOB(){
+        return formatDate(info.get("dob"));
+    }
+
+    public String getGender(){
+        return info.get("gender");
+    }
+
+    public String getEmail(){
+        return info.get("email");
+    }
+
+    public String getPhone(){
+        return info.get("phone");
+    }
+
+    public String formatDate(String s){
+        StringBuilder builder = new StringBuilder();
+        builder.append(s.substring(s.lastIndexOf("-")+1, s.length()));
+        builder.append("-");
+        builder.append(s.substring(s.indexOf("-")+1, s.lastIndexOf("-")));
+        builder.append("-");
+        builder.append(s.substring(0, s.indexOf("-")));
+        return builder.toString();
     }
 }

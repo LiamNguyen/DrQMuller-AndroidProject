@@ -147,9 +147,9 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                 }
             }else if (status.has("Insert_NewAppointment")){
                 if (status.getString("Insert_NewAppointment").equals("Inserted")){
-                    System.out.println("Insert success");
+                    System.out.println("Insert success double");
                 }else if (status.getString("Insert_NewAppointment").equals("Failed")){
-                    System.out.println("Insert fail long");
+                    System.out.println("Insert fail");
                 }
             }
         }catch (JSONException je){
