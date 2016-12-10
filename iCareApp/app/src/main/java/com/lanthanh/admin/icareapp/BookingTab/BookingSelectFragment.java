@@ -338,13 +338,14 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                 if (typeSp.getSelectedItem().toString().equals(getString(R.string.booking_type_fixed))) {
                     startDate.setVisibility(View.VISIBLE);
                     startDate.setEnabled(true);
+                    booking.setType(Integer.toString(1));
                 }
                 else {
                     startDate.setVisibility(View.INVISIBLE);
                     endDate.setText(getString(R.string.booking_do_date));
                     endDate.setEnabled(true);
+                    booking.setType(Integer.toString(2));
                 }
-                booking.setType(typeSp.getSelectedItem().toString());
             default:
                 break;
         }
