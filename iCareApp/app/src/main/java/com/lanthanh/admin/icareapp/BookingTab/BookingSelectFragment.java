@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -91,10 +92,32 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
         //Set up Spinners
         countrySp = (Spinner) view.findViewById(R.id.spinner_countries);
         countrySp.setEnabled(false);
+        countrySp.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                alert(getString(R.string.temp_inform));
+                return true;
+            }
+        });
         citySp = (Spinner) view.findViewById(R.id.spinner_cities);
         citySp.setEnabled(false);
+        citySp.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                alert(getString(R.string.temp_inform));
+                System.out.println("Sp Clicked ");
+                return true;
+            }
+        });
         districtSp = (Spinner) view.findViewById(R.id.spinner_districts);
         districtSp.setEnabled(false);
+        districtSp.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                alert(getString(R.string.temp_inform));
+                return true;
+            }
+        });
         locationSp = (Spinner) view.findViewById(R.id.spinner_locations);
         locationSp.setEnabled(false);
         voucherSp = (Spinner) view.findViewById(R.id.spinner_vouchers);
@@ -399,5 +422,11 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
 
             return view;
         }
+    }
+
+    void alert(String msg) {
+        Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 }

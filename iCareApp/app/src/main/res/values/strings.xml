@@ -110,6 +110,7 @@
     <string name="booking_success">Quí khách đã đặt lịch hẹn thành công</string>
     <string name="booking_fail">Nhập mã xác nhận chưa hoàn tất\nQuí khách có thể bấm vào thông tin lịch hẹn để hoàn thành xác nhận</string>
     <string name="close_dialog">Đóng</string>
+    <string name="temp_inform">Hiện tại Dr.Q-Muller chỉ có 1 trung tâm tại Quận 3, Việt Nam</string>
 
     <!-- BOOKING DETAILS -->
     <string name="address">Địa Điểm</string>
