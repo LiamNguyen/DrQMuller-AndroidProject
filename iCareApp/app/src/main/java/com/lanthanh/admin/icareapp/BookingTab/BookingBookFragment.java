@@ -88,7 +88,10 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
 
         //Get days of week and all time in day
         aController.setRequestData(getActivity(), this, ModelURL.SELECT_DAYSOFWEEK.getUrl(MainActivity.isUAT), "");
-        aController.setRequestData(getActivity(), this, ModelURL.SELECT_ALLTIMEINADAY.getUrl(MainActivity.isUAT), "");
+        if (booking.getVoucherID().equals("1"))
+            aController.setRequestData(getActivity(), this, ModelURL.SELECT_ALLTIMEINADAY.getUrl(MainActivity.isUAT), "");
+        else
+            aController.setRequestData(getActivity(), this, ModelURL.SELECT_ECOTIME.getUrl(MainActivity.isUAT), "");
 
         return view;
     }
@@ -115,7 +118,7 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                     daysList.add(jOb.getString("DAY"));
                 }
                 adapter.updateGroupList(daysList);
-            }else if (status.has("Select_AllTime")) {
+            }else if (status.has("Select_AllTime") || status.has("Select_EcoTime")) {
                 //Receive response from Select_AllTime.php
                 JSONArray time = status.getJSONArray("Select_AllTime");//Get the array of time
                 for (int i = 0; i < time.length(); i++) {
@@ -134,10 +137,11 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                 adapter.updateChildList(availableTime);
             }else if (status.has("BookingTransaction")){
                 if (status.getString("BookingTransaction").equals("Exist")){
-                    Toast toast = Toast.makeText(getActivity(), "Gio da bi dat", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getActivity(), "Giờ đã bị đặt", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 }else if (status.getString("BookingTransaction").equals("NonExist")){
+                    System.out.println("??????? double");
                     ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(day_id - 1) + " - " + timeList.get(time_id - 1));
                     availableTime.remove(timeList.get(time_id - 1));
                     adapter.notifyDataSetChanged();
