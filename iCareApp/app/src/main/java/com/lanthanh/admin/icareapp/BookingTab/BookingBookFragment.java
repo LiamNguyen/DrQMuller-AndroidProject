@@ -134,6 +134,14 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                     if (availableTime.contains(jOb.getString("TIME")))
                         availableTime.remove(jOb.getString("TIME"));
                 }
+                if (booking.getVoucherID().equals("1")){
+                    for (int i = 0; i < timeList.size(); i++) {
+                        if (i <= 5 || (i<=27 && i>=23) || i>=45) {
+                            if (availableTime.contains(timeList.get(i)))
+                                availableTime.remove(timeList.get(i));
+                        }
+                    }
+                }
                 adapter.updateChildList(availableTime);
             }else if (status.has("BookingTransaction")){
                 if (status.getString("BookingTransaction").equals("Exist")){
@@ -345,6 +353,14 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible())
             aController.setRequestData(getActivity(), this, ModelURL.SELECT_DAYSOFWEEK.getUrl(MainActivity.isUAT), "");
+        else
+            collapseAllGroups();
+    }
+
+    public void collapseAllGroups(){
+        int count =  adapter.getGroupCount();
+        for (int i = 0; i <count ; i++)
+            list.collapseGroup(i);
     }
 
     public void putBookingToPref(){
