@@ -1,6 +1,10 @@
 [
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_Version1.0.3/iCareApp/app/build/intermediates/res/merged/debug/drawable-v23/abc_control_background_material.xml",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_Version1.0.3/iCareApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/res/drawable-v23/abc_control_background_material.xml"
+        "merged": "D:\\longv\\app\\iCare\\iCare-Project1.0.2\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v23\\abc_control_background_material.xml",
+        "source": "D:\\longv\\app\\iCare\\iCare-Project1.0.2\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\drawable-v23\\abc_control_background_material.xml"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_Version1.0.3\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v23\\abc_control_background_material.xml",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_Version1.0.3\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\drawable-v23\\abc_control_background_material.xml"
     }
 ]
