@@ -91,7 +91,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
 
         //Set up Spinners
         countrySp = (Spinner) view.findViewById(R.id.spinner_countries);
-        countrySp.setEnabled(false);
+        //countrySp.setEnabled(false);
         countrySp.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -100,7 +100,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
             }
         });
         citySp = (Spinner) view.findViewById(R.id.spinner_cities);
-        citySp.setEnabled(false);
+        //citySp.setEnabled(false);
         citySp.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -110,7 +110,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
             }
         });
         districtSp = (Spinner) view.findViewById(R.id.spinner_districts);
-        districtSp.setEnabled(false);
+        //districtSp.setEnabled(false);
         districtSp.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

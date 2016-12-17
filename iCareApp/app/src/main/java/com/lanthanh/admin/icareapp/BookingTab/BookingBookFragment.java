@@ -89,9 +89,9 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         //Get days of week and all time in day
         aController.setRequestData(getActivity(), this, ModelURL.SELECT_DAYSOFWEEK.getUrl(MainActivity.isUAT), "");
         if (booking.getVoucherID().equals("1"))
-            aController.setRequestData(getActivity(), this, ModelURL.SELECT_ALLTIMEINADAY.getUrl(MainActivity.isUAT), "");
-        else
             aController.setRequestData(getActivity(), this, ModelURL.SELECT_ECOTIME.getUrl(MainActivity.isUAT), "");
+        else
+            aController.setRequestData(getActivity(), this, ModelURL.SELECT_ALLTIMEINADAY.getUrl(MainActivity.isUAT), "");
 
         return view;
     }
