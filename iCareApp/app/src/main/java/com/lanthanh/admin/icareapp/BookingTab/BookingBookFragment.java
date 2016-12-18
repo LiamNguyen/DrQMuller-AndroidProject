@@ -88,10 +88,10 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
 
         //Get days of week and all time in day
         aController.setRequestData(getActivity(), this, ModelURL.SELECT_DAYSOFWEEK.getUrl(MainActivity.isUAT), "");
-        if (booking.getVoucherID().equals("1"))
-            aController.setRequestData(getActivity(), this, ModelURL.SELECT_ALLTIMEINADAY.getUrl(MainActivity.isUAT), "");
-        else
-            aController.setRequestData(getActivity(), this, ModelURL.SELECT_ECOTIME.getUrl(MainActivity.isUAT), "");
+//        if (booking.getVoucherID().equals("1"))
+        aController.setRequestData(getActivity(), this, ModelURL.SELECT_ALLTIMEINADAY.getUrl(MainActivity.isUAT), "");
+//        else
+//            aController.setRequestData(getActivity(), this, ModelURL.SELECT_ECOTIME.getUrl(MainActivity.isUAT), "");
 
         return view;
     }
@@ -133,6 +133,14 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
                     JSONObject jOb = (JSONObject) selected.get(i);
                     if (availableTime.contains(jOb.getString("TIME")))
                         availableTime.remove(jOb.getString("TIME"));
+                }
+                if (booking.getVoucherID().equals("1")){
+                    for (int i = 0; i < timeList.size(); i++) {
+                        if (i <= 5 || (i<=27 && i>=23) || i>=45) {
+                            if (availableTime.contains(timeList.get(i)))
+                                availableTime.remove(timeList.get(i));
+                        }
+                    }
                 }
                 adapter.updateChildList(availableTime);
             }else if (status.has("BookingTransaction")){
@@ -345,6 +353,14 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible())
             aController.setRequestData(getActivity(), this, ModelURL.SELECT_DAYSOFWEEK.getUrl(MainActivity.isUAT), "");
+        else
+            collapseAllGroups();
+    }
+
+    public void collapseAllGroups(){
+        int count =  adapter.getGroupCount();
+        for (int i = 0; i <count ; i++)
+            list.collapseGroup(i);
     }
 
     public void putBookingToPref(){
