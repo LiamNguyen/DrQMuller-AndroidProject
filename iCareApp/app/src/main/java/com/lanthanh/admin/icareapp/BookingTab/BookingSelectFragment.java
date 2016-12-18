@@ -95,8 +95,11 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
         countrySp.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                alert(getString(R.string.temp_inform));
-                return true;
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    alert(getString(R.string.temp_inform));
+                    return true;
+                }
+                return false;
             }
         });
         citySp = (Spinner) view.findViewById(R.id.spinner_cities);
@@ -104,9 +107,11 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
         citySp.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                alert(getString(R.string.temp_inform));
-                System.out.println("Sp Clicked ");
-                return true;
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    alert(getString(R.string.temp_inform));
+                    return true;
+                }
+                return false;
             }
         });
         districtSp = (Spinner) view.findViewById(R.id.spinner_districts);
@@ -114,8 +119,11 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
         districtSp.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                alert(getString(R.string.temp_inform));
-                return true;
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    alert(getString(R.string.temp_inform));
+                    return true;
+                }
+                return false;
             }
         });
         locationSp = (Spinner) view.findViewById(R.id.spinner_locations);
@@ -426,7 +434,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
 
     void alert(String msg) {
         Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setGravity(Gravity.TOP, 0, 110);
         toast.show();
     }
 }
