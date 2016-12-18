@@ -434,7 +434,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
 
     void alert(String msg) {
         Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setGravity(Gravity.TOP, 0, 110);
         toast.show();
     }
 }
