@@ -11,12 +11,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_above="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/toolbar"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorVeryLightGray"/>
+
+            <FrameLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
         <TextView
             android:text="@string/booking_confirm_instruction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/booking_instruction"
-            android:textSize="30sp"
+            android:textSize="31sp"
             android:layout_marginTop="50dp"
             android:padding="50dp" />
 
