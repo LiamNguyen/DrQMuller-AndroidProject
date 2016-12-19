@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.MainActivity;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.Register.RegisterActivity;
@@ -33,11 +34,15 @@ public class UserInfoActivity extends AppCompatActivity{
     private ValidateFragment validateFragment;
     private ChangeEmailFragment changeEmailFragment;
     private Toolbar toolBar;
+    private NetworkController networkController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userinfo);
+
+        //Init controllers
+        networkController = new NetworkController(this);
 
         //Init Fragment
         nameLocationFragment = new NameAndAddressFragment();
@@ -66,6 +71,18 @@ public class UserInfoActivity extends AppCompatActivity{
         SharedPreferences sharedPref = this.getSharedPreferences("content", Context.MODE_PRIVATE);
         if (!sharedPref.getString("step", "0").equals("0"))
             navigateToValidate();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        networkController.registerNetworkReceiver();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        networkController.unregisterNetworkReceiver();
     }
 
     @Override

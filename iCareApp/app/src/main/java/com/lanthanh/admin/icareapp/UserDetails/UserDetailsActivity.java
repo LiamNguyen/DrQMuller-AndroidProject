@@ -23,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.Controller.Controller;
+import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.MainActivity;
 import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
 import com.lanthanh.admin.icareapp.Model.ModelInputRequirement;
@@ -48,6 +49,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
     private AppCompatButton abort, finish;
     private boolean validName, validAddress, validEmail, validPhone;
     private Controller aController;
+    private NetworkController networkController;
     private FragmentManager fm;
     private AppBarLayout appBarLayout;
     private CoordinatorLayout coordinatorLayout;
@@ -56,6 +58,9 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_details);
+
+        //Init controllers
+        networkController = new NetworkController(this);
         aController = Controller.getInstance();
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
@@ -153,6 +158,18 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
         finish = (AppCompatButton) findViewById(R.id.ud_finish_button);
         finish.setTypeface(font);
         finish.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        networkController.registerNetworkReceiver();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        networkController.unregisterNetworkReceiver();
     }
 
     @Override
