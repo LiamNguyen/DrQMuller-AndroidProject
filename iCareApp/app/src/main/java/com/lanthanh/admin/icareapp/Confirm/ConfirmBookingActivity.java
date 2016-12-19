@@ -10,6 +10,8 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -41,6 +43,17 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
 
         aController = Controller.getInstance();
 
+        //Toolbar
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolBar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView title = (TextView) toolBar.findViewById(R.id.toolbar_title);
+        title.setVisibility(View.GONE);
+
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
         AppCompatButton button = (AppCompatButton) findViewById(R.id.confirm_button);
         button.setOnClickListener(this);
@@ -63,6 +76,20 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
             aController.setRequestData(this, this, ModelURL.UPDATE_APPOINTMENT.getUrl(MainActivity.isUAT), "cus_id=" + cus_id + "&code=" + edttxt.getText().toString().trim());
         }
         hideSoftKeyboard();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent toDetails = new Intent(this, BookingDetailsActivity.class);
+                toDetails.putExtra("isBookingSuccess", 0);
+                startActivity(toDetails);
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
