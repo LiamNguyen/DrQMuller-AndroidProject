@@ -130,4 +130,8 @@
     <!-- USER DETAILS -->
     <string name="abort_button">Hủy Bỏ</string>
 
+    <!-- NETWORK -->
+    <string name="no_network_connection">Hiện tại quí khách không có kết nối mạng</string>
+    <string name="try_connect_again">Thử lại</string>
+
 </resources>
