@@ -35,6 +35,7 @@ import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.BookingTab.BookingBookFragment;
 import com.lanthanh.admin.icareapp.BookingTab.BookingSelectFragment;
+import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.Model.ModelBookingDetail;
 import com.lanthanh.admin.icareapp.Register.RegisterActivity;
 import com.lanthanh.admin.icareapp.Service.BookingDetailsActivity;
@@ -70,10 +71,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private BottomNavigationView bottomNavigationView;
     private BroadcastReceiver broadcastReceiver;
     public static boolean isCounting = false;
+
+    //Controller
+    private NetworkController networkController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Init controllers
+        networkController = new NetworkController(this);
 
         //Initialize ModelBookingDetails
         bookingDetails = new ModelBookingDetail();
@@ -112,16 +120,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.getMenu().getItem(0).setChecked(false);
 
-        //Broadcast Receiver
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getBooleanExtra("isExpired", false)) {
-                    releaseCartWhenReselect();
-                    stopService(new Intent(MainActivity.this, ExpireService.class));
-                }
-            }
-        };
+//        //Broadcast Receiver
+//        broadcastReceiver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                if (intent.getBooleanExtra("isExpired", false)) {
+//                    releaseCartWhenReselect();
+//                    stopService(new Intent(MainActivity.this, ExpireService.class));
+//                }
+//            }
+//        };
     }
 
     @Override
@@ -138,7 +146,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 startActivity(toRegister);
             }
             else {
-                onNavigationItemSelected(bottomNavigationView.getMenu().getItem(1));
+                if (!bottomNavigationView.getMenu().getItem(2).isChecked())
+                    onNavigationItemSelected(bottomNavigationView.getMenu().getItem(1));
+                else
+                    onNavigationItemSelected(bottomNavigationView.getMenu().getItem(2));
                 //bottomNavigationView.getMenu().getItem(1).setChecked(true);
             }
         }else {
@@ -158,14 +169,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(broadcastReceiver, new IntentFilter(ExpireService.COUNTDOWN_BR));
+        //networkController.checkNetworkConnection();
+        networkController.registerNetworkReceiver();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         releaseCartWhenReselect();
-        unregisterReceiver(broadcastReceiver);
+        networkController.unregisterNetworkReceiver();
     }
 
     @Override
@@ -521,16 +533,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
+    //Call in case losing network and then connected again
+    public void refreshAfterNetworkConnected(){
+        this.onPostResume();
+    }
+
      /* =============================== DATA ===============================*/
     public ModelBookingDetail getModelBooking(){
         return bookingDetails;
     }
-
-     /* =============================== CHECK FOR NETWORK ===============================*/
-     private boolean haveNetworkConnection() {
-         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-         return networkInfo != null && networkInfo.isConnected();
-     }
-
 }
