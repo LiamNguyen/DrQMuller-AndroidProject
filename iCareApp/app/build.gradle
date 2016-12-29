@@ -7,8 +7,8 @@ android {
     defaultConfig {
         applicationId "com.lanthanh.admin.icareapp"
         minSdkVersion 17
-        targetSdkVersion 21
-        versionCode 3
+        targetSdkVersion 24
+        versionCode 5
         versionName "1.0.3"
     }
     buildTypes {
