@@ -95,7 +95,6 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
         }else
             holder = (ViewHolder) convertView.getTag();
 
-
         TextView dayDisplay = holder.getTextDisplay();
         dayDisplay.setText((String)getGroup(groupPosition));
         dayDisplay.setTypeface(fontDay);
