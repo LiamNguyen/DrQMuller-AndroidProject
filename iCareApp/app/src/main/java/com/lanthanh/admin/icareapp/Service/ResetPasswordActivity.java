@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.Register.RegisterActivity;
 
@@ -30,6 +31,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private EmailForResetFragment emailForResetFragment;
     private ResetPasswordFragment resetPasswordFragment;
     private Toolbar toolBar;
+    private NetworkController networkController;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +42,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
         emailForResetFragment = new EmailForResetFragment();
         resetPasswordFragment = new ResetPasswordFragment();
         fragmentManager = getSupportFragmentManager();
+
+        //Init controllers
+        networkController = new NetworkController(this);
 
         toolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
@@ -77,6 +82,18 @@ public class ResetPasswordActivity extends AppCompatActivity {
             }
         }
         setIntent(null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        networkController.registerNetworkReceiver();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        networkController.unregisterNetworkReceiver();
     }
 
     @Override

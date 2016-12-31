@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.MainActivity;
 import com.lanthanh.admin.icareapp.R;
 import com.google.gson.Gson;
@@ -31,11 +32,15 @@ import java.util.List;
 
 public class BookingDetailsActivity extends AppCompatActivity{
     List<BookingItem> list;
+    private NetworkController networkController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_details);
+
+        //Init controllers
+        networkController = new NetworkController(this);
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
@@ -95,6 +100,18 @@ public class BookingDetailsActivity extends AppCompatActivity{
                         }).setCancelable(false).show();
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        networkController.registerNetworkReceiver();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        networkController.unregisterNetworkReceiver();
     }
 
     @Override

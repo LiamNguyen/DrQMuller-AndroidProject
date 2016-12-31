@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.Controller.Controller;
+import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.MainActivity;
 import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
 import com.lanthanh.admin.icareapp.Model.ModelURL;
@@ -35,12 +36,17 @@ import org.json.JSONObject;
 
 public class ConfirmBookingActivity extends AppCompatActivity implements View.OnClickListener, DatabaseObserver {
     private TextInputEditText edttxt;
+    //Controller
     private Controller aController;
+    private NetworkController networkController;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm);
 
+        //Init controllers
+        networkController = new NetworkController(this);
         aController = Controller.getInstance();
 
         //Toolbar
@@ -64,6 +70,18 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
         edttxt_container.setTypeface(font);
         TextView txt = (TextView) findViewById(R.id.booking_instruction);
         txt.setTypeface(font);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        networkController.registerNetworkReceiver();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        networkController.unregisterNetworkReceiver();
     }
 
     @Override

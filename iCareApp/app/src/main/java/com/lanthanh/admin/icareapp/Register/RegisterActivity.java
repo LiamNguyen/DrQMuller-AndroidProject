@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.Controller.Controller;
+import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.MainActivity;
 import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
 import com.lanthanh.admin.icareapp.Model.ModelURL;
@@ -42,12 +43,15 @@ public class RegisterActivity extends AppCompatActivity implements DatabaseObser
     private SignUpFragment signUpFragment;
     private Toolbar toolBar;
     private Controller aController;
+    private NetworkController networkController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        //Init controllers
+        networkController = new NetworkController(this);
         aController = Controller.getInstance();
 
         //Initialize Fragment
@@ -102,6 +106,18 @@ public class RegisterActivity extends AppCompatActivity implements DatabaseObser
             }
         }
         setIntent(null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        networkController.registerNetworkReceiver();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        networkController.unregisterNetworkReceiver();
     }
 
     @Override

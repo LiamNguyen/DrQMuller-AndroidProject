@@ -32,6 +32,7 @@ public enum ModelURL {
     UPDATE_RESETPW("http://210.211.109.180/drmuller/Update_ResetPw.php", "http://drqmuller.com/drmuller/Update_ResetPw.php"),
     SEND_EMAIL("http://210.211.109.180/drmuller/SendMail_VerifyAcc.php", "http://drqmuller.com/drmuller/SendMail_VerifyAcc.php"),
     SENDEMAIL_RESETPW("http://210.211.109.180/drmuller/SendMail_ResetPassword.php", "http://drqmuller.com/drmuller/SendMail_ResetPassword.php"),
+    SENDEMAIL_NOTIFYBOOKING("http://210.211.109.180/drmuller/SendMail_NotifyBooking.php", "http://drqmuller.com/drmuller/SendMail_NotifyBooking.php"),
     BOOKING("http://210.211.109.180/drmuller/BookingTransaction.php", "http://drqmuller.com/drmuller/BookingTransaction.php");
 
     private String url, url_uat;
