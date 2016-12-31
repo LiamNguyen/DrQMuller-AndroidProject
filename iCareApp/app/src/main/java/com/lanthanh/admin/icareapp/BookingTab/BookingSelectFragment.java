@@ -240,15 +240,22 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                             startCalendar.set(Calendar.YEAR, year);
                             startCalendar.set(Calendar.MONTH, monthOfYear);
                             startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                            if (endCalendar != null && (startCalendar.get(Calendar.YEAR) > endCalendar.get(Calendar.YEAR)
+                                    || (startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) && startCalendar.get(Calendar.MONTH) > endCalendar.get(Calendar.MONTH))
+                                    || (startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) && startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH) && startCalendar.get(Calendar.DAY_OF_MONTH) > endCalendar.get(Calendar.DAY_OF_MONTH)))){
+                                endDate.setText("Ngày Kết Thúc");
+                                booking.clearExpireDate();
+                            }
                             updateDateLabel((TextInputEditText) v);
                             booking.setStartDate(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                         }
                     } else {
                         if (endCalendar == null)
                             endCalendar = startCalendar;
-                        if (endCalendar.get(Calendar.YEAR) > year
+                        if ((endCalendar.get(Calendar.YEAR) > year
                                 || (endCalendar.get(Calendar.YEAR) == year && endCalendar.get(Calendar.MONTH) > monthOfYear)
-                                || (endCalendar.get(Calendar.YEAR) == year && endCalendar.get(Calendar.MONTH) == monthOfYear && endCalendar.get(Calendar.DAY_OF_MONTH) > dayOfMonth)) {
+                                || (endCalendar.get(Calendar.YEAR) == year && endCalendar.get(Calendar.MONTH) == monthOfYear && endCalendar.get(Calendar.DAY_OF_MONTH) > dayOfMonth))
+                                && booking.getType().equals("1")) {
                             Toast toast = Toast.makeText(getActivity(), getString(R.string.booking_error_date), Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
@@ -268,8 +275,12 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
             if (v.getId() == R.id.booking_startdate)
                 datePicker.getDatePicker().setMinDate(startCalendar.getTimeInMillis());
             else {
-                if (endCalendar != null)
-                    datePicker.getDatePicker().setMinDate(endCalendar.getTimeInMillis());
+                if (endCalendar != null) {
+                    if (booking.getType().equals("1"))
+                        datePicker.getDatePicker().setMinDate(endCalendar.getTimeInMillis());
+                    else
+                        datePicker.getDatePicker().setMinDate(startCalendar.getTimeInMillis());
+                }
                 else
                     datePicker.getDatePicker().setMinDate(startCalendar.getTimeInMillis());
             }
