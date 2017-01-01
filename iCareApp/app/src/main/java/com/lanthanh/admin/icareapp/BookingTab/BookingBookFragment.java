@@ -29,8 +29,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -341,6 +343,9 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
             for (String s: booking.getBookingDays()){
                 aController.setRequestData(getActivity(), this, ModelURL.INSERT_NEWBOOKING.getUrl(MainActivity.isUAT), "day_id=" + s + "&time_id=" + booking.getBookingTime(s) + "&code=" + booking.getCode());
             }
+            booking.saveBookingInfo(((MainActivity) getActivity()).getCartList());
+            System.out.println(booking.getEmailPostData() + "&cus_name=" + sharedPref.getString("tokenName", "Tên Khách Hàng"));
+            aController.setRequestData(getActivity(), this, ModelURL.SENDEMAIL_NOTIFYBOOKING.getUrl(MainActivity.isUAT), booking.getEmailPostData() + "&cus_name=" + sharedPref.getString("tokenName", "Tên Khách Hàng") + "&created_day=" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
             ((MainActivity) getActivity()).emptyCart();
             Intent toConfirm = new Intent(getActivity(), ConfirmBookingActivity.class);
             startActivity(toConfirm);

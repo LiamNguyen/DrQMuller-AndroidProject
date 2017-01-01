@@ -1,10 +1,13 @@
 package com.lanthanh.admin.icareapp.Model;
 
 import com.auth0.jwt.internal.org.apache.commons.lang3.RandomStringUtils;
+import com.google.gson.Gson;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,6 +18,7 @@ import java.util.Set;
 public class ModelBookingDetail {
     private String customer, location, voucher, type, start_date, expire_date, code, address, voucherName;
     private Map<String,String> booking;
+    private List<String> fullBooking;
 
     public ModelBookingDetail(){
         customer = ""; location = ""; voucher = ""; type = ""; start_date = "1111-11-11"; expire_date = ""; code = ""; address = ""; voucherName = "";
@@ -79,8 +83,16 @@ public class ModelBookingDetail {
         expire_date = s;
     }
 
+    public void clearExpireDate(){
+        expire_date = "";
+    }
+
     public String getExpireDate(){
         return expire_date;
+    }
+
+    public void clearExpireDate(){
+        expire_date = "";
     }
 
     //Generate Code
@@ -100,8 +112,8 @@ public class ModelBookingDetail {
     }
 
     //Booking Day & Time
-    public void saveBookingInfo(String s){
-
+    public void saveBookingInfo(List l){
+        fullBooking = l;
     }
 
     public void saveBooking(String day, String time){
@@ -139,6 +151,31 @@ public class ModelBookingDetail {
                     .append("&start_date=").append(URLEncoder.encode(start_date, "UTF-8"))
                     .append("&expire_date=").append(URLEncoder.encode(expire_date, "UTF-8"))
                     .append("&code=").append(code);
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
+
+        return result.toString();
+    }
+
+    public String getEmailPostData() {
+        StringBuilder result = new StringBuilder();
+        Gson gson = new Gson();
+        String typeName = "";
+        if (type.equals("2"))
+            typeName = "Tự Do";
+        else
+            typeName = "Cố Định";
+
+        try {
+            result.append("cus_id=").append(customer)
+                    .append("&location=").append(address)
+                    .append("&voucher=").append(voucherName)
+                    .append("&type=").append(URLEncoder.encode(typeName, "UTF-8"))
+                    .append("&start_date=").append(URLEncoder.encode(start_date, "UTF-8"))
+                    .append("&expire_date=").append(URLEncoder.encode(expire_date, "UTF-8"))
+                    .append("&code=").append(code)
+                    .append("&bookings=").append(gson.toJson(fullBooking));
         }catch (UnsupportedEncodingException e){
             e.printStackTrace();
         }

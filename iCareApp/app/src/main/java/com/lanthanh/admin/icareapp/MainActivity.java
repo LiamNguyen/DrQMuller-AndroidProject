@@ -297,8 +297,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         invalidateOptionsMenu();
     }
 
+    //Get cart info
     public int numberOfCartItems(){
         return cartList.size();
+    }
+    public List getCartList(){
+        return cartList;
     }
 
     //Response to user click on cart window
