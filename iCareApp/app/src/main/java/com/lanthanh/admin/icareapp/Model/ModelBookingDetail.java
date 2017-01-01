@@ -91,10 +91,6 @@ public class ModelBookingDetail {
         return expire_date;
     }
 
-    public void clearExpireDate(){
-        expire_date = "";
-    }
-
     //Generate Code
     public void generateCode(){
         code = RandomStringUtils.randomAlphanumeric(10);
