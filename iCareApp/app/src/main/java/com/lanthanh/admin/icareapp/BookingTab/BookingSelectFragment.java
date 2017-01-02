@@ -383,8 +383,19 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                     ((MainActivity) getActivity()).releaseCartWhenReselect();
                 typeSp.setEnabled(true);
                 booking.setVoucher(mapToVoucherID.get(voucherSp.getSelectedItem().toString().substring(0, voucherSp.getSelectedItem().toString().indexOf("-") - 1)), voucherSp.getSelectedItem().toString());
-                endDate.setText(getString(R.string.booking_end_date));
+
+                booking.clearStartDate();
                 booking.clearExpireDate();
+
+                if (booking.getType().equals("1")) {
+                    startDate.setText("Ngày Bắt Đầu");
+                    endDate.setText("Ngày Kết Thúc");
+                    booking.clearStartDate();
+                }
+
+                if (booking.getType().equals("2")) {
+                    endDate.setText("Ngày Thực Hiện");
+                }
                 break;
             case R.id.spinner_type:
                 startDate.setEnabled(false);
