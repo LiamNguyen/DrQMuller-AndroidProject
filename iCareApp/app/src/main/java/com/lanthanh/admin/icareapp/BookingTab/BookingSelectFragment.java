@@ -248,7 +248,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                             if (endCalendar != null && (startCalendar.get(Calendar.YEAR) > endCalendar.get(Calendar.YEAR)
                                     || (startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) && startCalendar.get(Calendar.MONTH) > endCalendar.get(Calendar.MONTH))
                                     || (startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) && startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH) && startCalendar.get(Calendar.DAY_OF_MONTH) > endCalendar.get(Calendar.DAY_OF_MONTH)))){
-                                endDate.setText(getString(R.string.booking_end_date));
+                                endDate.setText("Ngày Kết Thúc");
                                 booking.clearExpireDate();
                             }
                             updateDateLabel((TextInputEditText) v);
