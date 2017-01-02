@@ -15,7 +15,10 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import com.lanthanh.admin.icareapp.Confirm.ConfirmBookingActivity;
 import com.lanthanh.admin.icareapp.Controller.Controller;
 import com.lanthanh.admin.icareapp.MainActivity;
@@ -31,6 +34,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -87,8 +91,38 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         list.setAdapter(adapter);
 
         //Get days of week and all time in day
-        aController.setRequestData(getActivity(), this, ModelURL.SELECT_DAYSOFWEEK.getUrl(MainActivity.isUAT), "");
-//        if (booking.getVoucherID().equals("1"))
+        if (booking.getType().equals("1"))
+            aController.setRequestData(getActivity(), this, ModelURL.SELECT_DAYSOFWEEK.getUrl(MainActivity.isUAT), "");
+        else{
+            daysList.clear();
+            adapter.notifyDataSetInvalidated();
+            switch (getDateOfWeek(booking.getFormattedExpireDate())){
+                case 1:
+                    daysList.add("Chủ nhật\n- " + booking.getFormattedExpireDate());
+                    break;
+                case 2:
+                    daysList.add("Thứ hai\n- " + booking.getFormattedExpireDate());
+                    break;
+                case 3:
+                    daysList.add("Thứ ba\n- " + booking.getFormattedExpireDate());
+                    break;
+                case 4:
+                    daysList.add("Thứ tư\n- " + booking.getFormattedExpireDate());
+                    break;
+                case 5:
+                    daysList.add("Thứ năm\n- " + booking.getFormattedExpireDate());
+                    break;
+                case 6:
+                    daysList.add("Thứ sáu\n- " + booking.getFormattedExpireDate());
+                    break;
+                case 7:
+                    daysList.add("Thứ bảy\n- " + booking.getFormattedExpireDate());
+                    break;
+                default:
+                    break;
+            }
+        }
+        //        if (booking.getVoucherID().equals("1"))
         aController.setRequestData(getActivity(), this, ModelURL.SELECT_ALLTIMEINADAY.getUrl(MainActivity.isUAT), "");
 //        else
 //            aController.setRequestData(getActivity(), this, ModelURL.SELECT_ECOTIME.getUrl(MainActivity.isUAT), "");
@@ -270,37 +304,72 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
     @Override
     public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long groupId) {
         if (!list.isGroupExpanded(groupPosition)) {
-            switch (groupPosition) {
-                case 0://Monday
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=1");
-                    day_id = 1;
-                    break;
-                case 1://Tuesday
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=2");
-                    day_id = 2;
-                    break;
-                case 2://Wednesday
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=3");
-                    day_id = 3;
-                    break;
-                case 3://Thursday
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=4");
-                    day_id = 4;
-                    break;
-                case 4://Friday
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=5");
-                    day_id = 5;
-                    break;
-                case 5://Saturday
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=6");
-                    day_id = 6;
-                    break;
-                case 6://Sunday
-                    aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=7");
-                    day_id = 7;
-                    break;
-                default:
-                    break;
+            if (booking.getType().equals("2")){
+                switch (getDateOfWeek(booking.getFormattedExpireDate())){
+                    case 1:
+                        aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=7");
+                        day_id = 7;
+                        break;
+                    case 2:
+                        aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=1");
+                        day_id = 1;
+                        break;
+                    case 3:
+                        aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=2");
+                        day_id = 2;
+                        break;
+                    case 4:
+                        aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=3");
+                        day_id = 3;
+                        break;
+                    case 5:
+                        aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=4");
+                        day_id = 4;
+                        break;
+                    case 6:
+                        aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=5");
+                        day_id = 5;
+                        break;
+                    case 7:
+                        aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=6");
+                        day_id = 6;
+                        break;
+                    default:
+                        break;
+                }
+            }else {
+                switch (groupPosition) {
+                    case 0://Monday
+                        aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=1");
+                        day_id = 1;
+                        break;
+                    case 1://Tuesday
+                        aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=2");
+                        day_id = 2;
+                        break;
+                    case 2://Wednesday
+                        aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=3");
+                        day_id = 3;
+                        break;
+                    case 3://Thursday
+                        aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=4");
+                        day_id = 4;
+                        break;
+                    case 4://Friday
+                        aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=5");
+                        day_id = 5;
+                        break;
+                    case 5://Saturday
+                        aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=6");
+                        day_id = 6;
+                        break;
+                    case 6://Sunday
+                        aController.setRequestData(getActivity(), this, ModelURL.SELECT_SELECTEDTIME.getUrl(MainActivity.isUAT), "day_id=7");
+                        day_id = 7;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -351,9 +420,39 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        if (!hidden && isVisible())
-            aController.setRequestData(getActivity(), this, ModelURL.SELECT_DAYSOFWEEK.getUrl(MainActivity.isUAT), "");
-        else
+        if (!hidden && isVisible()) {
+            if (booking.getType().equals("1"))
+                aController.setRequestData(getActivity(), this, ModelURL.SELECT_DAYSOFWEEK.getUrl(MainActivity.isUAT), "");
+            else {
+                daysList.clear();
+                adapter.notifyDataSetInvalidated();
+                switch (getDateOfWeek(booking.getFormattedExpireDate())) {
+                    case 1:
+                        daysList.add("Chủ nhật\n- " + booking.getFormattedExpireDate());
+                        break;
+                    case 2:
+                        daysList.add("Thứ hai\n- " + booking.getFormattedExpireDate());
+                        break;
+                    case 3:
+                        daysList.add("Thứ ba\n- " + booking.getFormattedExpireDate());
+                        break;
+                    case 4:
+                        daysList.add("Thứ tư\n- " + booking.getFormattedExpireDate());
+                        break;
+                    case 5:
+                        daysList.add("Thứ năm\n- " + booking.getFormattedExpireDate());
+                        break;
+                    case 6:
+                        daysList.add("Thứ sáu\n- " + booking.getFormattedExpireDate());
+                        break;
+                    case 7:
+                        daysList.add("Thứ bảy\n- " + booking.getFormattedExpireDate());
+                        break;
+                    default:
+                        break;
+                }
+            }
+        } else
             collapseAllGroups();
     }
 
@@ -361,6 +460,19 @@ public class BookingBookFragment extends Fragment implements DatabaseObserver, E
         int count =  adapter.getGroupCount();
         for (int i = 0; i <count ; i++)
             list.collapseGroup(i);
+    }
+
+    public int getDateOfWeek(String s){
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date = df.parse(s);
+            Calendar c = Calendar.getInstance();
+            c.setTime(date);
+            return c.get(Calendar.DAY_OF_WEEK);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     public void putBookingToPref(){
