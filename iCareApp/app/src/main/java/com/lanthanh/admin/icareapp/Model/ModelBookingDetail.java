@@ -79,6 +79,10 @@ public class ModelBookingDetail {
         expire_date = s;
     }
 
+    public void clearExpireDate(){
+        expire_date = "";
+    }
+
     public String getExpireDate(){
         return expire_date;
     }

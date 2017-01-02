@@ -58,7 +58,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.booking_select, container, false);
-
+        System.out.println("test git");
         //Get controller instance
         aController = Controller.getInstance();
 
@@ -95,11 +95,11 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
         countrySp.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                alert(getString(R.string.temp_inform));
-                return true;
-            }
-            return false;
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    alert(getString(R.string.temp_inform));
+                    return true;
+                }
+                return false;
             }
         });
         citySp = (Spinner) view.findViewById(R.id.spinner_cities);
@@ -107,11 +107,11 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
         citySp.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                alert(getString(R.string.temp_inform));
-                return true;
-            }
-            return false;
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    alert(getString(R.string.temp_inform));
+                    return true;
+                }
+                return false;
             }
         });
         districtSp = (Spinner) view.findViewById(R.id.spinner_districts);
@@ -119,11 +119,11 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
         districtSp.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                alert(getString(R.string.temp_inform));
-                return true;
-            }
-            return false;
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    alert(getString(R.string.temp_inform));
+                    return true;
+                }
+                return false;
             }
         });
         locationSp = (Spinner) view.findViewById(R.id.spinner_locations);
@@ -240,15 +240,22 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                             startCalendar.set(Calendar.YEAR, year);
                             startCalendar.set(Calendar.MONTH, monthOfYear);
                             startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                            if (endCalendar != null && (startCalendar.get(Calendar.YEAR) > endCalendar.get(Calendar.YEAR)
+                                    || (startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) && startCalendar.get(Calendar.MONTH) > endCalendar.get(Calendar.MONTH))
+                                    || (startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) && startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH) && startCalendar.get(Calendar.DAY_OF_MONTH) > endCalendar.get(Calendar.DAY_OF_MONTH)))){
+                                endDate.setText("Ngày Kết Thúc");
+                                booking.clearExpireDate();
+                            }
                             updateDateLabel((TextInputEditText) v);
                             booking.setStartDate(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                         }
                     } else {
                         if (endCalendar == null)
                             endCalendar = startCalendar;
-                        if (endCalendar.get(Calendar.YEAR) > year
+                        if ((endCalendar.get(Calendar.YEAR) > year
                                 || (endCalendar.get(Calendar.YEAR) == year && endCalendar.get(Calendar.MONTH) > monthOfYear)
-                                || (endCalendar.get(Calendar.YEAR) == year && endCalendar.get(Calendar.MONTH) == monthOfYear && endCalendar.get(Calendar.DAY_OF_MONTH) > dayOfMonth)) {
+                                || (endCalendar.get(Calendar.YEAR) == year && endCalendar.get(Calendar.MONTH) == monthOfYear && endCalendar.get(Calendar.DAY_OF_MONTH) > dayOfMonth))
+                                && booking.getType().equals("1")) {
                             Toast toast = Toast.makeText(getActivity(), getString(R.string.booking_error_date), Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
@@ -268,8 +275,12 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
             if (v.getId() == R.id.booking_startdate)
                 datePicker.getDatePicker().setMinDate(startCalendar.getTimeInMillis());
             else {
-                if (endCalendar != null)
-                    datePicker.getDatePicker().setMinDate(endCalendar.getTimeInMillis());
+                if (endCalendar != null) {
+                    if (booking.getType().equals("1"))
+                        datePicker.getDatePicker().setMinDate(endCalendar.getTimeInMillis());
+                    else
+                        datePicker.getDatePicker().setMinDate(startCalendar.getTimeInMillis());
+                }
                 else
                     datePicker.getDatePicker().setMinDate(startCalendar.getTimeInMillis());
             }
@@ -436,5 +447,6 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
         Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP, 0, 110);
         toast.show();
+
     }
 }
