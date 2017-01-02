@@ -267,11 +267,15 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
 
             if (v.getId() == R.id.booking_startdate)
                 datePicker.getDatePicker().setMinDate(startCalendar.getTimeInMillis());
-            else {
-                if (endCalendar != null)
+            else if (v.getId() == R.id.booking_enddate) {
+                if (endCalendar != null) {
                     datePicker.getDatePicker().setMinDate(endCalendar.getTimeInMillis());
-                else
+                    alert("end calen not null");
+                }
+                else {
                     datePicker.getDatePicker().setMinDate(startCalendar.getTimeInMillis());
+                    alert("end calen null");
+                }
             }
 
             datePicker.show();
