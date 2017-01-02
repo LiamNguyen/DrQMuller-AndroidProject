@@ -58,8 +58,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.booking_select, container, false);
-        System.out.println("test git");
-        //Get controller instance
+
         aController = Controller.getInstance();
 
         //BookingDetails object
