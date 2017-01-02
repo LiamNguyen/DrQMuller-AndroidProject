@@ -60,7 +60,8 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
         View view = inflater.inflate(R.layout.booking_select, container, false);
 
         System.out.println("Test Git");
-        //Get controller instanc       aController = Controller.getInstance();
+        //Get controller instanc
+        aController = Controller.getInstance();
 
         //BookingDetails object
         booking = ((MainActivity) getActivity()).getModelBooking();
@@ -199,7 +200,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
     }
 
     private void updateDateLabel(TextInputEditText t) {
-        String myFormat = "dd-MM-yyyy";
+        String myFormat = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
         t.setText(sdf.format(startCalendar.getTime()));
 
@@ -240,17 +241,24 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                             startCalendar.set(Calendar.YEAR, year);
                             startCalendar.set(Calendar.MONTH, monthOfYear);
                             startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                            if (booking.getVoucherID().equals("1") && (startCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || startCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)){
+                                Toast toast = Toast.makeText(getActivity(), "Hiện tại ECO BOOKING không thể đặt lịch vào Thứ bảy và Chủ nhật", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER, 0, 0);
+                                toast.show();
+                                return;
+                            }
                             if (endCalendar != null && (startCalendar.get(Calendar.YEAR) > endCalendar.get(Calendar.YEAR)
                                     || (startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) && startCalendar.get(Calendar.MONTH) > endCalendar.get(Calendar.MONTH))
                                     || (startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) && startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH) && startCalendar.get(Calendar.DAY_OF_MONTH) > endCalendar.get(Calendar.DAY_OF_MONTH)))){
-                                endDate.setText("Ngày Kết Thúc");
+                                endDate.setText(getString(R.string.booking_end_date));
                                 booking.clearExpireDate();
                             }
                             updateDateLabel((TextInputEditText) v);
                             booking.setStartDate(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                         }
                     } else {
-                        if (endCalendar == null)
+                        //if (endCalendar == null)
+                        if (booking.getType().equals("2"))
                             endCalendar = startCalendar;
                         if ((endCalendar.get(Calendar.YEAR) > year
                                 || (endCalendar.get(Calendar.YEAR) == year && endCalendar.get(Calendar.MONTH) > monthOfYear)
@@ -263,8 +271,15 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                             startCalendar.set(Calendar.YEAR, year);
                             startCalendar.set(Calendar.MONTH, monthOfYear);
                             startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                            if (booking.getVoucherID().equals("1") && (startCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || startCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)){
+                                Toast toast = Toast.makeText(getActivity(), "Hiện tại ECO BOOKING không thể đặt lịch vào Thứ bảy và Chủ nhật", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER, 0, 0);
+                                toast.show();
+                                return;
+                            }
                             updateDateLabel((TextInputEditText) v);
                             booking.setExpireDate(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                            booking.setFormattedExpireDate(((TextInputEditText) v).getText().toString());
                         }
                     }
                 }
@@ -380,12 +395,20 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                 if (typeSp.getSelectedItem().toString().equals(getString(R.string.booking_type_fixed))) {
                     startDate.setVisibility(View.VISIBLE);
                     startDate.setEnabled(true);
+                    if (!booking.getType().isEmpty() && !booking.getType().equals("1")){
+                        booking.clearStartDate();
+                        booking.clearExpireDate();
+                    }
                     booking.setType(Integer.toString(1));
                 }
                 else {
                     startDate.setVisibility(View.INVISIBLE);
                     endDate.setText(getString(R.string.booking_do_date));
                     endDate.setEnabled(true);
+                    if (!booking.getType().isEmpty() && !booking.getType().equals("2")){
+                        booking.clearStartDate();
+                        booking.clearExpireDate();
+                    }
                     booking.setType(Integer.toString(2));
                 }
             default:

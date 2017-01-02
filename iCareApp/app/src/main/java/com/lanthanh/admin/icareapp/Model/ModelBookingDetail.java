@@ -16,7 +16,7 @@ import java.util.Set;
  */
 
 public class ModelBookingDetail {
-    private String customer, location, voucher, type, start_date, expire_date, code, address, voucherName;
+    private String customer, location, voucher, type, start_date, expire_date, formatted_expire_date, code, address, voucherName;
     private Map<String,String> booking;
     private List<String> fullBooking;
 
@@ -78,6 +78,10 @@ public class ModelBookingDetail {
         return start_date;
     }
 
+    public void clearStartDate(){
+        start_date = "";
+    }
+
     //Expire Date
     public void setExpireDate(String s){
         expire_date = s;
@@ -89,6 +93,14 @@ public class ModelBookingDetail {
 
     public String getExpireDate(){
         return expire_date;
+    }
+
+    public void setFormattedExpireDate(String s){
+        formatted_expire_date = s;
+    }
+
+    public String getFormattedExpireDate(){
+        return formatted_expire_date;
     }
 
     //Generate Code
