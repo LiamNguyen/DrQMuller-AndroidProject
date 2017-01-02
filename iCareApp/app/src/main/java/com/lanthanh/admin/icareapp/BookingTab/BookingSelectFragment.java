@@ -239,7 +239,7 @@ public class BookingSelectFragment extends Fragment implements DatabaseObserver,
                             startCalendar.set(Calendar.YEAR, year);
                             startCalendar.set(Calendar.MONTH, monthOfYear);
                             startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                            if (booking.getVoucherID().equals("1") && (startCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || startCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)){
+                            if (booking.getType().equals("2") && booking.getVoucherID().equals("1") && (startCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || startCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)){
                                 Toast toast = Toast.makeText(getActivity(), "Hiện tại ECO BOOKING không thể đặt lịch vào Thứ bảy và Chủ nhật", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.CENTER, 0, 0);
                                 toast.show();
