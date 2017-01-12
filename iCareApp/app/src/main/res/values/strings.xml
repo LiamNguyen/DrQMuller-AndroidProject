@@ -87,7 +87,7 @@
     <string name="booking_type_free">Tự do</string>
     <string name="booking_type_fixed">Cố định</string>
     <string name="booking_start_date">Ngày Bắt Đầu</string>
-    <string name="booking_end_date">Ngày Kết Thúc</string>
+    <string name="booking_expire_date">Ngày Kết Thúc</string>
     <string name="booking_do_date">Ngày Thực Hiện</string>
     <string name="booking_error_date">Ngày không hợp lệ. Xin vui lòng chọn lại</string>
     <string name="missing_detail">Vui lòng điền đầy đủ thông tin</string>
@@ -111,6 +111,7 @@
     <string name="booking_fail">Nhập mã xác nhận chưa hoàn tất\nQuí khách có thể bấm vào thông tin lịch hẹn để hoàn thành xác nhận</string>
     <string name="close_dialog">Đóng</string>
     <string name="temp_inform">Hiện tại Dr.Q-Muller chỉ có 1 trung tâm tại Quận 3, Việt Nam</string>
+    <string name="already_booked">Giờ đã bị đặt</string>
 
     <!-- BOOKING DETAILS -->
     <string name="address">Địa Điểm</string>

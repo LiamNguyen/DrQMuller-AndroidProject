@@ -51,22 +51,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/enddate"
+                android:layout_alignStart="@+id/expiredate"
                 android:text="@string/to_date"
                 android:textStyle="bold"
                 android:textColor="@color/colorLightBlack"
-                android:id="@+id/enddatetitle"
+                android:id="@+id/expiredatetitle"
                 android:layout_below="@id/voucher"
                 android:textSize="20sp"/>
 
             <TextView
-                android:layout_below="@+id/enddatetitle"
+                android:layout_below="@+id/expiredatetitle"
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textColor="@color/colorLightBlack"
-                android:id="@+id/enddate" />
+                android:id="@+id/expiredate" />
 
             <TextView
                 android:layout_below="@+id/startdate"

@@ -10,9 +10,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AlertDialog;
 
-import com.auth0.jwt.internal.org.bouncycastle.crypto.io.SignerOutputStream;
-import com.lanthanh.admin.icareapp.MainActivity;
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
 
 /**
  * Created by ADMIN on 18-Dec-16.
@@ -81,11 +80,6 @@ public class NetworkController{
             if (activity instanceof MainActivity)
                 ((MainActivity) activity).refreshAfterNetworkConnected();
         }
-    }
-
-    /*=============================== ALERT BOX FOR NO CONNECTION ==========+=====================*/
-    private void noNetworkConnectionAlertShow(){
-        alertDialog.show();
     }
 
     /*=============================== REGISTER NETWORK RECEIVER ================+===============*/

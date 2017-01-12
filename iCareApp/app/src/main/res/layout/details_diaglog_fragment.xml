@@ -103,17 +103,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/enddate"
+            android:layout_alignStart="@+id/expiredate"
             android:text="@string/to_date"
             android:textStyle="bold"
             android:textColor="@color/colorLightBlack"
-            android:id="@+id/enddatetitle"
+            android:id="@+id/expiredatetitle"
             android:layout_below="@+id/type"
             android:textSize="20sp"/>
 
         <TextView
-            android:id="@+id/enddate"
-            android:layout_below="@+id/enddatetitle"
+            android:id="@+id/expiredate"
+            android:layout_below="@+id/expiredatetitle"
             android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:text="@string/appointment"
-            android:layout_below="@+id/enddate"
+            android:layout_below="@+id/expiredate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

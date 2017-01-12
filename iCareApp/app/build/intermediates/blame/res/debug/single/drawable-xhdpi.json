@@ -1,138 +1,274 @@
 [
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_email.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_email.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_account_circle.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_account_circle.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_back_button.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_back_button.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_local_phone_white_36dp.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_local_phone_white_36dp.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_pin_drop_white_36dp.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_pin_drop_white_36dp.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_security_white_36dp.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_security_white_36dp.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_person_pin_white_36dp.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_person_pin_white_36dp.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_booking_tab.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_booking_tab.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_input.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_input.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_back_arrow_2.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_back_arrow_2.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_person_white_36dp.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_person_white_36dp.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_local_post_office_white_36dp.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_local_post_office_white_36dp.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_account_circle.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/generated/res/pngs/debug/drawable-xhdpi/ic_account_circle.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_password.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_password.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_back_arrow_2.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_back_arrow_2.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_bag.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_bag.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_phone.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_phone.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_user_white.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_user_white.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_lock_white_36dp.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_lock_white_36dp.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_phone.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_phone.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_drop_down.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_drop_down.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_local_post_office_white_36dp.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_local_post_office_white_36dp.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_shopping_cart.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_shopping_cart.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_phone.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_phone.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_bag.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_bag.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_news_tab.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_news_tab.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_news_tab.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_news_tab.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_pw_confirm.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_pw_confirm.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_mode_edit_white_36dp.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_mode_edit_white_36dp.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_drop_down.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_drop_down.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_user_white.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_user_white.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_mode_edit_white_36dp.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_mode_edit_white_36dp.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_security_white_36dp.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_security_white_36dp.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_security_white_36dp.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_security_white_36dp.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_drop_down2.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_drop_down2.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_chevron_left_white_48dp.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_chevron_left_white_48dp.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_location.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_location.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_back_button.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_back_button.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_chevron_left_white_48dp.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_chevron_left_white_48dp.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_delete_item.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_delete_item.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_logout.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_logout.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_bag.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_bag.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_user_tab.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_user_tab.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_chevron_left_white_48dp.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_chevron_left_white_48dp.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_user_2.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_user_2.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_logout.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_logout.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_booking_tab.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_booking_tab.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_back_arrow.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_back_arrow.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_back_arrow.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_back_arrow.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_pin_drop_white_36dp.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_pin_drop_white_36dp.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_valid_input.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_valid_input.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_drop_down.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_drop_down.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_local_phone_white_36dp.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_local_phone_white_36dp.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_location.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_location.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_invalid_input.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_invalid_input.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_logout.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_logout.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_user.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_user.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_email.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_email.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_pw_confirm.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_pw_confirm.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_location.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_location.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_password.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_password.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_mode_edit_white_36dp.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_mode_edit_white_36dp.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_shopping_cart_white_36dp.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_shopping_cart_white_36dp.png"
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_drop_down2.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_drop_down2.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_delete_item.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_delete_item.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_user.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_user.png"
     },
     {
-        "merged": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/build/intermediates/res/merged/debug/drawable-xhdpi/ic_local_post_office_white_36dp.png",
-        "source": "/Users/DoNguyen/Documents/LiamNguyen/iCareProject/iCareAndroid/iCare_MasterBranch/iCareApp/app/src/main/res/drawable-xhdpi/ic_local_post_office_white_36dp.png"
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_back_button.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_back_button.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_back_arrow_2.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_back_arrow_2.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_user_white.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_user_white.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_email.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_email.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_valid_input.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_valid_input.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_news_tab.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_news_tab.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_shopping_cart_white_36dp.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_shopping_cart_white_36dp.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_shopping_cart_white_36dp.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_shopping_cart_white_36dp.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_pin_drop_white_36dp.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_pin_drop_white_36dp.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_shopping_cart.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_shopping_cart.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_delete_item.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_delete_item.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_input.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_input.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_invalid_input.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_invalid_input.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_lock_white_36dp.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_lock_white_36dp.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_password.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_password.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_valid_input.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_valid_input.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_user_tab.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_user_tab.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_input.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_input.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_user_tab.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_user_tab.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_drop_down2.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_drop_down2.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_user_2.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_user_2.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_person_white_36dp.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_person_white_36dp.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_person_pin_white_36dp.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_person_pin_white_36dp.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_booking_tab.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_booking_tab.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_shopping_cart.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_shopping_cart.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_account_circle.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\generated\\res\\pngs\\debug\\drawable-xhdpi\\ic_account_circle.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_local_phone_white_36dp.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_local_phone_white_36dp.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_person_pin_white_36dp.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_person_pin_white_36dp.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_lock_white_36dp.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_lock_white_36dp.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_pw_confirm.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_pw_confirm.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_invalid_input.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_invalid_input.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_user.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_user.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_person_white_36dp.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_person_white_36dp.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_user_2.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_user_2.png"
+    },
+    {
+        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_back_arrow.png",
+        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_back_arrow.png"
     }
 ]
