@@ -16,7 +16,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.lanthanh.admin.icareapp.Controller.Controller;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserDetailsActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.UserDetailsActivity;

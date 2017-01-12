@@ -11,9 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.lanthanh.admin.icareapp.Controller.Controller;
 import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
-import com.lanthanh.admin.icareapp.domain.model.ModelURL;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserInfoActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.UserInfoActivity;

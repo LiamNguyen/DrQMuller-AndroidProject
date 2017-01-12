@@ -15,7 +15,6 @@ import android.view.Window;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import com.lanthanh.admin.icareapp.Controller.Controller;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserDetailsActivityPresenter;

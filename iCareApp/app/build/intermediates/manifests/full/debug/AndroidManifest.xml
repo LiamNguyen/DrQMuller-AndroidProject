@@ -18,11 +18,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
+            android:name="com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.lanthanh.admin.icareapp.Register.DeepLinkActivity"
+            android:name="com.lanthanh.admin.icareapp.presentation.view.activity.DeepLinkActivity"
             android:noHistory="true"
             android:theme="@android:style/Theme.NoDisplay" >
             <intent-filter>

@@ -13,16 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lanthanh.admin.icareapp.Controller.Controller;
 import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
 import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.ResetPasswordActivity;
 import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
-import com.lanthanh.admin.icareapp.domain.model.ModelURL;
 import com.lanthanh.admin.icareapp.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by ADMIN on 22-Nov-16.

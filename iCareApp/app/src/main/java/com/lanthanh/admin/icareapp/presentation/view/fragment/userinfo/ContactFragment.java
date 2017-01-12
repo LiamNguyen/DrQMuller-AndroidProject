@@ -1,8 +1,5 @@
 package com.lanthanh.admin.icareapp.presentation.view.fragment.userinfo;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -16,20 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.lanthanh.admin.icareapp.Controller.Controller;
 import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
 import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
-import com.lanthanh.admin.icareapp.domain.model.ModelURL;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserInfoActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.UserInfoActivity;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 /**
  * Created by ADMIN on 22-Oct-16.

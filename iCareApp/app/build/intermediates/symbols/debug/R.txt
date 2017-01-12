@@ -842,14 +842,14 @@ int id edit 0x7f0c0124
 int id edit_query 0x7f0c0063
 int id end 0x7f0c0029
 int id end_padder 0x7f0c00e0
-int id enddate 0x7f0c0076
-int id enddatetitle 0x7f0c0077
 int id enterAlways 0x7f0c0018
 int id enterAlwaysCollapsed 0x7f0c0019
 int id exitUntilCollapsed 0x7f0c001a
 int id expListView 0x7f0c009b
 int id expand_activities_button 0x7f0c0044
 int id expanded_menu 0x7f0c0057
+int id expiredate 0x7f0c0076
+int id expiredatetitle 0x7f0c0077
 int id fill 0x7f0c0033
 int id fill_horizontal 0x7f0c0034
 int id fill_vertical 0x7f0c002a

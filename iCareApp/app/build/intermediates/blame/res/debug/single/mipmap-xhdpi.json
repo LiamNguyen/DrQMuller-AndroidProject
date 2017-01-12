@@ -1,9 +1,5 @@
 [
     {
-        "merged": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi\\ic_launcher.png",
-        "source": "D:\\Users\\DoNguyen\\Documents\\LiamNguyen\\iCareProject\\iCareAndroid\\iCare_MasterBranch\\iCareApp\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
-    },
-    {
         "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi\\ic_launcher.png",
         "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
     }

@@ -1,7 +1,5 @@
 package com.lanthanh.admin.icareapp.presentation.view.fragment.register;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -13,21 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.auth0.jwt.JWTVerifier;
-import com.lanthanh.admin.icareapp.Controller.Controller;
 import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
-import com.lanthanh.admin.icareapp.domain.model.ModelURL;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.RegisterActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Map;
 
 /**
  * Created by ADMIN on 17-Oct-16.

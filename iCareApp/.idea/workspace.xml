@@ -98,26 +98,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CustomerManagerImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/data/manager/impl/CustomerManagerImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="93" column="5" selection-start-line="93" selection-start-column="5" selection-end-line="93" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CountryManagerImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/data/manager/impl/CountryManagerImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="35" column="8" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="90" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="CityManagerImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/data/manager/impl/CityManagerImpl.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -138,7 +118,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UpdateValidateAppointmentInteractorImpl.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UpdateValidateAppointmentInteractorImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/domain/interactor/impl/UpdateValidateAppointmentInteractorImpl.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="578">
@@ -150,6 +130,19 @@
                 <element signature="e#1347#1505#0" expanded="true" />
                 <element signature="e#1504#1505#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider editor-type-id="android-manifest">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="213">
+              <caret line="14" column="99" selection-start-line="14" selection-start-column="99" selection-end-line="14" selection-end-column="99" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1846,7 +1839,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/activity/ConfirmBookingActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/data/converter/ConverterToUrlData.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/converter/ConverterForDisplay.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/domain/model/DTOAppointment.java" />
@@ -1874,7 +1866,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/impl/ResetPasswordActivityPresenterImpl.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/fragment/resetpassword/ResetPasswordFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/activity/DeepLinkActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/api/iCareApi.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/api/impl/iCareApiImpl.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/data/manager/base/AbstractManager.java" />
@@ -1897,6 +1888,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/domain/interactor/UpdateValidateAppointmentInteractor.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/impl/MainActivityPresenterImpl.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/fragment/bookingtab/BookingBookFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/Controller/Controller.java" />
       </list>
     </option>
   </component>
@@ -2004,26 +1997,8 @@
               <option name="myItemId" value="presentation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="iCareApp" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="icareapp" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="domain" />
+              <option name="myItemId" value="view" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2045,41 +2020,15 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="domain" />
+              <option name="myItemId" value="presentation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="interactor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iCareApp" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="icareapp" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="domain" />
+              <option name="myItemId" value="view" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="interactor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="impl" />
+              <option name="myItemId" value="activity" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2101,11 +2050,7 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="domain" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="executor" />
+              <option name="myItemId" value="presentation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2127,63 +2072,7 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="manager" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iCareApp" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="icareapp" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="manager" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="impl" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iCareApp" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="icareapp" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
+              <option name="myItemId" value="Controller" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2517,7 +2406,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1696" height="1026" extended-state="1" />
+    <frame x="-8" y="-8" width="1696" height="1026" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2531,7 +2420,7 @@
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294621" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32949308" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32949308" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32949308" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -2542,7 +2431,7 @@
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22493887" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20852534" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20852534" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294621" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -2604,25 +2493,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/adapter/BookingCVAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2380">
-          <caret line="170" column="60" selection-start-line="160" selection-start-column="20" selection-end-line="170" selection-end-column="60" />
-          <folding>
-            <element signature="e#2611#5174#0" expanded="false" />
-            <element signature="e#2833#2872#0" expanded="false" />
-            <element signature="e#3104#3137#0" expanded="false" />
-            <element signature="e#3394#3422#0" expanded="false" />
-            <element signature="e#5173#5174#0" expanded="false" />
-            <element signature="e#7110#7149#0" expanded="false" />
-            <element signature="e#7958#7991#0" expanded="false" />
-            <element signature="e#8040#8079#0" expanded="false" />
-            <element signature="e#8319#8320#0" expanded="false" />
-            <element signature="e#8353#8354#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/RegisterActivityPresenter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -2743,16 +2613,16 @@
         <state relative-caret-position="1673">
           <caret line="174" column="49" selection-start-line="173" selection-start-column="8" selection-end-line="174" selection-end-column="49" />
           <folding>
-            <marker date="1484061433492" expanded="false" signature="4126:4156" ph="&quot;Khôi phục mật khẩu thất bại&quot;" />
-            <marker date="1484061433492" expanded="false" signature="4207:4239" ph="&quot;Đóng&quot;" />
-            <marker date="1484061433492" expanded="false" signature="4682:4715" ph="&quot;Khôi phục mật khẩu thành công&quot;" />
-            <marker date="1484061433492" expanded="false" signature="4766:4798" ph="&quot;Đóng&quot;" />
-            <marker date="1484061433492" expanded="false" signature="9613:9644" ph="&quot;Kích hoạt tài khoản thất bại&quot;" />
-            <marker date="1484061433492" expanded="false" signature="9699:9731" ph="&quot;Đóng&quot;" />
-            <marker date="1484061433492" expanded="false" signature="10197:10231" ph="&quot;Kích hoạt tài khoản thành công&quot;" />
-            <marker date="1484061433492" expanded="false" signature="10286:10318" ph="&quot;Đóng&quot;" />
-            <marker date="1484061433492" expanded="false" signature="10783:10817" ph="&quot;Tài khoản đã được kích hoạt&quot;" />
-            <marker date="1484061433492" expanded="false" signature="10872:10904" ph="&quot;Đóng&quot;" />
+            <marker date="1484261506857" expanded="false" signature="3482:3512" ph="&quot;Khôi phục mật khẩu thất bại&quot;" />
+            <marker date="1484261506857" expanded="false" signature="3563:3595" ph="&quot;Đóng&quot;" />
+            <marker date="1484261506857" expanded="false" signature="4038:4071" ph="&quot;Khôi phục mật khẩu thành công&quot;" />
+            <marker date="1484261506857" expanded="false" signature="4122:4154" ph="&quot;Đóng&quot;" />
+            <marker date="1484261506857" expanded="false" signature="8969:9000" ph="&quot;Kích hoạt tài khoản thất bại&quot;" />
+            <marker date="1484261506857" expanded="false" signature="9055:9087" ph="&quot;Đóng&quot;" />
+            <marker date="1484261506857" expanded="false" signature="9553:9587" ph="&quot;Kích hoạt tài khoản thành công&quot;" />
+            <marker date="1484261506857" expanded="false" signature="9642:9674" ph="&quot;Đóng&quot;" />
+            <marker date="1484261506857" expanded="false" signature="10139:10173" ph="&quot;Tài khoản đã được kích hoạt&quot;" />
+            <marker date="1484261506857" expanded="false" signature="10228:10260" ph="&quot;Đóng&quot;" />
           </folding>
         </state>
       </provider>
@@ -2770,8 +2640,8 @@
         <state relative-caret-position="714">
           <caret line="169" column="83" selection-start-line="169" selection-start-column="62" selection-end-line="169" selection-end-column="83" />
           <folding>
-            <element signature="e#6991#7021#0" expanded="false" />
-            <element signature="e#7300#7327#0" expanded="false" />
+            <element signature="e#6875#6905#0" expanded="false" />
+            <element signature="e#7184#7211#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2866,17 +2736,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="103" selection-start-line="18" selection-start-column="103" selection-end-line="18" selection-end-column="103" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3082,6 +2941,25 @@
             <element signature="e#1347#1505#0" expanded="true" />
             <element signature="e#1504#1505#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="14" column="99" selection-start-line="14" selection-start-column="99" selection-end-line="14" selection-end-column="99" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/Controller/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="26" column="39" selection-start-line="26" selection-start-column="39" selection-end-line="26" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>

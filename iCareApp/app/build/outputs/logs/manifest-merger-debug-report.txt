@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:2:1-53:12
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:2:1-62:12
 	package
 		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:3:9-46
 		INJECTED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml
@@ -22,7 +22,7 @@ ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidMa
 	android:name
 		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:6:22-76
 application
-ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:8:5-52:19
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:8:5-61:19
 MERGED from [com.android.support:design:25.0.0] D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\build\intermediates\exploded-aar\com.android.support\design\25.0.0\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-v4:25.0.0] D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.0.0\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-compat:25.0.0] D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.0.0\AndroidManifest.xml:25:5-20
@@ -45,80 +45,98 @@ MERGED from [com.android.support:cardview-v7:25.0.0] D:\longv\app\DrQMuller-Andr
 		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:10:9-43
 	android:theme
 		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:13:9-40
-activity#com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity
-ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:15:9-17:57
+activity#com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:15:9-22:20
 	android:launchMode
 		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:16:13-43
 	android:windowSoftInputMode
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:17:13-55
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:17:13-67
 	android:name
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:15:19-105
-activity#com.lanthanh.admin.icareapp.Register.DeepLinkActivity
-ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:19:9-28:20
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:15:19-101
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:18:13-21:29
+action#android.intent.action.MAIN
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:19:17-69
+	android:name
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:19:25-66
+category#android.intent.category.LAUNCHER
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:20:17-77
+	android:name
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:20:27-74
+activity#com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:24:9-26:57
+	android:launchMode
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:25:13-43
+	android:windowSoftInputMode
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:26:13-55
+	android:name
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:24:19-105
+activity#com.lanthanh.admin.icareapp.presentation.view.activity.DeepLinkActivity
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:28:9-37:20
 	android:noHistory
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:20:13-37
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:29:13-37
 	android:theme
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:21:13-59
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:30:13-59
 	android:name
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:19:19-87
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:28:19-105
 intent-filter#android.intent.action.VIEW+android.intent.category.BROWSABLE+android.intent.category.DEFAULT
-ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:22:13-27:29
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:31:13-36:29
 action#android.intent.action.VIEW
-ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:23:17-69
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:32:17-69
 	android:name
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:23:25-66
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:32:25-66
 category#android.intent.category.DEFAULT
-ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:24:17-76
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:33:17-76
 	android:name
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:24:27-73
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:33:27-73
 category#android.intent.category.BROWSABLE
-ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:25:17-78
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:34:17-78
 	android:name
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:25:27-75
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:34:27-75
 data
-ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:26:17-47
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:35:17-47
 	android:scheme
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:26:23-45
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:35:23-45
 activity#com.lanthanh.admin.icareapp.presentation.view.activity.UserInfoActivity
-ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:30:9-33:20
-	android:launchMode
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:31:13-43
-	android:windowSoftInputMode
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:32:13-67
-	android:name
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:30:19-105
-activity#com.lanthanh.admin.icareapp.presentation.view.activity.ConfirmBookingActivity
-ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:35:9-37:69
-	android:launchMode
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:36:13-43
-	android:windowSoftInputMode
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:37:13-67
-	android:name
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:35:19-111
-activity#com.lanthanh.admin.icareapp.presentation.view.activity.BookingDetailsActivity
-ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:39:9-41:69
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:39:9-42:20
 	android:launchMode
 		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:40:13-43
 	android:windowSoftInputMode
 		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:41:13-67
 	android:name
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:39:19-111
-activity#com.lanthanh.admin.icareapp.presentation.view.activity.ResetPasswordActivity
-ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:43:9-46:20
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:39:19-105
+activity#com.lanthanh.admin.icareapp.presentation.view.activity.ConfirmBookingActivity
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:44:9-46:69
 	android:launchMode
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:44:13-43
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:45:13-43
 	android:windowSoftInputMode
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:45:13-67
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:46:13-67
 	android:name
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:43:19-110
-activity#com.lanthanh.admin.icareapp.presentation.view.activity.UserDetailsActivity
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:44:19-111
+activity#com.lanthanh.admin.icareapp.presentation.view.activity.BookingDetailsActivity
 ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:48:9-50:69
 	android:launchMode
 		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:49:13-43
 	android:windowSoftInputMode
 		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:50:13-67
 	android:name
-		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:48:19-108
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:48:19-111
+activity#com.lanthanh.admin.icareapp.presentation.view.activity.ResetPasswordActivity
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:52:9-55:20
+	android:launchMode
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:53:13-43
+	android:windowSoftInputMode
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:54:13-67
+	android:name
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:52:19-110
+activity#com.lanthanh.admin.icareapp.presentation.view.activity.UserDetailsActivity
+ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:57:9-59:69
+	android:launchMode
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:58:13-43
+	android:windowSoftInputMode
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:59:13-67
+	android:name
+		ADDED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml:57:19-108
 uses-sdk
 INJECTED from D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:design:25.0.0] D:\longv\app\DrQMuller-AndroidProject\iCareApp\app\build\intermediates\exploded-aar\com.android.support\design\25.0.0\AndroidManifest.xml:21:5-23:62

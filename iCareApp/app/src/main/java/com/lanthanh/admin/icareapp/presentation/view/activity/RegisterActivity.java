@@ -1,15 +1,12 @@
 package com.lanthanh.admin.icareapp.presentation.view.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 
-import android.os.UserManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -20,26 +17,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lanthanh.admin.icareapp.Controller.Controller;
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
 import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
-import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
 import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.presentation.presenter.RegisterActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.impl.RegisterActivityPresenterImpl;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.register.ChooseFragment;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.register.SignInFragment;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.register.SignUpFragment;
-import com.lanthanh.admin.icareapp.domain.model.ModelURL;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
