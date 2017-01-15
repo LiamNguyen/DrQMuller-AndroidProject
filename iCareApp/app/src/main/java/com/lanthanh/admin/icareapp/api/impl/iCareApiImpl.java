@@ -17,11 +17,12 @@ import java.net.URL;
 public class iCareApiImpl implements iCareApi {
     private HttpURLConnection urlConnection;
     private URL mUrl;
+    BufferedReader reader;
 
-    private static iCareApiImpl api = new iCareApiImpl();
+    //private static iCareApiImpl api = new iCareApiImpl();
 
     public static iCareApiImpl getAPI() {
-        return api;
+        return new iCareApiImpl();
     }
 
     private iCareApiImpl() {
@@ -33,7 +34,7 @@ public class iCareApiImpl implements iCareApi {
     }
 
     @Override
-    public void sendPostRequest(Callback callback, String url, String data) {
+    public synchronized void sendPostRequest(Callback callback, String url, String data) {
         try{
             mUrl = new URL(url);
             System.out.println(mUrl.toString());
@@ -44,7 +45,7 @@ public class iCareApiImpl implements iCareApi {
         try {
             urlConnection = (HttpURLConnection) mUrl.openConnection();
             urlConnection.setRequestMethod("POST");
-            urlConnection.setFixedLengthStreamingMode(url.getBytes().length);
+            urlConnection.setFixedLengthStreamingMode(data.getBytes().length);
             urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             urlConnection.setDoOutput(true);
             urlConnection.setDoInput(true);
@@ -55,33 +56,42 @@ public class iCareApiImpl implements iCareApi {
         try {
             PrintWriter writer = new PrintWriter(urlConnection.getOutputStream(), true);
             writer.print(data);
+            writer.flush();
             writer.close();
         }catch (IOException ioe){
             System.out.println("Cannot open output stream");
         }catch (Exception e){
             e.printStackTrace();
         }
+        System.out.println(data);
 
         receiveResponse(callback, urlConnection);
     }
 
     @Override
     public void receiveResponse(Callback callback, HttpURLConnection urlConnection) {
-        String line = null;
+        String line;
+        String response = "";
+
         try{
             InputStream is = urlConnection.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            line = reader.readLine();
+            while ((line = reader.readLine()) != null){
+                response += line;
+            }
             reader.close();
             is.close();
         }catch (IOException ioe){
             System.out.println("Cannot open input stream");
         }
 
-        if (line != null){
-            callback.onResponse(line);
+        if (!response.isEmpty()){
+            callback.onResponse(response);
+
         }else{
+            callback.onResponse(null);
             System.out.println("No data received from server. Error in PHP files");
         }
+        System.out.println(response);
     }
 }

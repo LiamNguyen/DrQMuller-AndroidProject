@@ -58,12 +58,12 @@ public class CustomSpinnerAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = super.getView(position, convertView, parent);
         ((TextView) view).setTypeface(font);
-        TextView tv = (TextView) view;
-
-        if (parent.getId() == R.id.spinner_countries || parent.getId() == R.id.spinner_cities || parent.getId() == R.id.spinner_districts){
-            if (!parent.isEnabled())
-                tv.setTextColor(context.getResources().getColor(R.color.colorLightBlack));
-        }
+//        TextView tv = (TextView) view;
+//
+//        if (parent.getId() == R.id.spinner_countries || parent.getId() == R.id.spinner_cities || parent.getId() == R.id.spinner_districts){
+//            if (!parent.isEnabled())
+//                tv.setTextColor(context.getResources().getColor(R.color.colorLightBlack));
+//        }
 
         return view;
     }

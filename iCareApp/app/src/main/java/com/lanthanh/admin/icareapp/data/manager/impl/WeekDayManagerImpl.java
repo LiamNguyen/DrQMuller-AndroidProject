@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.data.manager.impl;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.api.iCareApi;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 
 public class WeekDayManagerImpl extends AbstractManager implements WeekDayManager{
-    private String json;
+    private JsonArray jsonArray;
 
     public WeekDayManagerImpl(iCareApi api){
         super(api);
@@ -27,12 +28,27 @@ public class WeekDayManagerImpl extends AbstractManager implements WeekDayManage
     @Override
     public List<DTOWeekDay> getAllWeekDays() {
         mApi.sendPostRequest(this, ModelURL.SELECT_DAYSOFWEEK.getUrl(Manager.isUAT), "");
-        return ConverterJsonToDTO.convertJsonToDTOTWeekDay(json);
+        return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOWeekDay.class);
     }
 
     @Override
     public void onResponse(String json) {
+        if (json == null){
+            resetResult();
+            return;
+        }
+
         JsonObject jsonObject = ConverterJson.convertJsonToObject(json, JsonObject.class);
-        this.json = jsonObject.get("Select_DaysOfWeek").getAsString();
+
+        if (jsonObject.has("Select_DaysOfWeek")) {
+            jsonArray = jsonObject.get("Select_DaysOfWeek").getAsJsonArray();
+        }else{
+            resetResult();
+        }
+    }
+
+    @Override
+    public void resetResult() {
+        jsonArray = null;
     }
 }

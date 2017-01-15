@@ -1,7 +1,15 @@
 package com.lanthanh.admin.icareapp.data.converter;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
+import com.lanthanh.admin.icareapp.domain.model.DTOCountry;
+import com.lanthanh.admin.icareapp.domain.model.DTOType;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ADMIN on 08-Jan-17.
@@ -18,11 +26,24 @@ public class ConverterJson {
         return gson.fromJson(json, classOfT);
     }
 
-    public static <T> T convertJsonToObject(JsonElement json, Class<T> classOfT){
+    public static <T> T convertGsonObjectToObject(JsonElement json, Class<T> classOfT){
         return gson.fromJson(json, classOfT);
     }
 
     public static <T> String convertObjectToJson(T objectOfT, Class<T> classOfT){
         return gson.toJson(objectOfT, classOfT);
+    }
+
+    public static <T> List<T> convertGsonObjectToObjectList(JsonArray jsonArray, Class<T> classOfT){
+        if (jsonArray == null)
+            return null;
+
+        List<T> resultList = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.size(); i++){
+            T objectT = gson.fromJson(jsonArray.get(i), classOfT);
+            resultList.add(objectT);
+        }
+        return resultList;
     }
 }

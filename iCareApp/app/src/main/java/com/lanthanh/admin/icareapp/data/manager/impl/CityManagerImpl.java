@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.data.manager.impl;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 
 public class CityManagerImpl extends AbstractManager implements CityManager{
-    private String json;
+    private JsonArray jsonArray;
 
     public CityManagerImpl(iCareApi api){
         super(api);
@@ -29,13 +30,28 @@ public class CityManagerImpl extends AbstractManager implements CityManager{
     @Override
     public List<DTOCity> getAllCitiesByCountryId(int id) {
         String data = ConverterToUrlData.convertToUrlData(CountryManager.COUNTRY_ID_KEY, Integer.toString(id));
-        mApi.sendGetRequest(this, ModelURL.SELECT_CITIES.getUrl(Manager.isUAT), data);
-        return ConverterJsonToDTO.convertJsonToDTOCity(json);
+        mApi.sendPostRequest(this, ModelURL.SELECT_CITIES.getUrl(Manager.isUAT), data);
+        return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOCity.class);
     }
 
     @Override
     public void onResponse(String json) {
+        if (json == null){
+            resetResult();
+            return;
+        }
+
         JsonObject jsonObject = ConverterJson.convertJsonToObject(json, JsonObject.class);
-        this.json = jsonObject.get("Select_Cities").getAsString();
+
+        if (jsonObject.has("Select_Cities")) {
+            jsonArray = jsonObject.get("Select_Cities").getAsJsonArray();
+        }else{
+            resetResult();
+        }
+    }
+
+    @Override
+    public void resetResult() {
+        jsonArray = null;
     }
 }

@@ -150,10 +150,7 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
                                            jwtClaims.get("userAddress"),
                                            jwtClaims.get("userEmail"),
                                            jwtClaims.get("userPhone"));
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("user", ConverterJson.convertToJson(user));
-            editor.apply();
-            editor.commit();
+            customerManager.saveLocalUserToPref(sharedPreferences, user);
             if (user.getActive() != 0)
                 navigateToMainActivity();
             else

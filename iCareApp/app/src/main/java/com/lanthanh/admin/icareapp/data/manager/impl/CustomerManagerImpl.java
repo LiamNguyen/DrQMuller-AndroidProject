@@ -1,5 +1,7 @@
 package com.lanthanh.admin.icareapp.data.manager.impl;
 
+import android.content.SharedPreferences;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.api.iCareApi;
@@ -18,13 +20,13 @@ import java.util.Calendar;
  */
 
 public class CustomerManagerImpl extends AbstractManager implements CustomerManager {
-    private String result;
-    private boolean booleanResult;
-    private int intResult;
+    private String logInResult;
+    private boolean userExistenceResult, newCusResult, updateCusResult, updatePwResult;
+    private int getIdResult;
 
     public CustomerManagerImpl(iCareApi api){
         super(api);
-        booleanResult = false;
+        resetResult();
     }
 
     @Override
@@ -34,7 +36,7 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                 ConverterToUrlData.getValues(username, password)
         );
         mApi.sendPostRequest(this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(Manager.isUAT), data);
-        return result;
+        return logInResult;
     }
 
     @Override
@@ -44,7 +46,7 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                 ConverterToUrlData.getValues(username)
         );
         mApi.sendPostRequest(this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(Manager.isUAT), data);
-        return booleanResult;
+        return userExistenceResult;
     }
 
     @Override
@@ -54,7 +56,7 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                 ConverterToUrlData.getValues(username, password)
         );
         mApi.sendPostRequest(this, ModelURL.INSERT_NEWCUSTOMER.getUrl(Manager.isUAT), data);
-        return booleanResult;
+        return newCusResult;
     }
 
     @Override
@@ -64,7 +66,7 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                 ConverterToUrlData.getValues(username)
         );
         mApi.sendPostRequest(this, ModelURL.SELECT_NoOFCUSTOMERS.getUrl(Manager.isUAT), data);
-        return intResult;
+        return getIdResult;
     }
 
     @Override
@@ -80,7 +82,7 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                                              ConverterToUrlData.covertDateForDB(Calendar.getInstance().getTime()))
         );
         mApi.sendPostRequest(this, ModelURL.UPDATE_CUSTOMERINFO.getUrl(Manager.isUAT), data);
-        return booleanResult;
+        return updateCusResult;
     }
 
     @Override
@@ -90,49 +92,79 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                 ConverterToUrlData.getValues(username, password)
         );
         mApi.sendPostRequest(this, ModelURL.UPDATE_RESETPW.getUrl(Manager.isUAT), data);
-        return booleanResult;
+        return updatePwResult;
+    }
+
+    @Override
+    public ModelUser getLocalUserFromPref(SharedPreferences sharedPreferences) {
+        return ConverterJson.convertJsonToObject(sharedPreferences.getString("user", ""), ModelUser.class);
+    }
+
+    @Override
+    public void saveLocalUserToPref(SharedPreferences sharedPreferences, ModelUser user) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("user", ConverterJson.convertObjectToJson(user, ModelUser.class));
+        editor.apply();
+        editor.commit();
     }
 
     @Override
     public void onResponse(String json) {
+        if (json == null){
+            resetResult();
+            return;
+        }
+
         JsonObject jsonObject = ConverterJson.convertJsonToObject(json, JsonObject.class);
 
         if (jsonObject.has("Select_ToAuthenticate")){
             String result = jsonObject.get("Select_ToAuthenticate").getAsString();
-            if (!result.equals("Fail"))
-                this.result = result;
+            if (result.equals("LoginFail") || result.equals("QueryFail"))
+                this.logInResult = null;
             else
-                this.result = null;
+                this.logInResult = result;
         }else if (jsonObject.has("Select_CheckUserExistence")){
             String result = jsonObject.get("Select_CheckUserExistence").getAsString();
             if (result.equals("NonExist"))
-                this.booleanResult = true;
+                this.userExistenceResult = true;
             else
-                this.booleanResult = false;
+                this.userExistenceResult = false;
         }else if (jsonObject.has("Insert_NewCustomer")){
             String result = jsonObject.get("Insert_NewCustomer").getAsString();
             if (result.equals("Inserted"))
-                this.booleanResult = true;
+                this.newCusResult = true;
             else
-                this.booleanResult = false;
+                this.newCusResult = false;
         }else if (jsonObject.has("Select_NumberOfCustomers")){
             int result = jsonObject.get("Insert_NewCustomer").getAsInt();
             if (result == -1)
-                this.intResult = 0;
+                this.getIdResult = 0;
             else
-                this.intResult = result;
+                this.getIdResult = result;
         }else if (jsonObject.has("Update_CustomerInfo")){
             String result = jsonObject.get("Update_CustomerInfo").getAsString();
             if (result.equals("Updated"))
-                this.booleanResult = true;
+                this.updateCusResult = true;
             else
-                this.booleanResult = false;
+                this.updateCusResult = false;
         }else if (jsonObject.has("Update_ResetPw")){
             String result = jsonObject.get("Update_ResetPw").getAsString();
             if (result.equals("Updated"))
-                this.booleanResult = true;
+                this.updatePwResult = true;
             else
-                this.booleanResult = false;
+                this.updatePwResult = false;
+        }else{
+            resetResult();
         }
+    }
+
+    @Override
+    public void resetResult() {
+        logInResult = null;
+        userExistenceResult = false;
+        newCusResult = false;
+        updateCusResult = false;
+        updatePwResult = false;
+        getIdResult = 0;
     }
 }

@@ -154,11 +154,12 @@ public class DTOAppointment {
     }
 
     public boolean isSelectFilled(){
-        if (type.getId() == 1)
-            return user.getID() !=0 && country.getId() != 0 && city.getId() !=0 && district.getId() != 0 && location.getId() != 0 && voucher.getId() != 0 && startDate != null && expireDate != null;
-        else if (type.getId() == 2)
-            return user.getID() !=0 && country.getId() != 0 && city.getId() !=0 && district.getId() != 0 && location.getId() != 0 && voucher.getId() != 0 && expireDate != null;
-        else
+        if (type != null) {
+            if (type.getId() == 1)
+                return country != null && city != null && district != null && location != null && voucher != null && startDate != null && expireDate != null;
+            else
+                return country != null && city != null && district != null && location != null && voucher != null && expireDate != null;
+        }else
             return false;
     }
 }

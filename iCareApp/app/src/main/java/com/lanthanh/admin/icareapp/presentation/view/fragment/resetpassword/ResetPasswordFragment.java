@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
 import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.ResetPasswordActivity;
 import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
@@ -30,7 +29,6 @@ public class ResetPasswordFragment extends Fragment implements TextWatcher, View
     private TextInputLayout password_confirm_container;
     private boolean validPW, validPWConf;
     private String username;
-    private Controller aController;
     private ResetPasswordActivityPresenter resetPasswordActivityPresenter;
 
     @Nullable

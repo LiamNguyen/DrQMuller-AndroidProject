@@ -18,4 +18,5 @@ public interface BookingDetailsActivityPresenter extends Presenter {
     }
 
     void updateList();
+    int getNumberOfAppointments();
 }

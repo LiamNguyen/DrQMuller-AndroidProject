@@ -35,4 +35,6 @@ public abstract class AbstractManager implements Manager, iCareApi.Callback{
     }
 
     public abstract void onResponse(String json);
+
+    public abstract void resetResult();
 }

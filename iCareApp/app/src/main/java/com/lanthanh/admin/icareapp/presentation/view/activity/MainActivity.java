@@ -27,6 +27,7 @@ import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.AppointmentManagerImpl;
+import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.SendEmailManagerImpl;
 import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public final static int NEWSTAB = 0;
     public final static int BOOKTAB = 1;
     public final static int USERTAB = 2;
+    public final static int BOOKTAB_BOOK = 3;
     private MainActivityPresenter mMainPresenter;
     private Drawable cartIcon;
     private ListPopupWindow popupWindow;
@@ -83,11 +85,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.getMenu().getItem(NEWSTAB).setChecked(false);
+        bottomNavigationView.getMenu().getItem(BOOKTAB).setChecked(true);
     }
 
     public void init(){
         mMainPresenter = new MainActivityPresenterImpl(getSharedPreferences("content", Context.MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this,
-                getSupportFragmentManager(), new AppointmentManagerImpl(iCareApiImpl.getAPI()), new SendEmailManagerImpl(iCareApiImpl.getAPI()));
+                getSupportFragmentManager(), new AppointmentManagerImpl(iCareApiImpl.getAPI()), new SendEmailManagerImpl(iCareApiImpl.getAPI()), new CustomerManagerImpl(iCareApiImpl.getAPI()));
         //Init cart list for display
         cartList = new ArrayList<>();
         //Init controllers
@@ -289,9 +292,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.action_news:
                 break;
             case R.id.action_booking:
+                bottomNavigationView.getMenu().getItem(USERTAB).setChecked(false);
                 mMainPresenter.navigateTab(BOOKTAB);
                 break;
             case R.id.action_user:
+                bottomNavigationView.getMenu().getItem(BOOKTAB).setChecked(false);
                 mMainPresenter.navigateTab(USERTAB);
                 break;
             default:

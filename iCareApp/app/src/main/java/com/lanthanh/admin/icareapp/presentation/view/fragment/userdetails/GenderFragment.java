@@ -28,12 +28,13 @@ public class GenderFragment extends DialogFragment implements RadioGroup.OnCheck
     private UserDetailsActivityPresenter userDetailsActivityPresenter;
 
     public GenderFragment(){
-        userDetailsActivityPresenter = ((UserDetailsActivity) getActivity()).getMainPresenter();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        userDetailsActivityPresenter = ((UserDetailsActivity) getActivity()).getMainPresenter();
         return inflater.inflate(R.layout.userdetails_gender, container);
     }
 

@@ -7,6 +7,7 @@ package com.lanthanh.admin.icareapp.domain.model;
 public class DTOVoucher {
     private int VOUCHER_ID;
     private String VOUCHER;
+    private String PRICE;
 
     public int getId(){
         return VOUCHER_ID;

@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.data.manager.impl;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.api.iCareApi;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 
 public class VoucherManagerImpl extends AbstractManager implements VoucherManager {
-    private String json;
+    private JsonArray jsonArray;
 
     public VoucherManagerImpl(iCareApi api){
         super(api);
@@ -27,12 +28,27 @@ public class VoucherManagerImpl extends AbstractManager implements VoucherManage
     @Override
     public List<DTOVoucher> getAllVouchers() {
         mApi.sendPostRequest(this, ModelURL.SELECT_VOUCHERS.getUrl(Manager.isUAT), "");
-        return ConverterJsonToDTO.convertJsonToDTOVoucher(json);
+        return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOVoucher.class);
     }
 
     @Override
     public void onResponse(String json) {
+        if (json == null){
+            resetResult();
+            return;
+        }
+
         JsonObject jsonObject = ConverterJson.convertJsonToObject(json, JsonObject.class);
-        this.json = jsonObject.get("Select_Vouchers").getAsString();
+
+        if (jsonObject.has("Select_Vouchers")) {
+            jsonArray = jsonObject.get("Select_Vouchers").getAsJsonArray();
+        }else{
+            resetResult();
+        }
+    }
+
+    @Override
+    public void resetResult() {
+        jsonArray = null;
     }
 }

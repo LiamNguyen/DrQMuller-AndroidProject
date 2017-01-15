@@ -23,13 +23,13 @@ public interface BookingBookPresenter extends Presenter{
     void refreshAvailableDays();
     void refreshAvailableTime();
     List<String> getAvailableTime(List<String> list);
-    void getAllWeekDays(WeekDayManager weekDayManager);
-    void getAllTime(TimeManager timeManager);
-    void getAllEcoTime(TimeManager timeManager);
-    void getSelectedTime(String day, TimeManager timeManager);
+    void getAllWeekDays();
+    void getAllTime();
+    void getAllEcoTime();
+    void getSelectedTime(String day);
     int  getDayId(String day);
     int  getTimeId(String time);
     int  getNumberOfCartItems();
-    void onTimeSelected(String day, String time, AppointmentManager appointmentManager);
+    void onTimeSelected(String day, String time);
     boolean checkAppointmentScheduleValidity(int dayId);
 }

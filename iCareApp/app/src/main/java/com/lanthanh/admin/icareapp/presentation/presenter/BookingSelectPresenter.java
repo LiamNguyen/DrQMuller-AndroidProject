@@ -36,15 +36,15 @@ public interface BookingSelectPresenter extends Presenter {
         void updateExpireDate(String expireDate);
         void showStartDatePicker(Calendar calendar);
         void showExpireDatePicker(Calendar calendar);
-        void onTypeChange();
+        void onVoucherChange();
     }
 
-    void getAllCountries(CountryManager countryManager);
-    void getAllCitiesByCountry(String country, CityManager cityManager);
-    void getAllDistrictsByCity(String city, DistrictManager districtManager);
-    void getAllLocationsByDistrict(String district, LocationManager locationManager);
-    void getAllVouchers(VoucherManager voucherManager);
-    void getAllTypes(TypeManager typeManager);
+    void getAllCountries();
+    void getAllCitiesByCountry(String country);
+    void getAllDistrictsByCity(String city);
+    void getAllLocationsByDistrict(String district);
+    void getAllVouchers();
+    void getAllTypes();
     DTOCountry getCountry(String country);
     DTOCity getCity(String city);
     DTODistrict getDistrict(String city);
@@ -63,4 +63,5 @@ public interface BookingSelectPresenter extends Presenter {
     void onExpireDatePickerClick();
     void resetStartDate();
     void resetExpireDate();
+    boolean isAllInfoFiiled();
 }

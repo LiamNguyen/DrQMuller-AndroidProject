@@ -61,4 +61,9 @@ public class SendEmailManagerImpl extends AbstractManager implements SendEmailMa
         String result = jsonObject.get("Send_Email").getAsString();
         this.result = result.equals("Message has been sent");
     }
+
+    @Override
+    public void resetResult() {
+
+    }
 }

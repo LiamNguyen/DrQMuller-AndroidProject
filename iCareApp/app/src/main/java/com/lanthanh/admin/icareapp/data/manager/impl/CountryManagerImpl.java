@@ -1,11 +1,10 @@
 package com.lanthanh.admin.icareapp.data.manager.impl;
 
-import com.google.gson.JsonElement;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
 import com.lanthanh.admin.icareapp.domain.model.ModelURL;
 import com.lanthanh.admin.icareapp.api.iCareApi;
-import com.lanthanh.admin.icareapp.data.converter.ConverterJsonToDTO;
 import com.lanthanh.admin.icareapp.data.manager.CountryManager;
 import com.lanthanh.admin.icareapp.data.manager.base.AbstractManager;
 import com.lanthanh.admin.icareapp.data.manager.base.Manager;
@@ -19,7 +18,7 @@ import java.util.List;
  */
 
 public class CountryManagerImpl extends AbstractManager implements CountryManager{
-    private String json;
+    private JsonArray jsonArray;
 
     public CountryManagerImpl(iCareApi api) {
         super(api);
@@ -28,12 +27,27 @@ public class CountryManagerImpl extends AbstractManager implements CountryManage
     @Override
     public List<DTOCountry> getAllCountries() {
         mApi.sendPostRequest(this, ModelURL.SELECT_COUNTRIES.getUrl(Manager.isUAT), "");
-        return ConverterJsonToDTO.convertJsonToDTOCountry(json);
+        return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOCountry.class);
     }
 
     @Override
     public void onResponse(String json) {
+        if (json == null){
+            resetResult();
+            return;
+        }
+
         JsonObject jsonObject = ConverterJson.convertJsonToObject(json, JsonObject.class);
-        this.json = jsonObject.get("Select_Countries").getAsString();
+
+        if (jsonObject.has("Select_Countries")) {
+            jsonArray = jsonObject.get("Select_Countries").getAsJsonArray();
+        }else{
+            resetResult();
+        }
+    }
+
+    @Override
+    public void resetResult() {
+        jsonArray = null;
     }
 }

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.lanthanh.admin.icareapp.Model.DatabaseObserver;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserInfoActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.UserInfoActivity;
@@ -23,7 +22,7 @@ import org.json.JSONObject;
  * Created by ADMIN on 08-Nov-16.
  */
 
-public class ValidateFragment extends Fragment implements View.OnClickListener, DatabaseObserver{
+public class ValidateFragment extends Fragment implements View.OnClickListener{
     private UserInfoActivityPresenter userInfoActivityPresenter;
     private TextView noti;
 
@@ -89,26 +88,26 @@ public class ValidateFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
-    @Override
-    public void update(Object o) {
-        JSONObject status = (JSONObject) o;
-
-        try {
-            if (status.has("Send_Email")){
-                String result = status.getString("Send_Email");
-                if (result.equals("Message has been sent")){
-                    noti.setText(R.string.validate_noti_success);
-                    noti.setTextColor(getResources().getColor(R.color.colorGreen));
-                }else{
-                    System.out.println("Message could not be sent");
-                    System.out.println(status.getString("ERROR"));
-                    noti.setText(R.string.validate_noti_fail);
-                    noti.setTextColor(getResources().getColor(R.color.colorLightRed));
-
-                }
-            }
-        } catch (JSONException je){
-            System.out.println("Problem with JSON API");
-        }
-    }
+//    @Override
+//    public void update(Object o) {
+//        JSONObject status = (JSONObject) o;
+//
+//        try {
+//            if (status.has("Send_Email")){
+//                String result = status.getString("Send_Email");
+//                if (result.equals("Message has been sent")){
+//                    noti.setText(R.string.validate_noti_success);
+//                    noti.setTextColor(getResources().getColor(R.color.colorGreen));
+//                }else{
+//                    System.out.println("Message could not be sent");
+//                    System.out.println(status.getString("ERROR"));
+//                    noti.setText(R.string.validate_noti_fail);
+//                    noti.setTextColor(getResources().getColor(R.color.colorLightRed));
+//
+//                }
+//            }
+//        } catch (JSONException je){
+//            System.out.println("Problem with JSON API");
+//        }
+//    }
 }

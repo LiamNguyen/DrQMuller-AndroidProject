@@ -39,12 +39,22 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     private List<DTOTime> timeList, ecoTimeList, selectedTimeList;
     private List<DTOWeekDay> weekDayList;
     private List<String> vipDays, ecoDays, vipTime, ecoTime, selectedTime;
-            ;
+    private TimeManager timeManager;
+    private AppointmentManager appointmentManager;
+    private WeekDayManager weekDayManager;
 
-    public BookingBookPresenterImpl(Executor executor, MainThread mainThread, View view, DTOAppointment dtoAppointment) {
+    public BookingBookPresenterImpl(Executor executor, MainThread mainThread, View view, DTOAppointment dtoAppointment,
+                                    TimeManager timeManager, AppointmentManager appointmentManager, WeekDayManager weekDayManager) {
         super(executor, mainThread);
         mView = view;
         this.dtoAppointment = dtoAppointment;
+        this.timeManager = timeManager;
+        this.appointmentManager = appointmentManager;
+        this.weekDayManager = weekDayManager;
+        init();
+    }
+
+    public void init(){
         vipDays = new ArrayList<>();
         ecoDays = new ArrayList<>();
         vipTime = new ArrayList<>();
@@ -81,7 +91,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
 
     /*========================= TIME =========================*/
     @Override
-    public void getAllTime(TimeManager timeManager) {
+    public void getAllTime() {
         GetAllTimeInteractor getAllTimeInteractor = new GetAllTimeInteractorImpl(mExecutor, mMainThread, this, timeManager);
         getAllTimeInteractor.execute();
     }
@@ -103,22 +113,23 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
 
     @Override
     public void onNoTimeFound() {
-        mView.showError("No time found");
+        mView.showError("No all time found");
     }
 
     @Override
     public List<String> getAvailableTime(List<String> list) {
         List<String> result = new ArrayList<>();
-        for (String s: selectedTime){
-            if (!list.contains(s))
+        for (String s: list){
+            if (!selectedTime.contains(s))
                 result.add(s);
         }
+        System.out.println("test 2 " + result);
         return result;
     }
 
     /*========================= ECO TIME =========================*/
     @Override
-    public void getAllEcoTime(TimeManager timeManager) {
+    public void getAllEcoTime() {
         GetAllEcoTimeInteractor getAllEcoTimeInteractor = new GetAllEcoTimeInteractorImpl(mExecutor, mMainThread, this, timeManager);
         getAllEcoTimeInteractor.execute();
     }
@@ -136,7 +147,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
 
     /*========================= WEEK DAY =========================*/
     @Override
-    public void getAllWeekDays(WeekDayManager weekDayManager) {
+    public void getAllWeekDays() {
         GetAllWeekDaysInteractor getAllWeekDaysInteractor = new GetAllWeekDaysInteractorImpl(mExecutor, mMainThread, this, weekDayManager);
         getAllWeekDaysInteractor.execute();
     }
@@ -149,7 +160,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
         //Get week days for ECO voucher
         ecoDays.addAll(vipDays);
         ecoDays.remove(ecoDays.size() - 1);//Sunday
-        ecoDays.remove(ecoDays.size() - 2);//Saturday
+        ecoDays.remove(ecoDays.size() - 1);//Saturday
         //Update
         refreshAvailableDays();
     }
@@ -170,7 +181,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
 
     /*========================= SELECTED TIME =========================*/
     @Override
-    public void getSelectedTime(String day, TimeManager timeManager) {
+    public void getSelectedTime(String day) {
         int id = getDayId(day);
         if (id == -1){
             onError("No id found for this day");
@@ -184,6 +195,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     public void onSelectedTimeReceive(List<DTOTime> selectedTimeList) {
         this.selectedTimeList = selectedTimeList;
         selectedTime = ConverterForDisplay.convertToStringList(selectedTimeList);
+        System.out.println("test " + selectedTime);
         refreshAvailableTime();
     }
 
@@ -194,13 +206,15 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
 
     /*========================= BOOKING =========================*/
     @Override
-    public void onTimeSelected(String day, String time, AppointmentManager appointmentManager) {
+    public void onTimeSelected(String day, String time) {
         int dayId = getDayId(day);
         int timeId = getTimeId(time);
         if (dayId == -1 || timeId == -1){
             onError("No id found for day or time for appointment schedule");
             return;
         }
+
+        //Check whether a day has been booked (only one schedule for one day)
         if (checkAppointmentScheduleValidity(dayId)) {
             DTOAppointmentSchedule appointmentSchedule = new DTOAppointmentSchedule();
             appointmentSchedule.setDayName(day);
@@ -214,6 +228,9 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
             mView.showError(mView.getResourceString(R.string.selected_day));
     }
 
+    /*This method ensures that only one schedule for one day.
+     *Return false if selected schedule has already been booked on that day. Otherwise, return true
+     */
     @Override
     public boolean checkAppointmentScheduleValidity(int dayId) {
         for (DTOAppointmentSchedule dtoAppointmentSchedule: dtoAppointment.getAppointmentScheduleList()){

@@ -54,7 +54,6 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
     private List<String> countriesName, citiesName, districtsName, locationsName, vouchersName, typesName;
     private CustomSpinnerAdapter countryAdapter, cityAdapter, districtAdapter, locationAdapter, voucherAdapter, typeAdapter;
     private Spinner countrySp, citySp, districtSp, locationSp, voucherSp, typeSp;
-    private Calendar calendar;
     private TextInputEditText startDate, expireDate;
     private DatePickerDialog startDatePickerDialog, expireDatePickerDialog;
     private CountryManager countryManager;
@@ -174,12 +173,14 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         expireDate.setOnClickListener(this);
         expireDate.setTypeface(font);
         //Initialize DatePickerDialog
-        startDatePickerDialog = new DatePickerDialog(getActivity(), this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        expireDatePickerDialog = new DatePickerDialog(getActivity(), this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        startDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        expireDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 
         /* =============================== LAST STEP =============================== */
         //Initialize data for Country Spinner first
-        bookingSelectPresenter.getAllCountries(countryManager);
+        bookingSelectPresenter.getAllCountries();
+        bookingSelectPresenter.getAllVouchers();
+        bookingSelectPresenter.getAllTypes();
 
         AppCompatButton nextBut = (AppCompatButton) view.findViewById(R.id.booking_next_button);
         nextBut.setOnClickListener(this);
@@ -191,16 +192,10 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
     public void init(){
         //Init presenter
         mainActivityPresenter = ((MainActivity)getActivity()).getMainPresenter();
-        bookingSelectPresenter = new BookingSelectPresenterImpl(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this, mainActivityPresenter.getDTOAppointment());
-        //Init calendar and picker dialog
-        calendar = Calendar.getInstance();
-        //Init managers
-        countryManager = new CountryManagerImpl(iCareApiImpl.getAPI());
-        cityManager = new CityManagerImpl(iCareApiImpl.getAPI());
-        districtManager = new DistrictManagerImpl(iCareApiImpl.getAPI());
-        locationManager = new LocationManagerImpl(iCareApiImpl.getAPI());
-        voucherManager = new VoucherManagerImpl(iCareApiImpl.getAPI());
-        typeManager = new TypeManagerImpl(iCareApiImpl.getAPI());
+        bookingSelectPresenter = new BookingSelectPresenterImpl(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this, mainActivityPresenter.getDTOAppointment(),
+        new CountryManagerImpl(iCareApiImpl.getAPI()), new CityManagerImpl(iCareApiImpl.getAPI()),
+        new DistrictManagerImpl(iCareApiImpl.getAPI()), new LocationManagerImpl(iCareApiImpl.getAPI()),
+        new VoucherManagerImpl(iCareApiImpl.getAPI()), new TypeManagerImpl(iCareApiImpl.getAPI()));
         //Init data and the first string is hint
         countriesName = new ArrayList<>();
         countriesName.add(getString(R.string.booking_country_hint));
@@ -226,6 +221,10 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.booking_next_button:
+                if (bookingSelectPresenter.isAllInfoFiiled())
+                    mainActivityPresenter.navigateTab(MainActivity.BOOKTAB_BOOK);
+                else
+                    showError(getString(R.string.missing_detail));
                 break;
             case R.id.booking_startdate:
                 bookingSelectPresenter.onStartDatePickerClick();
@@ -238,87 +237,46 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         }
     }
 
-//    @Override
-//    public void update(Object o) {
-//        JSONObject status = (JSONObject) o;
-//
-//        if (status == null) {
-//            System.out.println("ERROR IN PHP FILE");
-//            return;
-//        }
-//
-//        try {
-//            if (status.has("Select_Countries")) {
-//                //Receive response from Select_Countries.php
-//                JSONArray countries = status.getJSONArray("Select_Countries");//Get the array of countries' JSONObject
-//                populateData(countriesName, mapToCountryID, countries, "COUNTRY_ID", "COUNTRY");//Populate countriesName list if data exists
-//                countrySp.setSelection(235);
-//            }else if (status.has("Select_Cities")) {
-//                //Receive response from Select_Cities.php
-//                JSONArray cities = status.getJSONArray("Select_Cities");//Get the array of cities' JSONObject
-//                populateData(citiesName, mapToCityID, cities, "CITY_ID", "CITY");//Populate citiesName list if data exists
-//                citySp.setSelection(58);
-//            }else if (status.has("Select_Districts")) {
-//                //Receive response from Select_Districts.php
-//                JSONArray districts = status.getJSONArray("Select_Districts");//Get the array of districts' JSONObject
-//                populateData(districtsName, mapToDistrictID, districts, "DISTRICT_ID", "DISTRICT");//Populate districtsName list if data exists
-//                districtSp.setSelection(8);
-//            }else if (status.has("Select_Locations")) {
-//                //Receive response from Select_Districts.php
-//                JSONArray locations = status.getJSONArray("Select_Locations");//Get the array of districts' JSONObject
-//                populateData(locationsName, mapToLocationID, locations, "LOCATION_ID", "ADDRESS");//Populate districtsName list if data exists
-//                locationSp.setEnabled(true);//Set Spinner clickable to true
-//            }else if (status.has("Select_Vouchers")){
-//                //Receive response from Select_Vouchers.php
-//                JSONArray vouchers = status.getJSONArray("Select_Vouchers");//Get the array of vouchers' JSONObject
-//                populateData(vouchersName, mapToVoucherID, vouchers, "VOUCHER_ID", "VOUCHER", "PRICE");//Populate districtsName list if data exists
-//                voucherSp.setEnabled(true);//Set Spinner clickable to true
-//            }
-//        }catch (JSONException je){
-//            je.printStackTrace();
-//        }
-//    }
-
-//    public void populateData(List<String> populateList, Map<String,String> mapToID, JSONArray data, String... params){
-//        try {
-//            for (int i = 0; i < data.length(); i++) {
-//                JSONObject jOb = (JSONObject) data.get(i);
-//                if (params.length == 3)
-//                    populateList.add(jOb.getString(params[1]) + " - " + jOb.getString(params[2]) + " VND");
-//                else
-//                    populateList.add(jOb.getString(params[1]));
-//                mapToID.put(jOb.getString(params[1]), jOb.getString(params[0]));
-//            }
-//        }catch (JSONException je){
-//            je.printStackTrace();
-//        }
-//    }
-
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()){
             case R.id.spinner_countries:
-                bookingSelectPresenter.getAllCitiesByCountry(countrySp.getSelectedItem().toString(), cityManager);
+                bookingSelectPresenter.getAllCitiesByCountry(countrySp.getSelectedItem().toString());
                 bookingSelectPresenter.onCountrySelect(countrySp.getSelectedItem().toString());
                 break;
             case R.id.spinner_cities:
-                bookingSelectPresenter.getAllDistrictsByCity(citySp.getSelectedItem().toString(), districtManager);
+                bookingSelectPresenter.getAllDistrictsByCity(citySp.getSelectedItem().toString());
                 bookingSelectPresenter.onCitySelect(citySp.getSelectedItem().toString());
                 break;
             case R.id.spinner_districts:
-                bookingSelectPresenter.getAllLocationsByDistrict(districtSp.getSelectedItem().toString(), locationManager);
+                bookingSelectPresenter.getAllLocationsByDistrict(districtSp.getSelectedItem().toString());
                 bookingSelectPresenter.onDistrictSelect(districtSp.getSelectedItem().toString());
                 break;
             case R.id.spinner_locations:
-                bookingSelectPresenter.getAllVouchers(voucherManager);
+                //bookingSelectPresenter.getAllVouchers();
                 bookingSelectPresenter.onLocationSelect(locationSp.getSelectedItem().toString());
+                voucherSp.setEnabled(true);
                 break;
             case R.id.spinner_vouchers:
-                bookingSelectPresenter.getAllTypes(typeManager);
+                //bookingSelectPresenter.getAllTypes();
                 bookingSelectPresenter.onVoucherSelect(voucherSp.getSelectedItem().toString());
+                typeSp.setEnabled(true);
                 break;
             case R.id.spinner_type:
+                if (typeSp.getSelectedItemPosition() == 1){
+                    //If type = Co dinh, show start date. Set expire date to Ngay Ket Thuc
+                    startDate.setVisibility(View.VISIBLE);
+                    updateExpireDate(getString(R.string.booking_expire_date));
+                    expireDate.setEnabled(false);
+                }else{
+                    //If type = Tu do, hide start date. Set expire date to Ngay Thuc Hien
+                    startDate.setVisibility(View.GONE);
+                    updateExpireDate(getString(R.string.booking_do_date));
+                    expireDate.setEnabled(true);
+                }
                 bookingSelectPresenter.onTypeSelect(typeSp.getSelectedItem().toString());
+                updateStartDate(getString(R.string.booking_start_date));
+                startDate.setEnabled(true);
             default:
                 break;
         }
@@ -334,6 +292,7 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         countriesName.clear();
         countriesName.add(getString(R.string.booking_country_hint));
         countriesName.addAll(list);
+        countrySp.setSelection(235);
     }
 
     @Override
@@ -341,6 +300,7 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         citiesName.clear();
         citiesName.add(getString(R.string.booking_city_hint));
         citiesName.addAll(list);
+        citySp.setSelection(58);
     }
 
     @Override
@@ -348,6 +308,7 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         districtsName.clear();
         districtsName.add(getString(R.string.booking_district_hint));
         districtsName.addAll(list);
+        districtSp.setSelection(8);
     }
 
     @Override
@@ -355,6 +316,7 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         locationsName.clear();
         locationsName.add(getString(R.string.booking_location_hint));
         locationsName.addAll(list);
+        locationSp.setEnabled(true);
     }
 
     @Override
@@ -373,43 +335,48 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
 
     @Override
     public void updateStartDate(String startDate) {
-        if (startDate == null)
-            this.startDate.setText(getActivity().getString(R.string.booking_start_date));
-        else
+//        if (startDate == null)
+//            this.startDate.setText(getActivity().getString(R.string.booking_start_date));
+//        else
             this.startDate.setText(startDate);
     }
 
     @Override
     public void updateExpireDate(String expireDate) {
-        if (expireDate == null)
-            this.expireDate.setText(getActivity().getString(R.string.booking_expire_date));
-        else
+//        if (expireDate == null)
+//            this.expireDate.setText(getActivity().getString(R.string.booking_expire_date));
+//        else
             this.expireDate.setText(expireDate);
     }
 
     @Override
     public void showStartDatePicker(Calendar calendar) {
+        startDatePickerDialog.getDatePicker().setMinDate(0);
         startDatePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
         startDatePickerDialog.show();
     }
 
     @Override
     public void showExpireDatePicker(Calendar calendar) {
+        expireDatePickerDialog.getDatePicker().setMinDate(0);
         expireDatePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
         expireDatePickerDialog.show();
     }
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
-        if (startDatePickerDialog.hashCode() == datePicker.hashCode())
+        if (startDatePickerDialog.getDatePicker().hashCode() == datePicker.hashCode()) {
             bookingSelectPresenter.onStartDateSet(calendar);
+            expireDate.setEnabled(true);
+        }
         else
             bookingSelectPresenter.onExpireDateSet(calendar);
     }
 
     @Override
-    public void onTypeChange() {
+    public void onVoucherChange() {
         mainActivityPresenter.emptyCart();
     }
 

@@ -12,6 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
+import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
+import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
+import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
+import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
+import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.view.adapter.UserTabAdapter;
 
 import java.util.ArrayList;
@@ -22,19 +28,34 @@ import java.util.List;
  */
 
 public class UserFragment extends Fragment{
+    private MainActivityPresenter mainActivityPresenter;
+    private List<String> list;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.user, container, false);
-        List<String> list = new ArrayList<>();
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
-        list.add(sharedPref.getString("tokenName", getString(R.string.user_name)));
-        list.add(getString(R.string.user_option_bag));
-        list.add(getString(R.string.user_option_logout));
+
+        init();
+
+
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.user_recycler_view);
-        UserTabAdapter adapter = new UserTabAdapter(getActivity(), list);
+        UserTabAdapter adapter = new UserTabAdapter(getActivity(), list, mainActivityPresenter);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;
+    }
+
+    public void init(){
+        //Init presenter
+        mainActivityPresenter = ((MainActivity) getActivity()).getMainPresenter();
+        //Get user to gather info
+        CustomerManager customerManager = new CustomerManagerImpl(iCareApiImpl.getAPI());
+        ModelUser mUser = customerManager.getLocalUserFromPref(mainActivityPresenter.getLocalStorage());
+        //Init options list
+        list = new ArrayList<>();
+        list.add(mUser.getName());
+        list.add(getString(R.string.user_option_bag));
+        list.add(getString(R.string.user_option_logout));
     }
 }

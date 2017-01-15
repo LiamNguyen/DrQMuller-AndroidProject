@@ -80,6 +80,13 @@ public class BookingDetailsActivity extends AppCompatActivity implements Booking
     @Override
     protected void onPostResume() {
         super.onPostResume();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        networkController.registerNetworkReceiver();
         Intent i = getIntent();
         Bundle b = i.getExtras();
         if (b != null){
@@ -104,7 +111,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements Booking
                 }
             }
         }else{
-            if (adapter.getListSize() == 0){
+            if (bookingDetailsActivityPresenter.getNumberOfAppointments() == 0){
                 new AlertDialog.Builder(this)
                         .setMessage(getString(R.string.empty_appointment))
                         .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
@@ -115,12 +122,6 @@ public class BookingDetailsActivity extends AppCompatActivity implements Booking
                         }).setCancelable(false).show();
             }
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        networkController.registerNetworkReceiver();
     }
 
     @Override

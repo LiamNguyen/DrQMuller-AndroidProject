@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.data.manager.impl;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.api.iCareApi;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 
 public class LocationManagerImpl extends AbstractManager implements LocationManager{
-    private String json;
+    private JsonArray jsonArray;
 
     public LocationManagerImpl(iCareApi api){
         super(api);
@@ -30,13 +31,28 @@ public class LocationManagerImpl extends AbstractManager implements LocationMana
     @Override
     public List<DTOLocation> getAllLocationByDistrictId(int id) {
         String data = ConverterToUrlData.convertToUrlData(DistrictManager.DISTRICT_ID_KEY, Integer.toString(id));
-        mApi.sendGetRequest(this, ModelURL.SELECT_LOCATIONS.getUrl(Manager.isUAT), data);
-        return ConverterJsonToDTO.convertJsonToDTOLocation(json);
+        mApi.sendPostRequest(this, ModelURL.SELECT_LOCATIONS.getUrl(Manager.isUAT), data);
+        return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOLocation.class);
     }
 
     @Override
     public void onResponse(String json) {
+        if (json == null){
+            resetResult();
+            return;
+        }
+
         JsonObject jsonObject = ConverterJson.convertJsonToObject(json, JsonObject.class);
-        this.json = jsonObject.get("Select_Locations").getAsString();
+
+        if (jsonObject.has("Select_Locations")) {
+            jsonArray = jsonObject.get("Select_Locations").getAsJsonArray();
+        }else{
+            resetResult();
+        }
+    }
+
+    @Override
+    public void resetResult() {
+        jsonArray = null;
     }
 }

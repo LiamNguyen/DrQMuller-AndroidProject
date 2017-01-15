@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.data.manager.impl;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.api.iCareApi;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 
 public class TypeManagerImpl extends AbstractManager implements TypeManager {
-    private String json;
+    private JsonArray jsonArray;
 
     public TypeManagerImpl(iCareApi api){
         super(api);
@@ -27,12 +28,27 @@ public class TypeManagerImpl extends AbstractManager implements TypeManager {
     @Override
     public List<DTOType> getAllTypes() {
         mApi.sendPostRequest(this, ModelURL.SELECT_TYPES.getUrl(Manager.isUAT), "");
-        return ConverterJsonToDTO.convertJsonToDTOType(json);
+        return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOType.class);
     }
 
     @Override
     public void onResponse(String json) {
+        if (json == null){
+            resetResult();
+            return;
+        }
+
         JsonObject jsonObject = ConverterJson.convertJsonToObject(json, JsonObject.class);
-        this.json = jsonObject.get("Select_Types").getAsString();
+
+        if (jsonObject.has("Select_Types")) {
+            jsonArray = jsonObject.get("Select_Types").getAsJsonArray();
+        }else{
+            resetResult();
+        }
+    }
+
+    @Override
+    public void resetResult() {
+        jsonArray = null;
     }
 }

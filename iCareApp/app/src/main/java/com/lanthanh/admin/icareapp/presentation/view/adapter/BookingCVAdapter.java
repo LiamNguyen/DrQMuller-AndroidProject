@@ -194,6 +194,7 @@ public class BookingCVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public int getListSize(){
-        return list.size();
+        System.out.println(this.list == null);
+        return this.list.size();
     }
 }

@@ -20,6 +20,7 @@ import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
 import com.lanthanh.admin.icareapp.data.manager.TimeManager;
 import com.lanthanh.admin.icareapp.data.manager.impl.AppointmentManagerImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.TimeManagerImpl;
+import com.lanthanh.admin.icareapp.data.manager.impl.WeekDayManagerImpl;
 import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.presentation.converter.TimeComparator;
 import com.lanthanh.admin.icareapp.R;
@@ -79,6 +80,10 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
         //Initialize list adapter
         adapter = new ExpandableListViewAdapter(getActivity(), new ArrayList<String>(), new ArrayList<String>());
         list.setAdapter(adapter);
+
+        bookingBookPresenter.getAllWeekDays();
+        bookingBookPresenter.getAllTime();
+        bookingBookPresenter.getAllEcoTime();
 
         return view;
     }
@@ -159,11 +164,10 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
     public void init(){
         //Init presenter
         mainActivityPresenter = ((MainActivity)getActivity()).getMainPresenter();
-        bookingBookPresenter = new BookingBookPresenterImpl(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this, mainActivityPresenter.getDTOAppointment());
+        bookingBookPresenter = new BookingBookPresenterImpl(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this, mainActivityPresenter.getDTOAppointment(),
+                new TimeManagerImpl(iCareApiImpl.getAPI()), new AppointmentManagerImpl(iCareApiImpl.getAPI()), new WeekDayManagerImpl(iCareApiImpl.getAPI()));
         //Create time comparator
         timeComparator = new TimeComparator();
-        timeManager = new TimeManagerImpl(iCareApiImpl.getAPI());
-        appointmentManager = new AppointmentManagerImpl(iCareApiImpl.getAPI());
     }
 
     @Override
@@ -202,7 +206,7 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
     @Override
     public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long groupId) {
         if (!list.isGroupExpanded(groupPosition)) {
-            bookingBookPresenter.getSelectedTime(adapter.getGroup(groupPosition), timeManager);
+            bookingBookPresenter.getSelectedTime(adapter.getGroup(groupPosition));
         }
 
         return false;
@@ -215,7 +219,7 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
             return false;
         }
 
-        bookingBookPresenter.onTimeSelected(adapter.getGroup(groupPosition), adapter.getChild(groupPosition, childPosition), appointmentManager);
+        bookingBookPresenter.onTimeSelected(adapter.getGroup(groupPosition), adapter.getChild(groupPosition, childPosition));
 
         list.collapseGroup(groupPosition);
 

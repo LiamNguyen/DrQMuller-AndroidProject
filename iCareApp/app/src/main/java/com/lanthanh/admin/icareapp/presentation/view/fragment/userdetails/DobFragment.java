@@ -31,7 +31,7 @@ public class DobFragment extends DialogFragment implements DatePicker.OnDateChan
     private String date;
 
     public DobFragment(){
-        userDetailsActivityPresenter = ((UserDetailsActivity) getActivity()).getMainPresenter();
+
         isChecked = false;
     }
 
@@ -46,6 +46,7 @@ public class DobFragment extends DialogFragment implements DatePicker.OnDateChan
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        userDetailsActivityPresenter = ((UserDetailsActivity) getActivity()).getMainPresenter();
         return inflater.inflate(R.layout.userdetails_dob, container);
     }
 

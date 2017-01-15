@@ -2,6 +2,7 @@ package com.lanthanh.admin.icareapp.presentation.presenter;
 
 import android.app.Activity;
 
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -43,4 +44,6 @@ public interface MainActivityPresenter extends Presenter{
     void navigateToBookingDetailsActivity();
     void insertAppointment();
     void validateAppointment();
+    void clearLocalStorage();
+    SharedPreferences getLocalStorage();
 }

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
 
 import java.util.List;
@@ -27,12 +28,14 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Activity ctx;
     private Typeface fontName;
     private Typeface fontNorm;
+    private MainActivityPresenter mainActivityPresenter;
 
-    public UserTabAdapter(Activity context, List<String> list){
+    public UserTabAdapter(Activity context, List<String> list, MainActivityPresenter mainActivityPresenter){
         ctx = context;
         this.list = list;
         this.fontName = Typeface.createFromAsset(ctx.getAssets(), "fonts/OpenSans-Bold.ttf");//Custom font
         this.fontNorm = Typeface.createFromAsset(ctx.getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        this.mainActivityPresenter = mainActivityPresenter;
     }
 
     @Override
@@ -71,7 +74,7 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((HeaderViewHolder) holder).getTxtDetail().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((MainActivity) ctx).navigateToUserDetails();
+                    mainActivityPresenter.navigateToUserDetailsActivity();
                 }
             });
         }else{
@@ -81,7 +84,7 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((BodyViewHolder) holder).getView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ((MainActivity) ctx).navigateToBookingDetails();
+                        mainActivityPresenter.navigateToBookingDetailsActivity();
                     }
                 });
             }else  if (position == 2){
@@ -89,12 +92,8 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((BodyViewHolder) holder).getView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SharedPreferences preferences = ctx.getSharedPreferences("content", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.clear();
-                        editor.apply();
-                        editor.commit();
-                        ((MainActivity) ctx).navigateToRegister();
+                        mainActivityPresenter.clearLocalStorage();
+                        mainActivityPresenter.navigateToRegisterActivity();
                     }
                 });
             }

@@ -50,12 +50,24 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     private List<DTOVoucher> voucherList;
     private List<DTOType> typeList;
     private Calendar startDate, expireDate;
-    private String selectedType, selectedVoucher;
+    private CountryManager countryManager;
+    private CityManager cityManager;
+    private DistrictManager districtManager;
+    private LocationManager locationManager;
+    private VoucherManager voucherManager;
+    private TypeManager typeManager;
 
-    public BookingSelectPresenterImpl(Executor executor, MainThread mainThread, View view, DTOAppointment dtoAppointment){
+    public BookingSelectPresenterImpl(Executor executor, MainThread mainThread, View view, DTOAppointment dtoAppointment,
+    CountryManager countryManager, CityManager cityManager, DistrictManager districtManager, LocationManager locationManager, VoucherManager voucherManager, TypeManager typeManager){
         super(executor, mainThread);
         mView = view;
         this.dtoAppointment = dtoAppointment;
+        this.countryManager = countryManager;
+        this.cityManager = cityManager;
+        this.districtManager = districtManager;
+        this.locationManager = locationManager;
+        this.voucherManager = voucherManager;
+        this.typeManager = typeManager;
     }
 
     @Override
@@ -64,7 +76,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     }
     /*========================== COUNTRY ==========================*/
     @Override
-    public void getAllCountries(CountryManager countryManager) {
+    public void getAllCountries() {
         GetAllCountriesInteractor getAllCountriesInteractor = new GetAllCountriesInteractorImpl(mExecutor, mMainThread, this, countryManager);
         getAllCountriesInteractor.execute();
     }
@@ -82,6 +94,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     @Override
     public void onAllCountriesReceive(List<DTOCountry> countryList) {
         this.countryList = countryList;
+        System.out.println("test " + countryList.get(1));
         List<String> list = ConverterForDisplay.convertToStringList(countryList);
         mView.updateCountryList(list);
     }
@@ -104,7 +117,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
 
     /*========================== CITY ==========================*/
     @Override
-    public void getAllCitiesByCountry(String country, CityManager cityManager) {
+    public void getAllCitiesByCountry(String country) {
         int id = getCountry(country).getId();
         if (id <= 0){
             onError("No id found for this country");
@@ -148,7 +161,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
 
     /*========================== DISTRICT ==========================*/
     @Override
-    public void getAllDistrictsByCity(String city, DistrictManager districtManager) {
+    public void getAllDistrictsByCity(String city) {
         int id = getCity(city).getId();
         if (id <= 0){
             onError("No id found for this city");
@@ -192,7 +205,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
 
     /*========================== LOCATION ==========================*/
     @Override
-    public void getAllLocationsByDistrict(String district, LocationManager locationManager) {
+    public void getAllLocationsByDistrict(String district) {
         int id = getDistrict(district).getId();
         if (id <= 0){
             onError("No id found for this district");
@@ -214,6 +227,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     @Override
     public void onAllLocationsReceive(List<DTOLocation> locationList) {
         this.locationList = locationList;
+        System.out.println(locationList.get(0));
         List<String> list = ConverterForDisplay.convertToStringList(locationList);
         mView.updateLocationList(list);
     }
@@ -236,7 +250,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
 
     /*========================== VOUCHER ==========================*/
     @Override
-    public void getAllVouchers(VoucherManager voucherManager) {
+    public void getAllVouchers() {
         GetAllVouchersInteractor getAllVouchersInteractor = new GetAllVouchersInteractorImpl(mExecutor, mMainThread, this, voucherManager);
         getAllVouchersInteractor.execute();
     }
@@ -253,6 +267,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     @Override
     public void onAllVouchersReceive(List<DTOVoucher> voucherList) {
         this.voucherList = voucherList;
+        System.out.println(voucherList.get(0).getVoucherName());
         List<String> list = ConverterForDisplay.convertToStringList(voucherList);
         mView.updateVoucherList(list);
     }
@@ -265,23 +280,18 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     //Add voucher when a voucher is selected from View
     @Override
     public void onVoucherSelect(String voucher) {
-        if (selectedVoucher == null)
-            selectedVoucher = voucher;
-
-        if (!selectedVoucher.equals(voucher)) {
-            DTOVoucher dtoVoucher = getVoucher(voucher);
-            if (dtoVoucher == null) {
-                onError("No id found for this voucher");
-                return;
-            }
-            dtoAppointment.setVoucher(dtoVoucher);
-            mView.onTypeChange();
+        DTOVoucher dtoVoucher = getVoucher(voucher);
+        if (dtoVoucher == null) {
+            onError("No id found for this voucher");
+            return;
         }
+        dtoAppointment.setVoucher(dtoVoucher);
+        mView.onVoucherChange();
     }
 
     /*========================== TYPE ==========================*/
     @Override
-    public void getAllTypes(TypeManager typeManager) {
+    public void getAllTypes() {
         GetAllTypesInteractor getAllTypesInteractor = new GetAllTypesInteractorImpl(mExecutor, mMainThread, this, typeManager);
         getAllTypesInteractor.execute();
     }
@@ -310,19 +320,14 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     //Add type when a type is selected from View
     @Override
     public void onTypeSelect(String type) {
-        if (selectedType == null)
-            selectedType = type;
-
-        if (!selectedType.equals(type)) {
-            DTOType dtoType = getType(type);
-            if (dtoType == null) {
-                onError("No id found for this type");
-                return;
-            }
-            dtoAppointment.setType(dtoType);
-            resetStartDate();
-            resetExpireDate();
+        DTOType dtoType = getType(type);
+        if (dtoType == null) {
+            onError("No id found for this type");
+            return;
         }
+        dtoAppointment.setType(dtoType);
+        resetStartDate();
+        resetExpireDate();
     }
 
     /*========================== DATE ==========================*/
@@ -335,8 +340,12 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     public void onExpireDatePickerClick() {
         if (this.startDate == null)
             mView.showExpireDatePicker(Calendar.getInstance());
-        else
-            mView.showExpireDatePicker(this.startDate);
+        else {
+            Calendar minDate = Calendar.getInstance();
+            minDate.setTime(this.startDate.getTime());
+            minDate.add(Calendar.DATE, 1);
+            mView.showExpireDatePicker(minDate);
+        }
     }
 
     //Add start date when start date is selected from View
@@ -368,7 +377,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
          *If new start date is after old expire date, reset expire date
          */
         if (this.expireDate != null) {
-            if (this.startDate.compareTo(this.expireDate) > 0) {
+            if (this.startDate.compareTo(this.expireDate) >= 0) {
                 this.expireDate = null;
                 mView.updateExpireDate(null);
             }
@@ -406,7 +415,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
                 return;
             }
         }else {
-            if (expireDate.compareTo(this.startDate) >= 0) {
+            if (expireDate.compareTo(this.startDate) > 0) {
                 this.expireDate = expireDate;
             } else {
                 mView.showError("Ngày được chọn không phù hợp");
@@ -423,13 +432,19 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     public void resetExpireDate() {
         this.startDate = null;
         dtoAppointment.setStartDate(null);
-        mView.updateStartDate(null);
+        //mView.updateStartDate(null);
     }
 
     @Override
     public void resetStartDate() {
         this.expireDate = null;
         dtoAppointment.setExpireDate(null);
-        mView.updateExpireDate(null);
+        //mView.updateExpireDate(null);
+    }
+
+    /*==================================================================*/
+    @Override
+    public boolean isAllInfoFiiled() {
+        return dtoAppointment.isSelectFilled();
     }
 }

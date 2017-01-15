@@ -1,5 +1,8 @@
 package com.lanthanh.admin.icareapp.data.manager;
 
+import android.content.SharedPreferences;
+
+import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.data.manager.base.Manager;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 
@@ -26,4 +29,7 @@ public interface CustomerManager extends Manager {
     int     getCustomerId(String username);
     boolean updateCustomer(ModelUser user);
     boolean updateCustomerPassword(String username, String password);
+    ModelUser getLocalUserFromPref(SharedPreferences sharedPreferences);
+    void saveLocalUserToPref(SharedPreferences sharedPreferences, ModelUser user);
+    void resetResult();
 }

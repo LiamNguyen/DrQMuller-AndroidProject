@@ -36,11 +36,7 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
 
     public AppointmentManagerImpl(iCareApi api){
         super(api);
-        insertAppointmentResult = false;
-        insertTempBookingResult = false;
-        removeTempBookingResult = false;
-        updateAppointmentResult = false;
-        validateAppointmentResult = false;
+        resetResult();
     }
 
     @Override
@@ -127,6 +123,11 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
 
     @Override
     public void onResponse(String json) {
+        if (json == null){
+            resetResult();
+            return;
+        }
+
         JsonObject jsonObject = ConverterJson.convertJsonToObject(json, JsonObject.class);
 
         if (jsonObject.has("Insert_NewAppointment")){
@@ -164,6 +165,16 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
             }else{
                 validateAppointmentResult = false;
             }
-        }
+        }else
+            resetResult();
+    }
+
+    @Override
+    public void resetResult() {
+        insertAppointmentResult = false;
+        insertTempBookingResult = false;
+        removeTempBookingResult = false;
+        updateAppointmentResult = false;
+        validateAppointmentResult = false;
     }
 }

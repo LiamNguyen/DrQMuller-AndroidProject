@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import com.google.gson.JsonArray;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
 import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
+import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.data.manager.SendEmailManager;
 import com.lanthanh.admin.icareapp.domain.interactor.InsertAppointmentInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.RemoveTemporaryBookingInteractor;
@@ -45,6 +46,7 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
     private FragmentManager fragmentManager;
     private AppointmentManager appointmentManager;
     private SendEmailManager sendEmailManager;
+    private CustomerManager customerManager;
     private SharedPreferences sharedPreferences;
     private DTOAppointment appointment;
     //Fragments
@@ -53,12 +55,13 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
     private UserFragment userFragment;
 
     public MainActivityPresenterImpl(SharedPreferences sharedPreferences, Executor executor, MainThread mainThread, View view,
-                                     FragmentManager fragmentManager, AppointmentManager appointmentManager, SendEmailManager sendEmailManager){
+                                     FragmentManager fragmentManager, AppointmentManager appointmentManager, SendEmailManager sendEmailManager, CustomerManager customerManager){
         super(executor, mainThread);
         this.mView = view;
         this.fragmentManager = fragmentManager;
         this.appointmentManager = appointmentManager;
         this.sendEmailManager = sendEmailManager;
+        this.customerManager = customerManager;
         this.sharedPreferences = sharedPreferences;
         init();
     }
@@ -79,6 +82,8 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
     public void navigateTab(int selected) {
         if (selected == MainActivity.BOOKTAB)
             mView.showFragment(fragmentManager, bookingSelectFragment, getVisibleFragments());
+        else if (selected == MainActivity.BOOKTAB_BOOK)
+            mView.showFragment(fragmentManager, bookingBookFragment, getVisibleFragments());
         else if (selected == MainActivity.USERTAB)
             mView.showFragment(fragmentManager, userFragment, getVisibleFragments());
     }
@@ -169,7 +174,8 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
 
     @Override
     public boolean checkPrivilege() {
-        return mUser.getID() != 0 && mUser.getActive() != 0;
+        mUser = customerManager.getLocalUserFromPref(sharedPreferences);
+        return mUser != null && mUser.getID() != 0 && mUser.getActive() != 0;
     }
 
     @Override
@@ -237,5 +243,18 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
         appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, jsonAppointments);
         //reset appointment
         appointment = new DTOAppointment();
+    }
+
+    @Override
+    public void clearLocalStorage() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        editor.commit();
+    }
+
+    @Override
+    public SharedPreferences getLocalStorage() {
+        return sharedPreferences;
     }
 }

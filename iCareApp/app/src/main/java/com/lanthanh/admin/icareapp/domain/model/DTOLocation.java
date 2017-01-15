@@ -6,18 +6,18 @@ package com.lanthanh.admin.icareapp.domain.model;
 
 public class DTOLocation {
     private int LOCATION_ID;
-    private String LOCATION_NAME;
+    private String ADDRESS;
 
     public int getId(){
         return LOCATION_ID;
     }
 
     public String getLocationName(){
-        return LOCATION_NAME;
+        return ADDRESS;
     }
 
     @Override
     public String toString() {
-        return LOCATION_NAME;
+        return ADDRESS;
     }
 }

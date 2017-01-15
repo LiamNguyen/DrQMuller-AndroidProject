@@ -60,7 +60,7 @@ public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter imple
 
         //Update local appointment that have the same verification code
         for (int i = 0; i < jsonAppointments.size(); i++){
-            DTOAppointment appointment = ConverterJson.convertJsonToObject(jsonAppointments.get(i), DTOAppointment.class);
+            DTOAppointment appointment = ConverterJson.convertGsonObjectToObject(jsonAppointments.get(i), DTOAppointment.class);
             if (appointment.getVerficationCode().equals(verificationCode)) {
                 appointment.setStatus(true);
                 break;
