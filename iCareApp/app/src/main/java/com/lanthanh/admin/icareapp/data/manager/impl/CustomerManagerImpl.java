@@ -2,7 +2,6 @@ package com.lanthanh.admin.icareapp.data.manager.impl;
 
 import android.content.SharedPreferences;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.api.iCareApi;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
@@ -72,14 +71,16 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
     @Override
     public boolean updateCustomer(ModelUser user) {
         String data = ConverterToUrlData.convertToUrlData(
-                ConverterToUrlData.getKeys("name", CustomerManager.CUSTOMER_ADDRESS_KEY,
+                ConverterToUrlData.getKeys(CustomerManager.CUSTOMER_ID_KEY_2,
+                                           CustomerManager.CUSTOMER_NAME_KEY, CustomerManager.CUSTOMER_ADDRESS_KEY,
                                            CustomerManager.CUSTOMER_DOB_KEY, CustomerManager.CUSTOMER_GENDER_KEY,
                                            CustomerManager.CUSTOMER_EMAIL_KEY, CustomerManager.CUSTOMER_PHONE_KEY,
                                            CustomerManager.CUSTOMER_UPDATE_DATE),
-                ConverterToUrlData.getValues(user.getName(), user.getAddress(),
+                ConverterToUrlData.getValues(Integer.toString(user.getID()),
+                                             user.getName(), user.getAddress(),
                                              user.getDOB(), user.getGender(),
                                              user.getEmail(), user.getPhone(),
-                                             ConverterToUrlData.covertDateForDB(Calendar.getInstance().getTime()))
+                                             ConverterToUrlData.convertDateForDB(Calendar.getInstance().getTime()))
         );
         mApi.sendPostRequest(this, ModelURL.UPDATE_CUSTOMERINFO.getUrl(Manager.isUAT), data);
         return updateCusResult;
@@ -136,7 +137,7 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
             else
                 this.newCusResult = false;
         }else if (jsonObject.has("Select_NumberOfCustomers")){
-            int result = jsonObject.get("Insert_NewCustomer").getAsInt();
+            int result = jsonObject.get("Select_NumberOfCustomers").getAsInt();
             if (result == -1)
                 this.getIdResult = 0;
             else

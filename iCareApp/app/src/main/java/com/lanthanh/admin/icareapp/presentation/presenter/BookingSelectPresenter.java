@@ -32,11 +32,12 @@ public interface BookingSelectPresenter extends Presenter {
         void updateLocationList(List<String> list);
         void updateVoucherList(List<String> list);
         void updateTypeList(List<String> list);
-        void updateStartDate(String startDate);
-        void updateExpireDate(String expireDate);
+        void displayStartDate(String startDate);
+        void displayExpireDate(String expireDate);
         void showStartDatePicker(Calendar calendar);
         void showExpireDatePicker(Calendar calendar);
         void onVoucherChange();
+        void onTypeChange();
     }
 
     void getAllCountries();

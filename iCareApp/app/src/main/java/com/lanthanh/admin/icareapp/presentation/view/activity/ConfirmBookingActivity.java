@@ -89,7 +89,7 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                navigateToBookingDetailsActivity();
+                navigateToBookingDetailsActivity(0);
                 return true;
         }
 
@@ -107,9 +107,9 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
     }
 
     @Override
-    public void navigateToBookingDetailsActivity() {
+    public void navigateToBookingDetailsActivity(int extra) {
         Intent toDetails = new Intent(this, BookingDetailsActivity.class);
-        toDetails.putExtra("isBookingSuccess", 0);
+        toDetails.putExtra("isBookingSuccess", extra);
         startActivity(toDetails);
         finish();
     }
@@ -133,7 +133,7 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onBackPressed() {
-        navigateToBookingDetailsActivity();
+        navigateToBookingDetailsActivity(0);
     }
 
     @Override

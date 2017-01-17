@@ -36,7 +36,7 @@ public class ConverterToUrlData {
         return result.toString();
     }
 
-    public static String covertDateForDB(Date date){
+    public static String convertDateForDB(Date date){
         String myFormat = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
         return sdf.format(date);

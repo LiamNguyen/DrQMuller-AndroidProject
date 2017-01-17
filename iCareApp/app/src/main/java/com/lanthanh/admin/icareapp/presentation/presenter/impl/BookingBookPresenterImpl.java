@@ -25,6 +25,8 @@ import com.lanthanh.admin.icareapp.presentation.presenter.base.AbstractPresenter
 import com.lanthanh.admin.icareapp.threading.MainThread;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,8 +39,8 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     private BookingBookPresenter.View mView;
     private DTOAppointment dtoAppointment;
     private List<DTOTime> timeList, ecoTimeList, selectedTimeList;
-    private List<DTOWeekDay> weekDayList;
-    private List<String> vipDays, ecoDays, vipTime, ecoTime, selectedTime;
+    private List<DTOWeekDay> weekDaysList;
+    private List<String> vipDays, ecoDays, vipTime, ecoTime, selectedTime, singleDay;
     private TimeManager timeManager;
     private AppointmentManager appointmentManager;
     private WeekDayManager weekDayManager;
@@ -60,6 +62,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
         vipTime = new ArrayList<>();
         ecoTime = new ArrayList<>();
         selectedTime = new ArrayList<>();
+        singleDay = new ArrayList<>();
     }
 
     @Override
@@ -75,10 +78,17 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
 
     @Override
     public void refreshAvailableDays() {
-        if (dtoAppointment.getVoucherId() == 1)
-            mView.setAvailableDay(ecoDays);
-        else
-            mView.setAvailableDay(vipDays);
+        if (dtoAppointment.getTypeId() == 2){
+            singleDay.clear();
+            singleDay.add(getDayOfWeek(dtoAppointment.getExpireDate()) + "\n" + ConverterForDisplay.convertDateToDisplay(dtoAppointment.getExpireDate()));
+            System.out.println("testing " + getDayOfWeek(dtoAppointment.getExpireDate()));
+            mView.setAvailableDay(singleDay);
+        }else {
+            if (dtoAppointment.getVoucherId() == 1)
+                mView.setAvailableDay(ecoDays);
+            else
+                mView.setAvailableDay(vipDays);
+        }
     }
 
     @Override
@@ -123,7 +133,6 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
             if (!selectedTime.contains(s))
                 result.add(s);
         }
-        System.out.println("test 2 " + result);
         return result;
     }
 
@@ -137,7 +146,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     @Override
     public void onEcoTimeFound(List<DTOTime> ecoTimeList) {
         this.ecoTimeList = ecoTimeList;
-        ecoTime = ConverterForDisplay.convertToStringList(ecoTimeList);
+        ecoTime = ConverterForDisplay.convertToStringList(this.ecoTimeList);
     }
 
     @Override
@@ -154,7 +163,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
 
     @Override
     public void onAllWeekDaysReceive(List<DTOWeekDay> weekDayList) {
-        this.weekDayList = weekDayList;
+        this.weekDaysList = weekDayList;
         //Get week days for VIP voucher
         vipDays = ConverterForDisplay.convertToStringList(weekDayList);
         //Get week days for ECO voucher
@@ -167,7 +176,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
 
     @Override
     public int getDayId(String day) {
-        for (DTOWeekDay dtoWeekDay: weekDayList){
+        for (DTOWeekDay dtoWeekDay: weekDaysList){
             if (dtoWeekDay.getDayName().equals(day))
                 return dtoWeekDay.getId();
         }
@@ -179,9 +188,43 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
         mView.showError("No week day found");
     }
 
+    @Override
+    public String getDayOfWeek(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        String dayOfWeek = null;
+        switch (calendar.get(Calendar.DAY_OF_WEEK)){
+            case Calendar.MONDAY:
+                dayOfWeek = weekDaysList.get(0).getDayName();
+                break;
+            case Calendar.TUESDAY:
+                dayOfWeek = weekDaysList.get(1).getDayName();
+                break;
+            case Calendar.WEDNESDAY:
+                dayOfWeek = weekDaysList.get(2).getDayName();
+                break;
+            case Calendar.THURSDAY:
+                dayOfWeek = weekDaysList.get(3).getDayName();
+                break;
+            case Calendar.FRIDAY:
+                dayOfWeek = weekDaysList.get(4).getDayName();
+                break;
+            case Calendar.SATURDAY:
+                dayOfWeek = weekDaysList.get(5).getDayName();
+                break;
+            case Calendar.SUNDAY:
+                dayOfWeek = weekDaysList.get(6).getDayName();
+                break;
+        }
+        return dayOfWeek;
+    }
+
     /*========================= SELECTED TIME =========================*/
     @Override
     public void getSelectedTime(String day) {
+        if (dtoAppointment.getTypeId() == 2){
+            day = day.substring(0, day.indexOf("\n"));
+        }
         int id = getDayId(day);
         if (id == -1){
             onError("No id found for this day");
@@ -194,8 +237,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     @Override
     public void onSelectedTimeReceive(List<DTOTime> selectedTimeList) {
         this.selectedTimeList = selectedTimeList;
-        selectedTime = ConverterForDisplay.convertToStringList(selectedTimeList);
-        System.out.println("test " + selectedTime);
+        selectedTime = ConverterForDisplay.convertToStringList(this.selectedTimeList);
         refreshAvailableTime();
     }
 
@@ -207,6 +249,9 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     /*========================= BOOKING =========================*/
     @Override
     public void onTimeSelected(String day, String time) {
+        if (dtoAppointment.getTypeId() == 2){
+            day = day.substring(0, day.indexOf("\n"));
+        }
         int dayId = getDayId(day);
         int timeId = getTimeId(time);
         if (dayId == -1 || timeId == -1){

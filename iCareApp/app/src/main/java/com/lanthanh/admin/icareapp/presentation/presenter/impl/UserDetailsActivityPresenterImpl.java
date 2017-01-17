@@ -140,7 +140,7 @@ public class UserDetailsActivityPresenterImpl extends AbstractPresenter implemen
     @Override
     public void onUpdateCustomerSuccess() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("user", ConverterJson.convertToJson(mUser));
+        editor.putString("user", ConverterJson.convertObjectToJson(mUser));
         editor.apply();
         editor.commit();
         mView.refreshViews();

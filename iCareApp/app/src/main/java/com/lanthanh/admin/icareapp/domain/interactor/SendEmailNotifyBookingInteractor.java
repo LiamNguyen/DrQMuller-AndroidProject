@@ -8,7 +8,7 @@ import com.lanthanh.admin.icareapp.domain.interactor.base.Interactor;
 
 public interface SendEmailNotifyBookingInteractor extends Interactor{
     interface Callback{
-        void onEmailSent();
-        void onEmailNotSent();
+        void onEmailNotifyBookingSent();
+        void onEmailNotifyBookingNotSent();
     }
 }

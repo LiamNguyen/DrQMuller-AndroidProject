@@ -96,10 +96,10 @@ public class GenderFragment extends DialogFragment implements RadioGroup.OnCheck
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
         switch (checkedId){
-            case R.id.ui_male:
-                userDetailsActivityPresenter.setEmail("Male");
+            case R.id.ud_male:
+                userDetailsActivityPresenter.setGender("Male");
                 break;
-            case R.id.ui_female:
+            case R.id.ud_female:
                 userDetailsActivityPresenter.setGender("Female");
             default:
                 break;

@@ -18,24 +18,20 @@ import java.util.List;
 public class ConverterJson {
     private static Gson gson = new Gson();
 
-    public static String convertToJson(Object o){
-        return gson.toJson(o);
-    }
-
     public static <T> T convertJsonToObject(String json, Class<T> classOfT){
         return gson.fromJson(json, classOfT);
+    }
+
+    public static <T> T convertJsonToObject(String json, Type typeOfT){
+        return gson.fromJson(json, typeOfT);
     }
 
     public static <T> T convertGsonObjectToObject(JsonElement json, Class<T> classOfT){
         return gson.fromJson(json, classOfT);
     }
 
-    public static <T> String convertObjectToJson(T objectOfT, Class<T> classOfT){
-        return gson.toJson(objectOfT, classOfT);
-    }
-
     public static <T> List<T> convertGsonObjectToObjectList(JsonArray jsonArray, Class<T> classOfT){
-        if (jsonArray == null)
+        if (jsonArray == null || jsonArray.size() == 0)
             return null;
 
         List<T> resultList = new ArrayList<>();
@@ -45,5 +41,13 @@ public class ConverterJson {
             resultList.add(objectT);
         }
         return resultList;
+    }
+
+    public static <T> String convertObjectToJson(T objectOfT, Class<T> classOfT){
+        return gson.toJson(objectOfT, classOfT);
+    }
+
+    public static <T> String convertObjectToJson(T objectOfT){
+        return gson.toJson(objectOfT);
     }
 }

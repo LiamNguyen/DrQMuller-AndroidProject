@@ -187,7 +187,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
     @Override
     public void showError(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM, 0, 1000);
+        toast.setGravity(Gravity.BOTTOM, 0, 200);
         toast.show();
     }
 

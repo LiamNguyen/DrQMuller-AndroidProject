@@ -4,6 +4,7 @@ import com.lanthanh.admin.icareapp.data.manager.SendEmailManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
 import com.lanthanh.admin.icareapp.domain.interactor.SendEmailNotifyBookingInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.base.AbstractInteractor;
+import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.threading.MainThread;
 
 /**
@@ -13,15 +14,32 @@ import com.lanthanh.admin.icareapp.threading.MainThread;
 public class SendEmailNotifyBookingInteractorImpl extends AbstractInteractor implements SendEmailNotifyBookingInteractor {
     private SendEmailNotifyBookingInteractor.Callback mCallback;
     private SendEmailManager mSendEmailManager;
+    private DTOAppointment dtoAppointment;
 
-    public SendEmailNotifyBookingInteractorImpl(Executor executor, MainThread mainThread, Callback callback, SendEmailManager sendEmailManager){
+    public SendEmailNotifyBookingInteractorImpl(Executor executor, MainThread mainThread, Callback callback, SendEmailManager sendEmailManager, DTOAppointment dtoAppointment){
         super(executor, mainThread);
         mCallback = callback;
         mSendEmailManager = sendEmailManager;
+        this.dtoAppointment = dtoAppointment;
     }
 
     @Override
     public void run() {
-
+        boolean result = mSendEmailManager.sendEmailNotifyBooking(dtoAppointment);
+        if (result){
+            mMainThread.post(new Runnable() {
+                @Override
+                public void run() {
+                    mCallback.onEmailNotifyBookingSent();
+                }
+            });
+        }else {
+            mMainThread.post(new Runnable() {
+                @Override
+                public void run() {
+                    mCallback.onEmailNotifyBookingNotSent();
+                }
+            });
+        }
     }
 }

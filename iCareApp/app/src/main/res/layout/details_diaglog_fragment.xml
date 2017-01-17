@@ -23,7 +23,7 @@
         <TextView
             android:id="@+id/name"
             android:textColor="@color/colorLightBlack"
-            android:textSize="20sp"
+            android:textSize="19sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/nametitle"/>
@@ -41,7 +41,7 @@
         <TextView
             android:id="@+id/address"
             android:textColor="@color/colorLightBlack"
-            android:textSize="20sp"
+            android:textSize="19sp"
             android:layout_below="@+id/addresstitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorLightBlack"
-            android:textSize="20sp"/>
+            android:textSize="19sp"/>
 
         <TextView
             android:id="@+id/typetitle"
@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorLightBlack"
-            android:textSize="20sp"/>
+            android:textSize="19sp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorLightBlack"
-            android:textSize="20sp"
+            android:textSize="19sp"
             android:id="@+id/startdate" />
 
         <TextView
@@ -117,7 +117,7 @@
             android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="19sp"
             android:textColor="@color/colorLightBlack"/>
 
         <TextView
@@ -135,7 +135,7 @@
             android:layout_below="@+id/appointmenttitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="19sp"
             android:textColor="@color/colorLightBlack"/>
 
         <TextView
@@ -143,7 +143,7 @@
             android:layout_below="@+id/appointment_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="19sp"
             android:visibility="gone"
             android:textColor="@color/colorLightBlack"/>
 
@@ -152,7 +152,7 @@
             android:layout_below="@+id/appointment_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="19sp"
             android:visibility="gone"
             android:textColor="@color/colorLightBlack"/>
 
@@ -171,7 +171,7 @@
             android:layout_below="@+id/codetitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="19sp"
             android:textColor="@color/colorLightBlack"/>
 
         <android.support.v7.widget.AppCompatButton
@@ -180,7 +180,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/confirm_code"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="15dp"
             android:textColor="@color/colorWhite"
             android:background="@drawable/button_style"
             android:textSize="18sp"

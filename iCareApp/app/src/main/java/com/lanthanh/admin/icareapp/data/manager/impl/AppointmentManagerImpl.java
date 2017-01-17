@@ -2,9 +2,8 @@ package com.lanthanh.admin.icareapp.data.manager.impl;
 
 import android.content.SharedPreferences;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.lanthanh.admin.icareapp.api.iCareApi;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
 import com.lanthanh.admin.icareapp.data.converter.ConverterToUrlData;
@@ -21,6 +20,7 @@ import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.domain.model.ModelURL;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -64,14 +64,13 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
                                      AppointmentManager.VERIFICATIONCODE_KEY),
         ConverterToUrlData.getValues(Integer.toString(dtoAppointment.getCustomerId()), Integer.toString(dtoAppointment.getLocationId()),
                                      Integer.toString(dtoAppointment.getVoucherId()),  Integer.toString(dtoAppointment.getTypeId()),
-                                     ConverterToUrlData.covertDateForDB(dtoAppointment.getStartDate()), ConverterToUrlData.covertDateForDB(dtoAppointment.getExpireDate()),
+                                     ConverterToUrlData.convertDateForDB(dtoAppointment.getStartDate()), ConverterToUrlData.convertDateForDB(dtoAppointment.getExpireDate()),
                                      dtoAppointment.getVerficationCode())
         );
         mApi.sendPostRequest(this, ModelURL.INSERT_NEWAPPOINTMENT.getUrl(Manager.isUAT), data);
-        if (insertAppointmentResult){
-            insertAppointmentSchedule(dtoAppointment);
-        }
-
+//        if (insertAppointmentResult){
+//            insertAppointmentSchedule(dtoAppointment);
+//        }
         return insertAppointmentResult;
     }
 
@@ -104,19 +103,15 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
     }
 
     @Override
-    public JsonArray getLocalAppointmentsFromPref(SharedPreferences sharedPreferences) {
-        JsonArray jsonAppointments;
-        if (!sharedPreferences.getString("appointments", "").isEmpty())
-            jsonAppointments = ConverterJson.convertJsonToObject(sharedPreferences.getString("appointments", ""), JsonArray.class);
-        else
-            jsonAppointments = new JsonArray();
-        return jsonAppointments;
+    public List<DTOAppointment> getLocalAppointmentsFromPref(SharedPreferences sharedPreferences) {
+        Type listType = new TypeToken<List<DTOAppointment>>(){}.getType();
+        return ConverterJson.convertJsonToObject(sharedPreferences.getString("appointments", ""), listType);
     }
 
     @Override
-    public void saveLocalAppointmentsToPref(SharedPreferences sharedPreferences, JsonArray jsonAppointments) {
+    public void saveLocalAppointmentsToPref(SharedPreferences sharedPreferences, List<DTOAppointment> appointments) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("appointments", ConverterJson.convertObjectToJson(jsonAppointments, JsonArray.class));
+        editor.putString("appointments", ConverterJson.convertObjectToJson(appointments));
         editor.apply();
         editor.commit();
     }
@@ -145,7 +140,7 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
                 insertTempBookingResult = false;
             }
         }else if (jsonObject.has("Update_UnchosenTime")){
-            String result = jsonObject.get("BookingTransaction").getAsString();
+            String result = jsonObject.get("Update_UnchosenTime").getAsString();
             if (result.equals("Updated")) {
                 removeTempBookingResult = true;
             }else {

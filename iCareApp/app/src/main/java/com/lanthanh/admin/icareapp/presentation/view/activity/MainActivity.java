@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private MainActivityPresenter mMainPresenter;
     private Drawable cartIcon;
     private ListPopupWindow popupWindow;
+    private ListPopupWindowAdapter popupAdapter;
+    private MenuItem cart;
+    private View removedItem;
     private List<String> cartList;
     private BottomNavigationView bottomNavigationView;
 
@@ -154,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
 
         //Attach PopUpWindow to Cart
-        MenuItem cart = menu.findItem(R.id.shopping_cart);
+        cart = menu.findItem(R.id.shopping_cart);
         View v = cart.getActionView();
         createPopUpWindow(v);
 
@@ -166,11 +169,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (cartList.size() > 0) {
-            ActionItemBadge.update(this, menu.findItem(R.id.shopping_cart), cartIcon, ActionItemBadge.BadgeStyles.RED, cartList.size());
-        }else {
-            ActionItemBadge.update(this, menu.findItem(R.id.shopping_cart), cartIcon, ActionItemBadge.BadgeStyles.RED, Integer.MIN_VALUE);
-        }
+        refreshCartIcon();
         return true;
     }
 
@@ -189,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     //Create shopping cart window
     public void createPopUpWindow(View v){
         int width, height;
-        //Get screen width to put PopUpWindow to the left-most
+        //Get screen width to put PopUpWindow to the right-most
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         width = displaymetrics.widthPixels;
@@ -200,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         height = (int) styledAttributes.getDimension(0, 0);
         //Create PopUpWindow
         popupWindow = new ListPopupWindow(this);
-        ListPopupWindowAdapter popupAdapter = new ListPopupWindowAdapter(this, R.layout.activity_popup_item, cartList);
+        popupAdapter = new ListPopupWindowAdapter(this, R.layout.activity_popup_item, cartList);
         popupWindow.setAdapter(popupAdapter);
         popupWindow.setAnchorView(v);
         popupWindow.setWidth(450);
@@ -220,9 +219,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public void onRemoveCartItem(String item) {
         cartList.remove(item);
+        popupAdapter.notifyDataSetChanged();
         if (popupWindow.isShowing())
             popupWindow.getListView().invalidateViews();
-        invalidateOptionsMenu();
+        refreshCartIcon();
+    }
+
+    @Override
+    public void onRemoveCartItemColor(boolean isDone) {
+        if (removedItem != null){
+            if (isDone){
+                ListPopupWindowAdapter.ViewHolder holder = (ListPopupWindowAdapter.ViewHolder) removedItem.getTag();
+                TextView currentView = holder.getTextView();
+                currentView.setTextColor(getResources().getColor(R.color.colorDarkGray));
+            }else{
+                ListPopupWindowAdapter.ViewHolder holder = (ListPopupWindowAdapter.ViewHolder) removedItem.getTag();
+                TextView currentView = holder.getTextView();
+                currentView.setTextColor(getResources().getColor(R.color.colorLightGray));
+            }
+        }
     }
 
     @Override
@@ -231,11 +246,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         invalidateOptionsMenu();
     }
 
+    @Override
+    public void refreshCartIcon() {
+        if (cartList.size() > 0) {
+            ActionItemBadge.update(this, cart, cartIcon, ActionItemBadge.BadgeStyles.RED, cartList.size());
+        }else {
+            ActionItemBadge.update(this, cart, cartIcon, ActionItemBadge.BadgeStyles.RED, Integer.MIN_VALUE);
+        }
+    }
+
     //Response to user click on cart window
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        if (position != 0)
+        if (position != 0) {
+            removedItem = view;
             mMainPresenter.removeCartItem((String) adapterView.getAdapter().getItem(position));
+
+        }
     }
 
     @Override
@@ -293,10 +320,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.action_booking:
                 bottomNavigationView.getMenu().getItem(USERTAB).setChecked(false);
+                bottomNavigationView.getMenu().getItem(BOOKTAB).setChecked(true);
                 mMainPresenter.navigateTab(BOOKTAB);
                 break;
             case R.id.action_user:
                 bottomNavigationView.getMenu().getItem(BOOKTAB).setChecked(false);
+                bottomNavigationView.getMenu().getItem(USERTAB).setChecked(true);
                 mMainPresenter.navigateTab(USERTAB);
                 break;
             default:

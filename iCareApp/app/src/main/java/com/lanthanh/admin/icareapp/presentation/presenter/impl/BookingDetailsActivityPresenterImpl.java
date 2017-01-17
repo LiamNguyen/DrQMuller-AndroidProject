@@ -21,7 +21,7 @@ import java.util.List;
 public class BookingDetailsActivityPresenterImpl extends AbstractPresenter implements BookingDetailsActivityPresenter {
     private BookingDetailsActivityPresenter.View mView;
     private SharedPreferences sharedPreferences;
-    private List<DTOAppointment> dtoAppointmentList;
+    private List<DTOAppointment> dtoAppointmentsList;
     private AppointmentManager appointmentManager;
 
     public BookingDetailsActivityPresenterImpl(SharedPreferences sharedPreferences, Executor executor, MainThread mainThread, View view, AppointmentManager appointmentManager){
@@ -33,7 +33,7 @@ public class BookingDetailsActivityPresenterImpl extends AbstractPresenter imple
     }
 
     public void init(){
-        dtoAppointmentList = new ArrayList<>();
+        dtoAppointmentsList = new ArrayList<>();
     }
 
     @Override
@@ -44,18 +44,14 @@ public class BookingDetailsActivityPresenterImpl extends AbstractPresenter imple
     @Override
     public void updateList() {
         //Get local appointment list
-        JsonArray jsonAppointments = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
+        if ( appointmentManager.getLocalAppointmentsFromPref(sharedPreferences) != null)
+            dtoAppointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
 
-        //Update local appointment that have the same verification code
-        for (int i = 0; i < jsonAppointments.size(); i++){
-            DTOAppointment appointment = ConverterJson.convertGsonObjectToObject(jsonAppointments.get(i), DTOAppointment.class);
-            dtoAppointmentList.add(appointment);
-        }
-        mView.updateList(dtoAppointmentList);
+        mView.updateList(dtoAppointmentsList);
     }
 
     @Override
     public int getNumberOfAppointments(){
-        return dtoAppointmentList.size();
+        return dtoAppointmentsList.size();
     }
 }

@@ -222,7 +222,7 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
     public void onUpdateCustomerSuccess() {
         mUser.setGender(ConverterForDisplay.convertStringGenderFromDBToDisplay(mUser.getGender(), mView.getStringResource(R.string.male), mView.getStringResource(R.string.male)));
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("user", ConverterJson.convertToJson(mUser));
+        editor.putString("user", ConverterJson.convertObjectToJson(mUser));
         editor.apply();
         editor.commit();
         navigateToMainActivity();

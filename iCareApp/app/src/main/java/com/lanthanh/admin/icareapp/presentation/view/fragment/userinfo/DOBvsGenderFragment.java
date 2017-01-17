@@ -66,7 +66,11 @@ public class DOBvsGenderFragment extends Fragment implements DatePicker.OnDateCh
     @Override
     public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         dob_noti.setVisibility(View.INVISIBLE);
-        userInfoActivityPresenter.setDob(Integer.toString(year) + "-" + Integer.toString(monthOfYear+1) + "-" + Integer.toString(dayOfMonth));
+        userInfoActivityPresenter.setDob(
+                Integer.toString(year) + "-"
+            +   ((Integer.toString(monthOfYear + 1).length() == 1)?("0" + Integer.toString(monthOfYear + 1)) : Integer.toString(monthOfYear + 1)) + "-"
+            +   ((Integer.toString(dayOfMonth).length() == 1)?("0" + Integer.toString(dayOfMonth)) : Integer.toString(dayOfMonth))
+        );
     }
 
     @Override

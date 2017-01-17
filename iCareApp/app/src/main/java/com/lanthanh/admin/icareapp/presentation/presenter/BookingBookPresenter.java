@@ -6,6 +6,7 @@ import com.lanthanh.admin.icareapp.data.manager.WeekDayManager;
 import com.lanthanh.admin.icareapp.presentation.presenter.base.Presenter;
 import com.lanthanh.admin.icareapp.presentation.view.BaseView;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,4 +33,5 @@ public interface BookingBookPresenter extends Presenter{
     int  getNumberOfCartItems();
     void onTimeSelected(String day, String time);
     boolean checkAppointmentScheduleValidity(int dayId);
+    String getDayOfWeek(Date date);
 }

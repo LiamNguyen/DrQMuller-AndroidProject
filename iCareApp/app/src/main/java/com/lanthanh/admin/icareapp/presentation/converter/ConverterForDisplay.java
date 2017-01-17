@@ -2,6 +2,7 @@ package com.lanthanh.admin.icareapp.presentation.converter;
 
 import android.support.annotation.NonNull;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,5 +61,15 @@ public class ConverterForDisplay {
             return male;
         else
             return female;
+    }
+
+    public static Date convertStringToDate(String date){
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            return dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -15,6 +15,8 @@ import com.lanthanh.admin.icareapp.presentation.presenter.ConfirmBookingActivity
 import com.lanthanh.admin.icareapp.presentation.presenter.base.AbstractPresenter;
 import com.lanthanh.admin.icareapp.threading.MainThread;
 
+import java.util.List;
+
 /**
  * Created by ADMIN on 11-Jan-17.
  */
@@ -52,22 +54,24 @@ public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter imple
     @Override
     public void onUpdateAppointmentSuccess(String verificationCode) {
         //Get local appointment list
-        JsonArray jsonAppointments = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
-        if (jsonAppointments.size() == 0){
+        List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
+        if (appointmentsList == null){
             onError("No appointment found while in ConfirmActivity");
             return;
         }
 
         //Update local appointment that have the same verification code
-        for (int i = 0; i < jsonAppointments.size(); i++){
-            DTOAppointment appointment = ConverterJson.convertGsonObjectToObject(jsonAppointments.get(i), DTOAppointment.class);
+        for (int i = 0; i < appointmentsList.size(); i++){
+            DTOAppointment appointment = appointmentsList.get(i);
             if (appointment.getVerficationCode().equals(verificationCode)) {
                 appointment.setStatus(true);
                 break;
             }
         }
         //Put appointment list to shared pref
-        appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, jsonAppointments);
+        appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList);
+        //Navigate to booking details
+        mView.navigateToBookingDetailsActivity(1);
     }
 
     @Override

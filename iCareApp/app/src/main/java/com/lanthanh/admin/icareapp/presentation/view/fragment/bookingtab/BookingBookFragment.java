@@ -46,8 +46,6 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
     private ExpandableListView list;
     private ExpandableListViewAdapter adapter;
     private TimeComparator timeComparator;
-    private TimeManager timeManager;
-    private AppointmentManager appointmentManager;
 
     @Nullable
     @Override

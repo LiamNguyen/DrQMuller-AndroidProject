@@ -92,7 +92,10 @@ public class DobFragment extends DialogFragment implements DatePicker.OnDateChan
     @Override
     public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         isChecked = true;
-        userDetailsActivityPresenter.setDob(Integer.toString(year) + "-" + Integer.toString(monthOfYear+1) + "-" + Integer.toString(dayOfMonth));
+        userDetailsActivityPresenter.setDob(
+                    Integer.toString(year) + "-"
+                +   ((Integer.toString(monthOfYear + 1).length() == 1)?("0" + Integer.toString(monthOfYear + 1)) : Integer.toString(monthOfYear + 1)) + "-"
+                +   ((Integer.toString(dayOfMonth).length() == 1)?("0" + Integer.toString(dayOfMonth)) : Integer.toString(dayOfMonth)));
         //Set up date string for display
         date = ConverterForDisplay.convertDateToDisplay(year, monthOfYear, dayOfMonth);
     }

@@ -81,14 +81,8 @@ public class BookingCVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     args.putString("address", list.get(position).getLocationName() + ", " + list.get(position).getDistrictName() + ", " + list.get(position).getCityName() + ", " + list.get(position).getCountryName());
                     args.putString("voucher", list.get(position).getVoucherName());
                     args.putString("type", list.get(position).getTypeName());
-                    if (list.get(position).getStartDate() == null)
-                        args.putString("start_date", null);
-                    else
-                        args.putString("start_date", ConverterForDisplay.convertDateToDisplay(list.get(position).getStartDate()));
-                    if (list.get(position).getExpireDate() == null)
-                        args.putString("end_date", null);
-                    else
-                        args.putString("end_date", ConverterForDisplay.convertDateToDisplay(list.get(position).getExpireDate()));
+                    args.putString("start_date", ConverterForDisplay.convertDateToDisplay(list.get(position).getStartDate()));
+                    args.putString("end_date", ConverterForDisplay.convertDateToDisplay(list.get(position).getExpireDate()));
                     args.putString("code", list.get(position).getVerficationCode());
                     ArrayList<String> appointmentScheduleString = new ArrayList<>();
                     for (DTOAppointmentSchedule dtoAppointmentSchedule: list.get(position).getAppointmentScheduleList()){
@@ -146,11 +140,13 @@ public class BookingCVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void setStartDate(String s) {
-            if (s != null)
-                txt3.setText(s);
-            else {
-                txt3title.setVisibility(View.GONE);
-                txt3.setVisibility(View.GONE);
+            if (s != null) {
+                if (!s.equals("11/11/1111"))
+                    txt3.setText(s);
+                else{
+                    txt3title.setVisibility(View.GONE);
+                    txt3.setVisibility(View.GONE);
+                }
             }
         }
 
@@ -191,10 +187,5 @@ public class BookingCVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void updateList(List<DTOAppointment> list){
         this.list = list;
         this.notifyDataSetChanged();
-    }
-
-    public int getListSize(){
-        System.out.println(this.list == null);
-        return this.list.size();
     }
 }

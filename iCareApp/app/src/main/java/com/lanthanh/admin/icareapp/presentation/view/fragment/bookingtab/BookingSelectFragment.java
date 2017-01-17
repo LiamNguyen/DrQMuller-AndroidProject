@@ -266,16 +266,16 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
                 if (typeSp.getSelectedItemPosition() == 1){
                     //If type = Co dinh, show start date. Set expire date to Ngay Ket Thuc
                     startDate.setVisibility(View.VISIBLE);
-                    updateExpireDate(getString(R.string.booking_expire_date));
+                    displayExpireDate(getString(R.string.booking_expire_date));
                     expireDate.setEnabled(false);
                 }else{
                     //If type = Tu do, hide start date. Set expire date to Ngay Thuc Hien
                     startDate.setVisibility(View.GONE);
-                    updateExpireDate(getString(R.string.booking_do_date));
+                    displayExpireDate(getString(R.string.booking_do_date));
                     expireDate.setEnabled(true);
                 }
                 bookingSelectPresenter.onTypeSelect(typeSp.getSelectedItem().toString());
-                updateStartDate(getString(R.string.booking_start_date));
+                displayStartDate(getString(R.string.booking_start_date));
                 startDate.setEnabled(true);
             default:
                 break;
@@ -334,7 +334,7 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
     }
 
     @Override
-    public void updateStartDate(String startDate) {
+    public void displayStartDate(String startDate) {
 //        if (startDate == null)
 //            this.startDate.setText(getActivity().getString(R.string.booking_start_date));
 //        else
@@ -342,7 +342,7 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
     }
 
     @Override
-    public void updateExpireDate(String expireDate) {
+    public void displayExpireDate(String expireDate) {
 //        if (expireDate == null)
 //            this.expireDate.setText(getActivity().getString(R.string.booking_expire_date));
 //        else
@@ -377,6 +377,11 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
 
     @Override
     public void onVoucherChange() {
+        mainActivityPresenter.emptyCart();
+    }
+
+    @Override
+    public void onTypeChange() {
         mainActivityPresenter.emptyCart();
     }
 

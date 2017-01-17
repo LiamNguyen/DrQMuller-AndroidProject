@@ -36,6 +36,11 @@ public class ListPopupWindowAdapter extends ArrayAdapter<String> {
         return list.size() + 1;
     }
 
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
     @Nullable
     @Override
     public String getItem(int position) {
@@ -74,7 +79,7 @@ public class ListPopupWindowAdapter extends ArrayAdapter<String> {
         return row;
     }
 
-    private class ViewHolder{
+    public class ViewHolder{
         private View v;
         private TextView tv;
         private ImageView iv;

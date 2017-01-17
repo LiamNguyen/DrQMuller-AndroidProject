@@ -97,27 +97,29 @@ public class BookingDetailsFragment extends DialogFragment {
         voucher.setText(getArguments().getString("voucher", "Không Có"));
         type.setText(getArguments().getString("type", "Không Có"));
 
-        if (getArguments().getString("start_date") == null){
-            start_date.setVisibility(View.GONE);
-            start_date_title.setVisibility(View.GONE);
-        }else
-            start_date.setText(getArguments().getString("start_date"));
+        if (getArguments().getString("start_date") != null) {
+            if (getArguments().getString("start_date").equals("11/11/1111")) {
+                start_date.setVisibility(View.GONE);
+                start_date_title.setVisibility(View.GONE);
+                //If start date = null => one day booking => while hiding start date, move expire date to the left
+                //rename to Ngay thuc hien
+                expire_date_title.setText(getString(R.string.booking_do_date));
+
+                //move to left
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) expire_date.getLayoutParams();
+                params.addRule(RelativeLayout.ALIGN_PARENT_START);
+                RelativeLayout.LayoutParams params_title = (RelativeLayout.LayoutParams) expire_date_title.getLayoutParams();
+                params_title.addRule(RelativeLayout.ALIGN_PARENT_START);
+                expire_date.setLayoutParams(params);
+                expire_date_title.setLayoutParams(params_title);
+            } else
+                start_date.setText(getArguments().getString("start_date"));
+        }
 
         if (getArguments().getString("end_date") == null)
             System.out.println("Severe: No expire date from BookingCVAdapter class");
         else {
             expire_date.setText(getArguments().getString("end_date"));
-            //If start date = null => one day booking => while hiding start date, move expire date to the right
-            //rename to Ngay thuc hien
-            expire_date_title.setText(getString(R.string.booking_do_date));
-
-            //move to right
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) expire_date.getLayoutParams();
-            params.addRule(RelativeLayout.ALIGN_PARENT_START);
-            RelativeLayout.LayoutParams params_title = (RelativeLayout.LayoutParams) expire_date_title.getLayoutParams();
-            params_title.addRule(RelativeLayout.ALIGN_PARENT_START);
-            expire_date.setLayoutParams(params);
-            expire_date_title.setLayoutParams(params_title);
         }
 
         ArrayList<String> schedules = getArguments().getStringArrayList("schedules");

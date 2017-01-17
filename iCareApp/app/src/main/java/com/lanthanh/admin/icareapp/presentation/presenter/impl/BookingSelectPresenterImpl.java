@@ -326,6 +326,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
             return;
         }
         dtoAppointment.setType(dtoType);
+        mView.onTypeChange();
         resetStartDate();
         resetExpireDate();
     }
@@ -379,13 +380,13 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
         if (this.expireDate != null) {
             if (this.startDate.compareTo(this.expireDate) >= 0) {
                 this.expireDate = null;
-                mView.updateExpireDate(null);
+                mView.displayExpireDate(null);
             }
         }
 
         dtoAppointment.setStartDate(this.startDate.getTime());
         String date = ConverterForDisplay.convertDateToDisplay(this.startDate.getTime());
-        mView.updateStartDate(date);
+        mView.displayStartDate(date);
     }
 
     //Add expire date when expire date is selected from View
@@ -425,21 +426,19 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
 
         dtoAppointment.setExpireDate(this.expireDate.getTime());
         String date = ConverterForDisplay.convertDateToDisplay(this.expireDate.getTime());
-        mView.updateExpireDate(date);
+        mView.displayExpireDate(date);
     }
 
     @Override
     public void resetExpireDate() {
         this.startDate = null;
         dtoAppointment.setStartDate(null);
-        //mView.updateStartDate(null);
     }
 
     @Override
     public void resetStartDate() {
         this.expireDate = null;
         dtoAppointment.setExpireDate(null);
-        //mView.updateExpireDate(null);
     }
 
     /*==================================================================*/

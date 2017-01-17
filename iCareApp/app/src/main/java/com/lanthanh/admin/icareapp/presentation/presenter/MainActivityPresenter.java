@@ -29,6 +29,8 @@ public interface MainActivityPresenter extends Presenter{
         void onAddCartItem(String item);
         void onRemoveCartItem(String item);
         void onEmptyCart();
+        void onRemoveCartItemColor(boolean isDone);
+        void refreshCartIcon();
     }
 
     DTOAppointment getDTOAppointment();
