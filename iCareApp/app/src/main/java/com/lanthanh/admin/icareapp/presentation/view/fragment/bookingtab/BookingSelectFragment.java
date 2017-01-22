@@ -338,6 +338,11 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
     }
 
     @Override
+    public void enableExpireDate() {
+        expireDate.setEnabled(true);
+    }
+
+    @Override
     public void showStartDatePicker(Calendar calendar) {
         startDatePickerDialog.getDatePicker().setMinDate(0);
         startDatePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
@@ -357,7 +362,6 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         calendar.set(year, month, day);
         if (startDatePickerDialog.getDatePicker().hashCode() == datePicker.hashCode()) {
             bookingSelectPresenter.onStartDateSet(calendar);
-            expireDate.setEnabled(true);
         }
         else
             bookingSelectPresenter.onExpireDateSet(calendar);

@@ -351,6 +351,12 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     //Add start date when start date is selected from View
     @Override
     public void onStartDateSet(Calendar startDate) {
+        if (dtoAppointment.getVoucherId() == 1){
+            if (!ecoBookingDayCheck(startDate)){
+                mView.showError("Ngày được chọn không phù hợp");
+                return;
+            }
+        }
         //Because we only care about the date, set time (hour, minute, second, millisecond) to 0
         startDate.set(Calendar.HOUR_OF_DAY, 0);
         startDate.set(Calendar.MINUTE, 0);
@@ -386,11 +392,19 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
         dtoAppointment.setStartDate(this.startDate.getTime());
         String date = ConverterForDisplay.convertDateToDisplay(this.startDate.getTime());
         mView.displayStartDate(date);
+        mView.enableExpireDate();
     }
 
     //Add expire date when expire date is selected from View
     @Override
     public void onExpireDateSet(Calendar expireDate) {
+        if (dtoAppointment.getVoucherId() == 1){
+            if (!ecoBookingDayCheck(expireDate)){
+                mView.showError("Ngày được chọn không phù hợp");
+                return;
+            }
+        }
+
         //Because we only care about the date, set time (hour, minute, second, millisecond) to 0
         expireDate.set(Calendar.HOUR_OF_DAY, 0);
         expireDate.set(Calendar.MINUTE, 0);
@@ -444,5 +458,13 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     @Override
     public boolean isAllInfoFiiled() {
         return dtoAppointment.isSelectFilled();
+    }
+
+    @Override
+    public boolean ecoBookingDayCheck(Calendar c) {
+        if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
+            return false;
+        else
+            return true;
     }
 }

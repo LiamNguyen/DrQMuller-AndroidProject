@@ -30,6 +30,7 @@ public interface BookingSelectPresenter extends Presenter {
         void showExpireDatePicker(Calendar calendar);
         void onVoucherChange();
         void onTypeChange();
+        void enableExpireDate();
     }
 
     void getAllCountries();
@@ -57,4 +58,5 @@ public interface BookingSelectPresenter extends Presenter {
     void resetStartDate();
     void resetExpireDate();
     boolean isAllInfoFiiled();
+    boolean ecoBookingDayCheck(Calendar c);
 }
