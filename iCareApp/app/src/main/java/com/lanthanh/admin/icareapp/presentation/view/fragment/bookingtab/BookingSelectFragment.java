@@ -20,12 +20,6 @@ import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
-import com.lanthanh.admin.icareapp.data.manager.CityManager;
-import com.lanthanh.admin.icareapp.data.manager.CountryManager;
-import com.lanthanh.admin.icareapp.data.manager.DistrictManager;
-import com.lanthanh.admin.icareapp.data.manager.LocationManager;
-import com.lanthanh.admin.icareapp.data.manager.TypeManager;
-import com.lanthanh.admin.icareapp.data.manager.VoucherManager;
 import com.lanthanh.admin.icareapp.data.manager.impl.CityManagerImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.CountryManagerImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.DistrictManagerImpl;
@@ -56,12 +50,6 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
     private Spinner countrySp, citySp, districtSp, locationSp, voucherSp, typeSp;
     private TextInputEditText startDate, expireDate;
     private DatePickerDialog startDatePickerDialog, expireDatePickerDialog;
-    private CountryManager countryManager;
-    private CityManager cityManager;
-    private DistrictManager districtManager;
-    private LocationManager locationManager;
-    private VoucherManager voucherManager;
-    private TypeManager typeManager;
 
     @Nullable
     @Override

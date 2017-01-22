@@ -112,10 +112,6 @@
         "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_lock_white_36dp.png"
     },
     {
-        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_account_circle.png",
-        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_account_circle.png"
-    },
-    {
         "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_shopping_cart_white_36dp.png",
         "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_shopping_cart_white_36dp.png"
     },
@@ -130,6 +126,10 @@
     {
         "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_user_2.png",
         "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-hdpi\\ic_user_2.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_account_circle.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\generated\\res\\pngs\\debug\\drawable-hdpi\\ic_account_circle.png"
     },
     {
         "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_user_tab.png",

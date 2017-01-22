@@ -77,6 +77,7 @@ public class iCareApiImpl implements iCareApi {
             InputStream is = urlConnection.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             while ((line = reader.readLine()) != null){
+                System.out.println("test " + line);
                 response += line;
             }
             reader.close();

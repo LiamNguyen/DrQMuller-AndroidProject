@@ -258,7 +258,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     @Override
     public DTOVoucher getVoucher(String voucher) {
         for (DTOVoucher dtoVoucher: voucherList){
-            if (dtoVoucher.getVoucherName().equals(voucher))
+            if (dtoVoucher.toString().equals(voucher))
                 return dtoVoucher;
         }
         return null;
@@ -267,7 +267,6 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     @Override
     public void onAllVouchersReceive(List<DTOVoucher> voucherList) {
         this.voucherList = voucherList;
-        System.out.println(voucherList.get(0).getVoucherName());
         List<String> list = ConverterForDisplay.convertToStringList(voucherList);
         mView.updateVoucherList(list);
     }

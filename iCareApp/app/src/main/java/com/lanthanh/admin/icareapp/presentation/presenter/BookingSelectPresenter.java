@@ -1,12 +1,5 @@
 package com.lanthanh.admin.icareapp.presentation.presenter;
 
-import com.lanthanh.admin.icareapp.data.manager.CityManager;
-import com.lanthanh.admin.icareapp.data.manager.CountryManager;
-import com.lanthanh.admin.icareapp.data.manager.DistrictManager;
-import com.lanthanh.admin.icareapp.data.manager.LocationManager;
-import com.lanthanh.admin.icareapp.data.manager.TypeManager;
-import com.lanthanh.admin.icareapp.data.manager.VoucherManager;
-import com.lanthanh.admin.icareapp.domain.model.Country;
 import com.lanthanh.admin.icareapp.domain.model.DTOCity;
 import com.lanthanh.admin.icareapp.domain.model.DTOCountry;
 import com.lanthanh.admin.icareapp.domain.model.DTODistrict;
@@ -17,7 +10,6 @@ import com.lanthanh.admin.icareapp.presentation.presenter.base.Presenter;
 import com.lanthanh.admin.icareapp.presentation.view.BaseView;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**

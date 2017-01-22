@@ -38,7 +38,7 @@ public class SendEmailManagerImpl extends AbstractManager implements SendEmailMa
                         CustomerManager.CUSTOMER_NAME_KEY, LocationManager.LOCATION_NAME_KEY,
                         VoucherManager.VOUCHER_NAME_KEY, TypeManager.TYPE_NAME_KEY,
                         AppointmentManager.STARTDATE_KEY, AppointmentManager.EXPIREDATE_KEY,
-                        AppointmentManager.VERIFICATIONCODE_KEY, AppointmentManager.APPOINTMENT),
+                        AppointmentManager.VERIFICATIONCODE_KEY, AppointmentManager.APPOINTMENT_SCHEDULE),
                 ConverterToUrlData.getValues(Integer.toString(dtoAppointment.getCustomerId()), ConverterForDisplay.convertDateToDisplay(Calendar.getInstance().getTime()),
                         dtoAppointment.getCustomerName(), dtoAppointment.getLocationName(),
                         dtoAppointment.getVoucherName(),  dtoAppointment.getTypeName(),

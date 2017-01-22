@@ -1,9 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.view.activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,23 +12,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.R;
-import com.google.gson.Gson;
 import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.AppointmentManagerImpl;
 import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
-import com.lanthanh.admin.icareapp.presentation.model.BookingItem;
 import com.lanthanh.admin.icareapp.presentation.presenter.BookingDetailsActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.impl.BookingDetailsActivityPresenterImpl;
 import com.lanthanh.admin.icareapp.presentation.view.adapter.BookingCVAdapter;
 import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;

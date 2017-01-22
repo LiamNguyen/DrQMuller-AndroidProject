@@ -61,11 +61,11 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
         ConverterToUrlData.getKeys  (CustomerManager.CUSTOMER_ID_KEY, LocationManager.LOCATION_ID_KEY,
                                      VoucherManager.VOUCHER_ID_KEY, TypeManager.TYPE_ID_KEY,
                                      AppointmentManager.STARTDATE_KEY, AppointmentManager.EXPIREDATE_KEY,
-                                     AppointmentManager.VERIFICATIONCODE_KEY),
+                                     AppointmentManager.VERIFICATIONCODE_KEY, AppointmentManager.APPOINTMENT_BOOKINGTIME),
         ConverterToUrlData.getValues(Integer.toString(dtoAppointment.getCustomerId()), Integer.toString(dtoAppointment.getLocationId()),
                                      Integer.toString(dtoAppointment.getVoucherId()),  Integer.toString(dtoAppointment.getTypeId()),
                                      ConverterToUrlData.convertDateForDB(dtoAppointment.getStartDate()), ConverterToUrlData.convertDateForDB(dtoAppointment.getExpireDate()),
-                                     dtoAppointment.getVerficationCode())
+                                     dtoAppointment.getVerficationCode(), ConverterJson.convertObjectToJson(ConverterToUrlData.convertToBookingTimeArray(dtoAppointment.getAppointmentScheduleList())))
         );
         mApi.sendPostRequest(this, ModelURL.INSERT_NEWAPPOINTMENT.getUrl(Manager.isUAT), data);
 //        if (insertAppointmentResult){
@@ -126,9 +126,23 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
         JsonObject jsonObject = ConverterJson.convertJsonToObject(json, JsonObject.class);
 
         if (jsonObject.has("Insert_NewAppointment")){
+            //step 1
             String result = jsonObject.get("Insert_NewAppointment").getAsString();
-            if (result.equals("Inserted")){
-                insertAppointmentResult = true;
+            if (result.equals("Inserted new appointment")){
+                //step 2
+                if (!jsonObject.has("Select_Appointment_ID")){
+                    //step 3
+                    if (jsonObject.has("Insert_NewAppointmentSchedule")){
+                        String result_2 = jsonObject.get("Insert_NewAppointmentSchedule").getAsString();
+                        if (result_2.equals("Inserted new booking time")){
+                            insertAppointmentResult = true;
+                        }else{
+                            insertAppointmentResult = false;
+                        }
+                    }
+                }else{
+                    insertAppointmentResult = false;
+                }
             }else{
                 insertAppointmentResult = false;
             }

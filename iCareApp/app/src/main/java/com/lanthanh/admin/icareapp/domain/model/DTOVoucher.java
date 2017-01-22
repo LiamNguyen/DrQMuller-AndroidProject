@@ -17,8 +17,12 @@ public class DTOVoucher {
         return VOUCHER;
     }
 
+    public String getPrice(){
+        return PRICE;
+    }
+
     @Override
     public String toString() {
-        return VOUCHER;
+        return VOUCHER + " - " + PRICE + " VND";
     }
 }

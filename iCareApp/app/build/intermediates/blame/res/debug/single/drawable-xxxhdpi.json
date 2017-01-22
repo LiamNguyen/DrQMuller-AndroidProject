@@ -28,12 +28,12 @@
         "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_local_phone_white_36dp.png"
     },
     {
-        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi\\ic_account_circle.png",
-        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_account_circle.png"
-    },
-    {
         "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi\\ic_local_post_office_white_36dp.png",
         "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_local_post_office_white_36dp.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi\\ic_account_circle.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\ic_account_circle.png"
     },
     {
         "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi\\ic_security_white_36dp.png",

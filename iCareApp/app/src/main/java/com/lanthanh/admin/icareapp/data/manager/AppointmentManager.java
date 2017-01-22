@@ -13,7 +13,8 @@ import java.util.List;
  */
 
 public interface AppointmentManager extends Manager {
-    String APPOINTMENT = "bookings";
+    String APPOINTMENT_SCHEDULE = "bookings";
+    String APPOINTMENT_BOOKINGTIME = "bookingTime";
     String STARTDATE_KEY = "start_date";
     String EXPIREDATE_KEY = "expire_date";
     String VERIFICATIONCODE_KEY = "code";
