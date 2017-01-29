@@ -68,19 +68,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ResetPasswordFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/fragment/resetpassword/ResetPasswordFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="353">
-              <caret line="168" column="0" selection-start-line="168" selection-start-column="0" selection-end-line="168" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DeepLinkActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DeepLinkActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/activity/DeepLinkActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
@@ -90,22 +78,47 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="View.java" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-25/android/view/View.java">
+      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="19844" column="0" selection-start-line="19844" selection-start-column="0" selection-end-line="19844" selection-end-column="0" />
+            <state relative-caret-position="348">
+              <caret line="97" column="31" selection-start-line="97" selection-start-column="31" selection-end-line="97" selection-end-column="31" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Handler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-25/android/os/Handler.java">
+      <file leaf-file-name="BookingSelectDatePresenterImpl.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/impl/BookingSelectDatePresenterImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="103" column="0" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
+            <state relative-caret-position="234">
+              <caret line="104" column="87" selection-start-line="104" selection-start-column="87" selection-end-line="104" selection-end-column="87" />
+              <folding>
+                <element signature="e#3881#3912#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BookingSelectDatePresenter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/BookingSelectDatePresenter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="19" column="39" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BookingSelectDateFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/fragment/booking/BookingSelectDateFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2679">
+              <caret line="194" column="17" selection-start-line="194" selection-start-column="17" selection-end-line="194" selection-end-column="17" />
+              <folding>
+                <element signature="e#7837#7838#0" expanded="true" />
+                <element signature="e#7873#7874#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1840,8 +1853,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/register_choose.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/activity/UserDetailsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/BookingActivityPresenter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/impl/BookingActivityPresenterImpl.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/impl/UserDetailsActivityPresenterImpl.java" />
@@ -1849,7 +1860,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/fragment/appointmenttab/AppointmentDialogFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/fragment/appointmenttab/AppointmentFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/fragment/usertab/UserFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/impl/BookingSelectDatePresenterImpl.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/impl/ConfirmBookingActivityPresenterImpl.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/activity/ConfirmBookingActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/MainActivityPresenter.java" />
@@ -1874,7 +1884,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/activity/UserInfoActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/impl/UserInfoActivityPresenterImpl.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/fragment/userinfo/ValidateFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/domain/interactor/impl/SendEmailVerifyAccInteractorImpl.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/domain/interactor/UpdateVerifyAccInteractor.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/domain/interactor/impl/UpdateVerifyAccInteractorImpl.java" />
@@ -1891,6 +1900,10 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/activity/ResetPasswordActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/impl/ResetPasswordActivityPresenterImpl.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/activity/DeepLinkActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/fragment/booking/BookingSelectDateFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/BookingSelectDatePresenter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/impl/BookingSelectDatePresenterImpl.java" />
       </list>
     </option>
   </component>
@@ -2944,12 +2957,12 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32246798" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32246798" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295838" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20318237" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2072177" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2072177" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294621" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -3028,42 +3041,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/fragment/userinfo/ValidateFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="83" column="44" selection-start-line="83" selection-start-column="44" selection-end-line="83" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="53" column="105" selection-start-line="53" selection-start-column="105" selection-end-line="53" selection-end-column="105" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/impl/UserInfoActivityPresenterImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="438">
-          <caret line="248" column="71" selection-start-line="248" selection-start-column="71" selection-end-line="248" selection-end-column="71" />
-          <folding>
-            <element signature="e#7127#7128#0" expanded="false" />
-            <element signature="e#7183#7184#0" expanded="false" />
-            <element signature="e#9129#9156#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/domain/interactor/UpdateVerifiedAccInteractor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="40" selection-start-line="6" selection-start-column="40" selection-end-line="6" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/domain/interactor/UpdateVerifyAccInteractor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -3486,6 +3463,43 @@
         <state relative-caret-position="180">
           <caret line="22" column="43" selection-start-line="22" selection-start-column="43" selection-end-line="22" selection-end-column="43" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="97" column="31" selection-start-line="97" selection-start-column="31" selection-end-line="97" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/BookingSelectDatePresenter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="19" column="39" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/view/fragment/booking/BookingSelectDateFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2679">
+          <caret line="194" column="17" selection-start-line="194" selection-start-column="17" selection-end-line="194" selection-end-column="17" />
+          <folding>
+            <element signature="e#7837#7838#0" expanded="true" />
+            <element signature="e#7873#7874#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lanthanh/admin/icareapp/presentation/presenter/impl/BookingSelectDatePresenterImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="104" column="87" selection-start-line="104" selection-start-column="87" selection-end-line="104" selection-end-column="87" />
+          <folding>
+            <element signature="e#3881#3912#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

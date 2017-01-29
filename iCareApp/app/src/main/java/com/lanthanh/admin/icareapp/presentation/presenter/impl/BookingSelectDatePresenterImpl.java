@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.presentation.presenter.impl;
 
+import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
@@ -101,7 +102,7 @@ public class BookingSelectDatePresenterImpl extends AbstractPresenter implements
     public void onExpireDateSet(Calendar expireDate) {
         if (dtoAppointment.getVoucherId() == 1){
             if (!ecoBookingDayCheck(expireDate)){
-                mView.showError("Ngày được chọn không phù hợp");
+                mView.showError(mView.getStringResource(R.string.booking_error_eco_date));
                 return;
             }
         }

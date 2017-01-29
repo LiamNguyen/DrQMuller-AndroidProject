@@ -191,4 +191,8 @@ public class BookingSelectDateFragment extends Fragment implements DatePickerDia
         toast.show();
     }
 
+    @Override
+    public String getStringResource(int id) {
+        return getString(id);
+    }
 }

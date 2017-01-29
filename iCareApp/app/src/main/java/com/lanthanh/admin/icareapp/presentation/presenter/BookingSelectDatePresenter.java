@@ -17,6 +17,7 @@ public interface BookingSelectDatePresenter extends Presenter {
         void showExpireDatePicker(Calendar calendar);
         void enableExpireDate();
         void dateDisplayOnTypeChange();
+        String getStringResource(int id);
     }
 
     void onStartDateSet(Calendar startDate);
