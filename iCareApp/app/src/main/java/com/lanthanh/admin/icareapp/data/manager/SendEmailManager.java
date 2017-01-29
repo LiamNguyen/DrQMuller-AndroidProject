@@ -8,6 +8,10 @@ import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
  */
 
 public interface SendEmailManager extends Manager {
-    boolean sendEmailNotifyBooking(DTOAppointment dtoAppointment);
-    boolean sendEmailResetPassword(String email, String username);
+    int  STATUS_SENT = 1;
+    int  STATUS_NOTSENT = -1;
+    int  STATUS_USERNAMEOREMAIL_NOTFOUND = 0;
+    int sendEmailNotifyBooking(DTOAppointment dtoAppointment);
+    int sendEmailVerifyAcc(String email, int id);
+    int sendEmailResetPassword(String username);
 }

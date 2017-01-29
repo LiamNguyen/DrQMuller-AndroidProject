@@ -2,10 +2,10 @@ package com.lanthanh.admin.icareapp.presentation.presenter.impl;
 
 import android.content.SharedPreferences;
 
-import com.google.gson.JsonArray;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
 import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
+import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
 import com.lanthanh.admin.icareapp.domain.interactor.UpdateAppointmentInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateAppointmentInteractorImpl;
@@ -13,6 +13,7 @@ import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 import com.lanthanh.admin.icareapp.presentation.presenter.ConfirmBookingActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.base.AbstractPresenter;
+import com.lanthanh.admin.icareapp.presentation.view.activity.ConfirmBookingActivity;
 import com.lanthanh.admin.icareapp.threading.MainThread;
 
 import java.util.List;
@@ -25,19 +26,21 @@ public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter imple
              UpdateAppointmentInteractor.Callback {
     private SharedPreferences sharedPreferences;
     private AppointmentManager appointmentManager;
+    private CustomerManager customerManager;
     private ConfirmBookingActivityPresenter.View mView;
     private ModelUser mUser;
 
-    public ConfirmBookingActivityPresenterImpl(SharedPreferences sharedPreferences, Executor executor, MainThread mainThread, View view, AppointmentManager appointmentManager){
+    public ConfirmBookingActivityPresenterImpl(SharedPreferences sharedPreferences, Executor executor, MainThread mainThread, View view, CustomerManager customerManager, AppointmentManager appointmentManager){
         super(executor, mainThread);
         mView = view;
         this.sharedPreferences = sharedPreferences;
         this.appointmentManager = appointmentManager;
+        this.customerManager = customerManager;
         init();
     }
 
     public void init(){
-        mUser = ConverterJson.convertJsonToObject(sharedPreferences.getString("user", ""), ModelUser.class);
+        mUser = customerManager.getLocalUserFromPref(sharedPreferences);
     }
 
     @Override
@@ -71,7 +74,7 @@ public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter imple
         //Put appointment list to shared pref
         appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList);
         //Navigate to booking details
-        mView.navigateToBookingDetailsActivity(1);
+        mView.navigateToMainActivity(ConfirmBookingActivity.CONFIRMED);
     }
 
     @Override

@@ -16,7 +16,7 @@ import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateCustomerPassword
 import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.base.AbstractPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.ResetPasswordActivity;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.resetpassword.EmailForResetFragment;
+import com.lanthanh.admin.icareapp.presentation.view.fragment.resetpassword.UsernameForResetFragment;
 import com.lanthanh.admin.icareapp.presentation.view.fragment.resetpassword.ResetPasswordFragment;
 import com.lanthanh.admin.icareapp.threading.MainThread;
 
@@ -34,7 +34,7 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
     private CustomerManager customerManager;
     private FragmentManager fragmentManager;
     private SharedPreferences sharedPreferences;
-    private EmailForResetFragment emailForResetFragment;
+    private UsernameForResetFragment usernameForResetFragment;
     private ResetPasswordFragment resetPasswordFragment;
 
     public ResetPasswordActivityPresenterImpl(SharedPreferences sharedPreferences, Executor executor, MainThread mainThread, View view,
@@ -54,14 +54,14 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
     }
 
     public void init(){
-        emailForResetFragment = new EmailForResetFragment();
+        usernameForResetFragment = new UsernameForResetFragment();
         resetPasswordFragment = new ResetPasswordFragment();
     }
 
     @Override
     public void navigateTab(int selected) {
-        if (selected == ResetPasswordActivity.EMAIL_FOR_RESET)
-            mView.showFragment(fragmentManager, emailForResetFragment, getVisibleFragments());
+        if (selected == ResetPasswordActivity.USERNAME_FOR_RESET)
+            mView.showFragment(fragmentManager, usernameForResetFragment, getVisibleFragments());
         else if (selected == ResetPasswordActivity.RESET_PW)
             mView.showFragment(fragmentManager, resetPasswordFragment, getVisibleFragments());
     }
@@ -72,13 +72,12 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
         List<Fragment> result = new ArrayList<>(2);
 
         // Add each visible fragment to the result IF VISIBLE
-        if (emailForResetFragment.isVisible()) {
-            result.add(emailForResetFragment);
+        if (usernameForResetFragment.isVisible()) {
+            result.add(usernameForResetFragment);
         }
         if (resetPasswordFragment.isVisible()) {
             result.add(resetPasswordFragment);
         }
-
         return result;
     }
 
@@ -88,19 +87,24 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
     }
 
     @Override
-    public void sendEmailToResetPassword(String email, String username) {
-        SendEmailResetPasswordInteractor sendEmailResetPasswordInteractor = new SendEmailResetPasswordInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, email, username);
+    public void sendEmailToResetPassword(String username) {
+        SendEmailResetPasswordInteractor sendEmailResetPasswordInteractor = new SendEmailResetPasswordInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, username);
         sendEmailResetPasswordInteractor.execute();
     }
 
     @Override
-    public void onEmailNotSent() {
-        emailForResetFragment.showEmailResult(R.string.validate_noti_fail, R.color.colorLightRed);
+    public void onEmailResetPasswordNotSent() {
+        System.out.println("Email sent fail");
     }
 
     @Override
-    public void onEmailSent() {
-        emailForResetFragment.showEmailResult(R.string.validate_noti_success, R.color.colorGreen);
+    public void onUsernameOrEmailNotFound() {
+        usernameForResetFragment.showEmailResult(R.string.email_reset_fail);
+    }
+
+    @Override
+    public void onEmailResetPasswordSent() {
+        usernameForResetFragment.showEmailResult(R.string.email_reset_success);
     }
 
     @Override
@@ -111,11 +115,20 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
 
     @Override
     public void onResetPasswordFail() {
-        mView.navigateToRegisterActivity(0);
+        mView.navigateToRegisterActivity(ResetPasswordActivity.FAIL);
     }
 
     @Override
     public void onResetPasswordSuccess() {
-        mView.navigateToRegisterActivity(1);
+        mView.navigateToRegisterActivity(ResetPasswordActivity.SUCCESS);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (usernameForResetFragment.isVisible()) {
+            mView.navigateToRegisterActivity();
+        }else if (resetPasswordFragment.isVisible()) {
+            navigateTab(ResetPasswordActivity.USERNAME_FOR_RESET);
+        }
     }
 }

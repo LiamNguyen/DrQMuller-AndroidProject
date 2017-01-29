@@ -1,15 +1,18 @@
 package com.lanthanh.admin.icareapp.presentation.view.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +36,12 @@ import java.util.List;
  */
 
 public class RegisterActivity extends AppCompatActivity implements RegisterActivityPresenter.View{
+    public final static String TAG = RegisterActivity.class.getSimpleName();
+    public final static String EXTRA_USERNAME = "username";
+    public final static String EXTRA_UISTEP = "uistep";
+    public final static String LOGIN_STATUS = "loginstatus";
+    public final static int LOGGED_IN = 1;
+    public final static int NOT_LOGGED_IN = 0;
     public final static int CHOOSE = 0;
     public final static int LOG_IN = 1;
     public final static int SIGN_UP = 2;
@@ -54,9 +63,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView title = (TextView) toolBar.findViewById(R.id.toolbar_title);
-        title.setVisibility(View.GONE);
-
         //ChooseFragment as default -> hide ToolBar
         registerActivityPresenter.navigateFragment(CHOOSE);
         toolBar.setVisibility(View.GONE);
@@ -68,43 +74,40 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
         //Init controllers
         networkController = new NetworkController(this);
     }
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-//        if (getIntent() != null) {
-//            Intent intent = getIntent();
-//            Bundle b = intent.getExtras();
-//            if (b != null) {
-//                if (!b.getString("cus_id", "").isEmpty()) {
-//                    aController.setRequestData(this, this, ModelURL.UPDATE_VERIFYACC.getUrl(MainActivity.isUAT), "cus_id=" + intent.getStringExtra("cus_id"));
-//                }else if (b.getInt("fromResetPw", 0) == 0){
-//                    new AlertDialog.Builder(this)
-//                            .setMessage(getString(R.string.reset_fail))
-//                            .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.dismiss();
-//                                }
-//                            }).setCancelable(false).show();
-//                }else if (b.getInt("fromResetPw", 0) == 1){
-//                    new AlertDialog.Builder(this)
-//                            .setMessage(getString(R.string.reset_success))
-//                            .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.dismiss();
-//                                }
-//                            }).setCancelable(false).show();
-//                }else {
-//                    System.out.println("Problem in DeepLinkActivity or ResetPw");
-//                }
-//            }
-//        }
-//        setIntent(null);
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         networkController.registerNetworkReceiver();
+
+        if (getIntent() != null) {
+            Intent intent = getIntent();
+            Bundle b = intent.getExtras();
+            if (b != null) {
+                if (b.containsKey(DeepLinkActivity.TAG)) {
+                    Bundle bundle = b.getBundle(DeepLinkActivity.TAG);
+                    if (bundle != null)
+                        registerActivityPresenter.updateVerifyAcc(bundle.getString("cus_id"));
+                    else
+                        Log.e(TAG, "No data received from DeepLinkActivity");
+                }else if (b.containsKey(ResetPasswordActivity.TAG)){
+                    Bundle bundle = b.getBundle(ResetPasswordActivity.TAG);
+                    if (bundle != null){
+                        int result = bundle.getInt("result");
+
+                        if (result == ResetPasswordActivity.SUCCESS)
+                            showAlertDialog(R.string.reset_success);
+                        else if (result == ResetPasswordActivity.FAIL)
+                            showAlertDialog(R.string.reset_fail);
+                    }else
+                        Log.e(TAG, "No data received from ResetPasswordActivity");
+                }
+            }else{
+                Log.i(TAG, "No data received from intent");
+            }
+        }
+        setIntent(null);
     }
 
     @Override
@@ -157,21 +160,20 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
     @Override
     public void navigateActivity(Class activityClass) {
         Intent toActivity = new Intent(this, activityClass);
-        if (activityClass == MainActivity.class)
-            toActivity.putExtra("isSignedIn", 1);
+        hideSoftKeyboard();
         startActivity(toActivity);
         finish();
-        hideSoftKeyboard();
     }
 
     @Override
-    public void navigateActivity(Class activityClass, String extra) {
+    public void navigateActivity(Class activityClass, Bundle extras) {
         Intent toActivity = new Intent(this, activityClass);
-        if (activityClass == UserInfoActivity.class)
-            toActivity.putExtra("fromRegisterActivity", extra);
+        hideSoftKeyboard();
+        if (activityClass == UserInfoActivity.class || activityClass == MainActivity.class) {
+            toActivity.putExtra(TAG, extras);
+        }
         startActivity(toActivity);
         finish();
-        hideSoftKeyboard();
     }
 
     @Override
@@ -189,6 +191,17 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.BOTTOM, 0, 200);
         toast.show();
+    }
+
+    @Override
+    public void showAlertDialog(int id) {
+        new AlertDialog.Builder(this)
+                .setMessage(getString(id))
+                .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).setCancelable(false).show();
     }
 
     //Hide SoftKeyBoard when needed
@@ -226,51 +239,4 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
     public RegisterActivityPresenter getMainPresenter() {
         return registerActivityPresenter;
     }
-
-    //    @Override
-//    public void update(Object o) {
-//        JSONObject status = (JSONObject) o;
-//
-//        if (status == null) {
-//            System.out.println("ERROR IN PHP FILE");
-//            return;
-//        }
-//
-//        try{
-//            if (status.has("Update_VerifyAcc")) {
-//                //String result = status.getString("Select_ToAuthenticate");
-//                String response = status.getString("Update_VerifyAcc");
-//                if (!response.isEmpty()){
-//                    if (response.equals("QueryFailed")){
-//                        new AlertDialog.Builder(this)
-//                                .setMessage(getString(R.string.verify_fail))
-//                                .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        dialog.dismiss();
-//                                    }
-//                                }).setCancelable(false).show();
-//                    }else if (response.equals("Updated")){
-//                        new AlertDialog.Builder(this)
-//                                .setMessage(getString(R.string.verify_success))
-//                                .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        dialog.dismiss();
-//                                    }
-//                                }).setCancelable(false).show();
-//                    }else if (response.equals("Failed")){
-//                        new AlertDialog.Builder(this)
-//                                .setMessage(getString(R.string.verify_already))
-//                                .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        dialog.dismiss();
-//                                    }
-//                                }).setCancelable(false).show();
-//                    }
-//                }
-//            }
-//        }catch (JSONException je){
-//            je.printStackTrace();
-//        }
-
-//    }
 }

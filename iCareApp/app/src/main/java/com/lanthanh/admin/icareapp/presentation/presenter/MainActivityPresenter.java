@@ -26,26 +26,22 @@ public interface MainActivityPresenter extends Presenter{
         void hideFragments(FragmentTransaction ft, List<Fragment> visibleFrags);
         void navigateActivity(Class activityClass);
         MainActivityPresenter getMainPresenter();
-        void onAddCartItem(String item);
-        void onRemoveCartItem(String item);
-        void onEmptyCart();
-        void onRemoveCartItemColor(boolean isDone);
-        void refreshCartIcon();
+        int getSelectedTab();
     }
 
-    DTOAppointment getDTOAppointment();
+    interface AppointmentChildView extends BaseView{
+        void updateList(List<DTOAppointment> list);
+    }
+
     void navigateTab(int selected);
     List<Fragment> getVisibleFragments();
-    void addCartItem();
-    void removeCartItem(String item);
-    void emptyCart();
-    DTOAppointmentSchedule getSpecificSchedule(String item);
+    AppointmentChildView getAppointmentView();
     boolean checkPrivilege();
     void navigateToRegisterActivity();
     void navigateToUserDetailsActivity();
-    void navigateToBookingDetailsActivity();
-    void insertAppointment();
-    void validateAppointment();
+    void navigateToBookingActivity();
     void clearLocalStorage();
     SharedPreferences getLocalStorage();
+
+    void updateAppointmentList();
 }

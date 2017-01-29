@@ -1,8 +1,6 @@
 package com.lanthanh.admin.icareapp.presentation.view.adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +11,6 @@ import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
-import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
 
 import java.util.List;
 
@@ -56,10 +53,10 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         LayoutInflater inflater = ctx.getLayoutInflater();
 
         if (viewType == TYPE_HEADER){
-            View headerView = inflater.inflate(R.layout.user_header, null);
+            View headerView = inflater.inflate(R.layout.fragment_usertab_header, null);
             return new HeaderViewHolder(headerView);
         }else {
-            View bodyView = inflater.inflate(R.layout.user_body, null);
+            View bodyView = inflater.inflate(R.layout.fragment_usertab_body, null);
             return new BodyViewHolder(bodyView);
         }
     }
@@ -79,15 +76,16 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
         }else{
             ((BodyViewHolder) holder).setOption(list.get(position));
-            if (position == 1) {
-                ((BodyViewHolder) holder).setOptionImage(R.drawable.ic_bag);
-                ((BodyViewHolder) holder).getView().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mainActivityPresenter.navigateToBookingDetailsActivity();
-                    }
-                });
-            }else  if (position == 2){
+//            if (position == 1) {
+//                ((BodyViewHolder) holder).setOptionImage(R.drawable.ic_bag);
+//                ((BodyViewHolder) holder).getView().setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        mainActivityPresenter.navigateToBookingActivity();
+//                    }
+//                });
+//            }else
+            if (position == 1){
                 ((BodyViewHolder) holder).setOptionImage(R.drawable.ic_logout);
                 ((BodyViewHolder) holder).getView().setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -100,7 +98,7 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    class HeaderViewHolder extends RecyclerView.ViewHolder {
+    private class HeaderViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         private TextView txtName;
@@ -109,7 +107,7 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
-        public HeaderViewHolder(View itemView) {
+        HeaderViewHolder(View itemView) {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(itemView);
@@ -121,16 +119,16 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 //            img = (ImageView) itemView.findViewById(R.id.user_img);
         }
 
-        public void setName(String s){
+        void setName(String s){
             txtName.setText(s);
         }
 
-        public TextView getTxtDetail(){
+        TextView getTxtDetail(){
             return txtDetail;
         }
     }
 
-    public class BodyViewHolder extends RecyclerView.ViewHolder {
+    private class BodyViewHolder extends RecyclerView.ViewHolder {
         private TextView txtOpt;
         private ImageView img;
         private View itemView;
@@ -143,15 +141,15 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             img = (ImageView) itemView.findViewById(R.id.user_img);
         }
 
-        public void setOption(String s){
+        void setOption(String s){
             txtOpt.setText(s);
         }
 
-        public void setOptionImage(int resId){
+        void setOptionImage(int resId){
             img.setImageResource(resId);
         }
 
-        public View getView(){
+        View getView(){
             return itemView;
         }
     }

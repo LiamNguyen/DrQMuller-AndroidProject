@@ -25,7 +25,6 @@ public interface UserInfoActivityPresenter extends Presenter {
 
     List<Fragment> getVisibleFragments();
     void navigateFragment(int selected);
-    void navigateBack();
     void onBackPressed();
     void navigateToMainActivity();
     void navigateToRegisterActivity();
@@ -40,4 +39,6 @@ public interface UserInfoActivityPresenter extends Presenter {
     boolean isDobSet();
     boolean isGenderSet();
     void updateCustomer();
+    void sendEmailVerifyAcc();
+    void onEmailChange(int string);
 }

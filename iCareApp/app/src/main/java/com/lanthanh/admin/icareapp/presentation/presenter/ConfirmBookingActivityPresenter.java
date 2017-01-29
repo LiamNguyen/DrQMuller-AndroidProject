@@ -9,7 +9,7 @@ import com.lanthanh.admin.icareapp.presentation.view.BaseView;
 
 public interface ConfirmBookingActivityPresenter extends Presenter{
     interface View extends BaseView{
-        void navigateToBookingDetailsActivity(int extra);
+        void navigateToMainActivity(int extra);
         String getStringResource(int id);
     }
 

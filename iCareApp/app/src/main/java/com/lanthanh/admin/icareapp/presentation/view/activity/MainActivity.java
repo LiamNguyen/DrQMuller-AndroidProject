@@ -1,6 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.view.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
@@ -11,6 +12,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.Toolbar;
@@ -43,19 +45,13 @@ import java.util.List;
  * Created by ADMIN on 12-Nov-16.
  */
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, MainActivityPresenter.View{
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, MainActivityPresenter.View{
     public final static boolean isUAT = false;
     public final static int NEWSTAB = 0;
-    public final static int BOOKTAB = 1;
+    public final static int APPOINTMENTTAB = 1;
     public final static int USERTAB = 2;
-    public final static int BOOKTAB_BOOK = 3;
+
     private MainActivityPresenter mMainPresenter;
-    private Drawable cartIcon;
-    private ListPopupWindow popupWindow;
-    private ListPopupWindowAdapter popupAdapter;
-    private MenuItem cart;
-    private View removedItem;
-    private List<String> cartList;
     private BottomNavigationView bottomNavigationView;
 
     //Controller
@@ -68,34 +64,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         init();
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
-            // Do something for lollipop and above versions
-            cartIcon = getResources().getDrawable(R.drawable.ic_shopping_cart_white_36dp, null);
-        } else{
-            // do something for phones running an SDK before lollipop
-            cartIcon = getResources().getDrawable(R.drawable.ic_shopping_cart_white_36dp);
-        }
-
-        //Toolbar
-        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolBar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Typeface titleFont = Typeface.createFromAsset(getAssets(), "fonts/SourceSansPro-Semibold.ttf");
-        TextView title = (TextView) toolBar.findViewById(R.id.toolbar_title);
-        title.setTypeface(titleFont);
-
         //Bottom Navigation View
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.getMenu().getItem(NEWSTAB).setChecked(false);
-        bottomNavigationView.getMenu().getItem(BOOKTAB).setChecked(true);
+        bottomNavigationView.getMenu().getItem(APPOINTMENTTAB).setChecked(true);
     }
 
     public void init(){
-        mMainPresenter = new MainActivityPresenterImpl(getSharedPreferences("content", Context.MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this,
-                getSupportFragmentManager(), new AppointmentManagerImpl(iCareApiImpl.getAPI()), new SendEmailManagerImpl(iCareApiImpl.getAPI()), new CustomerManagerImpl(iCareApiImpl.getAPI()));
-        //Init cart list for display
-        cartList = new ArrayList<>();
+        mMainPresenter = new MainActivityPresenterImpl(
+                getSharedPreferences("content", Context.MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this,
+                getSupportFragmentManager(), new AppointmentManagerImpl(iCareApiImpl.getAPI()), new CustomerManagerImpl(iCareApiImpl.getAPI()));
+
         //Init controllers
         networkController = new NetworkController(this);
     }
@@ -105,36 +85,55 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
+    protected void onResume() {
+        super.onResume();
+        networkController.registerNetworkReceiver();
 
         Intent i = getIntent();
         Bundle b = i.getExtras();
+
         if (b == null){
             //Check user's privilege to use the app. If false (NOT log in or NOT activate account), return to register
             if (!mMainPresenter.checkPrivilege()) {
                 mMainPresenter.navigateToRegisterActivity();
             }else {
-                onNavigationItemSelected(bottomNavigationView.getMenu().getItem(BOOKTAB));
+                int selected = getSelectedTab();
+                onNavigationItemSelected(bottomNavigationView.getMenu().getItem(selected));
             }
         }else {
-            if (b.containsKey("isSignedIn")) {
-                int n = b.getInt("isSignedIn");
-                if (n == 1) {
-                    onNavigationItemSelected(bottomNavigationView.getMenu().getItem(BOOKTAB));
-                    //bottomNavigationView.getMenu().getItem(1).setChecked(true);
+            if (b.containsKey(RegisterActivity.TAG)) {
+                Bundle bundle = b.getBundle(RegisterActivity.TAG);
+                if (bundle != null) {
+                    int n = bundle.getInt(RegisterActivity.LOGIN_STATUS);
+                    if (n == RegisterActivity.LOGGED_IN) {
+                        onNavigationItemSelected(bottomNavigationView.getMenu().getItem(APPOINTMENTTAB));
+                    }
                 }
-            }else if (b.containsKey("fromUserTab")){
-                if (b.getBoolean("fromUserTab"))
+            }else if (b.containsKey(UserDetailsActivity.TAG)){
+                if (b.getBoolean(UserDetailsActivity.TAG))
                     onNavigationItemSelected(bottomNavigationView.getMenu().getItem(USERTAB));
+            }else if (b.containsKey(ConfirmBookingActivity.TAG)) {
+                int m = b.getInt(ConfirmBookingActivity.TAG, 0);
+                if (m == ConfirmBookingActivity.CONFIRMED) {
+                    new AlertDialog.Builder(this)
+                            .setMessage(getString(R.string.booking_success))
+                            .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).setCancelable(false).show();
+                }else{
+                    new AlertDialog.Builder(this)
+                            .setMessage(getString(R.string.booking_fail))
+                            .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).setCancelable(false).show();
+                }
+                onNavigationItemSelected(bottomNavigationView.getMenu().getItem(APPOINTMENTTAB));
             }
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        networkController.registerNetworkReceiver();
     }
 
     @Override
@@ -148,121 +147,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onDestroy() {
         //releaseCartWhenReselect();
         super.onDestroy();
-    }
-
-    /* =============================== TOOLBAR ===============================*/
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
-
-        //Attach PopUpWindow to Cart
-        cart = menu.findItem(R.id.shopping_cart);
-        View v = cart.getActionView();
-        createPopUpWindow(v);
-
-        //Set up badge for Cart
-        ActionItemBadge.update(this, menu.findItem(R.id.shopping_cart), cartIcon, ActionItemBadge.BadgeStyles.RED, Integer.MIN_VALUE);
-
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        refreshCartIcon();
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.shopping_cart:
-                popupWindow.show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    //Create shopping cart window
-    public void createPopUpWindow(View v){
-        int width, height;
-        //Get screen width to put PopUpWindow to the right-most
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        width = displaymetrics.widthPixels;
-        //Get ToolBar height to put PopUpWindow in the middle of ToolBar
-        final TypedArray styledAttributes = getTheme().obtainStyledAttributes(
-                new int[] { android.R.attr.actionBarSize }
-        );
-        height = (int) styledAttributes.getDimension(0, 0);
-        //Create PopUpWindow
-        popupWindow = new ListPopupWindow(this);
-        popupAdapter = new ListPopupWindowAdapter(this, R.layout.activity_popup_item, cartList);
-        popupWindow.setAdapter(popupAdapter);
-        popupWindow.setAnchorView(v);
-        popupWindow.setWidth(450);
-        popupWindow.setHeight(ListPopupWindow.WRAP_CONTENT);
-        popupWindow.setHorizontalOffset(width);
-        popupWindow.setVerticalOffset(height);
-        popupWindow.setModal(true);
-        popupWindow.setOnItemClickListener(this);
-    }
-
-    @Override
-    public void onAddCartItem(String item) {
-        cartList.add(item);
-        invalidateOptionsMenu();
-    }
-
-    @Override
-    public void onRemoveCartItem(String item) {
-        cartList.remove(item);
-        popupAdapter.notifyDataSetChanged();
-        if (popupWindow.isShowing())
-            popupWindow.getListView().invalidateViews();
-        refreshCartIcon();
-    }
-
-    @Override
-    public void onRemoveCartItemColor(boolean isDone) {
-        if (removedItem != null){
-            if (isDone){
-                ListPopupWindowAdapter.ViewHolder holder = (ListPopupWindowAdapter.ViewHolder) removedItem.getTag();
-                TextView currentView = holder.getTextView();
-                currentView.setTextColor(getResources().getColor(R.color.colorDarkGray));
-            }else{
-                ListPopupWindowAdapter.ViewHolder holder = (ListPopupWindowAdapter.ViewHolder) removedItem.getTag();
-                TextView currentView = holder.getTextView();
-                currentView.setTextColor(getResources().getColor(R.color.colorLightGray));
-            }
-        }
-    }
-
-    @Override
-    public void onEmptyCart() {
-        cartList.clear();
-        invalidateOptionsMenu();
-    }
-
-    @Override
-    public void refreshCartIcon() {
-        if (cartList.size() > 0) {
-            ActionItemBadge.update(this, cart, cartIcon, ActionItemBadge.BadgeStyles.RED, cartList.size());
-        }else {
-            ActionItemBadge.update(this, cart, cartIcon, ActionItemBadge.BadgeStyles.RED, Integer.MIN_VALUE);
-        }
-    }
-
-    //Response to user click on cart window
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        if (position != 0) {
-            removedItem = view;
-            mMainPresenter.removeCartItem((String) adapterView.getAdapter().getItem(position));
-
-        }
     }
 
     @Override
@@ -312,6 +196,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         toast.show();
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startActivity(startMain);
+    }
+
     /* =============================== BOTTOM NAVIGATION VIEW ===============================*/
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -320,11 +211,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.action_booking:
                 bottomNavigationView.getMenu().getItem(USERTAB).setChecked(false);
-                bottomNavigationView.getMenu().getItem(BOOKTAB).setChecked(true);
-                mMainPresenter.navigateTab(BOOKTAB);
+                bottomNavigationView.getMenu().getItem(APPOINTMENTTAB).setChecked(true);
+                mMainPresenter.navigateTab(APPOINTMENTTAB);
                 break;
             case R.id.action_user:
-                bottomNavigationView.getMenu().getItem(BOOKTAB).setChecked(false);
+                bottomNavigationView.getMenu().getItem(APPOINTMENTTAB).setChecked(false);
                 bottomNavigationView.getMenu().getItem(USERTAB).setChecked(true);
                 mMainPresenter.navigateTab(USERTAB);
                 break;
@@ -332,6 +223,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
         }
         return false;
+    }
+
+    @Override
+    public int getSelectedTab() {
+        Menu menu = bottomNavigationView.getMenu();
+        for (int i = 0; i < menu.size(); i++) {
+            if (menu.getItem(i).isChecked()) {
+                return i;
+            }
+        }
+        return 1;
     }
 
     //Call in case losing network and then connected again

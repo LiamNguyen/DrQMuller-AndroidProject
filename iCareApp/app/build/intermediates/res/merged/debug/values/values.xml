@@ -597,6 +597,7 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
+    <string name="abort_booking">Hủy bỏ</string>
     <string name="abort_button">Hủy Bỏ</string>
     <string name="address">Địa Điểm</string>
     <string name="address_hint">Địa Chỉ</string>
@@ -612,12 +613,14 @@
     <string name="booking_confirm_hint">Nhập Mã Xác Nhận</string>
     <string name="booking_confirm_instruction">Quí khách vui lòng chờ bộ phận tiếp tân của trung tâm liên lạc trong giây lát</string>
     <string name="booking_country_hint">Chọn Quốc Gia</string>
+    <string name="booking_date_hint">Chọn Ngày</string>
     <string name="booking_district_hint">Chọn Quận</string>
     <string name="booking_do_date">Ngày Thực Hiện</string>
     <string name="booking_error_date">Ngày không hợp lệ. Xin vui lòng chọn lại</string>
     <string name="booking_expire_date">Ngày Kết Thúc</string>
     <string name="booking_fail">Nhập mã xác nhận chưa hoàn tất\nQuí khách có thể bấm vào thông tin lịch hẹn để hoàn thành xác nhận</string>
     <string name="booking_location_hint">Chọn Địa Điểm</string>
+    <string name="booking_machine_hint">Chọn Máy</string>
     <string name="booking_start_date">Ngày Bắt Đầu</string>
     <string name="booking_success">Quí khách đã đặt lịch hẹn thành công</string>
     <string name="booking_tab">Lịch Hẹn</string>
@@ -639,6 +642,8 @@
     <string name="email_hint">Email</string>
     <string name="email_null">Xin vui lòng nhập email</string>
     <string name="email_requirement">Email không hợp lệ</string>
+    <string name="email_reset_fail">Gửi email không thành công\nTài khoản không tồn tại hoặc không có email liên hệ</string>
+    <string name="email_reset_success">Gửi email thành công\nVui lòng kiểm tra email để khôi phục tài khoản</string>
     <string name="empty_appointment">Quí khách hiện chưa có lịch hẹn nào</string>
     <string name="empty_cart">Giỏ Hàng Trống</string>
     <string name="empty_code">Quí khách chưa nhập mã xác nhận</string>
@@ -710,8 +715,10 @@
     <string name="resetpw_send_mail_button">Gửi Email Khôi Phục</string>
     <string name="search_menu_title">Search</string>
     <string name="selected_day">Tối đa 1 giờ trong 1 ngày</string>
+    <string name="send_mail_again">Xin quí khách vui lòng gửi lại email</string>
     <string name="sign_in_button">Đăng Nhập</string>
     <string name="sign_up_button">Đăng Ký</string>
+    <string name="start_booking">Đặt lịch</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="temp_inform">Hiện tại Dr.Q-Muller chỉ có 1 trung tâm tại Quận 3, Việt Nam</string>
     <string name="thursday">Thứ Năm</string>
@@ -729,7 +736,7 @@
     <string name="username_null">Xin vui lòng nhập tên đăng nhập</string>
     <string name="username_requirement">Ít nhất 6 kí tự - Không có ký tự đặc biệt ở đầu và cuối</string>
     <string name="validate_back_to_register">Trở Về Trang Đăng Nhập</string>
-    <string name="validate_noti_fail">Gửi email không thành công\nVui lòng kiểm tra lại mạng, email hoặc "Gửi Email Kích Hoạt" để gửi lại email</string>
+    <string name="validate_noti_fail">Gửi email không thành công\nVui lòng kiểm tra lại mạng, email hoặc gửi lại email</string>
     <string name="validate_noti_success">Gửi email thành công\nVui lòng kiểm tra email để kích hoạt tài khoản</string>
     <string name="verify_already">Tài khoản đã được kích hoạt</string>
     <string name="verify_fail">Kích hoạt tài khoản thất bại</string>
@@ -1782,7 +1789,7 @@
         <item name="cardBackgroundColor">@color/cardview_light_background</item>
     </style>
     <style name="ErrorAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/colorVeryLightPurple</item>
+        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">18sp</item>
     </style>
     <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
@@ -2065,12 +2072,12 @@
     </style>
     <style name="TextLabelMain" parent="Widget.Design.TextInputLayout">
         <!-- Hint color and label color in FALSE state -->
-        <item name="android:textColorHint">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/colorWhite</item>
         <item name="android:textSize">20sp</item>
         <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
 
-        <item name="colorControlNormal">@color/colorPrimary</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/colorWhite</item>
+        <item name="colorControlActivated">@color/colorWhite</item>
     </style>
     <style name="Theme.AppCompat" parent="Base.Theme.AppCompat"/>
     <style name="Theme.AppCompat.CompactMenu" parent="Base.Theme.AppCompat.CompactMenu"/>

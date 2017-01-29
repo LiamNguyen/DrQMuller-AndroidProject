@@ -8,10 +8,13 @@ import com.google.gson.Gson;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
+import com.lanthanh.admin.icareapp.data.manager.SendEmailManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
 import com.lanthanh.admin.icareapp.domain.interactor.GetCustomerIdInteractor;
+import com.lanthanh.admin.icareapp.domain.interactor.SendEmailVerifyAccInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.GetCustomerIdInteractorImpl;
+import com.lanthanh.admin.icareapp.domain.interactor.impl.SendEmailVerifyAccInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateCustomerInteractorImpl;
 import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
@@ -35,11 +38,12 @@ import java.util.List;
  */
 
 public class UserInfoActivityPresenterImpl extends AbstractPresenter implements UserInfoActivityPresenter,
-            GetCustomerIdInteractor.Callback, UpdateCustomerInteractor.Callback{
+            GetCustomerIdInteractor.Callback, UpdateCustomerInteractor.Callback, SendEmailVerifyAccInteractor.Callback{
     private SharedPreferences sharedPreferences;
     private UserInfoActivityPresenter.View mView;
     private FragmentManager fragmentManager;
     private CustomerManager customerManager;
+    private SendEmailManager sendEmailManager;
     private NameAndAddressFragment nameLocationFragment;
     private DOBvsGenderFragment dobGenderFragment;
     private ContactFragment contactFragment;
@@ -49,12 +53,13 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
     private String username;
 
     public UserInfoActivityPresenterImpl(SharedPreferences sharedPreferences, Executor executor, MainThread mainThread, View view,
-                                         FragmentManager fragmentManager, CustomerManager customerManager){
+                                         FragmentManager fragmentManager, CustomerManager customerManager, SendEmailManager sendEmailManager){
         super(executor, mainThread);
         mView = view;
         this.sharedPreferences = sharedPreferences;
         this.fragmentManager = fragmentManager;
         this.customerManager = customerManager;
+        this.sendEmailManager = sendEmailManager;
         init();
     }
 
@@ -65,9 +70,7 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
         validateFragment = new ValidateFragment();
         changeEmailFragment = new ChangeEmailFragment();
         //Model User
-        Gson gson = new Gson();
-        String user = sharedPreferences.getString("user", "");
-        mUser = gson.fromJson(user, ModelUser.class);
+        mUser = customerManager.getLocalUserFromPref(sharedPreferences);
         if (mUser == null)
             mUser = new ModelUser();
     }
@@ -112,17 +115,17 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
     }
 
     @Override
-    public void navigateBack() {
-        fragmentManager.popBackStack();
-        mView.hideSoftKeyboard();
-    }
-
-    @Override
     public void onBackPressed() {
-        if (nameLocationFragment.isVisible())
+        if (nameLocationFragment.isVisible() || validateFragment.isVisible())
             navigateToRegisterActivity();
-        else
-            navigateBack();
+        else if (dobGenderFragment.isVisible())
+            navigateFragment(UserInfoActivity.NAME_LOCATION);
+        else if (contactFragment.isVisible())
+            navigateFragment(UserInfoActivity.DOB_GENDER);
+        else if (changeEmailFragment.isVisible())
+            navigateFragment(UserInfoActivity.VALIDATE);
+
+        mView.hideSoftKeyboard();
     }
 
     @Override
@@ -181,6 +184,11 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
     }
 
     @Override
+    public void onEmailChange(int string) {
+        validateFragment.showEmailResult(string);
+    }
+
+    @Override
     public void getCustomerId() {
         GetCustomerIdInteractor getCustomerIdInteractor = new GetCustomerIdInteractorImpl(mExecutor, mMainThread, this, customerManager, username);
         getCustomerIdInteractor.execute();
@@ -221,10 +229,23 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
     @Override
     public void onUpdateCustomerSuccess() {
         mUser.setGender(ConverterForDisplay.convertStringGenderFromDBToDisplay(mUser.getGender(), mView.getStringResource(R.string.male), mView.getStringResource(R.string.male)));
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("user", ConverterJson.convertObjectToJson(mUser));
-        editor.apply();
-        editor.commit();
-        navigateToMainActivity();
+        customerManager.saveLocalUserToPref(sharedPreferences, mUser);
+        navigateFragment(UserInfoActivity.VALIDATE);
+    }
+
+    @Override
+    public void sendEmailVerifyAcc() {
+        SendEmailVerifyAccInteractor sendEmailVerifyAccInteractor = new SendEmailVerifyAccInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, mUser.getEmail(), mUser.getID());
+        sendEmailVerifyAccInteractor.execute();
+    }
+
+    @Override
+    public void onEmailVerifyAccNotSent() {
+        validateFragment.showEmailResult(R.string.validate_noti_fail);
+    }
+
+    @Override
+    public void onEmailVerifyAccSent() {
+        validateFragment.showEmailResult(R.string.validate_noti_success);
     }
 }

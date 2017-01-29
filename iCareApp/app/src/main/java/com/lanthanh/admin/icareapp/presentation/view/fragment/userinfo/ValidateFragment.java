@@ -28,17 +28,12 @@ public class ValidateFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //Send email asa user go to this fragment
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
-//        if (sharedPref.getString("tokenEmail","").isEmpty() && sharedPref.getString("tokenID","").isEmpty())
-//            aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(MainActivity.isUAT), aController.getUserInfo().getPostEmail() + "&cus_id=" + aController.getUserInfo().getID());
-//        else
-//            aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(MainActivity.isUAT), "email=" + sharedPref.getString("tokenEmail","") + "&cus_id=" + sharedPref.getString("tokenID",""));
-
         View view = inflater.inflate(R.layout.userinfo_validate, container, false);
 
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        init();
 
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        ((UserInfoActivity) getActivity()).isToolBarHidden(true);
         AppCompatButton resend = (AppCompatButton) view.findViewById(R.id.ui_resend_email_button);
         resend.setOnClickListener(this);
         resend.setTypeface(font);
@@ -50,6 +45,8 @@ public class ValidateFragment extends Fragment implements View.OnClickListener{
         back.setTypeface(font);
         noti = (TextView) view.findViewById(R.id.ui_validate_noti);
         noti.setTypeface(font);
+
+        userInfoActivityPresenter.sendEmailVerifyAcc();
 
         return view;
     }
@@ -71,11 +68,7 @@ public class ValidateFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ui_resend_email_button:
-                SharedPreferences sharedPref = getActivity().getSharedPreferences("content", Context.MODE_PRIVATE);
-//                if (sharedPref.getString("tokenEmail","").isEmpty() && sharedPref.getString("tokenID","").isEmpty())
-//                    aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(MainActivity.isUAT), aController.getUserInfo().getPostEmail() + "&cus_id=" + aController.getUserInfo().getID());
-//                else
-//                    aController.setRequestData(getActivity(), this, ModelURL.SEND_EMAIL.getUrl(MainActivity.isUAT), "email=" + sharedPref.getString("tokenEmail","") + "&cus_id=" + sharedPref.getString("tokenID",""));
+                userInfoActivityPresenter.sendEmailVerifyAcc();
                 break;
             case R.id.ui_change_email_button:
                 userInfoActivityPresenter.navigateFragment(UserInfoActivity.CHANGEEMAIL);
@@ -88,26 +81,8 @@ public class ValidateFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-//    @Override
-//    public void update(Object o) {
-//        JSONObject status = (JSONObject) o;
-//
-//        try {
-//            if (status.has("Send_Email")){
-//                String result = status.getString("Send_Email");
-//                if (result.equals("Message has been sent")){
-//                    noti.setText(R.string.validate_noti_success);
-//                    noti.setTextColor(getResources().getColor(R.color.colorGreen));
-//                }else{
-//                    System.out.println("Message could not be sent");
-//                    System.out.println(status.getString("ERROR"));
-//                    noti.setText(R.string.validate_noti_fail);
-//                    noti.setTextColor(getResources().getColor(R.color.colorLightRed));
-//
-//                }
-//            }
-//        } catch (JSONException je){
-//            System.out.println("Problem with JSON API");
-//        }
-//    }
+    public void showEmailResult(int string){
+        noti.setText(string);
+        noti.setVisibility(View.VISIBLE);
+    }
 }

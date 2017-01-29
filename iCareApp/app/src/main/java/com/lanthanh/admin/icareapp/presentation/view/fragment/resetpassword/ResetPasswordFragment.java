@@ -34,7 +34,7 @@ public class ResetPasswordFragment extends Fragment implements TextWatcher, View
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.resetpw_reset, container, false);
+        View view = inflater.inflate(R.layout.fragment_resetpw_reset, container, false);
 
         init();
 
@@ -71,10 +71,10 @@ public class ResetPasswordFragment extends Fragment implements TextWatcher, View
             if (!b.getString("login_id","").isEmpty()){
                 username = b.getString("login_id","");
             }else{
-                resetPasswordActivityPresenter.navigateTab(ResetPasswordActivity.EMAIL_FOR_RESET);
+                resetPasswordActivityPresenter.navigateTab(ResetPasswordActivity.USERNAME_FOR_RESET);
             }
         }else{
-            resetPasswordActivityPresenter.navigateTab(ResetPasswordActivity.EMAIL_FOR_RESET);
+            resetPasswordActivityPresenter.navigateTab(ResetPasswordActivity.USERNAME_FOR_RESET);
         }
     }
 
@@ -88,7 +88,6 @@ public class ResetPasswordFragment extends Fragment implements TextWatcher, View
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if (password.getText().hashCode() == s.hashCode()){ //Check password
             String get_pw = s.toString();
-            get_pw.trim();
             if (!get_pw.equals("")){
                 if (get_pw.matches(ModelInputRequirement.PASSWORD)) {
                     password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0, R.drawable.ic_valid_input, 0);
@@ -115,7 +114,6 @@ public class ResetPasswordFragment extends Fragment implements TextWatcher, View
             }
         } else if (password_confirm.getText().hashCode() == s.hashCode()){ //Check password
             String pwconf = s.toString();
-            pwconf.trim();
             if (!pwconf.equals("")){
                 if (pwconf.equals(password.getText().toString())) {
                     password_confirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_valid_input, 0);

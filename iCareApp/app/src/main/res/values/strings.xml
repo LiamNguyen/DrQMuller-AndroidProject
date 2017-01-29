@@ -51,8 +51,9 @@
     <string name="remember_me">Ghi Nhớ</string>
     <string name="forget_password">Quên Mật Khẩu</string>
 
-    <string name="validate_noti_fail">Gửi email không thành công\nVui lòng kiểm tra lại mạng, email hoặc "Gửi Email Kích Hoạt" để gửi lại email</string>
+    <string name="validate_noti_fail">Gửi email không thành công\nVui lòng kiểm tra lại mạng, email hoặc gửi lại email</string>
     <string name="validate_noti_success">Gửi email thành công\nVui lòng kiểm tra email để kích hoạt tài khoản</string>
+    <string name="send_mail_again">Xin quí khách vui lòng gửi lại email</string>
     <string name="validate_back_to_register">Trở Về Trang Đăng Nhập</string>
 
     <!-- RESET PASSOWRD ACTIVITY -->
@@ -60,6 +61,8 @@
     <string name="resetpw_reset_pw_button">Khôi Phục</string>
     <string name="reset_success">Khôi phục mật khẩu thành công</string>
     <string name="reset_fail">Khôi phục mật khẩu thất bại</string>
+    <string name="email_reset_fail">Gửi email không thành công\nTài khoản không tồn tại hoặc không có email liên hệ</string>
+    <string name="email_reset_success">Gửi email thành công\nVui lòng kiểm tra email để khôi phục tài khoản</string>
 
     <!-- REGISTER PASSOWRD ACTIVITY -->
     <string name="verify_success">Kích hoạt tài khoản thành công</string>
@@ -76,7 +79,7 @@
     <string name="user_option_bag">Thông Tin Lịch Hẹn</string>
     <string name="user_option_logout">Đăng Xuất</string>
 
-    <!-- BOOKING TAB -->
+    <!-- BOOKING ACTIVITY -->
     <string name="booking_tab">Lịch Hẹn</string>
     <string name="booking_country_hint">Chọn Quốc Gia</string>
     <string name="booking_city_hint">Chọn Thành Phố</string>
@@ -86,9 +89,11 @@
     <string name="booking_type_hint">Chọn Phương Thức</string>
     <string name="booking_type_free">Tự do</string>
     <string name="booking_type_fixed">Cố định</string>
+    <string name="booking_machine_hint">Chọn Máy</string>
     <string name="booking_start_date">Ngày Bắt Đầu</string>
     <string name="booking_expire_date">Ngày Kết Thúc</string>
     <string name="booking_do_date">Ngày Thực Hiện</string>
+    <string name="booking_date_hint">Chọn Ngày</string>
     <string name="booking_error_date">Ngày không hợp lệ. Xin vui lòng chọn lại</string>
     <string name="missing_detail">Vui lòng điền đầy đủ thông tin</string>
     <string name="monday">Thứ Hai</string>
@@ -130,6 +135,11 @@
 
     <!-- USER DETAILS -->
     <string name="abort_button">Hủy Bỏ</string>
+
+    <!-- ********************************FRAGMENT******************************** -->
+    <!-- DEFAULT APPOINTMENT -->
+    <string name="start_booking">Đặt lịch</string>
+    <string name="abort_booking">Hủy bỏ</string>
 
     <!-- NETWORK -->
     <string name="no_network_connection">Hiện tại quí khách không có kết nối mạng</string>

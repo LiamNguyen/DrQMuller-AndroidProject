@@ -1,6 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.presenter.impl;
 
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
@@ -12,9 +13,11 @@ import com.lanthanh.admin.icareapp.domain.executor.Executor;
 import com.lanthanh.admin.icareapp.domain.interactor.CheckUserExistenceInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.InsertNewCustomerInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.LogInInteractor;
+import com.lanthanh.admin.icareapp.domain.interactor.UpdateVerifyAccInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.CheckUserExistenceInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.InsertNewCustomerInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.LogInInteractorImpl;
+import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateVerifyAccInteractorImpl;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 import com.lanthanh.admin.icareapp.presentation.presenter.RegisterActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.base.AbstractPresenter;
@@ -36,7 +39,7 @@ import java.util.Map;
  */
 
 public class RegisterActivityPresenterImpl extends AbstractPresenter implements RegisterActivityPresenter,
-            LogInInteractor.Callback, CheckUserExistenceInteractor.Callback, InsertNewCustomerInteractor.Callback{
+            LogInInteractor.Callback, CheckUserExistenceInteractor.Callback, InsertNewCustomerInteractor.Callback, UpdateVerifyAccInteractor.Callback{
     private SharedPreferences sharedPreferences;
     private RegisterActivityPresenter.View mView;
     private FragmentManager fragmentManager;
@@ -111,12 +114,17 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
 
     @Override
     public void navigateToMainActivity() {
-        mView.navigateActivity(MainActivity.class);
+        Bundle extras = new Bundle();
+        extras.putInt(RegisterActivity.LOGIN_STATUS, RegisterActivity.LOGGED_IN);
+        mView.navigateActivity(MainActivity.class, extras);
     }
 
     @Override
-    public void navigateToUserInfo(String username) {
-        mView.navigateActivity(UserInfoActivity.class, username);
+    public void navigateToUserInfo(String username, int uiStep) {
+        Bundle extras = new Bundle();
+        extras.putString(RegisterActivity.EXTRA_USERNAME, username);
+        extras.putInt(RegisterActivity.EXTRA_UISTEP, uiStep);
+        mView.navigateActivity(UserInfoActivity.class, extras);
     }
 
     @Override
@@ -154,7 +162,7 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
             if (user.getActive() != 0)
                 navigateToMainActivity();
             else
-                navigateToUserInfo(username);
+                navigateToUserInfo(username, user.getStep());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -184,6 +192,22 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
 
     @Override
     public void onInsertCustomerSuccess(String username) {
-        navigateToUserInfo(username);
+        navigateToUserInfo(username, 0);
+    }
+
+    @Override
+    public void updateVerifyAcc(String id) {
+        UpdateVerifyAccInteractor updateVerifyAccInteractor = new UpdateVerifyAccInteractorImpl(mExecutor, mMainThread, this, customerManager, id);
+        updateVerifyAccInteractor.execute();
+    }
+
+    @Override
+    public void onUpdateVerifyAccFail() {
+//        mView.showAlertDialog(R.string.verify_fail);
+    }
+
+    @Override
+    public void onUpdateVerifyAccSuccess() {
+        mView.showAlertDialog(R.string.verify_success);
     }
 }

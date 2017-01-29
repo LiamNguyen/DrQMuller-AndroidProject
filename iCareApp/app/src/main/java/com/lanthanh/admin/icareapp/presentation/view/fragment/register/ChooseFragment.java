@@ -23,7 +23,7 @@ public class ChooseFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.register_choose, container, false);
+        View view = inflater.inflate(R.layout.fragment_register_choose, container, false);
 
         init();
 

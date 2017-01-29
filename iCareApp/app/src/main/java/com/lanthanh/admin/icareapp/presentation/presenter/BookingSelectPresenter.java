@@ -24,13 +24,8 @@ public interface BookingSelectPresenter extends Presenter {
         void updateLocationList(List<String> list);
         void updateVoucherList(List<String> list);
         void updateTypeList(List<String> list);
-        void displayStartDate(String startDate);
-        void displayExpireDate(String expireDate);
-        void showStartDatePicker(Calendar calendar);
-        void showExpireDatePicker(Calendar calendar);
         void onVoucherChange();
         void onTypeChange();
-        void enableExpireDate();
     }
 
     void getAllCountries();
@@ -51,12 +46,6 @@ public interface BookingSelectPresenter extends Presenter {
     void onLocationSelect(String location);
     void onVoucherSelect(String voucher);
     void onTypeSelect(String type);
-    void onStartDateSet(Calendar startDate);
-    void onExpireDateSet(Calendar expireDate);
-    void onStartDatePickerClick();
-    void onExpireDatePickerClick();
-    void resetStartDate();
-    void resetExpireDate();
-    boolean isAllInfoFiiled();
-    boolean ecoBookingDayCheck(Calendar c);
+    boolean isAllInfoFilled();
+
 }

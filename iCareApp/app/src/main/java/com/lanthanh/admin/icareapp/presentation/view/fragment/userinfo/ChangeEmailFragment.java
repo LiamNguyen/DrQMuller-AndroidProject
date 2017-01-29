@@ -57,8 +57,8 @@ public class ChangeEmailFragment extends Fragment implements View.OnClickListene
             case R.id.ui_change_button:
                 if (validEmail) {
                     userInfoActivityPresenter.setEmail(email.getText().toString());
-                    userInfoActivityPresenter.navigateFragment(UserInfoActivity.VALIDATE);
-                    ((UserInfoActivity) getActivity()).showError("Xin vui lòng chọn Gửi Lại Email");
+                    userInfoActivityPresenter.updateCustomer();
+                    userInfoActivityPresenter.onEmailChange(R.string.send_mail_again);
                 }else {
                     if (email.getText().toString().equals("")) {
                         email_container.setError(getString(R.string.email_null));

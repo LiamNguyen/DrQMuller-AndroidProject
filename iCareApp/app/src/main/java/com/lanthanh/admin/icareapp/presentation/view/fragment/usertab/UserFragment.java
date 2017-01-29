@@ -34,7 +34,7 @@ public class UserFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.user, container, false);
+        View view = inflater.inflate(R.layout.fragment_usertab, container, false);
 
         init();
 
@@ -55,7 +55,7 @@ public class UserFragment extends Fragment{
         //Init options list
         list = new ArrayList<>();
         list.add(mUser.getName());
-        list.add(getString(R.string.user_option_bag));
+        //list.add(getString(R.string.user_option_bag));
         list.add(getString(R.string.user_option_logout));
     }
 }

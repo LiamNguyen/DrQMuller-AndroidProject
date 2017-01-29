@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.presentation.presenter;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,21 +18,23 @@ public interface RegisterActivityPresenter extends Presenter {
     interface View extends BaseView {
         void showFragment(FragmentManager fm, Fragment f, List<Fragment> visibleFrags);
         void hideFragments(FragmentTransaction ft, List<Fragment> visibleFrags);
+        void navigateActivity(Class activityClass, Bundle extras);
         void navigateActivity(Class activityClass);
-        void navigateActivity(Class activityClass, String extra);
         void backToHomeScreen();
         void hideSoftKeyboard();
         RegisterActivityPresenter getMainPresenter();
         String getStringResource(int id);
+        void showAlertDialog(int id);
     }
 
     List<Fragment> getVisibleFragments();
     void navigateFragment(int selected);
     void navigateBack();
     void onBackPressed();
-    void navigateToUserInfo(String username);
+    void navigateToUserInfo(String username, int uistep);
     void navigateToResetPW();
     void navigateToMainActivity();
     void logIn(String username, String password);
     void checkUserExistence(String username, String password);
+    void updateVerifyAcc(String id);
 }

@@ -20,7 +20,7 @@ import java.util.Calendar;
 
 public class CustomerManagerImpl extends AbstractManager implements CustomerManager {
     private String logInResult;
-    private boolean userExistenceResult, newCusResult, updateCusResult, updatePwResult;
+    private boolean userExistenceResult, newCusResult, updateCusResult, updatePwResult, updateVerifyAcc;
     private int getIdResult;
 
     public CustomerManagerImpl(iCareApi api){
@@ -89,11 +89,21 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
     @Override
     public boolean updateCustomerPassword(String username, String password) {
         String data = ConverterToUrlData.convertToUrlData(
-                ConverterToUrlData.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY, CustomerManager.CUSTOMER_PASSWORD_KEY),
+                ConverterToUrlData.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY_2, CustomerManager.CUSTOMER_PASSWORD_KEY),
                 ConverterToUrlData.getValues(username, password)
         );
         mApi.sendPostRequest(this, ModelURL.UPDATE_RESETPW.getUrl(Manager.isUAT), data);
         return updatePwResult;
+    }
+
+    @Override
+    public boolean updateVerifyAcc(String id) {
+        String data = ConverterToUrlData.convertToUrlData(
+                ConverterToUrlData.getKeys(CustomerManager.CUSTOMER_ID_KEY_2),
+                ConverterToUrlData.getValues(id)
+        );
+        mApi.sendPostRequest(this, ModelURL.UPDATE_VERIFYACC.getUrl(Manager.isUAT), data);
+        return updateVerifyAcc;
     }
 
     @Override
@@ -154,6 +164,12 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                 this.updatePwResult = true;
             else
                 this.updatePwResult = false;
+        }else if (jsonObject.has("Update_VerifyAcc")){
+            String result = jsonObject.get("Update_VerifyAcc").getAsString();
+            if (result.equals("Updated"))
+                this.updateVerifyAcc = true;
+            else
+                this.updateVerifyAcc = false;
         }else{
             resetResult();
         }
@@ -166,6 +182,7 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
         newCusResult = false;
         updateCusResult = false;
         updatePwResult = false;
+        updateVerifyAcc = false;
         getIdResult = 0;
     }
 }

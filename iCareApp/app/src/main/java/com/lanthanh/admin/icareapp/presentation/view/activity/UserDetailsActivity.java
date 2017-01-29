@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
+import com.lanthanh.admin.icareapp.data.manager.impl.AppointmentManagerImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
 import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
@@ -37,6 +38,7 @@ import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
 
 public class UserDetailsActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher,
         UserDetailsActivityPresenter.View{
+    public static final String TAG = UserDetailsActivity.class.getSimpleName();
     private TextInputEditText name, address, gender, dob, email, phone;
     private TextInputLayout name_container, address_container, email_container, phone_container;
     private AppCompatButton abort, finish;
@@ -59,9 +61,6 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        TextView title = (TextView) toolBar.findViewById(R.id.toolbar_title);
-        title.setVisibility(View.GONE);
 
         appBarLayout = (AppBarLayout) findViewById(R.id.appBar);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coorLayout);
@@ -135,7 +134,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
 
     public void init(){
         userDetailsActivityPresenter = new UserDetailsActivityPresenterImpl(getSharedPreferences("content", MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this,
-                getSupportFragmentManager(), new CustomerManagerImpl(iCareApiImpl.getAPI()));
+                getSupportFragmentManager(), new CustomerManagerImpl(iCareApiImpl.getAPI()), new AppointmentManagerImpl(iCareApiImpl.getAPI()));
         //Init controllers
         networkController = new NetworkController(this);
         validName = true; validAddress = true; validEmail = true; validPhone = true;
@@ -154,7 +153,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_toolbar_userdetails, menu);
+        getMenuInflater().inflate(R.menu.toolbar_userdetails, menu);
         return true;
     }
 
@@ -182,7 +181,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void navigateToMainActivity() {
         Intent toMain = new Intent(this, MainActivity.class);
-        toMain.putExtra("fromUserTab", true);
+        toMain.putExtra(TAG, true);
         startActivity(toMain);
         finish();
     }

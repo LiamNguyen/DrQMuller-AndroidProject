@@ -6,7 +6,7 @@
     <TextView
         android:id="@+id/day_of_week"
         android:textSize="30sp"
-        android:textColor="@color/colorLightBlack"
+        android:textColor="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

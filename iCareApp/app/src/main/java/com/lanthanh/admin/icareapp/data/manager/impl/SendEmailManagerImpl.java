@@ -23,7 +23,7 @@ import java.util.Calendar;
  */
 
 public class SendEmailManagerImpl extends AbstractManager implements SendEmailManager {
-    private boolean notifyBookingResult, verifyAccResult, resetPwResult;
+    private int notifyBookingResult, verifyAccResult, resetPwResult;
 
     public SendEmailManagerImpl(iCareApi api){
         super(api);
@@ -31,7 +31,7 @@ public class SendEmailManagerImpl extends AbstractManager implements SendEmailMa
     }
 
     @Override
-    public boolean sendEmailNotifyBooking(DTOAppointment dtoAppointment) {
+    public int sendEmailNotifyBooking(DTOAppointment dtoAppointment) {
         String data = ConverterToUrlData.convertToUrlData(
                 ConverterToUrlData.getKeys  (
                         CustomerManager.CUSTOMER_ID_KEY_2, AppointmentManager.CREATED_DAY,
@@ -50,13 +50,23 @@ public class SendEmailManagerImpl extends AbstractManager implements SendEmailMa
     }
 
     @Override
-    public boolean sendEmailResetPassword(String email, String username) {
+    public int sendEmailResetPassword(String username) {
         String data = ConverterToUrlData.convertToUrlData(
-                ConverterToUrlData.getKeys  (CustomerManager.CUSTOMER_USERNAME_KEY_2, CustomerManager.CUSTOMER_EMAIL_KEY),
-                ConverterToUrlData.getValues(username, email)
+                ConverterToUrlData.getKeys  (CustomerManager.CUSTOMER_USERNAME_KEY_2),
+                ConverterToUrlData.getValues(username)
         );
         mApi.sendPostRequest(this, ModelURL.SENDEMAIL_RESETPW.getUrl(Manager.isUAT), data);
         return resetPwResult;
+    }
+
+    @Override
+    public int sendEmailVerifyAcc(String email, int id) {
+        String data = ConverterToUrlData.convertToUrlData(
+                ConverterToUrlData.getKeys  (CustomerManager.CUSTOMER_ID_KEY_2, CustomerManager.CUSTOMER_EMAIL_KEY),
+                ConverterToUrlData.getValues(Integer.toString(id), email)
+        );
+        mApi.sendPostRequest(this, ModelURL.SENDEMAIL_VERIFYACC.getUrl(Manager.isUAT), data);
+        return verifyAccResult;
     }
 
     @Override
@@ -68,24 +78,35 @@ public class SendEmailManagerImpl extends AbstractManager implements SendEmailMa
 
         JsonObject jsonObject = ConverterJson.convertJsonToObject(json, JsonObject.class);
 
-        if (jsonObject.has("SendMail_NotifyBooking")) {
-            String result = jsonObject.get("SendMail_NotifyBooking").getAsString();
+        if (jsonObject.has("SendEmail_NotifyBooking")) {
+            String result = jsonObject.get("SendEmail_NotifyBooking").getAsString();
             if (result.equals("Message has been sent"))
-                notifyBookingResult = true;
+                notifyBookingResult = STATUS_SENT;
             else
-                notifyBookingResult = false;
-        }else if (jsonObject.has("Send_Mail")) {
-
-        }
-        else{
+                notifyBookingResult = STATUS_NOTSENT;
+        }else if (jsonObject.has("SendEmail_ResetPassword")) {
+            String result = jsonObject.get("SendEmail_ResetPassword").getAsString();
+            if (result.equals("Message has been sent"))
+                resetPwResult = STATUS_SENT;
+            else if (result.equals("Could not find username or email"))
+                resetPwResult = STATUS_USERNAMEOREMAIL_NOTFOUND;
+            else
+                resetPwResult = STATUS_NOTSENT;
+        }else if (jsonObject.has("SendEmail_VerifyAcc")){
+            String result = jsonObject.get("SendEmail_VerifyAcc").getAsString();
+            if (result.equals("Message has been sent"))
+                verifyAccResult = STATUS_SENT;
+            else
+                verifyAccResult = STATUS_NOTSENT;
+        }else{
             resetResult();
         }
     }
 
     @Override
     public void resetResult() {
-        notifyBookingResult = false;
-        verifyAccResult = false;
-        resetPwResult = false;
+        notifyBookingResult = STATUS_NOTSENT;
+        verifyAccResult = STATUS_NOTSENT;
+        resetPwResult = STATUS_NOTSENT;
     }
 }

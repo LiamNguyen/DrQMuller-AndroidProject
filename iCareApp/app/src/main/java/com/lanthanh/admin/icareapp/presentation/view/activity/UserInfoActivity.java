@@ -20,6 +20,7 @@ import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
+import com.lanthanh.admin.icareapp.data.manager.impl.SendEmailManagerImpl;
 import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.presentation.presenter.RegisterActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserInfoActivityPresenter;
@@ -65,9 +66,6 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoActiv
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView title = (TextView) toolBar.findViewById(R.id.toolbar_title);
-        title.setVisibility(View.GONE);
-
         userInfoActivityPresenter.navigateFragment(NAME_LOCATION);
     }
 
@@ -76,7 +74,7 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoActiv
         networkController = new NetworkController(this);
         //Init presenter
         userInfoActivityPresenter = new UserInfoActivityPresenterImpl(getSharedPreferences("content", Context.MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this,
-                getSupportFragmentManager(), new CustomerManagerImpl(iCareApiImpl.getAPI()));
+                getSupportFragmentManager(), new CustomerManagerImpl(iCareApiImpl.getAPI()), new SendEmailManagerImpl(iCareApiImpl.getAPI()));
     }
 
     @Override
@@ -85,8 +83,14 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoActiv
         Intent i = getIntent();
         Bundle b = i.getExtras();
         if (b != null){
-            if (b.containsKey("fromRegisterActivity"))
-                userInfoActivityPresenter.setUsername(b.getString("fromRegisterActivity", ""));
+            if (b.containsKey(RegisterActivity.TAG)) {
+                Bundle bundle = b.getBundle(RegisterActivity.TAG);
+                if (bundle != null) {
+                    userInfoActivityPresenter.setUsername(bundle.getString(RegisterActivity.EXTRA_USERNAME, ""));
+                    if (bundle.getInt(RegisterActivity.EXTRA_UISTEP) == 1)
+                        userInfoActivityPresenter.navigateFragment(VALIDATE);
+                }
+            }
         }
 //        SharedPreferences sharedPref = this.getSharedPreferences("content", Context.MODE_PRIVATE);
 //        if (!sharedPref.getString("step", "0").equals("0"))

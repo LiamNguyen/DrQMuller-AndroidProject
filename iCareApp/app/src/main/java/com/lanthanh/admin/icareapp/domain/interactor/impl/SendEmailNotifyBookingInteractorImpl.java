@@ -25,8 +25,8 @@ public class SendEmailNotifyBookingInteractorImpl extends AbstractInteractor imp
 
     @Override
     public void run() {
-        boolean result = mSendEmailManager.sendEmailNotifyBooking(dtoAppointment);
-        if (result){
+        int result = mSendEmailManager.sendEmailNotifyBooking(dtoAppointment);
+        if (result == SendEmailManager.STATUS_SENT){
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {

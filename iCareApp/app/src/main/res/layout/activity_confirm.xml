@@ -2,43 +2,24 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
-
+    android:layout_height="match_parent">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_above="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include
-                layout="@layout/toolbar"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorVeryLightGray"/>
-
-            <FrameLayout
-                android:id="@+id/fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </LinearLayout>
+        android:layout_height="wrap_content">
+        <include
+            layout="@layout/util_toolbar" />
 
         <TextView
             android:text="@string/booking_confirm_instruction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/booking_instruction"
-            android:textSize="31sp"
-            android:layout_marginTop="50dp"
-            android:padding="50dp" />
+            android:textSize="30sp"
+            android:textColor="@color/colorWhite"
+            android:padding="30dp" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/booking_confirm_container"
@@ -48,14 +29,14 @@
             app:passwordToggleEnabled="false"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="50dp">
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/booking_confirm_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:maxLength="10"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorWhite"
                 android:hint="@string/booking_confirm_hint"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -63,15 +44,15 @@
             android:id="@+id/confirm_button"
             android:text="@string/booking_confirm_button"
             android:textColor="@color/colorWhite"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/button_style"
             android:textSize="18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:layout_marginBottom="200dp"
+            android:layout_marginBottom="2dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"/>
-    </LinearLayout>
 
+    </LinearLayout>
 </ScrollView>

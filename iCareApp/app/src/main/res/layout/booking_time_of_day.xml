@@ -6,7 +6,7 @@
     <TextView
         android:id="@+id/time_of_day"
         android:textSize="25sp"
-        android:textColor="@color/colorLightBlack"
+        android:textColor="@color/colorWhite"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:layout_width="match_parent"

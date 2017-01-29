@@ -153,12 +153,16 @@ public class DTOAppointment {
         return status;
     }
 
-    public boolean isSelectFilled(){
+    public boolean isFirstSelectFilled(){
+        return country != null && city != null && district != null && location != null && voucher != null && type != null;
+    }
+
+    public boolean isDateSelectFilled(){
         if (type != null) {
             if (type.getId() == 1)
-                return country != null && city != null && district != null && location != null && voucher != null && startDate != null && expireDate != null;
+                return startDate != null && expireDate != null;
             else
-                return country != null && city != null && district != null && location != null && voucher != null && expireDate != null;
+                return expireDate != null;
         }else
             return false;
     }

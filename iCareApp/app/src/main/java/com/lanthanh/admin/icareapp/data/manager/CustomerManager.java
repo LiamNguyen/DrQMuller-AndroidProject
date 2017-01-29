@@ -29,6 +29,7 @@ public interface CustomerManager extends Manager {
     int     getCustomerId(String username);
     boolean updateCustomer(ModelUser user);
     boolean updateCustomerPassword(String username, String password);
+    boolean updateVerifyAcc(String id);
     ModelUser getLocalUserFromPref(SharedPreferences sharedPreferences);
     void saveLocalUserToPref(SharedPreferences sharedPreferences, ModelUser user);
     void resetResult();

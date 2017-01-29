@@ -27,7 +27,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.register_sign_in, container, false);
+        View view = inflater.inflate(R.layout.fragment_register_signin, container, false);
 
         init();
 
@@ -62,7 +62,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.si_sign_in_button:
-                registerActivityPresenter.logIn(username.getText().toString(), password.getText().toString());
+                registerActivityPresenter.logIn(username.getText().toString().trim(), password.getText().toString());
                 break;
             case R.id.si_forget_pw:
                 registerActivityPresenter.navigateToResetPW();

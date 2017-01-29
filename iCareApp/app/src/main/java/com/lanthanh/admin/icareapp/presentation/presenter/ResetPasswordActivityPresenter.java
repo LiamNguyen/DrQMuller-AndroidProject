@@ -19,12 +19,14 @@ public interface ResetPasswordActivityPresenter extends Presenter {
         void showFragment(FragmentManager fm, Fragment f, List<Fragment> visibleFrags);
         void hideFragments(FragmentTransaction ft, List<Fragment> visibleFrags);
         ResetPasswordActivityPresenter getMainPresenter();
-        void navigateToRegisterActivity(int extra);
+        void navigateToRegisterActivity(int result);
+        void navigateToRegisterActivity();
     }
 
     void navigateTab(int selected);
     List<Fragment> getVisibleFragments();
-    void sendEmailToResetPassword(String email, String username);
+    void sendEmailToResetPassword(String username);
     void setResetPWFragmentArguments(Bundle b);
     void updateCustomerPassword(String username, String password);
+    void onBackPressed();
 }

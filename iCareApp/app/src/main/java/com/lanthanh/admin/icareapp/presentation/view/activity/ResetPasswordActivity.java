@@ -11,10 +11,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.R;
@@ -24,22 +24,19 @@ import com.lanthanh.admin.icareapp.data.manager.impl.SendEmailManagerImpl;
 import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.impl.ResetPasswordActivityPresenterImpl;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.resetpassword.EmailForResetFragment;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.resetpassword.ResetPasswordFragment;
 import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by ADMIN on 22-Nov-16.
  */
 public class ResetPasswordActivity extends AppCompatActivity implements ResetPasswordActivityPresenter.View {
-    public static final int EMAIL_FOR_RESET = 0;
+    public static final String TAG = ResetPasswordActivity.class.getSimpleName();
+    public static final int SUCCESS = 1;
+    public static final int FAIL = 0;
+    public static final int USERNAME_FOR_RESET = 0;
     public static final int RESET_PW = 1;
-    private FragmentManager fragmentManager;
-    private EmailForResetFragment emailForResetFragment;
-    private ResetPasswordFragment resetPasswordFragment;
     private ResetPasswordActivityPresenter resetPasswordActivityPresenter;
     private NetworkController networkController;
 
@@ -57,11 +54,8 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView title = (TextView) toolBar.findViewById(R.id.toolbar_title);
-        title.setVisibility(View.GONE);
-
         //Get ChooseFragment for when loading Acitivity
-        resetPasswordActivityPresenter.navigateTab(EMAIL_FOR_RESET);
+
     }
 
     public void init(){
@@ -72,30 +66,27 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
+    protected void onResume() {
+        super.onResume();
+        networkController.registerNetworkReceiver();
         if (getIntent() != null) {
             Intent intent = getIntent();
             Bundle b = intent.getExtras();
             if (b != null) {
-                if (!b.getString("login_id", "").isEmpty()) {
-                    resetPasswordActivityPresenter.setResetPWFragmentArguments(b);
-                    resetPasswordActivityPresenter.navigateTab(RESET_PW);
-                } else {
-                    System.out.println("Problem in DeepLinkActivity");
-                    navigateToRegisterActivity(-1);
+                if (b.containsKey(DeepLinkActivity.TAG)) {
+                    Bundle bundle = b.getBundle(DeepLinkActivity.TAG);
+                    if (bundle != null){
+                        resetPasswordActivityPresenter.setResetPWFragmentArguments(bundle);
+                        resetPasswordActivityPresenter.navigateTab(RESET_PW);
+                    }else{
+                        Log.e(TAG, "No data received from DeepLinkActivity");
+                    }
                 }
-            }else {
-                resetPasswordActivityPresenter.navigateTab(EMAIL_FOR_RESET);
+            }else{
+                resetPasswordActivityPresenter.navigateTab(USERNAME_FOR_RESET);
             }
         }
         setIntent(null);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        networkController.registerNetworkReceiver();
     }
 
     @Override
@@ -108,10 +99,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-//                if (emailForResetFragment.isVisible())
-                    navigateToRegisterActivity(-1);
-//                else
-//                    navigateBack();
+                resetPasswordActivityPresenter.onBackPressed();
                 return true;
         }
 
@@ -157,22 +145,22 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
 
     }
 
-//    /*
-//    *Navigate to last fragment
-//    */
-//    public void navigateBack(){
-//        fragmentManager.popBackStack();
-//
-//        //Hide soft keyboard if it is open
-//        hideSoftKeyboard();
-//    }
+    @Override
+    public void navigateToRegisterActivity(int result){
+        Intent toRegister = new Intent(this, RegisterActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("result", result);
+        toRegister.putExtra(TAG, bundle);
+        startActivity(toRegister);
+        finish();
+
+        //Hide soft keyboard if it is open
+        hideSoftKeyboard();
+    }
 
     @Override
-    public void navigateToRegisterActivity(int extra){
+    public void navigateToRegisterActivity() {
         Intent toRegister = new Intent(this, RegisterActivity.class);
-        if (extra != -1){
-            toRegister.putExtra("fromResetPw", extra);
-        }
         startActivity(toRegister);
         finish();
 
@@ -196,9 +184,6 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
 
     @Override
     public void onBackPressed() {
-//        if (emailForResetFragment.isVisible())
-            navigateToRegisterActivity(-1);
-//        else
-//            navigateBack();
+        resetPasswordActivityPresenter.onBackPressed();
     }
 }

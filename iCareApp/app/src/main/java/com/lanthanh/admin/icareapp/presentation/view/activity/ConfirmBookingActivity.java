@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.AppointmentManagerImpl;
+import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
 import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.ConfirmBookingActivityPresenter;
@@ -32,8 +33,10 @@ import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
 
 public class ConfirmBookingActivity extends AppCompatActivity implements View.OnClickListener,
         ConfirmBookingActivityPresenter.View {
+    public static final String TAG = ConfirmBookingActivity.class.getSimpleName();
+    public static final int CONFIRMED = 1;
+    public static final int NOT_CONFIRMED = 0;
     private TextInputEditText edttxt;
-
     private ConfirmBookingActivityPresenter confirmBookingActivityPresenter;
     private NetworkController networkController;
 
@@ -52,9 +55,6 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView title = (TextView) toolBar.findViewById(R.id.toolbar_title);
-        title.setVisibility(View.GONE);
-
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
         AppCompatButton button = (AppCompatButton) findViewById(R.id.confirm_button);
         button.setOnClickListener(this);
@@ -68,7 +68,8 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
     }
 
     public void init(){
-        confirmBookingActivityPresenter = new ConfirmBookingActivityPresenterImpl(getSharedPreferences("content", MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this, new AppointmentManagerImpl(iCareApiImpl.getAPI()));
+        confirmBookingActivityPresenter = new ConfirmBookingActivityPresenterImpl(getSharedPreferences("content", MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this,
+                new CustomerManagerImpl(iCareApiImpl.getAPI()), new AppointmentManagerImpl(iCareApiImpl.getAPI()));
         //Init controllers
         networkController = new NetworkController(this);
     }
@@ -89,7 +90,7 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                navigateToBookingDetailsActivity(0);
+                navigateToMainActivity(0);
                 return true;
         }
 
@@ -107,10 +108,10 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
     }
 
     @Override
-    public void navigateToBookingDetailsActivity(int extra) {
-        Intent toDetails = new Intent(this, BookingDetailsActivity.class);
-        toDetails.putExtra("isBookingSuccess", extra);
-        startActivity(toDetails);
+    public void navigateToMainActivity(int extra) {
+        Intent toMain = new Intent(this, MainActivity.class);
+        toMain.putExtra(TAG, extra);
+        startActivity(toMain);
         finish();
     }
 
@@ -133,7 +134,7 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onBackPressed() {
-        navigateToBookingDetailsActivity(0);
+        navigateToMainActivity(NOT_CONFIRMED);
     }
 
     @Override
