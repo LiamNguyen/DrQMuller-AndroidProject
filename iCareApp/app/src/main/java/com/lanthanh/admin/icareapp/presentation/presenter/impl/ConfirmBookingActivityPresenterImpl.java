@@ -1,6 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.presenter.impl;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter implements ConfirmBookingActivityPresenter,
              UpdateAppointmentInteractor.Callback {
+    public static final String TAG = ConfirmBookingActivityPresenterImpl.class.getSimpleName();
     private SharedPreferences sharedPreferences;
     private AppointmentManager appointmentManager;
     private CustomerManager customerManager;
@@ -51,30 +53,38 @@ public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter imple
 
     @Override
     public void onUpdateAppointmentFail() {
-        mView.showError(mView.getStringResource(R.string.wrong_code));
+        try {
+            mView.showError(mView.getStringResource(R.string.wrong_code));
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onUpdateAppointmentSuccess(String verificationCode) {
-        //Get local appointment list
-        List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
-        if (appointmentsList == null){
-            onError("No appointment found while in ConfirmActivity");
-            return;
-        }
-
-        //Update local appointment that have the same verification code
-        for (int i = 0; i < appointmentsList.size(); i++){
-            DTOAppointment appointment = appointmentsList.get(i);
-            if (appointment.getVerficationCode().equals(verificationCode)) {
-                appointment.setStatus(true);
-                break;
+        try {
+            //Get local appointment list
+            List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
+            if (appointmentsList == null) {
+                onError("No appointment found while in ConfirmActivity");
+                return;
             }
+
+            //Update local appointment that have the same verification code
+            for (int i = 0; i < appointmentsList.size(); i++) {
+                DTOAppointment appointment = appointmentsList.get(i);
+                if (appointment.getVerficationCode().equals(verificationCode)) {
+                    appointment.setStatus(true);
+                    break;
+                }
+            }
+            //Put appointment list to shared pref
+            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList);
+            //Navigate to booking details
+            mView.navigateToMainActivity(ConfirmBookingActivity.CONFIRMED);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
         }
-        //Put appointment list to shared pref
-        appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList);
-        //Navigate to booking details
-        mView.navigateToMainActivity(ConfirmBookingActivity.CONFIRMED);
     }
 
     @Override

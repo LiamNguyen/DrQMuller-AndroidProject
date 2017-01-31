@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
@@ -29,6 +30,7 @@ import java.util.List;
 
 public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implements ResetPasswordActivityPresenter,
         SendEmailResetPasswordInteractor.Callback, UpdateCustomerPasswordInteractor.Callback {
+    public static final String TAG = ResetPasswordActivityPresenterImpl.class.getSimpleName();
     private ResetPasswordActivityPresenter.View mView;
     private SendEmailManager sendEmailManager;
     private CustomerManager customerManager;
@@ -94,17 +96,29 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
 
     @Override
     public void onEmailResetPasswordNotSent() {
-        System.out.println("Email sent fail");
+        try {
+            System.out.println("Email sent fail");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onUsernameOrEmailNotFound() {
-        usernameForResetFragment.showEmailResult(R.string.email_reset_fail);
+        try {
+            usernameForResetFragment.showEmailResult(R.string.email_reset_fail);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onEmailResetPasswordSent() {
-        usernameForResetFragment.showEmailResult(R.string.email_reset_success);
+        try {
+            usernameForResetFragment.showEmailResult(R.string.email_reset_success);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
@@ -115,12 +129,20 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
 
     @Override
     public void onResetPasswordFail() {
-        mView.navigateToRegisterActivity(ResetPasswordActivity.FAIL);
+        try {
+            mView.navigateToRegisterActivity(ResetPasswordActivity.FAIL);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onResetPasswordSuccess() {
-        mView.navigateToRegisterActivity(ResetPasswordActivity.SUCCESS);
+        try {
+            mView.navigateToRegisterActivity(ResetPasswordActivity.SUCCESS);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override

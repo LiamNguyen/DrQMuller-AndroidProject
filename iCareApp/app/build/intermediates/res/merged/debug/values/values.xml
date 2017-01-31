@@ -597,12 +597,14 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
+    <string name="abort_appointment_dialog">Quí khách có chắc chắn muốn hủy bỏ toàn bộ lịch hẹn?</string>
     <string name="abort_booking">Hủy bỏ</string>
     <string name="abort_button">Hủy Bỏ</string>
     <string name="address">Địa Điểm</string>
     <string name="address_hint">Địa Chỉ</string>
     <string name="address_null">Xin vui lòng nhập địa chỉ</string>
     <string name="address_requirement">Không dùng kí tự đặc biệt ngoại trừ -, ., \'</string>
+    <string name="agree_button">Đồng Ý</string>
     <string name="already_booked">Giờ đã bị đặt</string>
     <string name="app_name">Dr.Q-Muller</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>

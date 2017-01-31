@@ -5,12 +5,14 @@ import android.os.Looper;
 
 import com.lanthanh.admin.icareapp.threading.MainThread;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by ADMIN on 05-Jan-17.
  */
 
 public class MainThreadImpl implements MainThread {
-
     private static MainThread sMainThread;
 
     private Handler mHandler;

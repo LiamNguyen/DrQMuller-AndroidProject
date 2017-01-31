@@ -1,5 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.presenter.impl;
 
+import android.util.Log;
+
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
 import com.lanthanh.admin.icareapp.data.manager.TimeManager;
@@ -36,6 +38,7 @@ import java.util.List;
 public class BookingBookPresenterImpl extends AbstractPresenter implements BookingBookPresenter,
         GetAllTimeInteractor.Callback, GetAllSelectedTimeInteractor.Callback, GetAllWeekDaysInteractor.Callback,
         GetAllEcoTimeInteractor.Callback, BookingInteractor.Callback{
+    public static final String TAG = BookingBookPresenter.class.getSimpleName();
     private BookingBookPresenter.View mView;
     private DTOAppointment dtoAppointment;
     private List<DTOTime> timeList, ecoTimeList, selectedTimeList;
@@ -117,13 +120,21 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
 
     @Override
     public void onAllTimeReceive(List<DTOTime> timeList) {
-        this.timeList = timeList;
-        vipTime = ConverterForDisplay.convertToStringList(timeList);
+        try {
+            this.timeList = timeList;
+            vipTime = ConverterForDisplay.convertToStringList(timeList);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onNoTimeFound() {
-        mView.showError("No all time found");
+        try {
+            mView.showError("No all time found");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
@@ -145,13 +156,21 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
 
     @Override
     public void onEcoTimeFound(List<DTOTime> ecoTimeList) {
-        this.ecoTimeList = ecoTimeList;
-        ecoTime = ConverterForDisplay.convertToStringList(this.ecoTimeList);
+        try {
+            this.ecoTimeList = ecoTimeList;
+            ecoTime = ConverterForDisplay.convertToStringList(this.ecoTimeList);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onNoEcoTimeFound() {
-        mView.showError("No eco time found");
+        try {
+            mView.showError("No eco time found");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     /*========================= WEEK DAY =========================*/
@@ -163,15 +182,19 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
 
     @Override
     public void onAllWeekDaysReceive(List<DTOWeekDay> weekDayList) {
-        this.weekDaysList = weekDayList;
-        //Get week days for VIP voucher
-        vipDays = ConverterForDisplay.convertToStringList(weekDayList);
-        //Get week days for ECO voucher
-        ecoDays.addAll(vipDays);
-        ecoDays.remove(ecoDays.size() - 1);//Sunday
-        ecoDays.remove(ecoDays.size() - 1);//Saturday
-        //Update
-        refreshAvailableDays();
+        try {
+            this.weekDaysList = weekDayList;
+            //Get week days for VIP voucher
+            vipDays = ConverterForDisplay.convertToStringList(weekDayList);
+            //Get week days for ECO voucher
+            ecoDays.addAll(vipDays);
+            ecoDays.remove(ecoDays.size() - 1);//Sunday
+            ecoDays.remove(ecoDays.size() - 1);//Saturday
+            //Update
+            refreshAvailableDays();
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
@@ -185,7 +208,11 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
 
     @Override
     public void onNoWeekDayFound() {
-        mView.showError("No week day found");
+        try {
+            mView.showError("No week day found");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
@@ -236,14 +263,22 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
 
     @Override
     public void onSelectedTimeReceive(List<DTOTime> selectedTimeList) {
-        this.selectedTimeList = selectedTimeList;
-        selectedTime = ConverterForDisplay.convertToStringList(this.selectedTimeList);
-        refreshAvailableTime();
+        try {
+            this.selectedTimeList = selectedTimeList;
+            selectedTime = ConverterForDisplay.convertToStringList(this.selectedTimeList);
+            refreshAvailableTime();
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onNoSelectedTimeFound() {
-        mView.showError("No selected time found");
+        try {
+            mView.showError("No selected time found");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     /*========================= BOOKING =========================*/
@@ -287,11 +322,19 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
 
     @Override
     public void onBookingFail() {
-        mView.showError(mView.getResourceString(R.string.already_booked));
+        try {
+            mView.showError(mView.getResourceString(R.string.already_booked));
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onBookingSuccess() {
-        mView.updateCart();
+        try {
+            mView.updateCart();
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 }

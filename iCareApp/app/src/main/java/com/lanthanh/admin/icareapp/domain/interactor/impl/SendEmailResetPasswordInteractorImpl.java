@@ -28,7 +28,7 @@ public class SendEmailResetPasswordInteractorImpl extends AbstractInteractor imp
         if (result == SendEmailManager.STATUS_SENT){
             mMainThread.post(new Runnable() {
                 @Override
-                public void run() {
+                public void run(){
                     mCallback.onEmailResetPasswordSent();
                 }
             });

@@ -3,6 +3,7 @@ package com.lanthanh.admin.icareapp.presentation.presenter.impl;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.lanthanh.admin.icareapp.R;
@@ -39,6 +40,7 @@ import java.util.List;
 
 public class UserInfoActivityPresenterImpl extends AbstractPresenter implements UserInfoActivityPresenter,
             GetCustomerIdInteractor.Callback, UpdateCustomerInteractor.Callback, SendEmailVerifyAccInteractor.Callback{
+    public static final String TAG = UserInfoActivityPresenterImpl.class.getSimpleName();
     private SharedPreferences sharedPreferences;
     private UserInfoActivityPresenter.View mView;
     private FragmentManager fragmentManager;
@@ -196,14 +198,22 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
 
     @Override
     public void onCustomerIdFound(int id) {
-        mUser.setId(id);
-        UpdateCustomerInteractor updateCustomerInteractor = new UpdateCustomerInteractorImpl(mExecutor, mMainThread, this, customerManager, mUser);
-        updateCustomerInteractor.execute();
+        try {
+            mUser.setId(id);
+            UpdateCustomerInteractor updateCustomerInteractor = new UpdateCustomerInteractorImpl(mExecutor, mMainThread, this, customerManager, mUser);
+            updateCustomerInteractor.execute();
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onCustomerIdNotFound() {
-        onError("Fail to get customer id");
+        try {
+            onError("Fail to get customer id");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
@@ -223,14 +233,22 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
 
     @Override
     public void onUpdateCustomerFail() {
-        onError("Update customer fail");
+        try {
+            onError("Update customer fail");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onUpdateCustomerSuccess() {
-        mUser.setGender(ConverterForDisplay.convertStringGenderFromDBToDisplay(mUser.getGender(), mView.getStringResource(R.string.male), mView.getStringResource(R.string.male)));
-        customerManager.saveLocalUserToPref(sharedPreferences, mUser);
-        navigateFragment(UserInfoActivity.VALIDATE);
+        try {
+            mUser.setGender(ConverterForDisplay.convertStringGenderFromDBToDisplay(mUser.getGender(), mView.getStringResource(R.string.male), mView.getStringResource(R.string.male)));
+            customerManager.saveLocalUserToPref(sharedPreferences, mUser);
+            navigateFragment(UserInfoActivity.VALIDATE);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
@@ -241,11 +259,19 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
 
     @Override
     public void onEmailVerifyAccNotSent() {
-        validateFragment.showEmailResult(R.string.validate_noti_fail);
+        try {
+            validateFragment.showEmailResult(R.string.validate_noti_fail);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onEmailVerifyAccSent() {
-        validateFragment.showEmailResult(R.string.validate_noti_success);
+        try {
+            validateFragment.showEmailResult(R.string.validate_noti_success);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 }

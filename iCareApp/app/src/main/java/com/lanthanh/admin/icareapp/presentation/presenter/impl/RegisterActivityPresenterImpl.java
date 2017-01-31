@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
 import com.auth0.jwt.JWTVerifier;
 import com.lanthanh.admin.icareapp.R;
@@ -40,6 +41,7 @@ import java.util.Map;
 
 public class RegisterActivityPresenterImpl extends AbstractPresenter implements RegisterActivityPresenter,
             LogInInteractor.Callback, CheckUserExistenceInteractor.Callback, InsertNewCustomerInteractor.Callback, UpdateVerifyAccInteractor.Callback{
+    public static final String TAG = RegisterActivityPresenterImpl.class.getSimpleName();
     private SharedPreferences sharedPreferences;
     private RegisterActivityPresenter.View mView;
     private FragmentManager fragmentManager;
@@ -141,30 +143,38 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
 
     @Override
     public void onLogInFail() {
-        mView.showError("Tên Đăng Nhập Hoặc Mật Khẩu Sai");
+        try {
+            mView.showError("Tên Đăng Nhập Hoặc Mật Khẩu Sai");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onLogInSuccess(String jwt, String username) {
-        final JWTVerifier verifier = new JWTVerifier("drmuller");
         try {
-            final Map<String, String> jwtClaims= (Map<String,String>) verifier.verify(jwt).get("data");
-            ModelUser user = new ModelUser(Integer.parseInt(jwtClaims.get("userId")),
-                                           Integer.parseInt(jwtClaims.get("active")),
-                                           Integer.parseInt(jwtClaims.get("step")),
-                                           jwtClaims.get("userName"),
-                                           jwtClaims.get("userGender"),
-                                           jwtClaims.get("userDob"),
-                                           jwtClaims.get("userAddress"),
-                                           jwtClaims.get("userEmail"),
-                                           jwtClaims.get("userPhone"));
-            customerManager.saveLocalUserToPref(sharedPreferences, user);
-            if (user.getActive() != 0)
-                navigateToMainActivity();
-            else
-                navigateToUserInfo(username, user.getStep());
-        } catch (Exception e) {
-            e.printStackTrace();
+            final JWTVerifier verifier = new JWTVerifier("drmuller");
+            try {
+                final Map<String, String> jwtClaims = (Map<String, String>) verifier.verify(jwt).get("data");
+                ModelUser user = new ModelUser(Integer.parseInt(jwtClaims.get("userId")),
+                        Integer.parseInt(jwtClaims.get("active")),
+                        Integer.parseInt(jwtClaims.get("step")),
+                        jwtClaims.get("userName"),
+                        jwtClaims.get("userGender"),
+                        jwtClaims.get("userDob"),
+                        jwtClaims.get("userAddress"),
+                        jwtClaims.get("userEmail"),
+                        jwtClaims.get("userPhone"));
+                customerManager.saveLocalUserToPref(sharedPreferences, user);
+                if (user.getActive() != 0)
+                    navigateToMainActivity();
+                else
+                    navigateToUserInfo(username, user.getStep());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
         }
     }
 
@@ -176,23 +186,39 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
 
     @Override
     public void onUserExist() {
-        mView.showError(mView.getStringResource(R.string.username_invalid));
+        try {
+            mView.showError(mView.getStringResource(R.string.username_invalid));
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onUserNotExist(String username, String password) {
-        InsertNewCustomerInteractor insertNewCustomerInteractor = new InsertNewCustomerInteractorImpl(mExecutor, mMainThread, this, customerManager, username, password);
-        insertNewCustomerInteractor.execute();
+        try {
+            InsertNewCustomerInteractor insertNewCustomerInteractor = new InsertNewCustomerInteractorImpl(mExecutor, mMainThread, this, customerManager, username, password);
+            insertNewCustomerInteractor.execute();
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onInsertCustomerFail() {
-        onError("Insert customer fail");
+        try {
+            onError("Insert customer fail");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onInsertCustomerSuccess(String username) {
-        navigateToUserInfo(username, 0);
+        try {
+            navigateToUserInfo(username, 0);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
@@ -203,11 +229,19 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
 
     @Override
     public void onUpdateVerifyAccFail() {
-//        mView.showAlertDialog(R.string.verify_fail);
+        try {
+            mView.showAlertDialog(R.string.verify_fail);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onUpdateVerifyAccSuccess() {
-        mView.showAlertDialog(R.string.verify_success);
+        try {
+            mView.showAlertDialog(R.string.verify_success);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 }

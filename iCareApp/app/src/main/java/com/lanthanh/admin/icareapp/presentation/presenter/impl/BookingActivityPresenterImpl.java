@@ -3,6 +3,7 @@ package com.lanthanh.admin.icareapp.presentation.presenter.impl;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
 import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
@@ -40,6 +41,7 @@ import java.util.List;
 public class BookingActivityPresenterImpl extends AbstractPresenter implements BookingActivityPresenter,
         InsertAppointmentInteractor.Callback, RemoveTemporaryBookingInteractor.Callback,
         SendEmailNotifyBookingInteractor.Callback, UpdateValidateAppointmentInteractor.Callback{
+    public static final String TAG = BookingActivityPresenterImpl.class.getSimpleName();
     private BookingActivityPresenter.View mView;
     private ModelUser mUser;
     private FragmentManager fragmentManager;
@@ -151,16 +153,24 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
 
     @Override
     public void onRemoveTempBookingSuccess(DTOAppointmentSchedule dtoAppointmentSchedule) {
-        //Update UI
-        mView.onRemoveCartItem(dtoAppointmentSchedule.toString());
-        mView.onRemoveCartItemColor(true);
-        //Update DTO
-        appointment.getAppointmentScheduleList().remove(dtoAppointmentSchedule);
+        try {
+            //Update UI
+            mView.onRemoveCartItem(dtoAppointmentSchedule.toString());
+            mView.onRemoveCartItemColor(true);
+            //Update DTO
+            appointment.getAppointmentScheduleList().remove(dtoAppointmentSchedule);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onRemoveTempBookingFail() {
-        onError("REMOVE TEMP BOOK FAIL");
+        try {
+            onError("REMOVE TEMP BOOK FAIL");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
@@ -188,12 +198,20 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
 
     @Override
     public void onValidateFail() {
-        onError("Validate fail");
+        try {
+            onError("Validate fail");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onValidateSuccess() {
-        System.out.println("Validate success");
+        try {
+            System.out.println("Validate success");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
@@ -209,39 +227,55 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
 
     @Override
     public void onInsertAppointmentFail() {
-        onError("Insert appointment fail");
+        try {
+            onError("Insert appointment fail");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onInsertAppointmentSuccess() {
-        //Send mail to staff
-        SendEmailNotifyBookingInteractor sendEmailNotifyBookingInteractor = new SendEmailNotifyBookingInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, appointment);
-        sendEmailNotifyBookingInteractor.execute();
+        try {
+            //Send mail to staff
+            SendEmailNotifyBookingInteractor sendEmailNotifyBookingInteractor = new SendEmailNotifyBookingInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, appointment);
+            sendEmailNotifyBookingInteractor.execute();
 
-        //Get appointment from local shared pref
-        List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
-        if (appointmentsList == null)
-            appointmentsList = new ArrayList<>();
-        //Add appointment to a list of appointments
-        appointmentsList.add(appointment);
-        //Put to shared pref
-        appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList);
-        //reset appointment
-        appointment = new DTOAppointment();
-        //empty cart
-        emptyCart();
-        //move to confirm activity
-        mView.navigateActivity(ConfirmBookingActivity.class);
+            //Get appointment from local shared pref
+            List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
+            if (appointmentsList == null)
+                appointmentsList = new ArrayList<>();
+            //Add appointment to a list of appointments
+            appointmentsList.add(appointment);
+            //Put to shared pref
+            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList);
+            //reset appointment
+            appointment = new DTOAppointment();
+            //empty cart
+            emptyCart();
+            //move to confirm activity
+            mView.navigateActivity(ConfirmBookingActivity.class);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onEmailNotifyBookingNotSent() {
-        System.out.println("Notify email sent fail");
+        try{
+            System.out.println("Notify email sent fail");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onEmailNotifyBookingSent() {
-        System.out.println("Notify email sent success");
+        try {
+            System.out.println("Notify email sent success");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override

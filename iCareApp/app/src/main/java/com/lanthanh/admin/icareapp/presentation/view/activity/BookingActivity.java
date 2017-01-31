@@ -1,6 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.view.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.Toolbar;
@@ -98,6 +100,14 @@ public class BookingActivity extends AppCompatActivity implements AdapterView.On
         return bookingActivityPresenter;
     }
 
+    /* ============================== LIFE CYCLE ==============================*/
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+       // bookingActivityPresenter.destroy();
+    }
+
     /* =============================== TOOLBAR ===============================*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -132,6 +142,20 @@ public class BookingActivity extends AppCompatActivity implements AdapterView.On
                 popupWindow.show();
                 return true;
             case R.id.abort_booking:
+                new AlertDialog.Builder(this)
+                        .setMessage(getString(R.string.abort_appointment_dialog))
+                        .setPositiveButton(getString(R.string.agree_button), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                bookingActivityPresenter.emptyCart();
+                                navigateActivity(MainActivity.class);
+                            }
+                        }).setNegativeButton(getString(R.string.abort_button), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setCancelable(false).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

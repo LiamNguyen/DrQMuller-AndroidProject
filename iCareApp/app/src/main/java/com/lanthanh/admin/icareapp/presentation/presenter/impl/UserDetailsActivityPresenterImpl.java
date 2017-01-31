@@ -2,6 +2,7 @@ package com.lanthanh.admin.icareapp.presentation.presenter.impl;
 
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
@@ -27,6 +28,7 @@ import java.util.List;
 
 public class UserDetailsActivityPresenterImpl extends AbstractPresenter implements UserDetailsActivityPresenter,
              UpdateCustomerInteractor.Callback {
+    public static final String TAG = UserDetailsActivityPresenterImpl.class.getSimpleName();
     private UserDetailsActivityPresenter.View mView;
     private FragmentManager fragmentManager;
     private CustomerManager customerManager;
@@ -143,13 +145,21 @@ public class UserDetailsActivityPresenterImpl extends AbstractPresenter implemen
 
     @Override
     public void onUpdateCustomerFail() {
-        onError("Update customer fail");
+        try {
+            onError("Update customer fail");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onUpdateCustomerSuccess() {
-        customerManager.saveLocalUserToPref(sharedPreferences, mUser);
-        appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, mAppointments);
-        mView.refreshViews();
+        try {
+            customerManager.saveLocalUserToPref(sharedPreferences, mUser);
+            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, mAppointments);
+            mView.refreshViews();
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 }

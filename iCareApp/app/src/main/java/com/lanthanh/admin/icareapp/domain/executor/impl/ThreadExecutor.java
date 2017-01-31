@@ -8,7 +8,10 @@ import com.lanthanh.admin.icareapp.domain.executor.Executor;
 import com.lanthanh.admin.icareapp.domain.interactor.base.AbstractInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.base.Interactor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -18,7 +21,6 @@ import java.util.concurrent.TimeUnit;
  * <p/>
  */
 public class ThreadExecutor implements Executor {
-
     // This is a singleton
     private static volatile ThreadExecutor sThreadExecutor;
 
@@ -42,9 +44,9 @@ public class ThreadExecutor implements Executor {
 
     @Override
     public void execute(final AbstractInteractor interactor) {
-        mThreadPoolExecutor.submit(new Runnable() {
+        Future<?> future = mThreadPoolExecutor.submit(new Runnable() {
             @Override
-            public void run() {
+            public void run(){
                 // run the main logic
                 interactor.run();
 

@@ -1,5 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.presenter.impl;
 
+import android.util.Log;
+
 import com.lanthanh.admin.icareapp.data.manager.CityManager;
 import com.lanthanh.admin.icareapp.data.manager.CountryManager;
 import com.lanthanh.admin.icareapp.data.manager.DistrictManager;
@@ -41,6 +43,7 @@ import java.util.List;
 public class BookingSelectPresenterImpl extends AbstractPresenter implements BookingSelectPresenter,
         GetAllCountriesInteractor.Callback, GetAllCitiesByCountryInteractor.Callback, GetAllDistrictsByCityInteractor.Callback,
         GetAllLocationsByDistrictInteractor.Callback, GetAllVouchersInteractor.Callback, GetAllTypesInteractor.Callback{
+    public static final String TAG = BookingSelectPresenterImpl.class.getSimpleName();
     private BookingSelectPresenter.View mView;
     private DTOAppointment dtoAppointment;
     private List<DTOCountry> countryList;
@@ -92,15 +95,22 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     //Receive country list from interactor
     @Override
     public void onAllCountriesReceive(List<DTOCountry> countryList) {
-        this.countryList = countryList;
-        System.out.println("test " + countryList.get(1));
-        List<String> list = ConverterForDisplay.convertToStringList(countryList);
-        mView.updateCountryList(list);
+        try {
+            this.countryList = countryList;
+            List<String> list = ConverterForDisplay.convertToStringList(countryList);
+            mView.updateCountryList(list);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onNoCountryFound() {
-        mView.showError("No country found");
+        try {
+            mView.showError("No country found");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     //Add country id when a country is selected from View
@@ -137,14 +147,22 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
 
     @Override
     public void onAllCitiesReceive(List<DTOCity> cityList) {
-        this.cityList = cityList;
-        List<String> list = ConverterForDisplay.convertToStringList(cityList);
-        mView.updateCityList(list);
+        try {
+            this.cityList = cityList;
+            List<String> list = ConverterForDisplay.convertToStringList(cityList);
+            mView.updateCityList(list);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onNoCityFound() {
-        mView.showError("No city found");
+        try {
+            mView.showError("No city found");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     //Add city id when a city is selected from view
@@ -181,14 +199,22 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
 
     @Override
     public void onAllDistrictsReceive(List<DTODistrict> districtList) {
-        this.districtList = districtList;
-        List<String> list = ConverterForDisplay.convertToStringList(districtList);
-        mView.updateDistrictList(list);
+        try {
+            this.districtList = districtList;
+            List<String> list = ConverterForDisplay.convertToStringList(districtList);
+            mView.updateDistrictList(list);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onNoDistrictFound() {
-        mView.showError("No district found");
+        try {
+            mView.showError("No district found");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     //Add district id when a district is selected from View
@@ -225,15 +251,22 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
 
     @Override
     public void onAllLocationsReceive(List<DTOLocation> locationList) {
-        this.locationList = locationList;
-        System.out.println(locationList.get(0));
-        List<String> list = ConverterForDisplay.convertToStringList(locationList);
-        mView.updateLocationList(list);
+        try {
+            this.locationList = locationList;
+            List<String> list = ConverterForDisplay.convertToStringList(locationList);
+            mView.updateLocationList(list);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onNoLocationFound() {
-        mView.showError("No location found");
+        try {
+            mView.showError("No location found");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     //Add location id when a location is selected from View
@@ -265,14 +298,22 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
 
     @Override
     public void onAllVouchersReceive(List<DTOVoucher> voucherList) {
-        this.voucherList = voucherList;
-        List<String> list = ConverterForDisplay.convertToStringList(voucherList);
-        mView.updateVoucherList(list);
+        try {
+            this.voucherList = voucherList;
+            List<String> list = ConverterForDisplay.convertToStringList(voucherList);
+            mView.updateVoucherList(list);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onNoVoucherFound() {
-        mView.showError("No voucher found");
+        try {
+            mView.showError("No voucher found");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     //Add voucher when a voucher is selected from View
@@ -305,14 +346,22 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
 
     @Override
     public void onAllTypesReceive(List<DTOType> typeList) {
-        this.typeList = typeList;
-        List<String> list = ConverterForDisplay.convertToStringList(typeList);
-        mView.updateTypeList(list);
+        try {
+            this.typeList = typeList;
+            List<String> list = ConverterForDisplay.convertToStringList(typeList);
+            mView.updateTypeList(list);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     @Override
     public void onNoTypeFound() {
-        mView.showError("No type found");
+        try {
+            mView.showError("No type found");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
     }
 
     //Add type when a type is selected from View
