@@ -1,7 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.presenter;
 
 import com.lanthanh.admin.icareapp.presentation.presenter.base.Presenter;
-import com.lanthanh.admin.icareapp.presentation.view.BaseView;
+import com.lanthanh.admin.icareapp.presentation.view.base.BaseView;
 
 import java.util.Calendar;
 

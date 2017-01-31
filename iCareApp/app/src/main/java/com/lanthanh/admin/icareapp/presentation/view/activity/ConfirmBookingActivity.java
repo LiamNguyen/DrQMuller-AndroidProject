@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
     public static final int CONFIRMED = 1;
     public static final int NOT_CONFIRMED = 0;
     private TextInputEditText edttxt;
+    private ProgressBar progressBar;
     private ConfirmBookingActivityPresenter confirmBookingActivityPresenter;
     private NetworkController networkController;
 
@@ -47,8 +49,11 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
 
         init();
 
-        //Toolbar
+        //Init view
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+
+        //Set up Toolbar
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp);
@@ -117,12 +122,12 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

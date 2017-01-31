@@ -1,10 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.presenter;
 
-import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
-import com.lanthanh.admin.icareapp.data.manager.TimeManager;
-import com.lanthanh.admin.icareapp.data.manager.WeekDayManager;
 import com.lanthanh.admin.icareapp.presentation.presenter.base.Presenter;
-import com.lanthanh.admin.icareapp.presentation.view.BaseView;
+import com.lanthanh.admin.icareapp.presentation.view.base.BaseView;
 
 import java.util.Date;
 import java.util.List;

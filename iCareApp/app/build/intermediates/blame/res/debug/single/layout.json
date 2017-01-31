@@ -240,6 +240,10 @@
         "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\abc_alert_dialog_material.xml"
     },
     {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\util_progressbar.xml",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\layout\\util_progressbar.xml"
+    },
+    {
         "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_radio.xml",
         "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.0\\res\\layout\\abc_list_menu_item_radio.xml"
     },

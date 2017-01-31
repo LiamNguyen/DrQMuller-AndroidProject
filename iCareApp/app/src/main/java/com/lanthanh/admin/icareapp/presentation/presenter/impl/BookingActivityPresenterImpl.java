@@ -127,7 +127,8 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
     }
 
     @Override
-    public void removeCartItem(String item){
+    public void removeCartItem(String item)
+    {
         //Set responsive color for item being removed
         mView.onRemoveCartItemColor(false);
         //Get appointment schedule
@@ -140,7 +141,6 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
         }else
             onError("Item to be removed doesn't exist");
     }
-
     @Override
     public DTOAppointmentSchedule getSpecificSchedule(String item) {
         List<DTOAppointmentSchedule> dtoAppointmentScheduleList = appointment.getAppointmentScheduleList();

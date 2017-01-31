@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
     public final static int SIGN_UP = 2;
     private RegisterActivityPresenter registerActivityPresenter;
     private Toolbar toolBar;
+    private ProgressBar progressBar;
     private NetworkController networkController;
 
     @Override
@@ -56,7 +58,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
 
         init();
 
+        //Init view
         toolBar = (Toolbar) findViewById(R.id.toolbar);
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+
+        //Set up for Toolbar
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp);
@@ -178,12 +184,12 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

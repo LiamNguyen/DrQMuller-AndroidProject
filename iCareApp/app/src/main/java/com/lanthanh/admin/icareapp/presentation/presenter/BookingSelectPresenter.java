@@ -7,9 +7,8 @@ import com.lanthanh.admin.icareapp.domain.model.DTOLocation;
 import com.lanthanh.admin.icareapp.domain.model.DTOType;
 import com.lanthanh.admin.icareapp.domain.model.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.presenter.base.Presenter;
-import com.lanthanh.admin.icareapp.presentation.view.BaseView;
+import com.lanthanh.admin.icareapp.presentation.view.base.BaseView;
 
-import java.util.Calendar;
 import java.util.List;
 
 /**

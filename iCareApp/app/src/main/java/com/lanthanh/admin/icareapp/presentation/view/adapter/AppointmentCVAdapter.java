@@ -52,7 +52,7 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list.size() + 1;
     }
 
     @Override

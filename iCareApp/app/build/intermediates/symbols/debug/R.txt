@@ -767,7 +767,7 @@ int drawable notification_tile_bg 0x7f020093
 int drawable notify_panel_notification_icon_bg 0x7f020094
 int drawable selected_item_border 0x7f020095
 int drawable spinner_border 0x7f020096
-int id abort_booking 0x7f0c0128
+int id abort_booking 0x7f0c0129
 int id action0 0x7f0c00f2
 int id action_bar 0x7f0c0061
 int id action_bar_activity_content 0x7f0c0000
@@ -776,7 +776,7 @@ int id action_bar_root 0x7f0c005c
 int id action_bar_spinner 0x7f0c0001
 int id action_bar_subtitle 0x7f0c0041
 int id action_bar_title 0x7f0c0040
-int id action_booking 0x7f0c0125
+int id action_booking 0x7f0c0126
 int id action_container 0x7f0c00ef
 int id action_context_bar 0x7f0c0062
 int id action_divider 0x7f0c00f6
@@ -786,9 +786,9 @@ int id action_menu_presenter 0x7f0c0003
 int id action_mode_bar 0x7f0c005e
 int id action_mode_bar_stub 0x7f0c005d
 int id action_mode_close_button 0x7f0c0042
-int id action_news 0x7f0c0124
+int id action_news 0x7f0c0125
 int id action_text 0x7f0c00f1
-int id action_user 0x7f0c0126
+int id action_user 0x7f0c0127
 int id actions 0x7f0c00ff
 int id activity_chooser_view_content 0x7f0c0043
 int id add 0x7f0c001d
@@ -852,7 +852,7 @@ int id drop_down_icon_locations 0x7f0c00c1
 int id drop_down_icon_machines 0x7f0c00c8
 int id drop_down_icon_types 0x7f0c00c6
 int id drop_down_icon_vouchers 0x7f0c00c3
-int id edit 0x7f0c0129
+int id edit 0x7f0c012a
 int id edit_query 0x7f0c0063
 int id end 0x7f0c0029
 int id end_padder 0x7f0c0104
@@ -908,6 +908,7 @@ int id parentPanel 0x7f0c004c
 int id pin 0x7f0c0030
 int id progress_circular 0x7f0c0007
 int id progress_horizontal 0x7f0c0008
+int id progressbar 0x7f0c0124
 int id radio 0x7f0c005a
 int id recycler_view 0x7f0c00b5
 int id resetpw_email_noti 0x7f0c00e4
@@ -941,7 +942,7 @@ int id search_src_text 0x7f0c006a
 int id search_voice_btn 0x7f0c006e
 int id select_dialog_listview 0x7f0c006f
 int id selected_item 0x7f0c0077
-int id shopping_cart 0x7f0c0127
+int id shopping_cart 0x7f0c0128
 int id shortcut 0x7f0c0059
 int id showCustom 0x7f0c0014
 int id showHome 0x7f0c0015
@@ -1169,7 +1170,8 @@ int layout userinfo_contacts 0x7f04005d
 int layout userinfo_dobvsgender 0x7f04005e
 int layout userinfo_namevsaddress 0x7f04005f
 int layout userinfo_validate 0x7f040060
-int layout util_toolbar 0x7f040061
+int layout util_progressbar 0x7f040061
+int layout util_toolbar 0x7f040062
 int menu bottom_navigation 0x7f0d0000
 int menu menu_toolbar 0x7f0d0001
 int menu toolbar_appointment 0x7f0d0002

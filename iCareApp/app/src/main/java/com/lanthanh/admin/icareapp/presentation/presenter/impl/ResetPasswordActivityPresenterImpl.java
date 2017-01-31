@@ -90,6 +90,7 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
 
     @Override
     public void sendEmailToResetPassword(String username) {
+        mView.showProgress();
         SendEmailResetPasswordInteractor sendEmailResetPasswordInteractor = new SendEmailResetPasswordInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, username);
         sendEmailResetPasswordInteractor.execute();
     }
@@ -97,6 +98,7 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
     @Override
     public void onEmailResetPasswordNotSent() {
         try {
+            mView.hideProgress();
             System.out.println("Email sent fail");
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -106,6 +108,7 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
     @Override
     public void onUsernameOrEmailNotFound() {
         try {
+            mView.hideProgress();
             usernameForResetFragment.showEmailResult(R.string.email_reset_fail);
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -115,6 +118,7 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
     @Override
     public void onEmailResetPasswordSent() {
         try {
+            mView.hideProgress();
             usernameForResetFragment.showEmailResult(R.string.email_reset_success);
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -123,6 +127,7 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
 
     @Override
     public void updateCustomerPassword(String username, String password) {
+        mView.showProgress();
         UpdateCustomerPasswordInteractor updateCustomerPasswordInteractor = new UpdateCustomerPasswordInteractorImpl(mExecutor, mMainThread, this, customerManager, username, password);
         updateCustomerPasswordInteractor.execute();
     }
@@ -130,6 +135,7 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
     @Override
     public void onResetPasswordFail() {
         try {
+            mView.hideProgress();
             mView.navigateToRegisterActivity(ResetPasswordActivity.FAIL);
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -139,6 +145,7 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
     @Override
     public void onResetPasswordSuccess() {
         try {
+            mView.hideProgress();
             mView.navigateToRegisterActivity(ResetPasswordActivity.SUCCESS);
         }catch (Exception e){
             Log.w(TAG, e.toString());

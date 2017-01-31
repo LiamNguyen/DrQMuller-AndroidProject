@@ -157,6 +157,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     @Override
     public void onEcoTimeFound(List<DTOTime> ecoTimeList) {
         try {
+            mView.hideProgress();
             this.ecoTimeList = ecoTimeList;
             ecoTime = ConverterForDisplay.convertToStringList(this.ecoTimeList);
         }catch (Exception e){
@@ -167,6 +168,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     @Override
     public void onNoEcoTimeFound() {
         try {
+            mView.hideProgress();
             mView.showError("No eco time found");
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -176,6 +178,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     /*========================= WEEK DAY =========================*/
     @Override
     public void getAllWeekDays() {
+        mView.showProgress();
         GetAllWeekDaysInteractor getAllWeekDaysInteractor = new GetAllWeekDaysInteractorImpl(mExecutor, mMainThread, this, weekDayManager);
         getAllWeekDaysInteractor.execute();
     }
@@ -249,6 +252,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     /*========================= SELECTED TIME =========================*/
     @Override
     public void getSelectedTime(String day) {
+        mView.showProgress();
         if (dtoAppointment.getTypeId() == 2){
             day = day.substring(0, day.indexOf("\n"));
         }
@@ -264,6 +268,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     @Override
     public void onSelectedTimeReceive(List<DTOTime> selectedTimeList) {
         try {
+            mView.hideProgress();
             this.selectedTimeList = selectedTimeList;
             selectedTime = ConverterForDisplay.convertToStringList(this.selectedTimeList);
             refreshAvailableTime();
@@ -275,6 +280,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     @Override
     public void onNoSelectedTimeFound() {
         try {
+            mView.hideProgress();
             mView.showError("No selected time found");
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -284,6 +290,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     /*========================= BOOKING =========================*/
     @Override
     public void onTimeSelected(String day, String time) {
+        mView.showProgress();
         if (dtoAppointment.getTypeId() == 2){
             day = day.substring(0, day.indexOf("\n"));
         }
@@ -323,6 +330,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     @Override
     public void onBookingFail() {
         try {
+            mView.hideProgress();
             mView.showError(mView.getResourceString(R.string.already_booked));
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -332,6 +340,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     @Override
     public void onBookingSuccess() {
         try {
+            mView.hideProgress();
             mView.updateCart();
         }catch (Exception e){
             Log.w(TAG, e.toString());

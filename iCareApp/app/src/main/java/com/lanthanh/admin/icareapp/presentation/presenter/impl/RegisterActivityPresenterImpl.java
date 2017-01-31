@@ -136,14 +136,16 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
 
     @Override
     public void logIn(String username, String password) {
+        mView.showProgress();
+        mView.hideSoftKeyboard();
         LogInInteractor logInInteractor = new LogInInteractorImpl(mExecutor, mMainThread, this, customerManager, username, password);
         logInInteractor.execute();
-        mView.hideSoftKeyboard();
     }
 
     @Override
     public void onLogInFail() {
         try {
+            mView.hideProgress();
             mView.showError("Tên Đăng Nhập Hoặc Mật Khẩu Sai");
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -153,6 +155,7 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
     @Override
     public void onLogInSuccess(String jwt, String username) {
         try {
+            mView.hideProgress();
             final JWTVerifier verifier = new JWTVerifier("drmuller");
             try {
                 final Map<String, String> jwtClaims = (Map<String, String>) verifier.verify(jwt).get("data");
@@ -180,6 +183,8 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
 
     @Override
     public void checkUserExistence(String username, String password) {
+        mView.showProgress();
+        mView.hideSoftKeyboard();
         CheckUserExistenceInteractor checkUserExistenceInteractor = new CheckUserExistenceInteractorImpl(mExecutor, mMainThread, this, customerManager, username, password);
         checkUserExistenceInteractor.execute();
     }
@@ -187,6 +192,7 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
     @Override
     public void onUserExist() {
         try {
+            mView.hideProgress();
             mView.showError(mView.getStringResource(R.string.username_invalid));
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -206,6 +212,7 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
     @Override
     public void onInsertCustomerFail() {
         try {
+            mView.hideProgress();
             onError("Insert customer fail");
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -215,6 +222,7 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
     @Override
     public void onInsertCustomerSuccess(String username) {
         try {
+            mView.hideProgress();
             navigateToUserInfo(username, 0);
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -223,6 +231,7 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
 
     @Override
     public void updateVerifyAcc(String id) {
+        mView.showProgress();
         UpdateVerifyAccInteractor updateVerifyAccInteractor = new UpdateVerifyAccInteractorImpl(mExecutor, mMainThread, this, customerManager, id);
         updateVerifyAccInteractor.execute();
     }
@@ -230,6 +239,7 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
     @Override
     public void onUpdateVerifyAccFail() {
         try {
+            mView.hideProgress();
             mView.showAlertDialog(R.string.verify_fail);
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -239,6 +249,7 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
     @Override
     public void onUpdateVerifyAccSuccess() {
         try {
+            mView.hideProgress();
             mView.showAlertDialog(R.string.verify_success);
         }catch (Exception e){
             Log.w(TAG, e.toString());

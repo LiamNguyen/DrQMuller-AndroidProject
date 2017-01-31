@@ -79,6 +79,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     /*========================== COUNTRY ==========================*/
     @Override
     public void getAllCountries() {
+        mView.showProgress();
         GetAllCountriesInteractor getAllCountriesInteractor = new GetAllCountriesInteractorImpl(mExecutor, mMainThread, this, countryManager);
         getAllCountriesInteractor.execute();
     }
@@ -252,6 +253,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     @Override
     public void onAllLocationsReceive(List<DTOLocation> locationList) {
         try {
+            mView.hideProgress();
             this.locationList = locationList;
             List<String> list = ConverterForDisplay.convertToStringList(locationList);
             mView.updateLocationList(list);
@@ -263,6 +265,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     @Override
     public void onNoLocationFound() {
         try {
+            mView.hideProgress();
             mView.showError("No location found");
         }catch (Exception e){
             Log.w(TAG, e.toString());

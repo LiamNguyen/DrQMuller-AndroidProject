@@ -136,6 +136,7 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
     public void updateAppointmentList() {
         //Get local appointment list
         List<DTOAppointment> dtoAppointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
+        System.out.println("TESTTTTTT " + dtoAppointmentsList.size());
         if ( dtoAppointmentsList != null) {
             appointmentFragment.updateList(dtoAppointmentsList);
         }

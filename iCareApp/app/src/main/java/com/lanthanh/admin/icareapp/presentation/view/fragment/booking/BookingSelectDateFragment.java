@@ -176,12 +176,12 @@ public class BookingSelectDateFragment extends Fragment implements DatePickerDia
 
     @Override
     public void hideProgress() {
-
+        ((BookingActivity) getActivity()).hideProgress();
     }
 
     @Override
     public void showProgress() {
-
+        ((BookingActivity) getActivity()).showProgress();
     }
 
     @Override

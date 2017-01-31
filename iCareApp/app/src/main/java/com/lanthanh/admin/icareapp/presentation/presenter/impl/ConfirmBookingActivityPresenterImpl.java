@@ -47,6 +47,7 @@ public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter imple
 
     @Override
     public void updateAppointment(String verificationCode) {
+        mView.showProgress();
         UpdateAppointmentInteractor updateAppointmentInteractor = new UpdateAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, mUser.getID(), verificationCode);
         updateAppointmentInteractor.execute();
     }
@@ -54,6 +55,7 @@ public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter imple
     @Override
     public void onUpdateAppointmentFail() {
         try {
+            mView.hideProgress();
             mView.showError(mView.getStringResource(R.string.wrong_code));
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -63,6 +65,7 @@ public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter imple
     @Override
     public void onUpdateAppointmentSuccess(String verificationCode) {
         try {
+            mView.hideProgress();
             //Get local appointment list
             List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
             if (appointmentsList == null) {

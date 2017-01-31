@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
 
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.R;
@@ -38,6 +39,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
     public static final int USERNAME_FOR_RESET = 0;
     public static final int RESET_PW = 1;
     private ResetPasswordActivityPresenter resetPasswordActivityPresenter;
+    private ProgressBar progressBar;
     private NetworkController networkController;
 
     @Override
@@ -47,7 +49,11 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
 
         init();
 
+        //Init view
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+
+        //Set up Toolbar
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp);
@@ -132,12 +138,12 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override

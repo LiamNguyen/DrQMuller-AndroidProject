@@ -223,6 +223,7 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
 
     @Override
     public void updateCustomer() {
+        mView.showProgress();
         if (mUser.getID() == 0)
             getCustomerId();
         else{
@@ -234,6 +235,7 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
     @Override
     public void onUpdateCustomerFail() {
         try {
+            mView.hideProgress();
             onError("Update customer fail");
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -243,6 +245,7 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
     @Override
     public void onUpdateCustomerSuccess() {
         try {
+            mView.hideProgress();
             mUser.setGender(ConverterForDisplay.convertStringGenderFromDBToDisplay(mUser.getGender(), mView.getStringResource(R.string.male), mView.getStringResource(R.string.male)));
             customerManager.saveLocalUserToPref(sharedPreferences, mUser);
             navigateFragment(UserInfoActivity.VALIDATE);
@@ -253,6 +256,7 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
 
     @Override
     public void sendEmailVerifyAcc() {
+        mView.showProgress();
         SendEmailVerifyAccInteractor sendEmailVerifyAccInteractor = new SendEmailVerifyAccInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, mUser.getEmail(), mUser.getID());
         sendEmailVerifyAccInteractor.execute();
     }
@@ -260,6 +264,7 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
     @Override
     public void onEmailVerifyAccNotSent() {
         try {
+            mView.hideProgress();
             validateFragment.showEmailResult(R.string.validate_noti_fail);
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -269,6 +274,7 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
     @Override
     public void onEmailVerifyAccSent() {
         try {
+            mView.hideProgress();
             validateFragment.showEmailResult(R.string.validate_noti_success);
         }catch (Exception e){
             Log.w(TAG, e.toString());

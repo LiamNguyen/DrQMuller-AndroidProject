@@ -1,18 +1,13 @@
 package com.lanthanh.admin.icareapp.presentation.presenter;
 
-import android.app.Activity;
-
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.ListView;
 
-import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
-import com.lanthanh.admin.icareapp.domain.model.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.presentation.presenter.base.Presenter;
-import com.lanthanh.admin.icareapp.presentation.view.BaseView;
+import com.lanthanh.admin.icareapp.presentation.view.base.BaseView;
 
 import java.util.List;
 

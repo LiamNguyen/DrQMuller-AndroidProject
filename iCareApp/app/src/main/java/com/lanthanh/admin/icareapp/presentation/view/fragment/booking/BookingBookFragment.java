@@ -82,79 +82,6 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
         return view;
     }
 
-//    @Override
-//    public void update(Object o) {
-//        JSONObject status = (JSONObject) o;
-//
-//        if (status == null) {
-//            System.out.println("ERROR IN PHP FILE");
-//            return;
-//        }
-//
-//        try {
-//            if (status.has("Select_DaysOfWeek")) {
-//                //Receive response from Select_DaysOfWeek.php
-//                daysList.clear();
-//                JSONArray days = status.getJSONArray("Select_DaysOfWeek");//Get the array of days' JSONObject
-//                int j = days.length();
-//                if (booking.getVoucherID().equals("1"))
-//                    j -= 2;
-//                for (int i = 0; i < j; i++) {
-//                    JSONObject jOb = (JSONObject) days.get(i);
-//                    daysList.add(jOb.getString("DAY"));
-//                }
-//                adapter.updateGroupList(daysList);
-//            }else if (status.has("Select_AllTime") || status.has("Select_EcoTime")) {
-//                //Receive response from Select_AllTime.php
-//                JSONArray time = status.getJSONArray("Select_AllTime");//Get the array of time
-//                for (int i = 0; i < time.length(); i++) {
-//                    JSONObject jOb = (JSONObject) time.get(i);
-//                    timeList.add(jOb.getString("TIME"));
-//                }
-//            }else if (status.has("Select_SelectedTime")){
-//                availableTime.clear();
-//                availableTime.addAll(timeList);
-//                JSONArray selected = status.getJSONArray("Select_SelectedTime");//Get the array of time
-//                for (int i = 0; i < selected.length(); i++) {
-//                    JSONObject jOb = (JSONObject) selected.get(i);
-//                    if (availableTime.contains(jOb.getString("TIME")))
-//                        availableTime.remove(jOb.getString("TIME"));
-//                }
-//                if (booking.getVoucherID().equals("1")){
-//                    for (int i = 0; i < timeList.size(); i++) {
-//                        if (i <= 5 || (i<=27 && i>=23) || i>=45) {
-//                            if (availableTime.contains(timeList.get(i)))
-//                                availableTime.remove(timeList.get(i));
-//                        }
-//                    }
-//                }
-//                adapter.updateChildList(availableTime);
-//            }else if (status.has("BookingTransaction")){
-//                if (status.getString("BookingTransaction").equals("Exist")){
-//                    Toast toast = Toast.makeText(getActivity(), "Giờ đã bị đặt", Toast.LENGTH_SHORT);
-//                    toast.setGravity(Gravity.CENTER, 0, 0);
-//                    toast.show();
-//                }else if (status.getString("BookingTransaction").equals("NonExist")){
-//                    System.out.println("??????? double");
-//                    ((MainActivity) getActivity()).addSelectedItemToCart(daysList.get(day_id - 1) + " - " + timeList.get(time_id - 1));
-//                    availableTime.remove(timeList.get(time_id - 1));
-//                    adapter.notifyDataSetChanged();
-//                    booking.saveBooking(Integer.toString(day_id), Integer.toString(time_id));
-//                }else if (status.getString("BookingTransaction").equals("QueryFailed")){
-//                    System.out.println("Query Failed");
-//                }
-//            }else if (status.has("Insert_NewAppointment")){
-//                if (status.getString("Insert_NewAppointment").equals("Inserted")){
-//                    System.out.println("Insert success double");
-//                }else if (status.getString("Insert_NewAppointment").equals("Failed")){
-//                    System.out.println("Insert fail");
-//                }
-//            }
-//        }catch (JSONException je){
-//            je.printStackTrace();
-//        }
-//    }
-
     public void init(){
         //Init presenter
         bookingActivityPresenter = ((BookingActivity) getActivity()).getMainPresenter();
@@ -182,12 +109,12 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
 
     @Override
     public void showProgress() {
-
+        ((BookingActivity) getActivity()).showProgress();
     }
 
     @Override
     public void hideProgress() {
-
+        ((BookingActivity) getActivity()).hideProgress();
     }
 
     @Override

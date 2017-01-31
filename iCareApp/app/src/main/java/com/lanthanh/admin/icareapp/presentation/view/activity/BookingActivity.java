@@ -19,6 +19,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +54,7 @@ public class BookingActivity extends AppCompatActivity implements AdapterView.On
     private Drawable cartIcon;
     private ListPopupWindow popupWindow;
     private ListPopupWindowAdapter popupAdapter;
+    private ProgressBar progressBar;
     private MenuItem cart;
     private View removedItem;
     private List<String> cartList;
@@ -75,6 +78,9 @@ public class BookingActivity extends AppCompatActivity implements AdapterView.On
 
         //Init view
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+
+        //Set up Toolbar
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp);
@@ -179,7 +185,7 @@ public class BookingActivity extends AppCompatActivity implements AdapterView.On
         popupAdapter = new ListPopupWindowAdapter(this, R.layout.activity_popup_item, cartList);
         popupWindow.setAdapter(popupAdapter);
         popupWindow.setAnchorView(v);
-        popupWindow.setWidth(450);
+        popupWindow.setWidth(500);
         popupWindow.setHeight(ListPopupWindow.WRAP_CONTENT);
         popupWindow.setHorizontalOffset(width);
         popupWindow.setVerticalOffset(height);
@@ -279,12 +285,12 @@ public class BookingActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

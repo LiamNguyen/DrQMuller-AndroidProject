@@ -317,12 +317,12 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
 
     @Override
     public void showProgress() {
-
+        ((BookingActivity) getActivity()).showProgress();
     }
 
     @Override
     public void hideProgress() {
-
+        ((BookingActivity) getActivity()).hideProgress();
     }
 
     @Override
