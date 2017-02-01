@@ -16,6 +16,7 @@ import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.RegisterActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 /**
  * Created by ADMIN on 19-Oct-16.
@@ -37,7 +38,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Te
 
         init();
 
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
 
         AppCompatButton sign_up_button = (AppCompatButton) view.findViewById(R.id.su_sign_up_button);
         sign_up_button.setOnClickListener(this);

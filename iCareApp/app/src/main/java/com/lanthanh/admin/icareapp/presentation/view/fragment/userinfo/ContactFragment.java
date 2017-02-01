@@ -17,6 +17,7 @@ import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserInfoActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.UserInfoActivity;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 /**
  * Created by ADMIN on 22-Oct-16.
@@ -36,7 +37,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
 
         init();
 
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
 
         TextView contact_noti = (TextView) view.findViewById(R.id.ui_contacts_noti);
         contact_noti.setTypeface(font);

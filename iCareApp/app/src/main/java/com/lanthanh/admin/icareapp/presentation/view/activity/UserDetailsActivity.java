@@ -31,6 +31,7 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserDetailsActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.impl.UserDetailsActivityPresenterImpl;
 import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 /**
  * Created by ADMIN on 20-Nov-16.
@@ -65,70 +66,75 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
         appBarLayout = (AppBarLayout) findViewById(R.id.appBar);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coorLayout);
 
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
-        Typeface font2 = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Semibold.ttf");//Custom font
+        Typeface fontNormal = Typeface.createFromAsset(getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
+        Typeface fontImportant = Typeface.createFromAsset(getAssets(), GraphicUtils.FONT_SEMIBOLD);//Custom font
+
         //Name
         TextView name_txt = (TextView) findViewById(R.id.ud_name_txt);
-        name_txt.setTypeface(font2);
+        name_txt.setTypeface(fontImportant);
         name = (TextInputEditText) findViewById(R.id.ud_name);
-        name.setTypeface(font);
+        name.setTypeface(fontNormal);
         name.setText(userDetailsActivityPresenter.getName());
         name.addTextChangedListener(this);
 
         name_container = (TextInputLayout) findViewById(R.id.ud_name_container);
-        name_container.setTypeface(font);
+        name_container.setTypeface(fontNormal);
+
         //Address
         TextView address_txt = (TextView) findViewById(R.id.ud_address_txt);
-        address_txt.setTypeface(font2);
+        address_txt.setTypeface(fontImportant);
         address = (TextInputEditText) findViewById(R.id.ud_address);
-        address.setTypeface(font);
+        address.setTypeface(fontNormal);
         address.setText(userDetailsActivityPresenter.getAddress());
         address.addTextChangedListener(this);
 
         address_container = (TextInputLayout) findViewById(R.id.ud_address_container);
-        address_container.setTypeface(font);
+        address_container.setTypeface(fontNormal);
+
         //Gender
         TextView gender_txt = (TextView) findViewById(R.id.ud_gender_txt);
-        gender_txt.setTypeface(font2);
+        gender_txt.setTypeface(fontImportant);
         gender = (TextInputEditText) findViewById(R.id.ud_gender);
-        gender.setTypeface(font);
+        gender.setTypeface(fontNormal);
         gender.setText(userDetailsActivityPresenter.getGender());
         gender.setOnClickListener(this);
 
         //Dob
         TextView dob_txt = (TextView) findViewById(R.id.ud_dob_txt);
-        dob_txt.setTypeface(font2);
+        dob_txt.setTypeface(fontImportant);
         dob = (TextInputEditText) findViewById(R.id.ud_dob);
-        dob.setTypeface(font);
+        dob.setTypeface(fontNormal);
         dob.setText(userDetailsActivityPresenter.getDob());
         dob.setOnClickListener(this);
 
         //Email
         TextView email_txt = (TextView) findViewById(R.id.ud_email_txt);
-        email_txt.setTypeface(font2);
+        email_txt.setTypeface(fontImportant);
         email = (TextInputEditText) findViewById(R.id.ud_email);
-        email.setTypeface(font);
+        email.setTypeface(fontNormal);
         email.setText(userDetailsActivityPresenter.getEmail());
         email.addTextChangedListener(this);
 
         email_container = (TextInputLayout) findViewById(R.id.ud_email_container);
-        email_container.setTypeface(font);
+        email_container.setTypeface(fontNormal);
+
         //Phone
         TextView phone_txt = (TextView) findViewById(R.id.ud_phone_txt);
-        phone_txt.setTypeface(font2);
+        phone_txt.setTypeface(fontImportant);
         phone = (TextInputEditText) findViewById(R.id.ud_phone);
-        phone.setTypeface(font);
+        phone.setTypeface(fontNormal);
         phone.setText(userDetailsActivityPresenter.getPhone());
         phone.addTextChangedListener(this);
 
         phone_container = (TextInputLayout) findViewById(R.id.ud_phone_container);
-        phone_container.setTypeface(font);
+        phone_container.setTypeface(fontNormal);
+
         //Button
         abort = (AppCompatButton) findViewById(R.id.ud_abort_button);
-        abort.setTypeface(font);
+        abort.setTypeface(fontNormal);
         abort.setOnClickListener(this);
         finish = (AppCompatButton) findViewById(R.id.ud_finish_button);
-        finish.setTypeface(font);
+        finish.setTypeface(fontNormal);
         finish.setOnClickListener(this);
     }
 

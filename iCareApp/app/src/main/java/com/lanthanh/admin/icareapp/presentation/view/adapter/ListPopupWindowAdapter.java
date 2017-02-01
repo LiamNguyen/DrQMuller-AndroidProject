@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class ListPopupWindowAdapter extends ArrayAdapter<String> {
         super(context, textViewResourceId, l);
         mContext = context;
         list = l;
-        font = Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Semibold.ttf");//Custom font
+        font = Typeface.createFromAsset(context.getAssets(), GraphicUtils.FONT_SEMIBOLD);//Custom font
     }
 
     @Override

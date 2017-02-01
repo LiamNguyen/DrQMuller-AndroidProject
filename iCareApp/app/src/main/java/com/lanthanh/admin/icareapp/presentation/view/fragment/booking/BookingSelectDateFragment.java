@@ -23,6 +23,7 @@ import com.lanthanh.admin.icareapp.presentation.presenter.BookingSelectDatePrese
 import com.lanthanh.admin.icareapp.presentation.presenter.impl.BookingSelectDatePresenterImpl;
 import com.lanthanh.admin.icareapp.presentation.view.activity.BookingActivity;
 import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 /**
  * Created by ADMIN on 25-Jan-17.
@@ -50,7 +51,7 @@ public class BookingSelectDateFragment extends Fragment implements DatePickerDia
         expireDateText = (TextView) view.findViewById(R.id.booking_expiredate_text);
 
         //Initialize TextInputEditText
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
         startDate = (TextInputEditText) view.findViewById(R.id.booking_startdate);
         startDate.setOnClickListener(this);
         startDate.setTypeface(font);

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserDetailsActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.UserDetailsActivity;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 /**
  * Created by ADMIN on 03-Dec-16.
@@ -61,8 +62,8 @@ public class GenderFragment extends DialogFragment implements RadioGroup.OnCheck
         super.onViewCreated(view, savedInstanceState);
 
         //Custom font
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");
-        Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Semibold.ttf");
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
+        Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_SEMIBOLD);
         // Get and set up view
         TextView gender_txt = (TextView) view.findViewById(R.id.ud_gender_txt);
         gender_txt.setTypeface(font2);

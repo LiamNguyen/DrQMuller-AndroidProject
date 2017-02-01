@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 /**
  * Created by ADMIN on 24-Jan-17.
@@ -28,7 +29,7 @@ public class DefaultAppointmentFragment extends Fragment implements View.OnClick
         init();
 
         //Get finish button
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
         AppCompatButton button = (AppCompatButton) view.findViewById(R.id.button);
         button.setOnClickListener(this);
         button.setTypeface(font);

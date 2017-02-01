@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import java.util.List;
 
@@ -30,8 +31,8 @@ public class UserTabAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public UserTabAdapter(Activity context, List<String> list, MainActivityPresenter mainActivityPresenter){
         ctx = context;
         this.list = list;
-        this.fontName = Typeface.createFromAsset(ctx.getAssets(), "fonts/OpenSans-Bold.ttf");//Custom font
-        this.fontNorm = Typeface.createFromAsset(ctx.getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        this.fontName = Typeface.createFromAsset(ctx.getAssets(), GraphicUtils.FONT_BOLD);//Custom font
+        this.fontNorm = Typeface.createFromAsset(ctx.getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
         this.mainActivityPresenter = mainActivityPresenter;
     }
 

@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class CustomSpinnerAdapter extends ArrayAdapter {
     public CustomSpinnerAdapter(Context context, int layout, List<String> list){
         super(context, layout, list);
         this.context = context;
-        font = Typeface.createFromAsset(this.context.getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        font = Typeface.createFromAsset(this.context.getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
     }
 
     @Override

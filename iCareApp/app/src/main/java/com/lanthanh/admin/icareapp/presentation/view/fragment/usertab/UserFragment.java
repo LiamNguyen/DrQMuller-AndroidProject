@@ -38,7 +38,6 @@ public class UserFragment extends Fragment{
 
         init();
 
-
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.user_recycler_view);
         UserTabAdapter adapter = new UserTabAdapter(getActivity(), list, mainActivityPresenter);
         rv.setAdapter(adapter);

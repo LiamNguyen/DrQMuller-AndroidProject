@@ -19,6 +19,7 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserDetailsActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.UserDetailsActivity;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 /**
  * Created by ADMIN on 03-Dec-16.
@@ -31,7 +32,6 @@ public class DobFragment extends DialogFragment implements DatePicker.OnDateChan
     private String date;
 
     public DobFragment(){
-
         isChecked = false;
     }
 
@@ -65,8 +65,8 @@ public class DobFragment extends DialogFragment implements DatePicker.OnDateChan
         super.onViewCreated(view, savedInstanceState);
 
         //Custom font
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");
-        Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Semibold.ttf");
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
+        Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_SEMIBOLD);
         //Get and set up view
         TextView dob_txt = (TextView) view.findViewById(R.id.ud_dob_txt);
         dob_txt.setTypeface(font2);

@@ -16,6 +16,7 @@ import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserInfoActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.UserInfoActivity;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 /**
  * Created by ADMIN on 22-Oct-16.
@@ -35,7 +36,7 @@ public class NameAndAddressFragment extends Fragment implements View.OnClickList
 
         init();
 
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
 
         name = (TextInputEditText) view.findViewById(R.id.ui_name_input);
         name.addTextChangedListener(this);

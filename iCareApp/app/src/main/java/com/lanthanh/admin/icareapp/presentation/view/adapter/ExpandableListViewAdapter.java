@@ -9,6 +9,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import java.util.List;
 
@@ -32,8 +33,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
         this.listOfDays = listOfDays;
         this.listOfHours = listOfHours;
         this.context = context;
-        this.fontDay = Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Regular.ttf");//Custom font
-        this.fontTime = Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        this.fontDay = Typeface.createFromAsset(context.getAssets(), GraphicUtils.FONT_REGULAR);//Custom font
+        this.fontTime = Typeface.createFromAsset(context.getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
     }
 
     //Get one header (a day of week) of the group

@@ -19,6 +19,7 @@ import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.view.activity.ConfirmBookingActivity;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.view.fragment.appointmenttab.AppointmentDialogFragment;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
     public AppointmentCVAdapter(Activity context, List<DTOAppointment> list){
         ctx = context;
         this.list = list;
-        font = Typeface.createFromAsset(ctx.getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        font = Typeface.createFromAsset(ctx.getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
         fm = ((AppCompatActivity) context).getSupportFragmentManager();
     }
 

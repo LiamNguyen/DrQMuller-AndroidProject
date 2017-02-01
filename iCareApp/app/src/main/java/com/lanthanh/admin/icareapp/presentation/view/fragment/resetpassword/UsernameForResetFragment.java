@@ -17,6 +17,7 @@ import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityP
 import com.lanthanh.admin.icareapp.presentation.view.activity.ResetPasswordActivity;
 import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 /**
  * Created by ADMIN on 22-Nov-16.
@@ -36,7 +37,7 @@ public class UsernameForResetFragment extends Fragment implements TextWatcher, V
         init();
 
         //Custom font
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
 
         AppCompatButton send = (AppCompatButton) view.findViewById(R.id.resetpw_send_button);
         send.setOnClickListener(this);

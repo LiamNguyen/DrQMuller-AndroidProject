@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserInfoActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.UserInfoActivity;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 /**
  * Created by ADMIN on 22-Oct-16.
@@ -31,7 +32,7 @@ public class DOBvsGenderFragment extends Fragment implements DatePicker.OnDateCh
 
         init();
 
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
 
         //Header
         TextView dob_txt = (TextView) view.findViewById(R.id.ui_dob_txt);

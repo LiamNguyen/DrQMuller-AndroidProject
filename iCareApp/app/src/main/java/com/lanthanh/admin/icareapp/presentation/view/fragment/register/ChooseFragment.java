@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.RegisterActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 /**
  * Created by ADMIN on 18-Oct-16.
@@ -37,9 +38,9 @@ public class ChooseFragment extends Fragment implements View.OnClickListener{
 
         //Welcome text
         TextView wel_txt = (TextView) view.findViewById(R.id.wel_text);
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/SourceSansPro-Light.ttf");
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_WELCOME);
         wel_txt.setTypeface(font);
-        Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");
+        Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
         log_in_button.setTypeface(font2);
         sign_up_button.setTypeface(font2);
 

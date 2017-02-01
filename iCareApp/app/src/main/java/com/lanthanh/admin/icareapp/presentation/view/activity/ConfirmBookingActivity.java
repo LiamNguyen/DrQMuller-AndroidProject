@@ -27,6 +27,7 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.ConfirmBookingActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.impl.ConfirmBookingActivityPresenterImpl;
 import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 /**
  * Created by ADMIN on 20-Nov-16.
@@ -60,7 +61,7 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        Typeface font = Typeface.createFromAsset(getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
         AppCompatButton button = (AppCompatButton) findViewById(R.id.confirm_button);
         button.setOnClickListener(this);
         button.setTypeface(font);

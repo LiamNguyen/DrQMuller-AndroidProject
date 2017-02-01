@@ -26,6 +26,7 @@ import com.lanthanh.admin.icareapp.presentation.presenter.impl.BookingBookPresen
 import com.lanthanh.admin.icareapp.presentation.view.activity.BookingActivity;
 import com.lanthanh.admin.icareapp.presentation.view.adapter.ExpandableListViewAdapter;
 import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
+import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,7 +52,7 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
         init();
 
         //Get finish button
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Light.ttf");//Custom font
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
         AppCompatButton button = (AppCompatButton) view.findViewById(R.id.booking_finish_button);
         button.setOnClickListener(this);
         button.setTypeface(font);
@@ -165,7 +166,6 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible()) {
-            Log.e("add", "???????????????????");
            bookingBookPresenter.resume();
         }
         else
