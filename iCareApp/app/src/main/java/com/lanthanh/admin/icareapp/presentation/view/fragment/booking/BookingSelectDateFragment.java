@@ -36,7 +36,7 @@ public class BookingSelectDateFragment extends Fragment implements DatePickerDia
     private TextInputEditText startDate, expireDate;
     private TextView startDateText, expireDateText;
     private DatePickerDialog startDatePickerDialog, expireDatePickerDialog;
-    private int type;
+    private int type, voucher;
 
     @Nullable
     @Override
@@ -62,11 +62,11 @@ public class BookingSelectDateFragment extends Fragment implements DatePickerDia
         startDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         expireDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 
-        dateDisplayOnTypeChange();
-
         //Set up floating button
         FloatingActionButton nextBut = (FloatingActionButton) view.findViewById(R.id.fab);
         nextBut.setOnClickListener(this);
+
+        bookingSelectDatePresenter.resume();
 
         return view;
     }
@@ -144,18 +144,20 @@ public class BookingSelectDateFragment extends Fragment implements DatePickerDia
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible()) {
-            dateDisplayOnTypeChange();
+            dateDisplayOnTypeOrVoucherChange();
+            bookingSelectDatePresenter.resume();
         }
     }
 
     @Override
-    public void dateDisplayOnTypeChange() {
-        if (bookingActivityPresenter.getDTOAppointment().getTypeId() == type)
+    public void dateDisplayOnTypeOrVoucherChange() {
+        if (bookingActivityPresenter.getDTOAppointment().getTypeId() == type && bookingActivityPresenter.getDTOAppointment().getVoucherId() == voucher)
             return;
 
         bookingSelectDatePresenter.resetStartDate();
         bookingSelectDatePresenter.resetExpireDate();
         type = bookingActivityPresenter.getDTOAppointment().getTypeId();
+        voucher = bookingActivityPresenter.getDTOAppointment().getVoucherId();
 
         if (type == 1) {
             //If type = Co dinh, show start date. Set expire date to Ngay Ket Thuc

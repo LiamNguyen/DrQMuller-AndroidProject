@@ -236,7 +236,7 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
     public void onUpdateCustomerFail() {
         try {
             mView.hideProgress();
-            onError("Update customer fail");
+            mView.showError(mView.getStringResource(R.string.update_fail));
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }

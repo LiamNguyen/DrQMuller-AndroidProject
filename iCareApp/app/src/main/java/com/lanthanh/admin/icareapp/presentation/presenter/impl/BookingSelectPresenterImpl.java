@@ -328,6 +328,8 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
             return;
         }
         dtoAppointment.setVoucher(dtoVoucher);
+        dtoAppointment.setStartDate(null);
+        dtoAppointment.setExpireDate(null);
         mView.onVoucherChange();
     }
 
@@ -376,6 +378,8 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
             return;
         }
         dtoAppointment.setType(dtoType);
+        dtoAppointment.setStartDate(null);
+        dtoAppointment.setExpireDate(null);
         mView.onTypeChange();
     }
 

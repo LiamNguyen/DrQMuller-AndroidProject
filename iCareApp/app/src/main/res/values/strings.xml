@@ -54,6 +54,7 @@
     <string name="validate_noti_fail">Gửi email không thành công\nVui lòng kiểm tra lại mạng, email hoặc gửi lại email</string>
     <string name="validate_noti_success">Gửi email thành công\nVui lòng kiểm tra email để kích hoạt tài khoản</string>
     <string name="send_mail_again">Xin quí khách vui lòng gửi lại email</string>
+    <string name="update_fail">Cập nhật thất bại</string>
     <string name="validate_back_to_register">Trở Về Trang Đăng Nhập</string>
 
     <!-- RESET PASSOWRD ACTIVITY -->

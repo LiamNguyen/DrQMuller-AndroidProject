@@ -32,6 +32,8 @@ public class ChangeEmailFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.userinfo_changeemail, container, false);
 
+        init();
+
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
 
         AppCompatButton change = (AppCompatButton) view.findViewById(R.id.ui_change_button);

@@ -23,13 +23,12 @@ public class BookingSelectDatePresenterImpl extends AbstractPresenter implements
         super(executor, mainThread);
         mView= view;
         this.dtoAppointment = dtoAppointment;
-
     }
 
 
     @Override
     public void resume() {
-
+        mView.dateDisplayOnTypeOrVoucherChange();
     }
 
     /*========================== DATE ==========================*/
@@ -55,7 +54,7 @@ public class BookingSelectDatePresenterImpl extends AbstractPresenter implements
     public void onStartDateSet(Calendar startDate) {
         if (dtoAppointment.getVoucherId() == 1){
             if (!ecoBookingDayCheck(startDate)){
-                mView.showError("Ngày được chọn không phù hợp");
+                mView.showError(mView.getStringResource(R.string.booking_error_eco_date));
                 return;
             }
         }
