@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onResume() {
         super.onResume();
         //networkController.registerNetworkReceiver();
-
+        mMainPresenter.resume();
         Intent i = getIntent();
         Bundle b = i.getExtras();
 

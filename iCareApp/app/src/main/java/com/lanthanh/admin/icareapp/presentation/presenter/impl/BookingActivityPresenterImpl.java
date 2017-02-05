@@ -249,7 +249,7 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
             sendEmailNotifyBookingInteractor.execute();
 
             //Get appointment from local shared pref
-            List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
+            List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
             if (appointmentsList == null)
                 appointmentsList = new ArrayList<>();
             //Add appointment to a list of appointments
