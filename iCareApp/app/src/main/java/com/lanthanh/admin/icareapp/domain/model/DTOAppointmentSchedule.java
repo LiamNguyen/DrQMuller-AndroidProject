@@ -6,7 +6,7 @@ package com.lanthanh.admin.icareapp.domain.model;
 
 public class DTOAppointmentSchedule {
     private int DAY_ID, HOUR_ID;
-    private String DAY, HOUR;
+    private String DAY, HOUR, MACHINE;
 
     public void setDayId(int id){
         DAY_ID = id;
@@ -22,6 +22,10 @@ public class DTOAppointmentSchedule {
 
     public void setHourName(String hour){
         HOUR = hour;
+    }
+
+    public void setMachineName(String machine){
+        MACHINE = machine;
     }
 
     public int getDayId(){
@@ -42,6 +46,6 @@ public class DTOAppointmentSchedule {
 
     @Override
     public String toString() {
-        return DAY + " - " + HOUR;
+        return DAY + " - " + HOUR + "\n" + MACHINE;
     }
 }

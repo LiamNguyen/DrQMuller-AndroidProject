@@ -83,13 +83,13 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
     @Override
     protected void onResume() {
         super.onResume();
-        networkController.registerNetworkReceiver();
+        //networkController.registerNetworkReceiver();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        networkController.unregisterNetworkReceiver();
+        //networkController.unregisterNetworkReceiver();
     }
 
     @Override

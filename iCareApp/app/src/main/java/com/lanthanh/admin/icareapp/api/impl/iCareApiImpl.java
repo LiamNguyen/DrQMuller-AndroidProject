@@ -29,8 +29,17 @@ public class iCareApiImpl implements iCareApi {
     }
 
     @Override
-    public void sendGetRequest(Callback callback, String url, String data) {
+    public void sendGetRequest(Callback callback, URL url) {
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            urlConnection.setDoInput(true);
+        }catch (IOException ioe){
+            System.out.println("Cannot open URL connection");
+        }
 
+        receiveResponse(callback, urlConnection);
     }
 
     @Override

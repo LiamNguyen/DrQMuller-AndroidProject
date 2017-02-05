@@ -19,6 +19,7 @@ public class DTOAppointment {
     private DTOLocation location;
     private DTOVoucher voucher;
     private DTOType type;
+    private DTOMachine machine;
     private Date startDate, expireDate;
     private List<DTOAppointmentSchedule> appointmentScheduleList;
     private String VERIFICATION_CODE;
@@ -55,6 +56,10 @@ public class DTOAppointment {
 
     public void setType(DTOType type){
         this.type = type;
+    }
+
+    public void setMachine(DTOMachine machine){
+        this.machine = machine;
     }
 
     public void setStartDate(Date date){
@@ -105,6 +110,10 @@ public class DTOAppointment {
         return type.getId();
     }
 
+    public int getMachineId(){
+        return machine.getId();
+    }
+
     public Date getStartDate(){
         return startDate;
     }
@@ -149,6 +158,10 @@ public class DTOAppointment {
         return type.getTypeName();
     }
 
+    public String getMachineName(){
+        return machine.getMachineName();
+    }
+
     public boolean getStatus(){
         return status;
     }
@@ -165,5 +178,9 @@ public class DTOAppointment {
                 return expireDate != null;
         }else
             return false;
+    }
+
+    public boolean isMachineFilled(){
+        return machine != null;
     }
 }

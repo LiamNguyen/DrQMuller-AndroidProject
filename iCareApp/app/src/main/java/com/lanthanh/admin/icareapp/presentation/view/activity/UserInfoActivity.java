@@ -100,13 +100,13 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoActiv
     @Override
     protected void onResume() {
         super.onResume();
-        networkController.registerNetworkReceiver();
+        //networkController.registerNetworkReceiver();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        networkController.unregisterNetworkReceiver();
+        //networkController.unregisterNetworkReceiver();
     }
 
     @Override

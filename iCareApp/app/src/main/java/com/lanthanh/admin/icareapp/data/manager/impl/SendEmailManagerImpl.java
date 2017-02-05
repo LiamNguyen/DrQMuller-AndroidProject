@@ -3,7 +3,7 @@ package com.lanthanh.admin.icareapp.data.manager.impl;
 import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.api.iCareApi;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
-import com.lanthanh.admin.icareapp.data.converter.ConverterToUrlData;
+import com.lanthanh.admin.icareapp.utils.NetworkUtils;
 import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.data.manager.LocationManager;
@@ -32,14 +32,14 @@ public class SendEmailManagerImpl extends AbstractManager implements SendEmailMa
 
     @Override
     public int sendEmailNotifyBooking(DTOAppointment dtoAppointment) {
-        String data = ConverterToUrlData.convertToUrlData(
-                ConverterToUrlData.getKeys  (
+        String data = NetworkUtils.convertToUrlData(
+                NetworkUtils.getKeys  (
                         CustomerManager.CUSTOMER_ID_KEY_2, AppointmentManager.CREATED_DAY,
                         CustomerManager.CUSTOMER_NAME_KEY, LocationManager.LOCATION_NAME_KEY,
                         VoucherManager.VOUCHER_NAME_KEY, TypeManager.TYPE_NAME_KEY,
                         AppointmentManager.STARTDATE_KEY, AppointmentManager.EXPIREDATE_KEY,
                         AppointmentManager.VERIFICATIONCODE_KEY, AppointmentManager.APPOINTMENT_SCHEDULE),
-                ConverterToUrlData.getValues(Integer.toString(dtoAppointment.getCustomerId()), ConverterForDisplay.convertDateToDisplay(Calendar.getInstance().getTime()),
+                NetworkUtils.getValues(Integer.toString(dtoAppointment.getCustomerId()), ConverterForDisplay.convertDateToDisplay(Calendar.getInstance().getTime()),
                         dtoAppointment.getCustomerName(), dtoAppointment.getLocationName(),
                         dtoAppointment.getVoucherName(),  dtoAppointment.getTypeName(),
                         ConverterForDisplay.convertDateToDisplay(dtoAppointment.getStartDate()), ConverterForDisplay.convertDateToDisplay(dtoAppointment.getExpireDate()),
@@ -51,9 +51,9 @@ public class SendEmailManagerImpl extends AbstractManager implements SendEmailMa
 
     @Override
     public int sendEmailResetPassword(String username) {
-        String data = ConverterToUrlData.convertToUrlData(
-                ConverterToUrlData.getKeys  (CustomerManager.CUSTOMER_USERNAME_KEY_2),
-                ConverterToUrlData.getValues(username)
+        String data = NetworkUtils.convertToUrlData(
+                NetworkUtils.getKeys  (CustomerManager.CUSTOMER_USERNAME_KEY_2),
+                NetworkUtils.getValues(username)
         );
         mApi.sendPostRequest(this, ModelURL.SENDEMAIL_RESETPW.getUrl(Manager.isUAT), data);
         return resetPwResult;
@@ -61,9 +61,9 @@ public class SendEmailManagerImpl extends AbstractManager implements SendEmailMa
 
     @Override
     public int sendEmailVerifyAcc(String email, int id) {
-        String data = ConverterToUrlData.convertToUrlData(
-                ConverterToUrlData.getKeys  (CustomerManager.CUSTOMER_ID_KEY_2, CustomerManager.CUSTOMER_EMAIL_KEY),
-                ConverterToUrlData.getValues(Integer.toString(id), email)
+        String data = NetworkUtils.convertToUrlData(
+                NetworkUtils.getKeys  (CustomerManager.CUSTOMER_ID_KEY_2, CustomerManager.CUSTOMER_EMAIL_KEY),
+                NetworkUtils.getValues(Integer.toString(id), email)
         );
         mApi.sendPostRequest(this, ModelURL.SENDEMAIL_VERIFYACC.getUrl(Manager.isUAT), data);
         return verifyAccResult;

@@ -120,6 +120,7 @@
     <string name="temp_inform">Hiện tại Dr.Q-Muller chỉ có 1 trung tâm tại Quận 3, Việt Nam</string>
     <string name="already_booked">Giờ đã bị đặt</string>
     <string name="abort_appointment_dialog">Quí khách có chắc chắn muốn hủy bỏ toàn bộ lịch hẹn?</string>
+    <string name="machine_alert">Quí khách vui lòng chọn máy</string>
 
     <!-- BOOKING DETAILS -->
     <string name="address">Địa Điểm</string>

@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.presentation.presenter;
 
+import com.lanthanh.admin.icareapp.domain.model.DTOMachine;
 import com.lanthanh.admin.icareapp.presentation.presenter.base.Presenter;
 import com.lanthanh.admin.icareapp.presentation.view.base.BaseView;
 
@@ -16,6 +17,7 @@ public interface BookingBookPresenter extends Presenter{
         void setAvailableTime(List<String> list);
         String getResourceString(int id);
         void updateCart();
+        void updateMachineList(List<String> list);
     }
 
     void refreshAvailableDays();
@@ -24,6 +26,7 @@ public interface BookingBookPresenter extends Presenter{
     void getAllWeekDays();
     void getAllTime();
     void getAllEcoTime();
+    void getAllMachines();
     void getSelectedTime(String day);
     int  getDayId(String day);
     int  getTimeId(String time);
@@ -31,4 +34,7 @@ public interface BookingBookPresenter extends Presenter{
     void onTimeSelected(String day, String time);
     boolean checkAppointmentScheduleValidity(int dayId);
     String getDayOfWeek(Date date);
+    void onMachineSelected(String machine);
+    DTOMachine getMachine(String machine);
+    boolean isMachineFilled();
 }

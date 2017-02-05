@@ -9,8 +9,10 @@ import com.lanthanh.admin.icareapp.data.manager.CountryManager;
 import com.lanthanh.admin.icareapp.data.manager.base.AbstractManager;
 import com.lanthanh.admin.icareapp.data.manager.base.Manager;
 import com.lanthanh.admin.icareapp.domain.model.DTOCountry;
+import com.lanthanh.admin.icareapp.utils.NetworkUtils;
 
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -26,7 +28,9 @@ public class CountryManagerImpl extends AbstractManager implements CountryManage
 
     @Override
     public List<DTOCountry> getAllCountries() {
-        mApi.sendPostRequest(this, ModelURL.SELECT_COUNTRIES.getUrl(Manager.isUAT), "");
+        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_COUNTRIES.getUrl(Manager.isUAT), null, null);
+        mApi.sendGetRequest(this, url);
+       //mApi.sendPostRequest(this, ModelURL.SELECT_COUNTRIES.getUrl(Manager.isUAT), "");
         return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOCountry.class);
     }
 

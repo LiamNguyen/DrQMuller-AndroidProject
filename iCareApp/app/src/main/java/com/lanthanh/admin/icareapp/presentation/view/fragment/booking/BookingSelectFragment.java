@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -40,10 +41,10 @@ import java.util.List;
 public class BookingSelectFragment extends Fragment implements BookingSelectPresenter.View, AdapterView.OnItemSelectedListener, View.OnClickListener{
     private BookingSelectPresenter bookingSelectPresenter;
     private BookingActivityPresenter bookingActivityPresenter;
-    private List<String> countriesName, citiesName, districtsName, locationsName, vouchersName, typesName, machinesName;
-    private CustomSpinnerAdapter countryAdapter, cityAdapter, districtAdapter, locationAdapter, voucherAdapter, typeAdapter, machineAdapter;
-    private Spinner countrySp, citySp, districtSp, locationSp, voucherSp, typeSp, machineSp;
-    private ImageView locationIv, voucherIv, typeIv, machineIv;
+    private List<String> countriesName, citiesName, districtsName, locationsName, vouchersName, typesName;
+    private CustomSpinnerAdapter countryAdapter, cityAdapter, districtAdapter, locationAdapter, voucherAdapter, typeAdapter;
+    private Spinner countrySp, citySp, districtSp, locationSp, voucherSp, typeSp;
+    private ImageView locationIv, voucherIv, typeIv;
 
     @Nullable
     @Override
@@ -56,11 +57,11 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         locationIv = (ImageView) view.findViewById(R.id.drop_down_icon_locations);
         voucherIv = (ImageView) view.findViewById(R.id.drop_down_icon_vouchers);
         typeIv = (ImageView) view.findViewById(R.id.drop_down_icon_types);
-        machineIv = (ImageView) view.findViewById(R.id.drop_down_icon_machines);
+//        machineIv = (ImageView) view.findViewById(R.id.drop_down_icon_machines);
         locationIv.setEnabled(false);
         voucherIv.setEnabled(false);
         typeIv.setEnabled(false);
-        machineIv.setEnabled(false);
+//        machineIv.setEnabled(false);
 
         /* =============================== SPINNER =============================== */
         //Set up Spinners
@@ -111,10 +112,12 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         voucherSp.setEnabled(false);
 
         typeSp = (Spinner) view.findViewById(R.id.spinner_type);
-        typeSp.setEnabled(false);
+        typeSp.setEnabled(true);
+        RelativeLayout typeContainer = (RelativeLayout) view.findViewById(R.id.type_container);
+        typeContainer.setVisibility(View.INVISIBLE);
 
-        machineSp = (Spinner) view.findViewById(R.id.spinner_machine);
-        machineSp.setEnabled(false);
+//        machineSp = (Spinner) view.findViewById(R.id.spinner_machine);
+//        machineSp.setEnabled(false);
 
         //Set up adapter for spinner
         countryAdapter = new CustomSpinnerAdapter(getActivity(), R.layout.bookingselect_spinner_item, countriesName);
@@ -147,10 +150,10 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         typeSp.setAdapter(typeAdapter);
         typeSp.setSelection(0, false);
 
-        machineAdapter = new CustomSpinnerAdapter(getActivity(), R.layout.bookingselect_spinner_item, machinesName);
-        machineAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        machineSp.setAdapter(machineAdapter);
-        machineSp.setSelection(0, false);
+//        machineAdapter = new CustomSpinnerAdapter(getActivity(), R.layout.bookingselect_spinner_item, machinesName);
+//        machineAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        machineSp.setAdapter(machineAdapter);
+//        machineSp.setSelection(0, false);
 
         //Set Listeners for Spinners
         countrySp.setOnItemSelectedListener(this);
@@ -159,7 +162,7 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         locationSp.setOnItemSelectedListener(this);
         voucherSp.setOnItemSelectedListener(this);
         typeSp.setOnItemSelectedListener(this);
-        machineSp.setOnItemSelectedListener(this);
+//        machineSp.setOnItemSelectedListener(this);
 
         /* =============================== LAST STEP =============================== */
         //Initialize data for Country Spinner first
@@ -193,8 +196,8 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         vouchersName.add(getString(R.string.booking_voucher_hint));
         typesName = new ArrayList<>();
         typesName.add(getString(R.string.booking_type_hint));
-        machinesName = new ArrayList<>();
-        machinesName.add(getString(R.string.booking_machine_hint));
+//        machinesName = new ArrayList<>();
+//        machinesName.add(getString(R.string.booking_machine_hint));
     }
 
     @Override
@@ -246,8 +249,8 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
                 break;
             case R.id.spinner_type:
                 bookingSelectPresenter.onTypeSelect(typeSp.getSelectedItem().toString());
-                machineSp.setEnabled(true);
-                machineIv.setEnabled(true);
+//                machineSp.setEnabled(true);
+//                machineIv.setEnabled(true);
             default:
                 break;
         }
@@ -303,6 +306,7 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         typesName.clear();
         typesName.add(getString(R.string.booking_type_hint));
         typesName.addAll(list);
+        typeSp.setSelection(2);
     }
 
     @Override

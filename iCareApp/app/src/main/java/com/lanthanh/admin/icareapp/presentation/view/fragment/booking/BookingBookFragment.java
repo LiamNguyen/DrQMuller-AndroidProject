@@ -5,16 +5,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.AppointmentManagerImpl;
+import com.lanthanh.admin.icareapp.data.manager.impl.MachineManagerImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.TimeManagerImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.WeekDayManagerImpl;
 import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
@@ -24,6 +27,7 @@ import com.lanthanh.admin.icareapp.presentation.presenter.BookingActivityPresent
 import com.lanthanh.admin.icareapp.presentation.presenter.BookingBookPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.impl.BookingBookPresenterImpl;
 import com.lanthanh.admin.icareapp.presentation.view.activity.BookingActivity;
+import com.lanthanh.admin.icareapp.presentation.view.adapter.CustomSpinnerAdapter;
 import com.lanthanh.admin.icareapp.presentation.view.adapter.ExpandableListViewAdapter;
 import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
@@ -37,17 +41,20 @@ import java.util.List;
  */
 
 public class BookingBookFragment extends Fragment implements BookingBookPresenter.View,
-        ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupClickListener, View.OnClickListener{
+        ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupClickListener, View.OnClickListener, AdapterView.OnItemSelectedListener{
     private BookingBookPresenter bookingBookPresenter;
     private BookingActivityPresenter bookingActivityPresenter;
     private ExpandableListView list;
     private ExpandableListViewAdapter adapter;
     private TimeComparator timeComparator;
+    private List<String> machinesName;
+    private CustomSpinnerAdapter machineAdapter;
+    private Spinner machineSp;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.booking_book, container, false);
+        View view = inflater.inflate(R.layout.fragment_booking_book, container, false);
 
         init();
 
@@ -57,8 +64,17 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
         button.setOnClickListener(this);
         button.setTypeface(font);
 
+        /*========================= MACHINE SPINNER =========================*/
+        machineSp = (Spinner) view.findViewById(R.id.spinner_machine);
+        machineAdapter = new CustomSpinnerAdapter(getActivity(), R.layout.bookingselect_spinner_item, machinesName);
+        machineAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        machineSp.setAdapter(machineAdapter);
+        machineSp.setSelection(0, false);
+        machineSp.setOnItemSelectedListener(this);
+
         /*========================= EXPANDABLE LIST =========================*/
         list = (ExpandableListView) view.findViewById(R.id.expListView);
+        list.setGroupIndicator(null);
         list.setOnChildClickListener(this);
         list.setOnGroupClickListener(this);
         list.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
@@ -76,6 +92,7 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
         adapter = new ExpandableListViewAdapter(getActivity(), new ArrayList<String>(), new ArrayList<String>());
         list.setAdapter(adapter);
 
+        bookingBookPresenter.getAllMachines();
         bookingBookPresenter.getAllWeekDays();
         bookingBookPresenter.getAllTime();
         bookingBookPresenter.getAllEcoTime();
@@ -87,9 +104,13 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
         //Init presenter
         bookingActivityPresenter = ((BookingActivity) getActivity()).getMainPresenter();
         bookingBookPresenter = new BookingBookPresenterImpl(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this, bookingActivityPresenter.getDTOAppointment(),
-                new TimeManagerImpl(iCareApiImpl.getAPI()), new AppointmentManagerImpl(iCareApiImpl.getAPI()), new WeekDayManagerImpl(iCareApiImpl.getAPI()));
+                new TimeManagerImpl(iCareApiImpl.getAPI()), new AppointmentManagerImpl(iCareApiImpl.getAPI()),
+                new WeekDayManagerImpl(iCareApiImpl.getAPI()), new MachineManagerImpl(iCareApiImpl.getAPI()));
         //Create time comparator
         timeComparator = new TimeComparator();
+        //Init list
+        machinesName = new ArrayList<>();
+        machinesName.add(getString(R.string.booking_machine_hint));
     }
 
     @Override
@@ -126,7 +147,39 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
     }
 
     @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+        switch (adapterView.getId()) {
+            case R.id.spinner_machine:
+                bookingBookPresenter.onMachineSelected(machineSp.getSelectedItem().toString());
+                collapseAllGroups();
+                bookingBookPresenter.getSelectedTime(adapter.getGroup(0));
+                list.expandGroup(0);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void updateMachineList(List<String> list) {
+        machinesName.clear();
+        machinesName.add(getString(R.string.booking_machine_hint));
+        machinesName.addAll(list);
+    }
+
+    @Override
     public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long groupId) {
+        //Check whether machine has been selected. If not selected
+        if (!bookingBookPresenter.isMachineFilled()){
+            showError(getResourceString(R.string.machine_alert));
+            return true;
+        }
+        //If selected
         if (!list.isGroupExpanded(groupPosition)) {
             bookingBookPresenter.getSelectedTime(adapter.getGroup(groupPosition));
         }

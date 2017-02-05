@@ -74,7 +74,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
     @Override
     protected void onResume() {
         super.onResume();
-        networkController.registerNetworkReceiver();
+        //networkController.registerNetworkReceiver();
         if (getIntent() != null) {
             Intent intent = getIntent();
             Bundle b = intent.getExtras();
@@ -98,7 +98,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
     @Override
     protected void onPause() {
         super.onPause();
-        networkController.unregisterNetworkReceiver();
+        //networkController.unregisterNetworkReceiver();
     }
 
     @Override

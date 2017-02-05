@@ -136,7 +136,7 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
         if (dtoAppointmentSchedule != null){
             //Remove on DB
             RemoveTemporaryBookingInteractor removeTemporaryBookingInteractor =
-                    new RemoveTemporaryBookingInteractorImpl(mExecutor, mMainThread, this, appointmentManager, dtoAppointmentSchedule);
+                    new RemoveTemporaryBookingInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointment.getLocationId(), appointment.getMachineId(), dtoAppointmentSchedule);
             removeTemporaryBookingInteractor.execute();
         }else
             onError("Item to be removed doesn't exist");
@@ -152,13 +152,15 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
     }
 
     @Override
-    public void onRemoveTempBookingSuccess(DTOAppointmentSchedule dtoAppointmentSchedule) {
+    public void onRemoveTempBookingSuccess(List<DTOAppointmentSchedule> list) {
         try {
-            //Update UI
-            mView.onRemoveCartItem(dtoAppointmentSchedule.toString());
-            mView.onRemoveCartItemColor(true);
-            //Update DTO
-            appointment.getAppointmentScheduleList().remove(dtoAppointmentSchedule);
+            for (DTOAppointmentSchedule dtoAppointmentSchedule: list) {
+                //Update UI
+                mView.onRemoveCartItem(dtoAppointmentSchedule.toString());
+                mView.onRemoveCartItemColor(true);
+                //Update DTO
+                appointment.getAppointmentScheduleList().remove(dtoAppointmentSchedule);
+            }
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }
@@ -175,14 +177,18 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
 
     @Override
     public void emptyCart() {
+        if (!appointment.isMachineFilled())
+            return;
         mView.onEmptyCart();
         List<DTOAppointmentSchedule> dtoAppointmentScheduleList = appointment.getAppointmentScheduleList();
-        for (DTOAppointmentSchedule dtoAppointmentSchedule : dtoAppointmentScheduleList){
-            //Remove on DB
-            RemoveTemporaryBookingInteractor removeTemporaryBookingInteractor =
-                    new RemoveTemporaryBookingInteractorImpl(mExecutor, mMainThread, this, appointmentManager, dtoAppointmentSchedule);
-            removeTemporaryBookingInteractor.execute();
+        DTOAppointmentSchedule[] array = new DTOAppointmentSchedule[dtoAppointmentScheduleList.size()];
+        for (int i = 0; i < dtoAppointmentScheduleList.size(); i++){
+            array[i] = dtoAppointmentScheduleList.get(i);
         }
+        //Remove on DB
+        RemoveTemporaryBookingInteractor removeTemporaryBookingInteractor =
+                new RemoveTemporaryBookingInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointment.getLocationId(), appointment.getMachineId(), array);
+        removeTemporaryBookingInteractor.execute();
     }
 
     @Override
@@ -286,5 +292,10 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
             navigateTab(BookingActivity.FIRST_SELECT);
         else if (bookingBookFragment.isVisible())
             navigateTab(BookingActivity.SECOND_SELECT);
+    }
+
+    @Override
+    public void destroy() {
+        emptyCart();
     }
 }

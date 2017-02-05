@@ -13,6 +13,6 @@ import java.util.List;
 public interface TimeManager extends Manager{
     String TIME_ID_KEY = "time_id";
     List<DTOTime> getAllTime();
-    List<DTOTime> getAllSelectedTime(int id);
+    List<DTOTime> getAllSelectedTime(int dayId, int locationId, int machineId);
     List<DTOTime> getAllEcoTime();
 }

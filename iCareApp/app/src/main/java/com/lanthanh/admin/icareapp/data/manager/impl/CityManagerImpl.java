@@ -1,19 +1,18 @@
 package com.lanthanh.admin.icareapp.data.manager.impl;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
 import com.lanthanh.admin.icareapp.domain.model.ModelURL;
 import com.lanthanh.admin.icareapp.api.iCareApi;
-import com.lanthanh.admin.icareapp.data.converter.ConverterJsonToDTO;
-import com.lanthanh.admin.icareapp.data.converter.ConverterToUrlData;
+import com.lanthanh.admin.icareapp.utils.NetworkUtils;
 import com.lanthanh.admin.icareapp.data.manager.CityManager;
 import com.lanthanh.admin.icareapp.data.manager.CountryManager;
 import com.lanthanh.admin.icareapp.data.manager.base.AbstractManager;
 import com.lanthanh.admin.icareapp.data.manager.base.Manager;
 import com.lanthanh.admin.icareapp.domain.model.DTOCity;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -29,8 +28,10 @@ public class CityManagerImpl extends AbstractManager implements CityManager{
 
     @Override
     public List<DTOCity> getAllCitiesByCountryId(int id) {
-        String data = ConverterToUrlData.convertToUrlData(CountryManager.COUNTRY_ID_KEY, Integer.toString(id));
-        mApi.sendPostRequest(this, ModelURL.SELECT_CITIES.getUrl(Manager.isUAT), data);
+        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_CITIES.getUrl(Manager.isUAT),
+                                        NetworkUtils.getKeys(CountryManager.COUNTRY_ID_KEY),
+                                        NetworkUtils.getValues(Integer.toString(id)));
+        mApi.sendGetRequest(this, url);
         return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOCity.class);
     }
 

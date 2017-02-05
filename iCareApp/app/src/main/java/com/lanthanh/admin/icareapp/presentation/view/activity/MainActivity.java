@@ -20,6 +20,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onResume() {
         super.onResume();
-        networkController.registerNetworkReceiver();
+        //networkController.registerNetworkReceiver();
 
         Intent i = getIntent();
         Bundle b = i.getExtras();
@@ -140,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onPause() {
         super.onPause();
         //releaseCartWhenReselect();
-        networkController.unregisterNetworkReceiver();
+        //networkController.unregisterNetworkReceiver();
     }
 
     @Override
@@ -240,4 +241,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public void refreshAfterNetworkConnected(){
         this.onPostResume();
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        System.out.println("CONCCCCCCACCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
+        return super.onTouchEvent(event);
+    }
+
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        int eventaction=event.getAction();
+
+        switch(eventaction) {
+            case MotionEvent.ACTION_MOVE:
+                break;
+            default:
+                break;
+        }
+
+        return super.dispatchTouchEvent(event);
+    }
+
 }

@@ -688,6 +688,7 @@
     <string name="library_AndroidIconics_repositoryLink">https://github.com/mikepenz/Android-Iconics</string>
     <string name="library_AndroidIconics_year">2016</string>
     <string name="list_cart">Đã Đặt</string>
+    <string name="machine_alert">Quí khách vui lòng chọn máy</string>
     <string name="male">Nam</string>
     <string name="max_item">Tối đa 3 lịch hẹn</string>
     <string name="min_item">Vui lòng chọn ít nhất một thời gian cụ thể</string>

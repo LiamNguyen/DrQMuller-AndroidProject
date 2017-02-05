@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
@@ -21,13 +22,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
     private List<String> listOfDays, listOfHours;
     private Typeface fontDay, fontTime;
     private Activity context;
-    private ViewHolder holder;
-
-    /*public ExpandableListViewAdapter(Activity context, List<String> listOfDays, Map<String,List<String>> listOfHoursPerDay){
-        this.listOfDays = listOfDays;
-        this.listOfHoursPerDay = listOfHoursPerDay;
-        this.context = context;
-    }*/
+    private ChildViewHolder childViewHolder;
+    private GroupViewHolder groupViewHolder;
 
     public ExpandableListViewAdapter(Activity context, List<String> listOfDays, List<String> listOfHours) {
         this.listOfDays = listOfDays;
@@ -91,13 +87,14 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
         if (convertView == null){
             LayoutInflater inflater = context.getLayoutInflater();
             convertView = inflater.inflate(R.layout.booking_day_of_week, null);
-            holder = new ViewHolder(convertView, R.id.day_of_week);
-            convertView.setTag(holder);
+            groupViewHolder = new GroupViewHolder(convertView);
+            convertView.setTag(groupViewHolder);
         }else
-            holder = (ViewHolder) convertView.getTag();
+            groupViewHolder = (GroupViewHolder) convertView.getTag();
 
-        TextView dayDisplay = holder.getTextDisplay();
-        dayDisplay.setText((String)getGroup(groupPosition));
+        groupViewHolder.setImage(isExpanded);
+        TextView dayDisplay = groupViewHolder.getTextDisplay();
+        dayDisplay.setText(getGroup(groupPosition));
         dayDisplay.setTypeface(fontDay);
 
         return convertView;
@@ -110,35 +107,49 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
         if (convertView == null){
             LayoutInflater inflater = context.getLayoutInflater();
             convertView = inflater.inflate(R.layout.booking_time_of_day, null);
-            holder = new ViewHolder(convertView, R.id.time_of_day);
-            convertView.setTag(holder);
+            childViewHolder = new ChildViewHolder(convertView);
+            convertView.setTag(childViewHolder);
         }else
-            holder = (ViewHolder) convertView.getTag();
+            childViewHolder = (ChildViewHolder) convertView.getTag();
 
 
-        TextView timeDisplay = holder.getTextDisplay();
-        timeDisplay.setText((String)getChild(groupPosition, childPosition));
+        TextView timeDisplay = childViewHolder.getTextDisplay();
+        timeDisplay.setText(getChild(groupPosition, childPosition));
         timeDisplay.setTypeface(fontTime);
 
         return convertView;
     }
 
     //Class that hold the view once it has been found by findViewById method
-    private class ViewHolder{
-        private View base;
-        private int viewID;
+    private class ChildViewHolder{
         private TextView text;
 
-        ViewHolder(View base, int id){
-            this.base = base;
-            this.viewID = id;
+        ChildViewHolder(View base){
+            text = (TextView) base.findViewById(R.id.time_of_day);
         }
 
         TextView getTextDisplay(){
-            if (text == null)
-                text = (TextView) base.findViewById(viewID);
-
             return text;
+        }
+    }
+
+    private class GroupViewHolder{
+        private TextView text;
+        private ImageView image;
+        GroupViewHolder(View base){
+            text = (TextView) base.findViewById(R.id.day_of_week);
+            image = (ImageView) base.findViewById(R.id.image);
+        }
+
+        TextView getTextDisplay(){
+            return text;
+        }
+
+        void setImage(boolean isExpanded){
+            if (isExpanded)
+                image.setImageResource(R.drawable.ic_arrow_drop_up_white_24dp);
+            else
+                image.setImageResource(R.drawable.ic_arrow_drop_down_white_24dp);
         }
     }
 

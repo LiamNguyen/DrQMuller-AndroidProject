@@ -32,6 +32,10 @@
         "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xxhdpi\\ic_arrow_drop_down_white_24dp.png"
     },
     {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\ic_arrow_drop_down_white_48dp.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xxhdpi\\ic_arrow_drop_down_white_48dp.png"
+    },
+    {
         "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\ic_shopping_cart_white_32dp.png",
         "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xxhdpi\\ic_shopping_cart_white_32dp.png"
     },
@@ -50,6 +54,10 @@
     {
         "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\ic_shopping_cart_white_24dp.png",
         "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xxhdpi\\ic_shopping_cart_white_24dp.png"
+    },
+    {
+        "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\ic_arrow_drop_down_white_36dp.png",
+        "source": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\src\\main\\res\\drawable-xxhdpi\\ic_arrow_drop_down_white_36dp.png"
     },
     {
         "merged": "D:\\longv\\app\\DrQMuller-AndroidProject\\iCareApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\ic_person_pin_white_36dp.png",

@@ -2,10 +2,11 @@ package com.lanthanh.admin.icareapp.data.manager.impl;
 
 import android.content.SharedPreferences;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.api.iCareApi;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
-import com.lanthanh.admin.icareapp.data.converter.ConverterToUrlData;
+import com.lanthanh.admin.icareapp.utils.NetworkUtils;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.data.manager.base.AbstractManager;
 import com.lanthanh.admin.icareapp.data.manager.base.Manager;
@@ -30,9 +31,9 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
 
     @Override
     public String logIn(String username, String password) {
-        String data = ConverterToUrlData.convertToUrlData(
-                ConverterToUrlData.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY, CustomerManager.CUSTOMER_PASSWORD_KEY),
-                ConverterToUrlData.getValues(username, password)
+        String data = NetworkUtils.convertToUrlData(
+                NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY, CustomerManager.CUSTOMER_PASSWORD_KEY),
+                NetworkUtils.getValues(username, password)
         );
         mApi.sendPostRequest(this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(Manager.isUAT), data);
         return logInResult;
@@ -40,19 +41,19 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
 
     @Override
     public boolean checkUserExistence(String username) {
-        String data = ConverterToUrlData.convertToUrlData(
-                ConverterToUrlData.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY),
-                ConverterToUrlData.getValues(username)
+        String data = NetworkUtils.convertToUrlData(
+                NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY),
+                NetworkUtils.getValues(username)
         );
-        mApi.sendPostRequest(this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(Manager.isUAT), data);
+        mApi.sendPostRequest(this, ModelURL.SELECT_CHECKUSEREXISTENCE.getUrl(Manager.isUAT), data);
         return userExistenceResult;
     }
 
     @Override
     public boolean insertNewCustomer(String username, String password) {
-        String data = ConverterToUrlData.convertToUrlData(
-                ConverterToUrlData.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY, CustomerManager.CUSTOMER_PASSWORD_KEY),
-                ConverterToUrlData.getValues(username, password)
+        String data = NetworkUtils.convertToUrlData(
+                NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY, CustomerManager.CUSTOMER_PASSWORD_KEY),
+                NetworkUtils.getValues(username, password)
         );
         mApi.sendPostRequest(this, ModelURL.INSERT_NEWCUSTOMER.getUrl(Manager.isUAT), data);
         return newCusResult;
@@ -60,9 +61,9 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
 
     @Override
     public int getCustomerId(String username) {
-        String data = ConverterToUrlData.convertToUrlData(
-                ConverterToUrlData.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY),
-                ConverterToUrlData.getValues(username)
+        String data = NetworkUtils.convertToUrlData(
+                NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY),
+                NetworkUtils.getValues(username)
         );
         mApi.sendPostRequest(this, ModelURL.SELECT_NoOFCUSTOMERS.getUrl(Manager.isUAT), data);
         return getIdResult;
@@ -70,17 +71,17 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
 
     @Override
     public boolean updateCustomer(ModelUser user) {
-        String data = ConverterToUrlData.convertToUrlData(
-                ConverterToUrlData.getKeys(CustomerManager.CUSTOMER_ID_KEY_2,
+        String data = NetworkUtils.convertToUrlData(
+                NetworkUtils.getKeys(CustomerManager.CUSTOMER_ID_KEY_2,
                                            CustomerManager.CUSTOMER_NAME_KEY, CustomerManager.CUSTOMER_ADDRESS_KEY,
                                            CustomerManager.CUSTOMER_DOB_KEY, CustomerManager.CUSTOMER_GENDER_KEY,
                                            CustomerManager.CUSTOMER_EMAIL_KEY, CustomerManager.CUSTOMER_PHONE_KEY,
                                            CustomerManager.CUSTOMER_UPDATE_DATE),
-                ConverterToUrlData.getValues(Integer.toString(user.getID()),
+                NetworkUtils.getValues(Integer.toString(user.getID()),
                                              user.getName(), user.getAddress(),
                                              user.getDOB(), user.getGender(),
                                              user.getEmail(), user.getPhone(),
-                                             ConverterToUrlData.convertDateForDB(Calendar.getInstance().getTime()))
+                                             NetworkUtils.convertDateForDB(Calendar.getInstance().getTime()))
         );
         mApi.sendPostRequest(this, ModelURL.UPDATE_CUSTOMERINFO.getUrl(Manager.isUAT), data);
         return updateCusResult;
@@ -88,9 +89,9 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
 
     @Override
     public boolean updateCustomerPassword(String username, String password) {
-        String data = ConverterToUrlData.convertToUrlData(
-                ConverterToUrlData.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY_2, CustomerManager.CUSTOMER_PASSWORD_KEY),
-                ConverterToUrlData.getValues(username, password)
+        String data = NetworkUtils.convertToUrlData(
+                NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY_2, CustomerManager.CUSTOMER_PASSWORD_KEY),
+                NetworkUtils.getValues(username, password)
         );
         mApi.sendPostRequest(this, ModelURL.UPDATE_RESETPW.getUrl(Manager.isUAT), data);
         return updatePwResult;
@@ -98,9 +99,9 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
 
     @Override
     public boolean updateVerifyAcc(String id) {
-        String data = ConverterToUrlData.convertToUrlData(
-                ConverterToUrlData.getKeys(CustomerManager.CUSTOMER_ID_KEY_2),
-                ConverterToUrlData.getValues(id)
+        String data = NetworkUtils.convertToUrlData(
+                NetworkUtils.getKeys(CustomerManager.CUSTOMER_ID_KEY_2),
+                NetworkUtils.getValues(id)
         );
         mApi.sendPostRequest(this, ModelURL.UPDATE_VERIFYACC.getUrl(Manager.isUAT), data);
         return updateVerifyAcc;
@@ -129,17 +130,17 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
         JsonObject jsonObject = ConverterJson.convertJsonToObject(json, JsonObject.class);
 
         if (jsonObject.has("Select_ToAuthenticate")){
-            String result = jsonObject.get("Select_ToAuthenticate").getAsString();
-            if (result.equals("LoginFail") || result.equals("QueryFail"))
+            JsonArray result = jsonObject.get("Select_ToAuthenticate").getAsJsonArray();
+            if (result.size() == 1 || result.size() == 0)
                 this.logInResult = null;
             else
-                this.logInResult = result;
+                this.logInResult = result.get(2).getAsJsonObject().get("jwt").getAsString();
         }else if (jsonObject.has("Select_CheckUserExistence")){
             String result = jsonObject.get("Select_CheckUserExistence").getAsString();
-            if (result.equals("NonExist"))
-                this.userExistenceResult = true;
-            else
+            if (result.equals("Not Exist"))
                 this.userExistenceResult = false;
+            else
+                this.userExistenceResult = true;
         }else if (jsonObject.has("Insert_NewCustomer")){
             String result = jsonObject.get("Insert_NewCustomer").getAsString();
             if (result.equals("Inserted"))

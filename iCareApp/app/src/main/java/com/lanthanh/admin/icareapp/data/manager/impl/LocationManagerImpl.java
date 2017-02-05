@@ -1,13 +1,10 @@
 package com.lanthanh.admin.icareapp.data.manager.impl;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.api.iCareApi;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
-import com.lanthanh.admin.icareapp.data.converter.ConverterJsonToDTO;
-import com.lanthanh.admin.icareapp.data.converter.ConverterToUrlData;
-import com.lanthanh.admin.icareapp.data.manager.CityManager;
+import com.lanthanh.admin.icareapp.utils.NetworkUtils;
 import com.lanthanh.admin.icareapp.data.manager.DistrictManager;
 import com.lanthanh.admin.icareapp.data.manager.LocationManager;
 import com.lanthanh.admin.icareapp.data.manager.base.AbstractManager;
@@ -15,6 +12,7 @@ import com.lanthanh.admin.icareapp.data.manager.base.Manager;
 import com.lanthanh.admin.icareapp.domain.model.DTOLocation;
 import com.lanthanh.admin.icareapp.domain.model.ModelURL;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -30,8 +28,10 @@ public class LocationManagerImpl extends AbstractManager implements LocationMana
 
     @Override
     public List<DTOLocation> getAllLocationByDistrictId(int id) {
-        String data = ConverterToUrlData.convertToUrlData(DistrictManager.DISTRICT_ID_KEY, Integer.toString(id));
-        mApi.sendPostRequest(this, ModelURL.SELECT_LOCATIONS.getUrl(Manager.isUAT), data);
+        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_LOCATIONS.getUrl(Manager.isUAT),
+                                        NetworkUtils.getKeys(DistrictManager.DISTRICT_ID_KEY),
+                                        NetworkUtils.getValues(Integer.toString(id)));
+        mApi.sendGetRequest(this, url);
         return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOLocation.class);
     }
 

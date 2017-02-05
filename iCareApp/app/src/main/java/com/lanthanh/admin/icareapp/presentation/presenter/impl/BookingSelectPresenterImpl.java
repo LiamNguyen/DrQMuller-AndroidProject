@@ -108,7 +108,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     @Override
     public void onNoCountryFound() {
         try {
-            mView.showError("No country found");
+            Log.e(TAG, "No country found");
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }
@@ -160,7 +160,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     @Override
     public void onNoCityFound() {
         try {
-            mView.showError("No city found");
+            Log.e(TAG, "No city found");
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }
@@ -212,7 +212,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     @Override
     public void onNoDistrictFound() {
         try {
-            mView.showError("No district found");
+            Log.e(TAG, "No district found");
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }
@@ -266,7 +266,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     public void onNoLocationFound() {
         try {
             mView.hideProgress();
-            mView.showError("No location found");
+            Log.e(TAG, "No location found");
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }
@@ -313,7 +313,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     @Override
     public void onNoVoucherFound() {
         try {
-            mView.showError("No voucher found");
+            Log.e(TAG, "No voucher found");
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }
@@ -361,7 +361,7 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     @Override
     public void onNoTypeFound() {
         try {
-            mView.showError("No type found");
+            Log.e(TAG, "No type found");
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }

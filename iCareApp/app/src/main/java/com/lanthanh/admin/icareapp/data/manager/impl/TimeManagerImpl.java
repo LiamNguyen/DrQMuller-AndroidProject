@@ -4,7 +4,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.api.iCareApi;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
-import com.lanthanh.admin.icareapp.data.converter.ConverterToUrlData;
+import com.lanthanh.admin.icareapp.utils.NetworkUtils;
+import com.lanthanh.admin.icareapp.data.manager.LocationManager;
+import com.lanthanh.admin.icareapp.data.manager.MachineManager;
 import com.lanthanh.admin.icareapp.data.manager.TimeManager;
 import com.lanthanh.admin.icareapp.data.manager.WeekDayManager;
 import com.lanthanh.admin.icareapp.data.manager.base.AbstractManager;
@@ -12,6 +14,7 @@ import com.lanthanh.admin.icareapp.data.manager.base.Manager;
 import com.lanthanh.admin.icareapp.domain.model.DTOTime;
 import com.lanthanh.admin.icareapp.domain.model.ModelURL;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -27,20 +30,24 @@ public class TimeManagerImpl extends AbstractManager implements TimeManager{
 
     @Override
     public List<DTOTime> getAllTime() {
-        mApi.sendPostRequest(this, ModelURL.SELECT_ALLTIMEINADAY.getUrl(Manager.isUAT), "");
+        URL url =  NetworkUtils.buildUrl(ModelURL.SELECT_ALLTIMEINADAY.getUrl(Manager.isUAT), null, null);
+        mApi.sendGetRequest(this, url);
         return ConverterJson.convertGsonObjectToObjectList(allTimeJsonArray, DTOTime.class);
     }
 
     @Override
-    public List<DTOTime> getAllSelectedTime(int id) {
-        String data = ConverterToUrlData.convertToUrlData(WeekDayManager.DAY_ID_KEY, Integer.toString(id));
-        mApi.sendPostRequest(this, ModelURL.SELECT_SELECTEDTIME.getUrl(Manager.isUAT), data);
+    public List<DTOTime> getAllSelectedTime(int dayId, int locationId, int machineId) {
+        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_SELECTEDTIME.getUrl(Manager.isUAT),
+                                              NetworkUtils.getKeys(WeekDayManager.DAY_ID_KEY, LocationManager.LOCATION_ID_KEY, MachineManager.MACHINE_ID_KEY),
+                                              NetworkUtils.getValues(Integer.toString(dayId), Integer.toString(locationId), Integer.toString(machineId)));
+        mApi.sendGetRequest(this, url);
         return ConverterJson.convertGsonObjectToObjectList(selectedTimeJsonArray, DTOTime.class);
     }
 
     @Override
     public List<DTOTime> getAllEcoTime() {
-        mApi.sendPostRequest(this, ModelURL.SELECT_ECOTIME.getUrl(Manager.isUAT), "");
+        URL url =  NetworkUtils.buildUrl(ModelURL.SELECT_ECOTIME.getUrl(Manager.isUAT), null, null);
+        mApi.sendGetRequest(this, url);
         return ConverterJson.convertGsonObjectToObjectList(ecoTimeJsonArray, DTOTime.class);
     }
 

@@ -17,6 +17,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -79,6 +80,14 @@ public class BookingActivity extends AppCompatActivity implements AdapterView.On
         //Init view
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        progressBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN)
+                    hideProgress();
+                return false;
+            }
+        });
 
         //Set up Toolbar
         setSupportActionBar(toolBar);
@@ -111,7 +120,7 @@ public class BookingActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       // bookingActivityPresenter.destroy();
+        bookingActivityPresenter.destroy();
     }
 
     /* =============================== TOOLBAR ===============================*/
@@ -309,4 +318,5 @@ public class BookingActivity extends AppCompatActivity implements AdapterView.On
     public void refreshAfterNetworkConnected(){
         this.onPostResume();
     }
+
 }

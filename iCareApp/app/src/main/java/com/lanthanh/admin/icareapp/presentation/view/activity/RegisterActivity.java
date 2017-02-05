@@ -85,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
     protected void onResume() {
         super.onResume();
 
-        networkController.registerNetworkReceiver();
+        //networkController.registerNetworkReceiver();
 
         if (getIntent() != null) {
             Intent intent = getIntent();
@@ -119,7 +119,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
     @Override
     protected void onPause() {
         super.onPause();
-        networkController.unregisterNetworkReceiver();
+        //networkController.unregisterNetworkReceiver();
     }
 
     @Override

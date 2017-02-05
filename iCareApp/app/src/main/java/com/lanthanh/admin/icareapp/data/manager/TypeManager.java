@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public interface TypeManager extends Manager{
-    String TYPE_ID_KEY = "type";
+    String TYPE_ID_KEY = "type_id";
     String TYPE_NAME_KEY = "type";
     List<DTOType> getAllTypes();
 }

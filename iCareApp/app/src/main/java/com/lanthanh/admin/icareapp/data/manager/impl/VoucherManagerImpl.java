@@ -1,17 +1,17 @@
 package com.lanthanh.admin.icareapp.data.manager.impl;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.api.iCareApi;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
-import com.lanthanh.admin.icareapp.data.converter.ConverterJsonToDTO;
 import com.lanthanh.admin.icareapp.data.manager.VoucherManager;
 import com.lanthanh.admin.icareapp.data.manager.base.AbstractManager;
 import com.lanthanh.admin.icareapp.data.manager.base.Manager;
 import com.lanthanh.admin.icareapp.domain.model.DTOVoucher;
 import com.lanthanh.admin.icareapp.domain.model.ModelURL;
+import com.lanthanh.admin.icareapp.utils.NetworkUtils;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -27,7 +27,8 @@ public class VoucherManagerImpl extends AbstractManager implements VoucherManage
 
     @Override
     public List<DTOVoucher> getAllVouchers() {
-        mApi.sendPostRequest(this, ModelURL.SELECT_VOUCHERS.getUrl(Manager.isUAT), "");
+        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_VOUCHERS.getUrl(Manager.isUAT), null, null);
+        mApi.sendGetRequest(this, url);
         return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOVoucher.class);
     }
 
