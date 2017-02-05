@@ -152,8 +152,7 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
             case R.id.spinner_machine:
                 bookingBookPresenter.onMachineSelected(machineSp.getSelectedItem().toString());
                 collapseAllGroups();
-                bookingBookPresenter.getSelectedTime(adapter.getGroup(0));
-                list.expandGroup(0);
+                autoExpandGroup(0);
                 break;
             default:
                 break;
@@ -162,7 +161,6 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     @Override
@@ -170,6 +168,12 @@ public class BookingBookFragment extends Fragment implements BookingBookPresente
         machinesName.clear();
         machinesName.add(getString(R.string.booking_machine_hint));
         machinesName.addAll(list);
+    }
+
+    @Override
+    public void autoExpandGroup(int groupPosition) {
+        bookingBookPresenter.getSelectedTime(adapter.getGroup(groupPosition));
+        list.expandGroup(groupPosition);
     }
 
     @Override

@@ -18,6 +18,7 @@ public interface BookingBookPresenter extends Presenter{
         String getResourceString(int id);
         void updateCart();
         void updateMachineList(List<String> list);
+        void autoExpandGroup(int groupPosition);
     }
 
     void refreshAvailableDays();

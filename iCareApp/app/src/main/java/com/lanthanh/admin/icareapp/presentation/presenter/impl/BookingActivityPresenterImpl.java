@@ -136,7 +136,7 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
         if (dtoAppointmentSchedule != null){
             //Remove on DB
             RemoveTemporaryBookingInteractor removeTemporaryBookingInteractor =
-                    new RemoveTemporaryBookingInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointment.getLocationId(), appointment.getMachineId(), dtoAppointmentSchedule);
+                    new RemoveTemporaryBookingInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointment.getLocationId(), dtoAppointmentSchedule.getMachineId(), dtoAppointmentSchedule);
             removeTemporaryBookingInteractor.execute();
         }else
             onError("Item to be removed doesn't exist");
@@ -158,6 +158,7 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
                 //Update UI
                 mView.onRemoveCartItem(dtoAppointmentSchedule.toString());
                 mView.onRemoveCartItemColor(true);
+                bookingBookFragment.autoExpandGroup(0);
                 //Update DTO
                 appointment.getAppointmentScheduleList().remove(dtoAppointmentSchedule);
             }

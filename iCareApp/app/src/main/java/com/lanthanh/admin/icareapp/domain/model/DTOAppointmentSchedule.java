@@ -5,7 +5,7 @@ package com.lanthanh.admin.icareapp.domain.model;
  */
 
 public class DTOAppointmentSchedule {
-    private int DAY_ID, HOUR_ID;
+    private int DAY_ID, HOUR_ID, MACHINE_ID;
     private String DAY, HOUR, MACHINE;
 
     public void setDayId(int id){
@@ -14,6 +14,10 @@ public class DTOAppointmentSchedule {
 
     public void setHourId(int id){
         HOUR_ID = id;
+    }
+
+    public void setMachineId(int id){
+        MACHINE_ID = id;
     }
 
     public void setDayName(String day){
@@ -34,6 +38,10 @@ public class DTOAppointmentSchedule {
 
     public int getHourId(){
         return HOUR_ID;
+    }
+
+    public int getMachineId(){
+        return MACHINE_ID;
     }
 
     public String getDayName(){

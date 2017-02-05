@@ -362,6 +362,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
             appointmentSchedule.setDayId(dayId);
             appointmentSchedule.setHourName(time);
             appointmentSchedule.setHourId(timeId);
+            appointmentSchedule.setMachineId(dtoAppointment.getMachineId());
             appointmentSchedule.setMachineName(dtoAppointment.getMachineName());
             dtoAppointment.addAppointment(appointmentSchedule);
             BookingInteractor bookingInteractor = new BookingInteractorImpl(mExecutor, mMainThread, this, appointmentManager,
