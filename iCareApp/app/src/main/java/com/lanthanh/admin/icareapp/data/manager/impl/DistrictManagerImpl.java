@@ -28,7 +28,7 @@ public class DistrictManagerImpl extends AbstractManager implements DistrictMana
 
     @Override
     public List<DTODistrict> getAllDistrictsByCityId(int id) {
-        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_DISTRICTS.getUrl(Manager.isUAT),
+        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_DISTRICTS.getUrl(Manager.DB_TYPE),
                                         NetworkUtils.getKeys(CityManager.CITY_ID_KEY),
                                         NetworkUtils.getValues(Integer.toString(id)));
         mApi.sendGetRequest(this, url);

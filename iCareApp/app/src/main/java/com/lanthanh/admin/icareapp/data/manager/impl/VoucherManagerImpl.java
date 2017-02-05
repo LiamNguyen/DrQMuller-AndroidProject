@@ -27,7 +27,7 @@ public class VoucherManagerImpl extends AbstractManager implements VoucherManage
 
     @Override
     public List<DTOVoucher> getAllVouchers() {
-        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_VOUCHERS.getUrl(Manager.isUAT), null, null);
+        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_VOUCHERS.getUrl(Manager.DB_TYPE), null, null);
         mApi.sendGetRequest(this, url);
         return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOVoucher.class);
     }

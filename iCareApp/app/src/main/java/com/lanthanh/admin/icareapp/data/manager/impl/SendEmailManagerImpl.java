@@ -45,7 +45,7 @@ public class SendEmailManagerImpl extends AbstractManager implements SendEmailMa
                         ConverterForDisplay.convertDateToDisplay(dtoAppointment.getStartDate()), ConverterForDisplay.convertDateToDisplay(dtoAppointment.getExpireDate()),
                         dtoAppointment.getVerficationCode(), ConverterJson.convertObjectToJson(ConverterForDisplay.convertToStringList(dtoAppointment.getAppointmentScheduleList())))
         );
-        mApi.sendPostRequest(this, ModelURL.SENDEMAIL_NOTIFYBOOKING.getUrl(Manager.isUAT), data);
+        mApi.sendPostRequest(this, ModelURL.SENDEMAIL_NOTIFYBOOKING.getUrl(Manager.DB_TYPE), data);
         return notifyBookingResult;
     }
 
@@ -55,7 +55,7 @@ public class SendEmailManagerImpl extends AbstractManager implements SendEmailMa
                 NetworkUtils.getKeys  (CustomerManager.CUSTOMER_USERNAME_KEY_2),
                 NetworkUtils.getValues(username)
         );
-        mApi.sendPostRequest(this, ModelURL.SENDEMAIL_RESETPW.getUrl(Manager.isUAT), data);
+        mApi.sendPostRequest(this, ModelURL.SENDEMAIL_RESETPW.getUrl(Manager.DB_TYPE), data);
         return resetPwResult;
     }
 
@@ -65,7 +65,7 @@ public class SendEmailManagerImpl extends AbstractManager implements SendEmailMa
                 NetworkUtils.getKeys  (CustomerManager.CUSTOMER_ID_KEY_2, CustomerManager.CUSTOMER_EMAIL_KEY),
                 NetworkUtils.getValues(Integer.toString(id), email)
         );
-        mApi.sendPostRequest(this, ModelURL.SENDEMAIL_VERIFYACC.getUrl(Manager.isUAT), data);
+        mApi.sendPostRequest(this, ModelURL.SENDEMAIL_VERIFYACC.getUrl(Manager.DB_TYPE), data);
         return verifyAccResult;
     }
 

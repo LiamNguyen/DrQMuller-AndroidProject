@@ -35,7 +35,7 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                 NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY, CustomerManager.CUSTOMER_PASSWORD_KEY),
                 NetworkUtils.getValues(username, password)
         );
-        mApi.sendPostRequest(this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(Manager.isUAT), data);
+        mApi.sendPostRequest(this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(Manager.DB_TYPE), data);
         return logInResult;
     }
 
@@ -45,7 +45,7 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                 NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY),
                 NetworkUtils.getValues(username)
         );
-        mApi.sendPostRequest(this, ModelURL.SELECT_CHECKUSEREXISTENCE.getUrl(Manager.isUAT), data);
+        mApi.sendPostRequest(this, ModelURL.SELECT_CHECKUSEREXISTENCE.getUrl(Manager.DB_TYPE), data);
         return userExistenceResult;
     }
 
@@ -55,7 +55,7 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                 NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY, CustomerManager.CUSTOMER_PASSWORD_KEY),
                 NetworkUtils.getValues(username, password)
         );
-        mApi.sendPostRequest(this, ModelURL.INSERT_NEWCUSTOMER.getUrl(Manager.isUAT), data);
+        mApi.sendPostRequest(this, ModelURL.INSERT_NEWCUSTOMER.getUrl(Manager.DB_TYPE), data);
         return newCusResult;
     }
 
@@ -65,7 +65,7 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                 NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY),
                 NetworkUtils.getValues(username)
         );
-        mApi.sendPostRequest(this, ModelURL.SELECT_NoOFCUSTOMERS.getUrl(Manager.isUAT), data);
+        mApi.sendPostRequest(this, ModelURL.SELECT_NoOFCUSTOMERS.getUrl(Manager.DB_TYPE), data);
         return getIdResult;
     }
 
@@ -83,7 +83,7 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                                              user.getEmail(), user.getPhone(),
                                              NetworkUtils.convertDateForDB(Calendar.getInstance().getTime()))
         );
-        mApi.sendPostRequest(this, ModelURL.UPDATE_CUSTOMERINFO.getUrl(Manager.isUAT), data);
+        mApi.sendPostRequest(this, ModelURL.UPDATE_CUSTOMERINFO.getUrl(Manager.DB_TYPE), data);
         return updateCusResult;
     }
 
@@ -93,7 +93,7 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                 NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY_2, CustomerManager.CUSTOMER_PASSWORD_KEY),
                 NetworkUtils.getValues(username, password)
         );
-        mApi.sendPostRequest(this, ModelURL.UPDATE_RESETPW.getUrl(Manager.isUAT), data);
+        mApi.sendPostRequest(this, ModelURL.UPDATE_RESETPW.getUrl(Manager.DB_TYPE), data);
         return updatePwResult;
     }
 
@@ -103,7 +103,7 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                 NetworkUtils.getKeys(CustomerManager.CUSTOMER_ID_KEY_2),
                 NetworkUtils.getValues(id)
         );
-        mApi.sendPostRequest(this, ModelURL.UPDATE_VERIFYACC.getUrl(Manager.isUAT), data);
+        mApi.sendPostRequest(this, ModelURL.UPDATE_VERIFYACC.getUrl(Manager.DB_TYPE), data);
         return updateVerifyAcc;
     }
 

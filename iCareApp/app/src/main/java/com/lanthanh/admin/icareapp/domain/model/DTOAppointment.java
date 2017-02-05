@@ -75,7 +75,7 @@ public class DTOAppointment {
     }
 
     public void generateVerficationCode(){
-        VERIFICATION_CODE = RandomStringUtils.randomAlphanumeric(10);
+        VERIFICATION_CODE = RandomStringUtils.randomAlphanumeric(10).toUpperCase();
     }
 
     public void addAppointment(DTOAppointmentSchedule appointment){

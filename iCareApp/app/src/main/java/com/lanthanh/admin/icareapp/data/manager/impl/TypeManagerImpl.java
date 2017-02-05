@@ -27,7 +27,7 @@ public class TypeManagerImpl extends AbstractManager implements TypeManager {
 
     @Override
     public List<DTOType> getAllTypes() {
-        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_TYPES.getUrl(Manager.isUAT), null, null);
+        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_TYPES.getUrl(Manager.DB_TYPE), null, null);
         mApi.sendGetRequest(this, url);
         return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOType.class);
     }

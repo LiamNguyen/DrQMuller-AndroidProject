@@ -27,7 +27,7 @@ public class WeekDayManagerImpl extends AbstractManager implements WeekDayManage
 
     @Override
     public List<DTOWeekDay> getAllWeekDays() {
-        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_DAYSOFWEEK.getUrl(Manager.isUAT), null, null);
+        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_DAYSOFWEEK.getUrl(Manager.DB_TYPE), null, null);
         mApi.sendGetRequest(this, url);
         return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOWeekDay.class);
     }

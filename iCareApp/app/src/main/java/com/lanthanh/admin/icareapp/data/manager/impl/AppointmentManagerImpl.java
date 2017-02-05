@@ -51,7 +51,7 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
                                                                                      LocationManager.LOCATION_ID_KEY, MachineManager.MACHINE_ID_KEY),
                                                           NetworkUtils.getValues(Integer.toString(dayId), Integer.toString(timeId),
                                                                                        Integer.toString(locationId), Integer.toString(machineId)));
-        mApi.sendPostRequest(this, ModelURL.BOOKING.getUrl(Manager.isUAT), data);
+        mApi.sendPostRequest(this, ModelURL.BOOKING.getUrl(Manager.DB_TYPE), data);
         return insertTempBookingResult;
     }
 
@@ -61,7 +61,7 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
                                                                                      LocationManager.LOCATION_ID_KEY, MachineManager.MACHINE_ID_KEY),
                                                           NetworkUtils.getValues(ConverterJson.convertObjectToJson(NetworkUtils.convertToBookingTimeArray(list)),
                                                                                        Integer.toString(locationId), Integer.toString(machineId)));
-        mApi.sendPostRequest(this, ModelURL.UPDATE_UNCHOSENTIME.getUrl(Manager.isUAT), data);
+        mApi.sendPostRequest(this, ModelURL.UPDATE_UNCHOSENTIME.getUrl(Manager.DB_TYPE), data);
         return removeTempBookingResult;
     }
 
@@ -77,7 +77,7 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
                                      NetworkUtils.convertDateForDB(dtoAppointment.getStartDate()), NetworkUtils.convertDateForDB(dtoAppointment.getExpireDate()),
                                      dtoAppointment.getVerficationCode(), ConverterJson.convertObjectToJson(NetworkUtils.convertToBookingTimeArray(dtoAppointment.getAppointmentScheduleList())))
         );
-        mApi.sendPostRequest(this, ModelURL.INSERT_NEWAPPOINTMENT.getUrl(Manager.isUAT), data);
+        mApi.sendPostRequest(this, ModelURL.INSERT_NEWAPPOINTMENT.getUrl(Manager.DB_TYPE), data);
 //        if (insertAppointmentResult){
 //            insertAppointmentSchedule(dtoAppointment);
 //        }
@@ -92,7 +92,7 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
                     NetworkUtils.getKeys(WeekDayManager.DAY_ID_KEY, TimeManager.TIME_ID_KEY, AppointmentManager.VERIFICATIONCODE_KEY),
                     NetworkUtils.getValues(Integer.toString(dtoAppointmentSchedule.getDayId()), Integer.toString(dtoAppointmentSchedule.getHourId()), dtoAppointment.getVerficationCode())
             );
-            mApi.sendPostRequest(this, ModelURL.INSERT_NEWBOOKING.getUrl(Manager.isUAT), data);
+            mApi.sendPostRequest(this, ModelURL.INSERT_NEWBOOKING.getUrl(Manager.DB_TYPE), data);
         }
     }
 
@@ -102,13 +102,13 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
                 NetworkUtils.getKeys  (CustomerManager.CUSTOMER_ID_KEY_2, AppointmentManager.VERIFICATIONCODE_KEY),
                 NetworkUtils.getValues(Integer.toString(cusId), verificationCode)
         );
-        mApi.sendPostRequest(this, ModelURL.UPDATE_APPOINTMENT.getUrl(Manager.isUAT), data);
+        mApi.sendPostRequest(this, ModelURL.UPDATE_APPOINTMENT.getUrl(Manager.DB_TYPE), data);
         return updateAppointmentResult;
     }
 
     @Override
     public boolean validateAppointment() {
-        mApi.sendPostRequest(this, ModelURL.UPDATE_VALIDATEAPPOINTMENT.getUrl(Manager.isUAT), "");
+        mApi.sendPostRequest(this, ModelURL.UPDATE_VALIDATEAPPOINTMENT.getUrl(Manager.DB_TYPE), "");
         return validateAppointmentResult;
     }
 

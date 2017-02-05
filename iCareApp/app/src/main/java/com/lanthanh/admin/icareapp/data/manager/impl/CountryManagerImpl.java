@@ -28,9 +28,8 @@ public class CountryManagerImpl extends AbstractManager implements CountryManage
 
     @Override
     public List<DTOCountry> getAllCountries() {
-        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_COUNTRIES.getUrl(Manager.isUAT), null, null);
+        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_COUNTRIES.getUrl(Manager.DB_TYPE), null, null);
         mApi.sendGetRequest(this, url);
-       //mApi.sendPostRequest(this, ModelURL.SELECT_COUNTRIES.getUrl(Manager.isUAT), "");
         return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOCountry.class);
     }
 

@@ -5,7 +5,10 @@ package com.lanthanh.admin.icareapp.data.manager.base;
  */
 
 public interface Manager {
-    boolean isUAT = false;
+    int DB_PRD = 1;
+    int DB_UAT = 2;
+    int BLUE_HOST = 3;
+    int DB_TYPE = DB_PRD;
     boolean insert(Object o);
     boolean delete(Object o);
     boolean update(Object o);

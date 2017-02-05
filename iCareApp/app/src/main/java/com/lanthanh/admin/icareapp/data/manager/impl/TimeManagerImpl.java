@@ -30,14 +30,14 @@ public class TimeManagerImpl extends AbstractManager implements TimeManager{
 
     @Override
     public List<DTOTime> getAllTime() {
-        URL url =  NetworkUtils.buildUrl(ModelURL.SELECT_ALLTIMEINADAY.getUrl(Manager.isUAT), null, null);
+        URL url =  NetworkUtils.buildUrl(ModelURL.SELECT_ALLTIMEINADAY.getUrl(Manager.DB_TYPE), null, null);
         mApi.sendGetRequest(this, url);
         return ConverterJson.convertGsonObjectToObjectList(allTimeJsonArray, DTOTime.class);
     }
 
     @Override
     public List<DTOTime> getAllSelectedTime(int dayId, int locationId, int machineId) {
-        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_SELECTEDTIME.getUrl(Manager.isUAT),
+        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_SELECTEDTIME.getUrl(Manager.DB_TYPE),
                                               NetworkUtils.getKeys(WeekDayManager.DAY_ID_KEY, LocationManager.LOCATION_ID_KEY, MachineManager.MACHINE_ID_KEY),
                                               NetworkUtils.getValues(Integer.toString(dayId), Integer.toString(locationId), Integer.toString(machineId)));
         mApi.sendGetRequest(this, url);
@@ -46,7 +46,7 @@ public class TimeManagerImpl extends AbstractManager implements TimeManager{
 
     @Override
     public List<DTOTime> getAllEcoTime() {
-        URL url =  NetworkUtils.buildUrl(ModelURL.SELECT_ECOTIME.getUrl(Manager.isUAT), null, null);
+        URL url =  NetworkUtils.buildUrl(ModelURL.SELECT_ECOTIME.getUrl(Manager.DB_TYPE), null, null);
         mApi.sendGetRequest(this, url);
         return ConverterJson.convertGsonObjectToObjectList(ecoTimeJsonArray, DTOTime.class);
     }
