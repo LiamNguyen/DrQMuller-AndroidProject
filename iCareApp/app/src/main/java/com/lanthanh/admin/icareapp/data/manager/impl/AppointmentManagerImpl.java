@@ -23,7 +23,11 @@ import com.lanthanh.admin.icareapp.domain.model.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.domain.model.ModelURL;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by ADMIN on 08-Jan-17.
@@ -109,15 +113,28 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
     }
 
     @Override
-    public List<DTOAppointment> getLocalAppointmentsFromPref(SharedPreferences sharedPreferences) {
+    public List<DTOAppointment> getLocalAppointmentsFromPref(SharedPreferences sharedPreferences, int userId) {
+        Type mapType = new TypeToken<Map<Integer ,String>>(){}.getType();
         Type listType = new TypeToken<List<DTOAppointment>>(){}.getType();
-        return ConverterJson.convertJsonToObject(sharedPreferences.getString("appointments", ""), listType);
+        Map<Integer, String> appointmentDB = ConverterJson.convertJsonToObject(sharedPreferences.getString("appointmentDB", ""), mapType);
+        if (appointmentDB == null)
+            appointmentDB = new HashMap<>();
+        for (int i : appointmentDB.keySet()){
+            if (i == userId)
+                return ConverterJson.convertJsonToObject(appointmentDB.get(i), listType);
+        }
+        return null;
     }
 
     @Override
     public void saveLocalAppointmentsToPref(SharedPreferences sharedPreferences, List<DTOAppointment> appointments) {
+        Type mapType = new TypeToken<Map<Integer ,String>>(){}.getType();
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("appointments", ConverterJson.convertObjectToJson(appointments));
+        Map<Integer, String> appointmentDB = ConverterJson.convertJsonToObject(sharedPreferences.getString("appointmentDB", ""), mapType);
+        if (appointmentDB == null)
+            appointmentDB = new HashMap<>();
+        appointmentDB.put(appointments.get(0).getCustomerId(), ConverterJson.convertObjectToJson(appointments));
+        editor.putString("appointmentDB", ConverterJson.convertObjectToJson(appointmentDB));
         editor.apply();
         editor.commit();
     }

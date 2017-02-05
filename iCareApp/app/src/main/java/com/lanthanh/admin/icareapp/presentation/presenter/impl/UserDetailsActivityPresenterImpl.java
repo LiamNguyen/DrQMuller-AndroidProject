@@ -20,6 +20,7 @@ import com.lanthanh.admin.icareapp.presentation.view.fragment.userdetails.DobFra
 import com.lanthanh.admin.icareapp.presentation.view.fragment.userdetails.GenderFragment;
 import com.lanthanh.admin.icareapp.threading.MainThread;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,7 +50,9 @@ public class UserDetailsActivityPresenterImpl extends AbstractPresenter implemen
 
     public void init(){
         mUser = customerManager.getLocalUserFromPref(sharedPreferences);
-        mAppointments = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
+        mAppointments = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
+        if (mAppointments == null)
+            mAppointments = new ArrayList<>();
     }
 
     @Override
