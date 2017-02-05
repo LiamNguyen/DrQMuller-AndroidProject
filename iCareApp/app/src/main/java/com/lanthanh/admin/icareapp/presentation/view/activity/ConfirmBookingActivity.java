@@ -115,6 +115,7 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
 
     @Override
     public void navigateToMainActivity(int extra) {
+        hideProgress();
         Intent toMain = new Intent(this, MainActivity.class);
         toMain.putExtra(TAG, extra);
         startActivity(toMain);

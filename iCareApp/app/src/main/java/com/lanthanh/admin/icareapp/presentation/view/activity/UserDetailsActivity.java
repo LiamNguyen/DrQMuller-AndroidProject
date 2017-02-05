@@ -186,6 +186,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void navigateToMainActivity() {
+        hideProgress();
         Intent toMain = new Intent(this, MainActivity.class);
         toMain.putExtra(TAG, true);
         startActivity(toMain);

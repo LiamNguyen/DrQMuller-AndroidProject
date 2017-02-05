@@ -80,14 +80,6 @@ public class BookingActivity extends AppCompatActivity implements AdapterView.On
         //Init view
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
-        progressBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN)
-                    hideProgress();
-                return false;
-            }
-        });
 
         //Set up Toolbar
         setSupportActionBar(toolBar);
@@ -260,6 +252,7 @@ public class BookingActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void showFragment(FragmentManager fm, Fragment f, List<Fragment> visibleFrags) {
+        hideProgress();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                                                 /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                                                         R.anim.slide_in_left, R.anim.slide_out_right);*/
@@ -287,6 +280,7 @@ public class BookingActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void navigateActivity(Class activityClass) {
+        hideProgress();
         Intent toActivity = new Intent(this, activityClass);
         startActivity(toActivity);
         finish();

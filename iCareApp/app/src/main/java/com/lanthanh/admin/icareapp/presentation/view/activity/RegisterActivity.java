@@ -147,6 +147,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
 
     @Override
     public void showFragment(FragmentManager fm, Fragment f, List<Fragment> visibleFrags) {
+        hideProgress();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                                                 /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                                                         R.anim.slide_in_left, R.anim.slide_out_right);*/
@@ -165,6 +166,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
 
     @Override
     public void navigateActivity(Class activityClass) {
+        hideProgress();
         Intent toActivity = new Intent(this, activityClass);
         hideSoftKeyboard();
         startActivity(toActivity);
@@ -173,6 +175,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
 
     @Override
     public void navigateActivity(Class activityClass, Bundle extras) {
+        hideProgress();
         Intent toActivity = new Intent(this, activityClass);
         hideSoftKeyboard();
         if (activityClass == UserInfoActivity.class || activityClass == MainActivity.class) {

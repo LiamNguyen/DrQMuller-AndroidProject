@@ -152,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void showFragment(FragmentManager fm, Fragment f, List<Fragment> visibleFrags) {
+        hideProgress();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                                                 /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                                                         R.anim.slide_in_left, R.anim.slide_out_right);*/
@@ -176,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void navigateActivity(Class activityClass) {
+        hideProgress();
         Intent toActivity = new Intent(this, activityClass);
         startActivity(toActivity);
     }
@@ -199,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onBackPressed() {
+        hideProgress();
         Intent startMain = new Intent(Intent.ACTION_MAIN);
         startMain.addCategory(Intent.CATEGORY_HOME);
         startActivity(startMain);
@@ -241,24 +244,4 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public void refreshAfterNetworkConnected(){
         this.onPostResume();
     }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        System.out.println("CONCCCCCCACCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
-        return super.onTouchEvent(event);
-    }
-
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        int eventaction=event.getAction();
-
-        switch(eventaction) {
-            case MotionEvent.ACTION_MOVE:
-                break;
-            default:
-                break;
-        }
-
-        return super.dispatchTouchEvent(event);
-    }
-
 }

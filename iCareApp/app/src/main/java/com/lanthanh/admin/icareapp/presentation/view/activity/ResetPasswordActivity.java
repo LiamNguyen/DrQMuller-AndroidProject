@@ -114,6 +114,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
 
     @Override
     public void showFragment(FragmentManager fm, Fragment f, List<Fragment> visibleFrags) {
+        hideProgress();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                                                 /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                                                         R.anim.slide_in_left, R.anim.slide_out_right);*/
@@ -153,6 +154,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
 
     @Override
     public void navigateToRegisterActivity(int result){
+        hideProgress();
         Intent toRegister = new Intent(this, RegisterActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("result", result);
@@ -166,6 +168,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
 
     @Override
     public void navigateToRegisterActivity() {
+        hideProgress();
         Intent toRegister = new Intent(this, RegisterActivity.class);
         startActivity(toRegister);
         finish();

@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoActiv
     public final static int VALIDATE = 3;
     public final static int CHANGEEMAIL = 4;
 
+    private ProgressBar progressBar;
     private Toolbar toolBar;
     private NetworkController networkController;
     private UserInfoActivityPresenter userInfoActivityPresenter;
@@ -65,6 +67,8 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoActiv
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //Progress bar
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
         userInfoActivityPresenter.navigateFragment(NAME_LOCATION);
     }
@@ -127,6 +131,7 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoActiv
 
     @Override
     public void showFragment(FragmentManager fm, Fragment f, List<Fragment> visibleFrags) {
+        hideProgress();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                                                 /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                                                         R.anim.slide_in_left, R.anim.slide_out_right);*/
@@ -152,6 +157,7 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoActiv
 
     @Override
     public void navigateActivity(Class activityClass) {
+        hideProgress();
         Intent toActivity = new Intent(this, activityClass);
         if (activityClass == MainActivity.class)
             toActivity.putExtra("isSignedIn", 1);
@@ -167,12 +173,12 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoActiv
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
