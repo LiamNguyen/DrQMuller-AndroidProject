@@ -126,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                registerActivityPresenter.navigateBack();
+                registerActivityPresenter.onBackPressed();
                 return true;
         }
 
@@ -233,6 +233,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
 
     @Override
     public void backToHomeScreen() {
+        hideProgress();
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);
         homeIntent.addCategory( Intent.CATEGORY_HOME );
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
