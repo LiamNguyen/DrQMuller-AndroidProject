@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 showCurrentTab();
             }
         } else {
-            showError(b.toString());
             if (b.containsKey(RegisterActivity.TAG)) {
                 Bundle bundle = b.getBundle(RegisterActivity.TAG);
                 if (bundle != null) {
