@@ -29,7 +29,6 @@ public interface RegisterActivityPresenter extends Presenter {
 
     List<Fragment> getVisibleFragments();
     void navigateFragment(int selected);
-    void navigateBack();
     void onBackPressed();
     void navigateToUserInfo(String username, int uistep);
     void navigateToResetPW();

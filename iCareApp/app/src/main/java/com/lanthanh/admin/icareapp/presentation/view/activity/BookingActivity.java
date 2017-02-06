@@ -186,7 +186,10 @@ public class BookingActivity extends AppCompatActivity implements AdapterView.On
         popupAdapter = new ListPopupWindowAdapter(this, R.layout.activity_popup_item, cartList);
         popupWindow.setAdapter(popupAdapter);
         popupWindow.setAnchorView(v);
-        popupWindow.setWidth(500);
+        if (width <= 720)
+            popupWindow.setWidth(450);
+        else
+            popupWindow.setWidth(560);
         popupWindow.setHeight(ListPopupWindow.WRAP_CONTENT);
         popupWindow.setHorizontalOffset(width);
         popupWindow.setVerticalOffset(height);

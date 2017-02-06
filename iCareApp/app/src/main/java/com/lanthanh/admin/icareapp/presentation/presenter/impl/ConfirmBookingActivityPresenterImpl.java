@@ -67,7 +67,8 @@ public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter imple
         try {
             mView.hideProgress();
             //Get local appointment list
-            List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
+            List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
+
             if (appointmentsList == null) {
                 onError("No appointment found while in ConfirmActivity");
                 return;

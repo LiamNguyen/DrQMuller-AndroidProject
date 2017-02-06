@@ -20,6 +20,7 @@ import com.lanthanh.admin.icareapp.presentation.view.fragment.userdetails.DobFra
 import com.lanthanh.admin.icareapp.presentation.view.fragment.userdetails.GenderFragment;
 import com.lanthanh.admin.icareapp.threading.MainThread;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,7 +50,9 @@ public class UserDetailsActivityPresenterImpl extends AbstractPresenter implemen
 
     public void init(){
         mUser = customerManager.getLocalUserFromPref(sharedPreferences);
-        mAppointments = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
+        mAppointments = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
+        if (mAppointments == null)
+            mAppointments = new ArrayList<>();
     }
 
     @Override
@@ -77,9 +80,6 @@ public class UserDetailsActivityPresenterImpl extends AbstractPresenter implemen
     @Override
     public void setName(String name) {
         mUser.setName(name);
-        for (DTOAppointment dtoAppointment: mAppointments){
-            dtoAppointment.setCustomer(mUser);
-        }
     }
 
     @Override
@@ -156,7 +156,12 @@ public class UserDetailsActivityPresenterImpl extends AbstractPresenter implemen
     public void onUpdateCustomerSuccess() {
         try {
             customerManager.saveLocalUserToPref(sharedPreferences, mUser);
-            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, mAppointments);
+            if (mAppointments.size() != 0) {
+                for (DTOAppointment dtoAppointment: mAppointments){
+                    dtoAppointment.setCustomer(mUser);
+                }
+                appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, mAppointments);
+            }
             mView.refreshViews();
         }catch (Exception e){
             Log.w(TAG, e.toString());

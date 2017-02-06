@@ -30,7 +30,7 @@ public class MachineManagerImpl extends AbstractManager implements MachineManage
 
     @Override
     public List<DTOMachine> getAllMachines(int id) {
-        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_MACHINES.getUrl(Manager.isUAT),
+        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_MACHINES.getUrl(Manager.DB_TYPE),
                                         NetworkUtils.getKeys(LocationManager.LOCATION_ID_KEY),
                                         NetworkUtils.getValues(Integer.toString(id)));
         mApi.sendGetRequest(this, url);

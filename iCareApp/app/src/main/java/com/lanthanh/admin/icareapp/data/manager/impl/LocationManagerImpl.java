@@ -28,7 +28,7 @@ public class LocationManagerImpl extends AbstractManager implements LocationMana
 
     @Override
     public List<DTOLocation> getAllLocationByDistrictId(int id) {
-        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_LOCATIONS.getUrl(Manager.isUAT),
+        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_LOCATIONS.getUrl(Manager.DB_TYPE),
                                         NetworkUtils.getKeys(DistrictManager.DISTRICT_ID_KEY),
                                         NetworkUtils.getValues(Integer.toString(id)));
         mApi.sendGetRequest(this, url);

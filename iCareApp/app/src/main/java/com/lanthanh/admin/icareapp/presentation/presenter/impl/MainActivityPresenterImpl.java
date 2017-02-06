@@ -58,13 +58,13 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
 
     @Override
     public void resume() {
-
+        mUser = customerManager.getLocalUserFromPref(sharedPreferences);
     }
 
     @Override
     public void navigateTab(int selected) {
         if (selected == MainActivity.APPOINTMENTTAB){
-            List<DTOAppointment> dtoAppointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
+            List<DTOAppointment> dtoAppointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
             if ( dtoAppointmentsList != null && dtoAppointmentsList.size() != 0 ) {
                 mView.showFragment(fragmentManager, appointmentFragment, getVisibleFragments());
             }else{
@@ -100,7 +100,7 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
 
     @Override
     public boolean checkPrivilege() {
-        mUser = customerManager.getLocalUserFromPref(sharedPreferences);
+        //mUser = customerManager.getLocalUserFromPref(sharedPreferences);
         return mUser != null && mUser.getID() != 0 && mUser.getActive() != 0;
     }
 
@@ -122,7 +122,7 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
     @Override
     public void clearLocalStorage() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
+        editor.remove("user");
         editor.apply();
         editor.commit();
     }
@@ -135,8 +135,8 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
     @Override
     public void updateAppointmentList() {
         //Get local appointment list
-        List<DTOAppointment> dtoAppointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences);
-        System.out.println("TESTTTTTT " + dtoAppointmentsList.size());
+        List<DTOAppointment> dtoAppointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
+
         if ( dtoAppointmentsList != null) {
             appointmentFragment.updateList(dtoAppointmentsList);
         }

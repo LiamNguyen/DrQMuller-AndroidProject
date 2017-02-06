@@ -32,7 +32,7 @@ public class SendEmailManagerImpl extends AbstractManager implements SendEmailMa
 
     @Override
     public int sendEmailNotifyBooking(DTOAppointment dtoAppointment) {
-        String data = NetworkUtils.convertToUrlData(
+        mApi.sendPostRequest(this, ModelURL.SENDEMAIL_NOTIFYBOOKING.getUrl(Manager.DB_TYPE),
                 NetworkUtils.getKeys  (
                         CustomerManager.CUSTOMER_ID_KEY_2, AppointmentManager.CREATED_DAY,
                         CustomerManager.CUSTOMER_NAME_KEY, LocationManager.LOCATION_NAME_KEY,
@@ -45,27 +45,22 @@ public class SendEmailManagerImpl extends AbstractManager implements SendEmailMa
                         ConverterForDisplay.convertDateToDisplay(dtoAppointment.getStartDate()), ConverterForDisplay.convertDateToDisplay(dtoAppointment.getExpireDate()),
                         dtoAppointment.getVerficationCode(), ConverterJson.convertObjectToJson(ConverterForDisplay.convertToStringList(dtoAppointment.getAppointmentScheduleList())))
         );
-        mApi.sendPostRequest(this, ModelURL.SENDEMAIL_NOTIFYBOOKING.getUrl(Manager.isUAT), data);
         return notifyBookingResult;
     }
 
     @Override
     public int sendEmailResetPassword(String username) {
-        String data = NetworkUtils.convertToUrlData(
+        mApi.sendPostRequest(this, ModelURL.SENDEMAIL_RESETPW.getUrl(Manager.DB_TYPE),
                 NetworkUtils.getKeys  (CustomerManager.CUSTOMER_USERNAME_KEY_2),
-                NetworkUtils.getValues(username)
-        );
-        mApi.sendPostRequest(this, ModelURL.SENDEMAIL_RESETPW.getUrl(Manager.isUAT), data);
+                NetworkUtils.getValues(username));
         return resetPwResult;
     }
 
     @Override
     public int sendEmailVerifyAcc(String email, int id) {
-        String data = NetworkUtils.convertToUrlData(
+        mApi.sendPostRequest(this, ModelURL.SENDEMAIL_VERIFYACC.getUrl(Manager.DB_TYPE),
                 NetworkUtils.getKeys  (CustomerManager.CUSTOMER_ID_KEY_2, CustomerManager.CUSTOMER_EMAIL_KEY),
-                NetworkUtils.getValues(Integer.toString(id), email)
-        );
-        mApi.sendPostRequest(this, ModelURL.SENDEMAIL_VERIFYACC.getUrl(Manager.isUAT), data);
+                NetworkUtils.getValues(Integer.toString(id), email));
         return verifyAccResult;
     }
 

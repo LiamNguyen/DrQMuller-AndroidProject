@@ -28,7 +28,7 @@ public class CityManagerImpl extends AbstractManager implements CityManager{
 
     @Override
     public List<DTOCity> getAllCitiesByCountryId(int id) {
-        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_CITIES.getUrl(Manager.isUAT),
+        URL url = NetworkUtils.buildUrl(ModelURL.SELECT_CITIES.getUrl(Manager.DB_TYPE),
                                         NetworkUtils.getKeys(CountryManager.COUNTRY_ID_KEY),
                                         NetworkUtils.getValues(Integer.toString(id)));
         mApi.sendGetRequest(this, url);
