@@ -231,7 +231,7 @@
                     android:id="@+id/ud_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:enabled="false"
                     android:textColor="@color/colorLightBlack" />
             </android.support.design.widget.TextInputLayout>

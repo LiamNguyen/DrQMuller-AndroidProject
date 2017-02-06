@@ -31,79 +31,68 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
 
     @Override
     public String logIn(String username, String password) {
-        String data = NetworkUtils.convertToUrlData(
+        mApi.sendPostRequest(this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(Manager.DB_TYPE),
                 NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY, CustomerManager.CUSTOMER_PASSWORD_KEY),
-                NetworkUtils.getValues(username, password)
-        );
-        mApi.sendPostRequest(this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(Manager.DB_TYPE), data);
+                NetworkUtils.getValues(username, password));
         return logInResult;
     }
 
     @Override
     public boolean checkUserExistence(String username) {
-        String data = NetworkUtils.convertToUrlData(
+        mApi.sendPostRequest(this, ModelURL.SELECT_CHECKUSEREXISTENCE.getUrl(Manager.DB_TYPE),
                 NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY),
-                NetworkUtils.getValues(username)
-        );
-        mApi.sendPostRequest(this, ModelURL.SELECT_CHECKUSEREXISTENCE.getUrl(Manager.DB_TYPE), data);
+                NetworkUtils.getValues(username));
         return userExistenceResult;
     }
 
     @Override
     public boolean insertNewCustomer(String username, String password) {
-        String data = NetworkUtils.convertToUrlData(
+        mApi.sendPostRequest(this, ModelURL.INSERT_NEWCUSTOMER.getUrl(Manager.DB_TYPE),
                 NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY, CustomerManager.CUSTOMER_PASSWORD_KEY),
-                NetworkUtils.getValues(username, password)
-        );
-        mApi.sendPostRequest(this, ModelURL.INSERT_NEWCUSTOMER.getUrl(Manager.DB_TYPE), data);
+                NetworkUtils.getValues(username, password));
         return newCusResult;
     }
 
     @Override
     public int getCustomerId(String username) {
-        String data = NetworkUtils.convertToUrlData(
+        mApi.sendPostRequest(this, ModelURL.SELECT_NoOFCUSTOMERS.getUrl(Manager.DB_TYPE),
                 NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY),
-                NetworkUtils.getValues(username)
-        );
-        mApi.sendPostRequest(this, ModelURL.SELECT_NoOFCUSTOMERS.getUrl(Manager.DB_TYPE), data);
+                NetworkUtils.getValues(username));
         return getIdResult;
     }
 
     @Override
     public boolean updateCustomer(ModelUser user) {
-        String data = NetworkUtils.convertToUrlData(
+        mApi.sendPostRequest(this, ModelURL.UPDATE_CUSTOMERINFO.getUrl(Manager.DB_TYPE),
                 NetworkUtils.getKeys(CustomerManager.CUSTOMER_ID_KEY_2,
-                                           CustomerManager.CUSTOMER_NAME_KEY, CustomerManager.CUSTOMER_ADDRESS_KEY,
-                                           CustomerManager.CUSTOMER_DOB_KEY, CustomerManager.CUSTOMER_GENDER_KEY,
-                                           CustomerManager.CUSTOMER_EMAIL_KEY, CustomerManager.CUSTOMER_PHONE_KEY,
-                                           CustomerManager.CUSTOMER_UPDATE_DATE),
+                        CustomerManager.CUSTOMER_NAME_KEY, CustomerManager.CUSTOMER_ADDRESS_KEY,
+                        CustomerManager.CUSTOMER_DOB_KEY, CustomerManager.CUSTOMER_GENDER_KEY,
+                        CustomerManager.CUSTOMER_EMAIL_KEY, CustomerManager.CUSTOMER_PHONE_KEY,
+                        CustomerManager.CUSTOMER_UPDATE_DATE),
                 NetworkUtils.getValues(Integer.toString(user.getID()),
-                                             user.getName(), user.getAddress(),
-                                             user.getDOB(), user.getGender(),
-                                             user.getEmail(), user.getPhone(),
-                                             NetworkUtils.convertDateForDB(Calendar.getInstance().getTime()))
+                        user.getName(), user.getAddress(),
+                        user.getDOB(), user.getGender(),
+                        user.getEmail(), user.getPhone(),
+                        NetworkUtils.convertDateForDB(Calendar.getInstance().getTime()))
         );
-        mApi.sendPostRequest(this, ModelURL.UPDATE_CUSTOMERINFO.getUrl(Manager.DB_TYPE), data);
         return updateCusResult;
     }
 
     @Override
     public boolean updateCustomerPassword(String username, String password) {
-        String data = NetworkUtils.convertToUrlData(
+        mApi.sendPostRequest(this, ModelURL.UPDATE_RESETPW.getUrl(Manager.DB_TYPE),
                 NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY_2, CustomerManager.CUSTOMER_PASSWORD_KEY),
                 NetworkUtils.getValues(username, password)
         );
-        mApi.sendPostRequest(this, ModelURL.UPDATE_RESETPW.getUrl(Manager.DB_TYPE), data);
         return updatePwResult;
     }
 
     @Override
     public boolean updateVerifyAcc(String id) {
-        String data = NetworkUtils.convertToUrlData(
+        mApi.sendPostRequest(this, ModelURL.UPDATE_VERIFYACC.getUrl(Manager.DB_TYPE),
                 NetworkUtils.getKeys(CustomerManager.CUSTOMER_ID_KEY_2),
                 NetworkUtils.getValues(id)
         );
-        mApi.sendPostRequest(this, ModelURL.UPDATE_VERIFYACC.getUrl(Manager.DB_TYPE), data);
         return updateVerifyAcc;
     }
 
