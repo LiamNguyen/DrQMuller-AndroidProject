@@ -82,17 +82,11 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
     }
 
     @Override
-    public void navigateBack() {
-        fragmentManager.popBackStack();
-        mView.hideSoftKeyboard();
-    }
-
-    @Override
     public void onBackPressed() {
         if (chooseFragment.isVisible()){
             mView.backToHomeScreen();
         }else
-            navigateBack();
+            navigateFragment(RegisterActivity.CHOOSE);
     }
 
     @Override

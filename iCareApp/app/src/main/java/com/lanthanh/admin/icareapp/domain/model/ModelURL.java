@@ -66,20 +66,20 @@ public enum ModelURL {
     BOOKING("http://210.211.109.180/drmuller/BookingTransaction.php",
             "http://210.211.109.180/drmuller_test/BookingTransaction.php", "http://drqmuller.com/drmuller/BookingTransaction.php");
 
-    private String url_prd, url_uat, blue_host;
+    private String url_prd, url_beta, url_uat;
 
-    ModelURL(String url_prd, String url_uat, String blue_host){
+    ModelURL(String url_prd, String url_beta, String url_uat){
         this.url_prd = url_prd;
+        this.url_beta = url_beta;
         this.url_uat = url_uat;
-        this.blue_host = blue_host;
     }
 
     public String getUrl(int DB_TYPE){
         if (DB_TYPE == Manager.DB_PRD)
             return this.url_prd;
-        else if (DB_TYPE == Manager.DB_UAT)
-            return this.url_uat;
+        else if (DB_TYPE == Manager.DB_BETA)
+            return this.url_beta;
         else
-            return this.blue_host;
+            return this.url_uat;
     }
 }
