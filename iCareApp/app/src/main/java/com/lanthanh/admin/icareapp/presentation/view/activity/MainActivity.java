@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onResume();
         //networkController.registerNetworkReceiver();
         mMainPresenter.resume();
+
         Intent i = getIntent();
         if (i != null) {
             Bundle b = i.getExtras();
@@ -183,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         hideProgress();
         Intent toActivity = new Intent(this, activityClass);
         startActivity(toActivity);
+        finish();
     }
 
     @Override
@@ -208,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Intent startMain = new Intent(Intent.ACTION_MAIN);
         startMain.addCategory(Intent.CATEGORY_HOME);
         startActivity(startMain);
+        finish();
     }
 
     /* =============================== BOTTOM NAVIGATION VIEW ===============================*/
@@ -241,6 +244,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             }
         }
         return 1;
+    }
+
+    @Override
+    public void showCurrentTab() {
+        int selected = getSelectedTab();
+        onNavigationItemSelected(bottomNavigationView.getMenu().getItem(selected));
     }
 
     //Call in case losing network and then connected again

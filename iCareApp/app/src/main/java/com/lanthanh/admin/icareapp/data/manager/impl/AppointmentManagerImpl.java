@@ -47,40 +47,36 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
 
     @Override
     public boolean insertTempBooking(int dayId, int timeId, int locationId, int machineId) {
-        String data = NetworkUtils.convertToUrlData(NetworkUtils.getKeys(WeekDayManager.DAY_ID_KEY, TimeManager.TIME_ID_KEY,
-                                                                                     LocationManager.LOCATION_ID_KEY, MachineManager.MACHINE_ID_KEY),
-                                                          NetworkUtils.getValues(Integer.toString(dayId), Integer.toString(timeId),
-                                                                                       Integer.toString(locationId), Integer.toString(machineId)));
-        mApi.sendPostRequest(this, ModelURL.BOOKING.getUrl(Manager.DB_TYPE), data);
+        mApi.sendPostRequest(this, ModelURL.BOOKING.getUrl(Manager.DB_TYPE),
+                NetworkUtils.getKeys(WeekDayManager.DAY_ID_KEY, TimeManager.TIME_ID_KEY,
+                        LocationManager.LOCATION_ID_KEY, MachineManager.MACHINE_ID_KEY),
+                NetworkUtils.getValues(Integer.toString(dayId), Integer.toString(timeId),
+                        Integer.toString(locationId), Integer.toString(machineId)));
         return insertTempBookingResult;
     }
 
     @Override
     public boolean removeTempBooking(List<DTOAppointmentSchedule> list, int locationId, int machineId) {
-        String data = NetworkUtils.convertToUrlData(NetworkUtils.getKeys(AppointmentManager.APPOINTMENT_BOOKINGTIME,
-                                                                                     LocationManager.LOCATION_ID_KEY, MachineManager.MACHINE_ID_KEY),
-                                                          NetworkUtils.getValues(ConverterJson.convertObjectToJson(NetworkUtils.convertToBookingTimeArray(list)),
-                                                                                       Integer.toString(locationId), Integer.toString(machineId)));
-        mApi.sendPostRequest(this, ModelURL.UPDATE_UNCHOSENTIME.getUrl(Manager.DB_TYPE), data);
+        mApi.sendPostRequest(this, ModelURL.UPDATE_UNCHOSENTIME.getUrl(Manager.DB_TYPE),
+                NetworkUtils.getKeys(AppointmentManager.APPOINTMENT_BOOKINGTIME,
+                        LocationManager.LOCATION_ID_KEY, MachineManager.MACHINE_ID_KEY),
+                NetworkUtils.getValues(ConverterJson.convertObjectToJson(NetworkUtils.convertToBookingTimeArray(list)),
+                        Integer.toString(locationId), Integer.toString(machineId)));
         return removeTempBookingResult;
     }
 
     @Override
     public boolean insertAppointment(DTOAppointment dtoAppointment) {
-        String data = NetworkUtils.convertToUrlData(
-        NetworkUtils.getKeys  (CustomerManager.CUSTOMER_ID_KEY, LocationManager.LOCATION_ID_KEY,
-                                     VoucherManager.VOUCHER_ID_KEY, TypeManager.TYPE_ID_KEY, MachineManager.MACHINE_ID_KEY,
-                                     AppointmentManager.STARTDATE_KEY, AppointmentManager.EXPIREDATE_KEY,
-                                     AppointmentManager.VERIFICATIONCODE_KEY, AppointmentManager.APPOINTMENT_BOOKINGTIME),
-        NetworkUtils.getValues(Integer.toString(dtoAppointment.getCustomerId()), Integer.toString(dtoAppointment.getLocationId()),
-                                     Integer.toString(dtoAppointment.getVoucherId()),  Integer.toString(dtoAppointment.getTypeId()), Integer.toString(dtoAppointment.getMachineId()),
-                                     NetworkUtils.convertDateForDB(dtoAppointment.getStartDate()), NetworkUtils.convertDateForDB(dtoAppointment.getExpireDate()),
-                                     dtoAppointment.getVerficationCode(), ConverterJson.convertObjectToJson(NetworkUtils.convertToBookingTimeArray(dtoAppointment.getAppointmentScheduleList())))
-        );
-        mApi.sendPostRequest(this, ModelURL.INSERT_NEWAPPOINTMENT.getUrl(Manager.DB_TYPE), data);
-//        if (insertAppointmentResult){
-//            insertAppointmentSchedule(dtoAppointment);
-//        }
+        mApi.sendPostRequest(this, ModelURL.INSERT_NEWAPPOINTMENT.getUrl(Manager.DB_TYPE),
+                NetworkUtils.getKeys  (CustomerManager.CUSTOMER_ID_KEY, LocationManager.LOCATION_ID_KEY,
+                        VoucherManager.VOUCHER_ID_KEY, TypeManager.TYPE_ID_KEY, MachineManager.MACHINE_ID_KEY,
+                        AppointmentManager.STARTDATE_KEY, AppointmentManager.EXPIREDATE_KEY,
+                        AppointmentManager.VERIFICATIONCODE_KEY, AppointmentManager.APPOINTMENT_BOOKINGTIME),
+                NetworkUtils.getValues(Integer.toString(dtoAppointment.getCustomerId()), Integer.toString(dtoAppointment.getLocationId()),
+                        Integer.toString(dtoAppointment.getVoucherId()),  Integer.toString(dtoAppointment.getTypeId()), Integer.toString(dtoAppointment.getMachineId()),
+                        NetworkUtils.convertDateForDB(dtoAppointment.getStartDate()), NetworkUtils.convertDateForDB(dtoAppointment.getExpireDate()),
+                        dtoAppointment.getVerficationCode(), ConverterJson.convertObjectToJson(NetworkUtils.convertToBookingTimeArray(dtoAppointment.getAppointmentScheduleList())))
+                );
         return insertAppointmentResult;
     }
 
@@ -88,27 +84,23 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
     public void insertAppointmentSchedule(DTOAppointment dtoAppointment) {
         List<DTOAppointmentSchedule> dtoAppointmentScheduleList = dtoAppointment.getAppointmentScheduleList();
         for (DTOAppointmentSchedule dtoAppointmentSchedule: dtoAppointmentScheduleList){
-            String data = NetworkUtils.convertToUrlData(
+            mApi.sendPostRequest(this, ModelURL.INSERT_NEWBOOKING.getUrl(Manager.DB_TYPE),
                     NetworkUtils.getKeys(WeekDayManager.DAY_ID_KEY, TimeManager.TIME_ID_KEY, AppointmentManager.VERIFICATIONCODE_KEY),
-                    NetworkUtils.getValues(Integer.toString(dtoAppointmentSchedule.getDayId()), Integer.toString(dtoAppointmentSchedule.getHourId()), dtoAppointment.getVerficationCode())
-            );
-            mApi.sendPostRequest(this, ModelURL.INSERT_NEWBOOKING.getUrl(Manager.DB_TYPE), data);
+                    NetworkUtils.getValues(Integer.toString(dtoAppointmentSchedule.getDayId()), Integer.toString(dtoAppointmentSchedule.getHourId()), dtoAppointment.getVerficationCode()));
         }
     }
 
     @Override
     public boolean updateAppointment(int cusId, String verificationCode) {
-        String data = NetworkUtils.convertToUrlData(
-                NetworkUtils.getKeys  (CustomerManager.CUSTOMER_ID_KEY_2, AppointmentManager.VERIFICATIONCODE_KEY),
-                NetworkUtils.getValues(Integer.toString(cusId), verificationCode)
-        );
-        mApi.sendPostRequest(this, ModelURL.UPDATE_APPOINTMENT.getUrl(Manager.DB_TYPE), data);
+        mApi.sendPostRequest(this, ModelURL.UPDATE_APPOINTMENT.getUrl(Manager.DB_TYPE),
+                    NetworkUtils.getKeys  (CustomerManager.CUSTOMER_ID_KEY_2, AppointmentManager.VERIFICATIONCODE_KEY),
+                    NetworkUtils.getValues(Integer.toString(cusId), verificationCode));
         return updateAppointmentResult;
     }
 
     @Override
     public boolean validateAppointment() {
-        mApi.sendPostRequest(this, ModelURL.UPDATE_VALIDATEAPPOINTMENT.getUrl(Manager.DB_TYPE), "");
+        mApi.sendPostRequest(this, ModelURL.UPDATE_VALIDATEAPPOINTMENT.getUrl(Manager.DB_TYPE), null, null);
         return validateAppointmentResult;
     }
 

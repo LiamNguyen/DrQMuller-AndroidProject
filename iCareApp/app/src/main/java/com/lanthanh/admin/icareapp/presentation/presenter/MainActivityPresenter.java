@@ -22,6 +22,7 @@ public interface MainActivityPresenter extends Presenter{
         void navigateActivity(Class activityClass);
         MainActivityPresenter getMainPresenter();
         int getSelectedTab();
+        void showCurrentTab();
     }
 
     interface AppointmentChildView extends BaseView{
