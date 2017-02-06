@@ -80,9 +80,6 @@ public class UserDetailsActivityPresenterImpl extends AbstractPresenter implemen
     @Override
     public void setName(String name) {
         mUser.setName(name);
-        for (DTOAppointment dtoAppointment: mAppointments){
-            dtoAppointment.setCustomer(mUser);
-        }
     }
 
     @Override
@@ -159,7 +156,12 @@ public class UserDetailsActivityPresenterImpl extends AbstractPresenter implemen
     public void onUpdateCustomerSuccess() {
         try {
             customerManager.saveLocalUserToPref(sharedPreferences, mUser);
-            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, mAppointments);
+            if (mAppointments.size() != 0) {
+                for (DTOAppointment dtoAppointment: mAppointments){
+                    dtoAppointment.setCustomer(mUser);
+                }
+                appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, mAppointments);
+            }
             mView.refreshViews();
         }catch (Exception e){
             Log.w(TAG, e.toString());
