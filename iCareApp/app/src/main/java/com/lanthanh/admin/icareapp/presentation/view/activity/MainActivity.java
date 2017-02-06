@@ -90,18 +90,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onResume();
         //networkController.registerNetworkReceiver();
         mMainPresenter.resume();
+
         Intent i = getIntent();
         Bundle b = i.getExtras();
 
-        if (b == null){
+        if (b == null) {
             //Check user's privilege to use the app. If false (NOT log in or NOT activate account), return to register
             if (!mMainPresenter.checkPrivilege()) {
                 mMainPresenter.navigateToRegisterActivity();
-            }else {
-                int selected = getSelectedTab();
-                onNavigationItemSelected(bottomNavigationView.getMenu().getItem(selected));
+            } else {
+                showCurrentTab();
             }
-        }else {
+        } else {
             if (b.containsKey(RegisterActivity.TAG)) {
                 Bundle bundle = b.getBundle(RegisterActivity.TAG);
                 if (bundle != null) {
@@ -110,10 +110,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         onNavigationItemSelected(bottomNavigationView.getMenu().getItem(APPOINTMENTTAB));
                     }
                 }
-            }else if (b.containsKey(UserDetailsActivity.TAG)){
+            } else if (b.containsKey(UserDetailsActivity.TAG)) {
                 if (b.getBoolean(UserDetailsActivity.TAG))
                     onNavigationItemSelected(bottomNavigationView.getMenu().getItem(USERTAB));
-            }else if (b.containsKey(ConfirmBookingActivity.TAG)) {
+            } else if (b.containsKey(ConfirmBookingActivity.TAG)) {
                 int m = b.getInt(ConfirmBookingActivity.TAG, 0);
                 if (m == ConfirmBookingActivity.CONFIRMED) {
                     new AlertDialog.Builder(this)
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                                     dialog.dismiss();
                                 }
                             }).setCancelable(false).show();
-                }else{
+                } else {
                     new AlertDialog.Builder(this)
                             .setMessage(getString(R.string.booking_fail))
                             .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
@@ -133,8 +133,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                             }).setCancelable(false).show();
                 }
                 onNavigationItemSelected(bottomNavigationView.getMenu().getItem(APPOINTMENTTAB));
+            }else{
+                //Check user's privilege to use the app. If false (NOT log in or NOT activate account), return to register
+                if (!mMainPresenter.checkPrivilege()) {
+                    mMainPresenter.navigateToRegisterActivity();
+                } else {
+                    showCurrentTab();
+                }
             }
         }
+
     }
 
     @Override
@@ -180,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         hideProgress();
         Intent toActivity = new Intent(this, activityClass);
         startActivity(toActivity);
+        finish();
     }
 
     @Override
@@ -205,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Intent startMain = new Intent(Intent.ACTION_MAIN);
         startMain.addCategory(Intent.CATEGORY_HOME);
         startActivity(startMain);
+        finish();
     }
 
     /* =============================== BOTTOM NAVIGATION VIEW ===============================*/
@@ -238,6 +248,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             }
         }
         return 1;
+    }
+
+    @Override
+    public void showCurrentTab() {
+        int selected = getSelectedTab();
+        onNavigationItemSelected(bottomNavigationView.getMenu().getItem(selected));
     }
 
     //Call in case losing network and then connected again

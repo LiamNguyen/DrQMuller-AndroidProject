@@ -100,7 +100,7 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
 
     @Override
     public boolean checkPrivilege() {
-        mUser = customerManager.getLocalUserFromPref(sharedPreferences);
+        //mUser = customerManager.getLocalUserFromPref(sharedPreferences);
         return mUser != null && mUser.getID() != 0 && mUser.getActive() != 0;
     }
 
