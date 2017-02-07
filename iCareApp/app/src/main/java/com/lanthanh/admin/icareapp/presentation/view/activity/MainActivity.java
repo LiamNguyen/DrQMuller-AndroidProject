@@ -100,8 +100,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 if (!mMainPresenter.checkPrivilege()) {
                     mMainPresenter.navigateToRegisterActivity();
                 } else {
-                    int selected = getSelectedTab();
-                    onNavigationItemSelected(bottomNavigationView.getMenu().getItem(selected));
+                    showCurrentTab();
                 }
             } else {
                 if (b.containsKey(RegisterActivity.TAG)) {
@@ -135,6 +134,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                                 }).setCancelable(false).show();
                     }
                     onNavigationItemSelected(bottomNavigationView.getMenu().getItem(APPOINTMENTTAB));
+                }else{
+                    //Check user's privilege to use the app. If false (NOT log in or NOT activate account), return to register
+                    if (!mMainPresenter.checkPrivilege()) {
+                        mMainPresenter.navigateToRegisterActivity();
+                    } else {
+                        showCurrentTab();
+                    }
                 }
             }
         }
