@@ -1,16 +1,18 @@
 package com.lanthanh.admin.icareapp.presentation.view.fragment.booking;
 
+import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -44,7 +46,7 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
     private List<String> countriesName, citiesName, districtsName, locationsName, vouchersName, typesName;
     private CustomSpinnerAdapter countryAdapter, cityAdapter, districtAdapter, locationAdapter, voucherAdapter, typeAdapter;
     private Spinner countrySp, citySp, districtSp, locationSp, voucherSp, typeSp;
-    private ImageView locationIv, voucherIv, typeIv;
+    private AppCompatImageView locationIv, voucherIv, typeIv;
 
     @Nullable
     @Override
@@ -54,14 +56,15 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         init();
 
         /* =============================== DROP DOWN IMAGE VIEW =============================== */
-        locationIv = (ImageView) view.findViewById(R.id.drop_down_icon_locations);
-        voucherIv = (ImageView) view.findViewById(R.id.drop_down_icon_vouchers);
-        typeIv = (ImageView) view.findViewById(R.id.drop_down_icon_types);
-//        machineIv = (ImageView) view.findViewById(R.id.drop_down_icon_machines);
+        locationIv = (AppCompatImageView) view.findViewById(R.id.drop_down_icon_locations);
+        voucherIv = (AppCompatImageView) view.findViewById(R.id.drop_down_icon_vouchers);
+        typeIv = (AppCompatImageView) view.findViewById(R.id.drop_down_icon_types);
+        setImageTint(locationIv, false);
+        setImageTint(voucherIv, false);
+        setImageTint(typeIv, false);
         locationIv.setEnabled(false);
         voucherIv.setEnabled(false);
         typeIv.setEnabled(false);
-//        machineIv.setEnabled(false);
 
         /* =============================== SPINNER =============================== */
         //Set up Spinners
@@ -240,17 +243,17 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
                 bookingSelectPresenter.onLocationSelect(locationSp.getSelectedItem().toString());
                 voucherSp.setEnabled(true);
                 voucherIv.setEnabled(true);
+                setImageTint(voucherIv, true);
                 break;
             case R.id.spinner_vouchers:
                 //bookingSelectPresenter.getAllTypes();
                 bookingSelectPresenter.onVoucherSelect(voucherSp.getSelectedItem().toString());
                 typeSp.setEnabled(true);
                 typeIv.setEnabled(true);
+                setImageTint(typeIv, true);
                 break;
             case R.id.spinner_type:
                 bookingSelectPresenter.onTypeSelect(typeSp.getSelectedItem().toString());
-//                machineSp.setEnabled(true);
-//                machineIv.setEnabled(true);
             default:
                 break;
         }
@@ -292,6 +295,7 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         locationsName.addAll(list);
         locationSp.setEnabled(true);
         locationIv.setEnabled(true);
+        setImageTint(locationIv, true);
     }
 
     @Override
@@ -334,5 +338,22 @@ public class BookingSelectFragment extends Fragment implements BookingSelectPres
         Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP, 0, 110);
         toast.show();
+    }
+
+    @Override
+    public void setImageTint(AppCompatImageView imageView, boolean isEnabled) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            //for M and above (API >= 23)
+            if (isEnabled)
+                imageView.setColorFilter(getResources().getColor(R.color.colorWhite, null), PorterDuff.Mode.SRC_ATOP);
+            else
+                imageView.setColorFilter(getResources().getColor(R.color.colorPrimaryDark, null), PorterDuff.Mode.SRC_ATOP);
+        } else{
+            //below M (API <23)
+            if (isEnabled)
+                imageView.setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+            else
+                imageView.setColorFilter(getResources().getColor(R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+        }
     }
 }

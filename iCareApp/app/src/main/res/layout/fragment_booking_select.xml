@@ -35,13 +35,12 @@
                     android:background="@android:color/transparent"
                     android:spinnerMode="dropdown"/>
 
-                <ImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/drop_down_icon_countries"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:tint="@color/booking_spinner_color"
                     android:src="@drawable/ic_arrow_drop_down_white_24dp" />
             </RelativeLayout>
 
@@ -64,13 +63,12 @@
                     android:gravity="center"
                     android:spinnerMode="dropdown"/>
 
-                <ImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/drop_down_icon_cities"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:tint="@color/booking_spinner_color"
                     android:src="@drawable/ic_arrow_drop_down_white_24dp" />
 
             </RelativeLayout>
@@ -94,13 +92,12 @@
                     android:gravity="center"
                     android:spinnerMode="dropdown" />
 
-                <ImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/drop_down_icon_districts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:tint="@color/booking_spinner_color"
                     android:src="@drawable/ic_arrow_drop_down_white_24dp" />
 
             </RelativeLayout>
@@ -124,13 +121,12 @@
                     android:gravity="center"
                     android:spinnerMode="dropdown" />
 
-                <ImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/drop_down_icon_locations"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:tint="@color/booking_spinner_color"
                     android:src="@drawable/ic_arrow_drop_down_white_24dp"/>
             </RelativeLayout>
 
@@ -153,13 +149,12 @@
                     android:gravity="center"
                     android:spinnerMode="dropdown" />
 
-                <ImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/drop_down_icon_vouchers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:tint="@color/booking_spinner_color"
                     android:src="@drawable/ic_arrow_drop_down_white_24dp"/>
 
             </RelativeLayout>
@@ -184,13 +179,12 @@
                     android:gravity="center"
                     android:spinnerMode="dropdown" />
 
-                <ImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/drop_down_icon_types"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:tint="@color/booking_spinner_color"
                     android:src="@drawable/ic_arrow_drop_down_white_24dp"/>
 
             </RelativeLayout>

@@ -16,7 +16,7 @@
         android:textSize="20sp"
         android:textStyle="bold"/>
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/delete_item"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"

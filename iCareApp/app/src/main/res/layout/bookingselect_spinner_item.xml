@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textColor="@color/booking_spinner_color"
+    android:textColor="@drawable/booking_spinner_color"
     android:textSize="17sp"
     android:paddingStart="10dp"
     android:paddingTop="6dp"
