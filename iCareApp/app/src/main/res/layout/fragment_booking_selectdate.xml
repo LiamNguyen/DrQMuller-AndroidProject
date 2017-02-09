@@ -40,7 +40,7 @@
                 android:layout_marginBottom="20dp"
                 android:textSize="20sp"
                 android:text="@string/booking_date_hint"
-                android:textColor="@color/booking_spinner_color"/>
+                android:textColor="@drawable/booking_spinner_color"/>
 
             <TextView
                 android:id="@+id/booking_expiredate_text"
@@ -63,7 +63,7 @@
                 android:padding="3dp"
                 android:textSize="20sp"
                 android:text="@string/booking_date_hint"
-                android:textColor="@color/booking_spinner_color"/>
+                android:textColor="@drawable/booking_spinner_color"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

@@ -26,14 +26,6 @@
         android:layout_marginTop="15dp"
         android:text="@string/user_detail"/>
 
-    <!--<ImageView-->
-        <!--android:id="@+id/user_img"-->
-        <!--android:layout_width="100dp"-->
-        <!--android:layout_height="100dp"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_centerInParent="true"-->
-        <!--android:src="@drawable/ic_user_2" />-->
-
     <View
         android:id="@+id/line"
         android:layout_marginBottom="5dp"
