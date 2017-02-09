@@ -58,6 +58,7 @@ public class BookingSelectDateFragment extends Fragment implements DatePickerDia
         expireDate = (TextInputEditText) view.findViewById(R.id.booking_expiredate);
         expireDate.setOnClickListener(this);
         expireDate.setTypeface(font);
+
         //Initialize DatePickerDialog
         startDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         expireDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
@@ -129,14 +130,14 @@ public class BookingSelectDateFragment extends Fragment implements DatePickerDia
 
     @Override
     public void showStartDatePicker(Calendar calendar) {
-        startDatePickerDialog.getDatePicker().setMinDate(0);
+        startDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         startDatePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
         startDatePickerDialog.show();
     }
 
     @Override
     public void showExpireDatePicker(Calendar calendar) {
-        expireDatePickerDialog.getDatePicker().setMinDate(0);
+        expireDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         expireDatePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
         expireDatePickerDialog.show();
     }

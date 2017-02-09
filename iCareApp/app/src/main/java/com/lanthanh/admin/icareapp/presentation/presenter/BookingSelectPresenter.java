@@ -1,5 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.presenter;
 
+import android.support.v7.widget.AppCompatImageView;
+
 import com.lanthanh.admin.icareapp.domain.model.DTOCity;
 import com.lanthanh.admin.icareapp.domain.model.DTOCountry;
 import com.lanthanh.admin.icareapp.domain.model.DTODistrict;
@@ -25,6 +27,7 @@ public interface BookingSelectPresenter extends Presenter {
         void updateTypeList(List<String> list);
         void onVoucherChange();
         void onTypeChange();
+        void setImageTint(AppCompatImageView imageView, boolean isEnabled);
     }
 
     void getAllCountries();

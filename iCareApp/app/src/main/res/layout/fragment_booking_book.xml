@@ -28,13 +28,12 @@
                 android:gravity="center"
                 android:spinnerMode="dropdown" />
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/drop_down_icon_machines"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:tint="@color/booking_spinner_color"
                 android:src="@drawable/ic_arrow_drop_down_white_24dp"/>
         </RelativeLayout>
     </FrameLayout>

@@ -187,7 +187,7 @@ public class BookingActivity extends AppCompatActivity implements AdapterView.On
         popupWindow.setAdapter(popupAdapter);
         popupWindow.setAnchorView(v);
         if (width <= 720)
-            popupWindow.setWidth(450);
+            popupWindow.setWidth(500);
         else
             popupWindow.setWidth(560);
         popupWindow.setHeight(ListPopupWindow.WRAP_CONTENT);
