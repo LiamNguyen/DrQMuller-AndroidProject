@@ -39,5 +39,6 @@ public interface BookingActivityPresenter extends Presenter {
     void insertAppointment();
     void validateAppointment();
     void onBackPressed();
+    boolean checkVerificationCodeExistence(String verificationCode);
 
 }
