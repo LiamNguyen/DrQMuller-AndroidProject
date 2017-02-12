@@ -227,7 +227,6 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
         mUser = customerManager.getLocalUserFromPref(sharedPreferences);
         appointment.setCustomer(mUser);
         appointment.generateVerficationCode();
-        System.out.println(appointment.getVerficationCode());
         if (appointment.getStartDate() == null)
             appointment.setStartDate(ConverterForDisplay.convertStringToDate("11-11-1111"));
         InsertAppointmentInteractor insertAppointmentInteractor = new InsertAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointment);
