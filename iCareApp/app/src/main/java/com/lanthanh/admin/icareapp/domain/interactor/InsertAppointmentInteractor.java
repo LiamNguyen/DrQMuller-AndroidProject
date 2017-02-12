@@ -9,6 +9,6 @@ import com.lanthanh.admin.icareapp.domain.interactor.base.Interactor;
 public interface InsertAppointmentInteractor extends Interactor {
     interface Callback{
         void onInsertAppointmentFail();
-        void onInsertAppointmentSuccess();
+        void onInsertAppointmentSuccess(int appointmentId);
     }
 }

@@ -78,6 +78,7 @@ public class iCareApiImpl implements iCareApi {
         try {
             Response response = client.newCall(request).execute();
             result = response.body().string();
+            System.out.println(result + " POST");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,7 +86,7 @@ public class iCareApiImpl implements iCareApi {
     }
 
     @Override
-    public void sendPostRequest(Callback callback, String url, String json) {
+    public synchronized void sendPostRequest(Callback callback, String url, String json) {
         System.out.println(json + "JSON data");
         OkHttpClient.Builder b = new OkHttpClient.Builder();
         b.connectTimeout(3, TimeUnit.MINUTES);

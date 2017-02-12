@@ -13,25 +13,23 @@ import com.lanthanh.admin.icareapp.threading.MainThread;
 public class UpdateAppointmentInteractorImpl extends AbstractInteractor implements UpdateAppointmentInteractor {
     private UpdateAppointmentInteractor.Callback mCallback;
     private AppointmentManager mAppointmentManager;
-    private int cusId;
-    private String verificationCode;
+    private int appointmentId;
 
-    public UpdateAppointmentInteractorImpl(Executor executor, MainThread mainThread, Callback callback, AppointmentManager appointmentManager, int cusId, String verificationCode){
+    public UpdateAppointmentInteractorImpl(Executor executor, MainThread mainThread, Callback callback, AppointmentManager appointmentManager, int appointmentId){
         super(executor,mainThread);
         mCallback = callback;
         mAppointmentManager = appointmentManager;
-        this.cusId = cusId;
-        this.verificationCode = verificationCode;
+        this.appointmentId = appointmentId;
     }
 
     @Override
     public void run() {
-        boolean result = mAppointmentManager.updateAppointment(cusId, verificationCode);
+        boolean result = mAppointmentManager.updateAppointment(appointmentId);
         if (result){
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCallback.onUpdateAppointmentSuccess(verificationCode);
+                    mCallback.onUpdateAppointmentSuccess(appointmentId);
                 }
             });
         }else{

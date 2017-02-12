@@ -25,12 +25,12 @@ public class InsertAppointmentInteractorImpl extends AbstractInteractor implemen
 
     @Override
     public void run() {
-        boolean result = mAppointmentManager.insertAppointment(dtoAppointment);
-        if (result){
+        final int result = mAppointmentManager.insertAppointment(dtoAppointment);
+        if (result != 0){
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCallback.onInsertAppointmentSuccess();
+                    mCallback.onInsertAppointmentSuccess(result);
                 }
             });
         }else{

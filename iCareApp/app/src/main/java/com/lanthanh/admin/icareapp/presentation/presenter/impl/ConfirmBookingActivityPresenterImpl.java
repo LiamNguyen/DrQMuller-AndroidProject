@@ -48,22 +48,45 @@ public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter imple
     @Override
     public void updateAppointment(String verificationCode) {
         mView.showProgress();
-        UpdateAppointmentInteractor updateAppointmentInteractor = new UpdateAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, mUser.getID(), verificationCode);
-        updateAppointmentInteractor.execute();
+        int appointmentId = 0;
+        //Get local appointment list
+        List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
+
+        if (appointmentsList == null) {
+            onError("No appointment found while in ConfirmActivity");
+            return;
+        }
+
+        //Update local appointment that have the same verification code
+        for (int i = 0; i < appointmentsList.size(); i++) {
+            DTOAppointment appointment = appointmentsList.get(i);
+            if (appointment.getVerficationCode().equals(verificationCode)) {
+                appointmentId = appointment.getAppointmentId();
+                break;
+            }
+        }
+
+        if (appointmentId == 0) {
+            mView.hideProgress();
+            mView.showError(mView.getStringResource(R.string.wrong_code));
+        }else {
+            UpdateAppointmentInteractor updateAppointmentInteractor = new UpdateAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointmentId);
+            updateAppointmentInteractor.execute();
+        }
     }
 
     @Override
     public void onUpdateAppointmentFail() {
         try {
             mView.hideProgress();
-            mView.showError(mView.getStringResource(R.string.wrong_code));
+            Log.e(TAG, "Update appointment fail");
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }
     }
 
     @Override
-    public void onUpdateAppointmentSuccess(String verificationCode) {
+    public void onUpdateAppointmentSuccess(int appointmentId) {
         try {
             mView.hideProgress();
             //Get local appointment list
@@ -77,7 +100,7 @@ public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter imple
             //Update local appointment that have the same verification code
             for (int i = 0; i < appointmentsList.size(); i++) {
                 DTOAppointment appointment = appointmentsList.get(i);
-                if (appointment.getVerficationCode().equals(verificationCode)) {
+                if (appointment.getAppointmentId() == appointmentId) {
                     appointment.setStatus(true);
                     break;
                 }
