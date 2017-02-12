@@ -160,7 +160,7 @@ public class UserDetailsActivityPresenterImpl extends AbstractPresenter implemen
                 for (DTOAppointment dtoAppointment: mAppointments){
                     dtoAppointment.setCustomer(mUser);
                 }
-                appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, mAppointments);
+                appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, mAppointments, mUser.getID());
             }
             mView.refreshViews();
         }catch (Exception e){

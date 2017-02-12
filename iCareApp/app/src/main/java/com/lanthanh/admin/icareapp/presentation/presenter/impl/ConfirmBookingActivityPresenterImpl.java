@@ -106,7 +106,7 @@ public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter imple
                 }
             }
             //Put appointment list to shared pref
-            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList);
+            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList, mUser.getID());
             //Navigate to booking details
             mView.navigateToMainActivity(ConfirmBookingActivity.CONFIRMED);
         }catch (Exception e){

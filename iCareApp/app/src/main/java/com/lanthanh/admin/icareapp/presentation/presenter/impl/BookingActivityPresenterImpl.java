@@ -259,7 +259,7 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
             appointment.setAppointmentId(appointmentId);
             appointmentsList.add(appointment);
             //Put to shared pref
-            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList);
+            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList, mUser.getID());
             //reset appointment
             appointment = new DTOAppointment();
             //empty cart

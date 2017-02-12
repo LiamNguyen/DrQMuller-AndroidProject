@@ -1,11 +1,13 @@
 package com.lanthanh.admin.icareapp.presentation.view.fragment.appointmenttab;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
+import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import java.util.ArrayList;
@@ -24,6 +28,7 @@ import java.util.ArrayList;
  */
 
 public class AppointmentDialogFragment extends DialogFragment {
+
     public AppointmentDialogFragment(){
     }
 
@@ -80,6 +85,30 @@ public class AppointmentDialogFragment extends DialogFragment {
 
         TextView code = (TextView) view.findViewById(R.id.confirm_code);
         code.setTypeface(font);
+
+        TextView cancel = (TextView) view.findViewById(R.id.cancel_appointment);
+        cancel.setTypeface(font);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(getActivity())
+                        .setMessage(getString(R.string.cancel_confirm))
+                        .setPositiveButton(getString(R.string.agree_button), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getDialog().dismiss();
+                                ((MainActivity) getActivity()).getMainPresenter().cancelAppointment(getArguments().getInt("appointmentId"));
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.abort_button), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setCancelable(true).show();
+            }
+        });
 
         AppCompatButton button = (AppCompatButton) view.findViewById(R.id.button_close);
         button.setTypeface(font);

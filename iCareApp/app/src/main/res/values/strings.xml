@@ -133,6 +133,9 @@
     <string name="confirm_code">Mã Xác Nhận</string>
     <string name="bill">Hóa Đơn</string>
     <string name="empty_appointment">Quí khách hiện chưa có lịch hẹn nào</string>
+    <string name="cancel_appointment">Hủy lịch hẹn</string>
+    <string name="cancel_confirm">Quí khách có chắc chắn muốn hủy bỏ lịch hẹn này?</string>
+    <string name="detail_appointment">Chi tiết</string>
 
     <!-- BOOKING CONFIRM -->
     <string name="empty_code">Quí khách chưa nhập mã xác nhận</string>

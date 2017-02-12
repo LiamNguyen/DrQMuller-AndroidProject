@@ -37,6 +37,7 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
     private boolean insertTempBookingResult,
                     removeTempBookingResult,
                     updateAppointmentResult,
+                    cancelAppointmentResult,
                     validateAppointmentResult;
     private int insertAppointmentResult;
 
@@ -99,6 +100,14 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
     }
 
     @Override
+    public boolean cancelAppointment(int appointmentId) {
+        mApi.sendPostRequest(this, ModelURL.UPDATE_CANCELAPPOINTMENT.getUrl(Manager.DB_TYPE),
+                NetworkUtils.getKeys  (AppointmentManager.APPOINTMENT_ID_KEY),
+                NetworkUtils.getValues(Integer.toString(appointmentId)));
+        return cancelAppointmentResult;
+    }
+
+    @Override
     public boolean validateAppointment() {
         mApi.sendPostRequest(this, ModelURL.UPDATE_VALIDATEAPPOINTMENT.getUrl(Manager.DB_TYPE), null, null);
         return validateAppointmentResult;
@@ -119,13 +128,16 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
     }
 
     @Override
-    public void saveLocalAppointmentsToPref(SharedPreferences sharedPreferences, List<DTOAppointment> appointments) {
+    public void saveLocalAppointmentsToPref(SharedPreferences sharedPreferences, List<DTOAppointment> appointments, int userId) {
         Type mapType = new TypeToken<Map<Integer ,String>>(){}.getType();
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Map<Integer, String> appointmentDB = ConverterJson.convertJsonToObject(sharedPreferences.getString("appointmentDB", ""), mapType);
         if (appointmentDB == null)
             appointmentDB = new HashMap<>();
-        appointmentDB.put(appointments.get(0).getCustomerId(), ConverterJson.convertObjectToJson(appointments));
+        if (appointments == null || appointments.size() == 0)
+            appointmentDB.remove(userId);
+        else
+            appointmentDB.put(userId, ConverterJson.convertObjectToJson(appointments));
         editor.putString("appointmentDB", ConverterJson.convertObjectToJson(appointmentDB));
         editor.apply();
         editor.commit();
@@ -168,6 +180,13 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
             }else {
                 updateAppointmentResult = false;
             }
+        }else if (jsonObject.has("Update_CancelAppointment")){
+            JsonArray result = jsonObject.get("Update_CancelAppointment").getAsJsonArray();
+            if (result.size() != 0 && result.get(0).getAsJsonObject().get("Status").getAsString().equals("1")) {
+                cancelAppointmentResult = true;
+            }else {
+                cancelAppointmentResult = false;
+            }
         }else if (jsonObject.has("Update_ValidateAppointment")){
             String result = jsonObject.get("Update_ValidateAppointment").getAsString();
             if (result.equals("Validate")) {
@@ -186,5 +205,6 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
         removeTempBookingResult = false;
         updateAppointmentResult = false;
         validateAppointmentResult = false;
+        cancelAppointmentResult = false;
     }
 }

@@ -3,9 +3,12 @@ package com.lanthanh.admin.icareapp.presentation.presenter.impl;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
 import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
+import com.lanthanh.admin.icareapp.domain.interactor.CancelAppointmentInteractor;
+import com.lanthanh.admin.icareapp.domain.interactor.impl.CancelAppointmentInteractorImpl;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 import com.lanthanh.admin.icareapp.presentation.view.activity.BookingActivity;
 import com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity;
@@ -27,7 +30,8 @@ import java.util.List;
  * Created by ADMIN on 31-Dec-16.
  */
 
-public class MainActivityPresenterImpl extends AbstractPresenter implements MainActivityPresenter{
+public class MainActivityPresenterImpl extends AbstractPresenter implements MainActivityPresenter, CancelAppointmentInteractor.Callback{
+    public static final String TAG = MainActivityPresenterImpl.class.getSimpleName();
     private MainActivityPresenter.View mView;
     private ModelUser mUser;
     private FragmentManager fragmentManager;
@@ -139,6 +143,52 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
 
         if ( dtoAppointmentsList != null) {
             appointmentFragment.updateList(dtoAppointmentsList);
+        }else{
+            mView.showFragment(fragmentManager, defaultAppointmentFragment, getVisibleFragments());
+        }
+    }
+
+    @Override
+    public void cancelAppointment(int appointmentId) {
+        mView.showProgress();
+        CancelAppointmentInteractor cancelAppointmentInteractor = new CancelAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointmentId);
+        cancelAppointmentInteractor.execute();
+    }
+
+    @Override
+    public void onCancelAppointmentFail() {
+        try {
+            mView.hideProgress();
+            Log.e(TAG, "Cancel appointment fail");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
+    }
+
+    @Override
+    public void onCancelAppointmentSuccess(int appointmentId) {
+        try {
+            mView.hideProgress();
+            //Get appointment from local shared pref
+            List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
+            if (appointmentsList == null)
+                return;
+            //Remove appointment
+            int index = -1;
+            for (int i = 0; i < appointmentsList.size(); i++){
+                if (appointmentsList.get(i).getAppointmentId() == appointmentId){
+                    index = i;
+                    break;
+                }
+            }
+            if (index != -1)
+                appointmentsList.remove(index);
+            //Put to shared pref
+            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList, mUser.getID());
+            //Update list
+            updateAppointmentList();
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
         }
     }
 }

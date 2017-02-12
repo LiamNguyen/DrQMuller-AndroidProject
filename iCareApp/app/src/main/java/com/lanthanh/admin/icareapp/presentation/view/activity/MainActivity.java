@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private MainActivityPresenter mMainPresenter;
     private BottomNavigationView bottomNavigationView;
+    private ProgressBar progressBar;
 
     //Controller
     private NetworkController networkController;
@@ -64,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
 
         init();
+
+        //Init progressbar
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
         //Bottom Navigation View
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -195,12 +200,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

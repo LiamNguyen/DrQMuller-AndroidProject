@@ -26,7 +26,8 @@ public interface AppointmentManager extends Manager {
     int insertAppointment(DTOAppointment dtoAppointment);
     void insertAppointmentSchedule(DTOAppointment dtoAppointment);
     boolean updateAppointment(int appointmentId);
+    boolean cancelAppointment(int appointmentId);
     boolean validateAppointment();
     List<DTOAppointment> getLocalAppointmentsFromPref(SharedPreferences sharedPreferences, int userId);
-    void saveLocalAppointmentsToPref(SharedPreferences sharedPreferences, List<DTOAppointment> appointments);
+    void saveLocalAppointmentsToPref(SharedPreferences sharedPreferences, List<DTOAppointment> appointments, int userId);
 }

@@ -51,6 +51,8 @@ public enum ModelURL {
                                "http://210.211.109.180/drmuller_test/Update_ValidateAppointment.php", "http://drqmuller.com/drmuller/Update_ValidateAppointment.php"),
     UPDATE_APPOINTMENT("http://210.211.109.180/drmuller/Update_Appointment.php",
                        "http://210.211.109.180/drmuller_test/Update_Appointment.php", "http://drqmuller.com/drmuller/Update_Appointment.php"),
+    UPDATE_CANCELAPPOINTMENT("http://210.211.109.180/drmuller/Update_CancelAppointment.php",
+            "http://210.211.109.180/drmuller_test/Update_CancelAppointment.php", "http://drqmuller.com/drmuller/Update_CancelAppointment.php"),
     UPDATE_VERIFYACC("http://210.211.109.180/drmuller/Update_VerifyAcc.php",
                      "http://210.211.109.180/drmuller_test/Update_VerifyAcc.php", "http://drqmuller.com/drmuller/Update_VerifyAcc.php"),
     UPDATE_RESETPW("http://210.211.109.180/drmuller/Update_ResetPw.php",

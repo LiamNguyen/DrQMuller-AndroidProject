@@ -81,6 +81,29 @@
                 android:textColor="@color/colorLightBlack"
                 android:id="@+id/status" />
 
+            <TextView
+                android:layout_below="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentStart="true"
+                android:text="@string/detail_appointment"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"
+                android:id="@+id/detail_appointment" />
+
+            <TextView
+                android:layout_below="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="22dp"
+                android:layout_toEndOf="@+id/detail_appointment"
+                android:text="@string/cancel_appointment"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"
+                android:id="@+id/cancel_appointment" />
+
         </RelativeLayout>
 
         <View
