@@ -20,9 +20,8 @@ import java.util.Calendar;
  */
 
 public class CustomerManagerImpl extends AbstractManager implements CustomerManager {
-    private String logInResult;
-    private boolean userExistenceResult, newCusResult, updateCusResult, updatePwResult, updateVerifyAcc;
-    private int getIdResult;
+    private String logInResult, newCusResult;
+    private boolean basicInfo, necessaryInfo, importantInfo, updateCusResult, updatePwResult, updateVerifyAcc;
 
     public CustomerManagerImpl(iCareApi api){
         super(api);
@@ -31,34 +30,16 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
 
     @Override
     public String logIn(String username, String password) {
-        mApi.sendPostRequest(this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(Manager.DB_TYPE),
-                NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY, CustomerManager.CUSTOMER_PASSWORD_KEY),
-                NetworkUtils.getValues(username, password));
+        String json = NetworkUtils.convertJsonData(new String[]{"username", "password"}, new String[]{username, password});
+        mApi.sendPostRequest(this, ModelURL.SELECT_TOAUTHENTICATE.getUrl(Manager.DB_TYPE), json);
         return logInResult;
     }
 
     @Override
-    public boolean checkUserExistence(String username) {
-        mApi.sendPostRequest(this, ModelURL.SELECT_CHECKUSEREXISTENCE.getUrl(Manager.DB_TYPE),
-                NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY),
-                NetworkUtils.getValues(username));
-        return userExistenceResult;
-    }
-
-    @Override
-    public boolean insertNewCustomer(String username, String password) {
-        mApi.sendPostRequest(this, ModelURL.INSERT_NEWCUSTOMER.getUrl(Manager.DB_TYPE),
-                NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY, CustomerManager.CUSTOMER_PASSWORD_KEY),
-                NetworkUtils.getValues(username, password));
+    public String insertNewCustomer(String username, String password) {
+        String json = NetworkUtils.convertJsonData(new String[]{"username", "password"}, new String[]{username, password});
+        mApi.sendPostRequest(this, ModelURL.INSERT_NEWCUSTOMER.getUrl(Manager.DB_TYPE), json);
         return newCusResult;
-    }
-
-    @Override
-    public int getCustomerId(String username) {
-        mApi.sendPostRequest(this, ModelURL.SELECT_NoOFCUSTOMERS.getUrl(Manager.DB_TYPE),
-                NetworkUtils.getKeys(CustomerManager.CUSTOMER_USERNAME_KEY),
-                NetworkUtils.getValues(username));
-        return getIdResult;
     }
 
     @Override
@@ -76,6 +57,30 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                         NetworkUtils.convertDateForDB(Calendar.getInstance().getTime()))
         );
         return updateCusResult;
+    }
+
+    @Override
+    public boolean updateCustomerBasicInfo(ModelUser user) {
+        String json = NetworkUtils.convertJsonData(new String[]{"userId", "userName", "userAddress", "updatedAt"},
+                                                   new String[]{Integer.toString(user.getID()), user.getName(), user.getAddress(), NetworkUtils.convertDateForDB(Calendar.getInstance().getTime())});
+        mApi.sendPostRequest(this, ModelURL.UPDATE_BASICINFO.getUrl(Manager.DB_TYPE), json);
+        return basicInfo;
+    }
+
+    @Override
+    public boolean updateCustomerNecessaryInfo(ModelUser user) {
+        String json = NetworkUtils.convertJsonData(new String[]{"userId", "userDob", "userGender", "updatedAt"},
+                new String[]{Integer.toString(user.getID()), user.getDOB(), user.getGender(), NetworkUtils.convertDateForDB(Calendar.getInstance().getTime())});
+        mApi.sendPostRequest(this, ModelURL.UPDATE_NECESSARYINFO.getUrl(Manager.DB_TYPE), json);
+        return necessaryInfo;
+    }
+
+    @Override
+    public boolean updateCustomerImpotantInfo(ModelUser user) {
+        String json = NetworkUtils.convertJsonData(new String[]{"userId", "userEmail", "userPhone", "updatedAt"},
+                new String[]{Integer.toString(user.getID()), user.getEmail(), user.getPhone(), NetworkUtils.convertDateForDB(Calendar.getInstance().getTime())});
+        mApi.sendPostRequest(this, ModelURL.UPDATE_IMPORTANTINFO.getUrl(Manager.DB_TYPE), json);
+        return importantInfo;
     }
 
     @Override
@@ -123,31 +128,37 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
             if (result.size() == 1 || result.size() == 0)
                 this.logInResult = null;
             else
-                this.logInResult = result.get(2).getAsJsonObject().get("jwt").getAsString();
-        }else if (jsonObject.has("Select_CheckUserExistence")){
-            String result = jsonObject.get("Select_CheckUserExistence").getAsString();
-            if (result.equals("Not Exist"))
-                this.userExistenceResult = false;
-            else
-                this.userExistenceResult = true;
+                this.logInResult = result.get(1).getAsJsonObject().get("jwt").getAsString();
         }else if (jsonObject.has("Insert_NewCustomer")){
-            String result = jsonObject.get("Insert_NewCustomer").getAsString();
-            if (result.equals("Inserted"))
-                this.newCusResult = true;
+            JsonArray result = jsonObject.get("Insert_NewCustomer").getAsJsonArray();
+            if (!result.get(0).getAsJsonObject().get("Status").getAsString().equals("1"))
+                this.newCusResult = result.get(0).getAsJsonObject().get("Status").getAsString();
             else
-                this.newCusResult = false;
-        }else if (jsonObject.has("Select_NumberOfCustomers")){
-            int result = jsonObject.get("Select_NumberOfCustomers").getAsInt();
-            if (result == -1)
-                this.getIdResult = 0;
-            else
-                this.getIdResult = result;
+                this.newCusResult = result.get(1).getAsJsonObject().get("jwt").getAsString();
         }else if (jsonObject.has("Update_CustomerInfo")){
             String result = jsonObject.get("Update_CustomerInfo").getAsString();
             if (result.equals("Updated"))
                 this.updateCusResult = true;
             else
                 this.updateCusResult = false;
+        }else if (jsonObject.has("Update_BasicInfo")){
+            JsonArray result = jsonObject.get("Update_BasicInfo").getAsJsonArray();
+            if (!result.get(0).getAsJsonObject().get("Status").getAsString().equals("1"))
+                this.basicInfo = false;
+            else
+                this.basicInfo = true;
+        }else if (jsonObject.has("Update_NecessaryInfo")){
+            JsonArray result = jsonObject.get("Update_NecessaryInfo").getAsJsonArray();
+            if (!result.get(0).getAsJsonObject().get("Status").getAsString().equals("1"))
+                this.necessaryInfo = false;
+            else
+                this.necessaryInfo = true;
+        }else if (jsonObject.has("Update_ImportantInfo")){
+            JsonArray result = jsonObject.get("Update_ImportantInfo").getAsJsonArray();
+            if (!result.get(0).getAsJsonObject().get("Status").getAsString().equals("1"))
+                this.importantInfo = false;
+            else
+                this.importantInfo = true;
         }else if (jsonObject.has("Update_ResetPw")){
             String result = jsonObject.get("Update_ResetPw").getAsString();
             if (result.equals("Updated"))
@@ -168,11 +179,12 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
     @Override
     public void resetResult() {
         logInResult = null;
-        userExistenceResult = false;
-        newCusResult = false;
+        newCusResult = null;
         updateCusResult = false;
         updatePwResult = false;
         updateVerifyAcc = false;
-        getIdResult = 0;
+        basicInfo = false;
+        necessaryInfo = false;
+        importantInfo = false;
     }
 }

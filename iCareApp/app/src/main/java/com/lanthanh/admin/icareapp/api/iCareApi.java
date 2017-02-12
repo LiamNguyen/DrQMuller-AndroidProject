@@ -16,4 +16,5 @@ iCareApi {
     }
     void sendGetRequest(Callback callback, URL url);
     void sendPostRequest(Callback callback, String url, String[] keys, String[] values);
+    void sendPostRequest(Callback callback, String url, String json);
 }

@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointmentSchedule;
 
+import org.json.JSONObject;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -42,6 +44,18 @@ public class NetworkUtils {
             result.append("&").append(keys[i]).append("=").append(values[i]);
         }
         return result.toString();
+    }
+
+    public static String convertJsonData(String[] keys, String[] values){
+        JSONObject jsonObject= new JSONObject();
+        try {
+            for (int i = 0; i < keys.length; i++) {
+                jsonObject.put(keys[i], values[i]);
+            }
+        }catch (Exception e){
+            return "";
+        }
+        return jsonObject.toString();
     }
 
     public static String convertDateForDB(Date date){

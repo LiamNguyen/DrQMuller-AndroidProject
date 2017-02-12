@@ -8,7 +8,7 @@ public interface Manager {
     int DB_PRD = 1;
     int DB_BETA = 2;
     int DB_UAT = 3;
-    int DB_TYPE = DB_PRD;
+    int DB_TYPE = DB_BETA;
     boolean insert(Object o);
     boolean delete(Object o);
     boolean update(Object o);

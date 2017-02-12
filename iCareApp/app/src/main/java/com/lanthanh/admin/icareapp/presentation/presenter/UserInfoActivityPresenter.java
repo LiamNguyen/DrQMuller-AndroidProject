@@ -28,8 +28,7 @@ public interface UserInfoActivityPresenter extends Presenter {
     void onBackPressed();
     void navigateToMainActivity();
     void navigateToRegisterActivity();
-    void getCustomerId();
-    void setUsername(String username);
+    void setUserId(int userId);
     void setName(String name);
     void setAddress(String address);
     void setDob(String dob);
@@ -38,7 +37,9 @@ public interface UserInfoActivityPresenter extends Presenter {
     void setPhone(String phone);
     boolean isDobSet();
     boolean isGenderSet();
-    void updateCustomer();
+    void updateBasicInfo();
+    void updateNecessaryInfo();
+    void updateImportantInfo();
     void sendEmailVerifyAcc();
     void onEmailChange(int string);
 }

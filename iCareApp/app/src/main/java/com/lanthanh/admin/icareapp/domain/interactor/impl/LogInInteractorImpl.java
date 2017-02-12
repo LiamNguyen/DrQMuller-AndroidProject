@@ -30,7 +30,7 @@ public class LogInInteractorImpl extends AbstractInteractor implements LogInInte
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCallback.onLogInSuccess(result, username);
+                    mCallback.onLogInSuccess(result);
                 }
             });
         }else{

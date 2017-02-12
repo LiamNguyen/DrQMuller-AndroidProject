@@ -2,7 +2,6 @@ package com.lanthanh.admin.icareapp.presentation.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
@@ -23,18 +21,10 @@ import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.SendEmailManagerImpl;
 import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
-import com.lanthanh.admin.icareapp.presentation.presenter.RegisterActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserInfoActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.impl.UserInfoActivityPresenterImpl;
-import com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.userinfo.ChangeEmailFragment;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.userinfo.ContactFragment;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.userinfo.DOBvsGenderFragment;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.userinfo.NameAndAddressFragment;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.userinfo.ValidateFragment;
 import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -82,29 +72,28 @@ public class UserInfoActivity extends AppCompatActivity implements UserInfoActiv
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
+    protected void onResume() {
+        super.onResume();
+        //networkController.registerNetworkReceiver();
         Intent i = getIntent();
         Bundle b = i.getExtras();
         if (b != null){
             if (b.containsKey(RegisterActivity.TAG)) {
                 Bundle bundle = b.getBundle(RegisterActivity.TAG);
                 if (bundle != null) {
-                    userInfoActivityPresenter.setUsername(bundle.getString(RegisterActivity.EXTRA_USERNAME, ""));
-                    if (bundle.getInt(RegisterActivity.EXTRA_UISTEP) == 1)
+                    userInfoActivityPresenter.setUserId(bundle.getInt(RegisterActivity.EXTRA_ID, 0));
+                    if (bundle.getString(RegisterActivity.EXTRA_UISTEP).equals("none"))
+                        userInfoActivityPresenter.navigateFragment(NAME_LOCATION);
+                    else if (bundle.getString(RegisterActivity.EXTRA_UISTEP).equals("basic"))
+                        userInfoActivityPresenter.navigateFragment(DOB_GENDER);
+                    else if (bundle.getString(RegisterActivity.EXTRA_UISTEP).equals("necessary"))
+                        userInfoActivityPresenter.navigateFragment(CONTACT);
+                    else if (bundle.getString(RegisterActivity.EXTRA_UISTEP).equals("important"))
                         userInfoActivityPresenter.navigateFragment(VALIDATE);
+
                 }
             }
         }
-//        SharedPreferences sharedPref = this.getSharedPreferences("content", Context.MODE_PRIVATE);
-//        if (!sharedPref.getString("step", "0").equals("0"))
-//            navigateToValidate();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //networkController.registerNetworkReceiver();
     }
 
     @Override

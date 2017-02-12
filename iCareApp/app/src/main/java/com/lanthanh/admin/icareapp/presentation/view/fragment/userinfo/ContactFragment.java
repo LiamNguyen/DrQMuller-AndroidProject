@@ -71,7 +71,7 @@ public class ContactFragment extends Fragment implements View.OnClickListener, T
                 if (validEmail && validPhone){
                     userInfoActivityPresenter.setEmail(email.getText().toString().trim());
                     userInfoActivityPresenter.setPhone(phone.getText().toString().trim());
-                    userInfoActivityPresenter.updateCustomer();
+                    userInfoActivityPresenter.updateImportantInfo();
                 }else{
                     if (!validEmail){
                         if (email.getText().toString().equals("")){

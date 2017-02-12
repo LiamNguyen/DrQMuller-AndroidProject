@@ -2,41 +2,42 @@ package com.lanthanh.admin.icareapp.domain.interactor.impl;
 
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.domain.interactor.GetCustomerIdInteractor;
+import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerNecessaryInfo;
 import com.lanthanh.admin.icareapp.domain.interactor.base.AbstractInteractor;
+import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 import com.lanthanh.admin.icareapp.threading.MainThread;
 
 /**
- * Created by ADMIN on 10-Jan-17.
+ * Created by ADMIN on 12-Feb-17.
  */
 
-public class GetCustomerIdInteractorImpl extends AbstractInteractor implements GetCustomerIdInteractor {
-    private GetCustomerIdInteractor.Callback mCallback;
+public class UpdateCustomerNecessaryInfoInteractorImpl extends AbstractInteractor implements UpdateCustomerNecessaryInfo {
+    private UpdateCustomerNecessaryInfo.Callback mCallback;
     private CustomerManager mCustomerManager;
-    private String username;
+    private ModelUser mUser;
 
-    public GetCustomerIdInteractorImpl(Executor executor, MainThread mainThread, Callback callback, CustomerManager customerManager, String username){
+    public UpdateCustomerNecessaryInfoInteractorImpl(Executor executor, MainThread mainThread, Callback callback, CustomerManager customerManager, ModelUser user){
         super(executor, mainThread);
         mCallback = callback;
         mCustomerManager = customerManager;
-        this.username = username;
+        mUser = user;
     }
 
     @Override
     public void run() {
-        final int id = mCustomerManager.getCustomerId(username);
-        if (id != 0){
+        boolean result = mCustomerManager.updateCustomerNecessaryInfo(mUser);
+        if (result){
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCallback.onCustomerIdFound(id);
+                    mCallback.onUpdateNecessaryInfoSuccess();
                 }
             });
         }else{
             mMainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    mCallback.onCustomerIdNotFound();
+                    mCallback.onUpdateNecessaryInfoFail();
                 }
             });
         }

@@ -69,7 +69,7 @@ public class NameAndAddressFragment extends Fragment implements View.OnClickList
                 if (validName && validAddress){
                     userInfoActivityPresenter.setName(name.getText().toString().trim());
                     userInfoActivityPresenter.setAddress(address.getText().toString().trim());
-                    userInfoActivityPresenter.navigateFragment(UserInfoActivity.DOB_GENDER);
+                    userInfoActivityPresenter.updateBasicInfo();
                 }
                 else{
                     if (!validName){

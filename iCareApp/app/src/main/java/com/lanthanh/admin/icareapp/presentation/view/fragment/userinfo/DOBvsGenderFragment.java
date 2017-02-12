@@ -94,7 +94,7 @@ public class DOBvsGenderFragment extends Fragment implements DatePicker.OnDateCh
         switch (v.getId()){
             case R.id.ui_next_button_p2:
                 if (userInfoActivityPresenter.isDobSet() && userInfoActivityPresenter.isGenderSet()){
-                    userInfoActivityPresenter.navigateFragment(UserInfoActivity.CONTACT);
+                    userInfoActivityPresenter.updateNecessaryInfo();
                 }else {
                     if (!userInfoActivityPresenter.isDobSet()){
                         dob_noti.setVisibility(View.VISIBLE);

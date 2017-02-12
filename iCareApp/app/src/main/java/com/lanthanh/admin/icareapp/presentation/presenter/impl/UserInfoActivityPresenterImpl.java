@@ -5,18 +5,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.data.manager.SendEmailManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.domain.interactor.GetCustomerIdInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.SendEmailVerifyAccInteractor;
+import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerBasicInfoInteractor;
+import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerImportantInfoInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerInteractor;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.GetCustomerIdInteractorImpl;
+import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerNecessaryInfo;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.SendEmailVerifyAccInteractorImpl;
+import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateCustomerBasicInfoInteractorImpl;
+import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateCustomerImportantInfoInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateCustomerInteractorImpl;
+import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateCustomerNecessaryInfoInteractorImpl;
 import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserInfoActivityPresenter;
@@ -39,7 +41,8 @@ import java.util.List;
  */
 
 public class UserInfoActivityPresenterImpl extends AbstractPresenter implements UserInfoActivityPresenter,
-            GetCustomerIdInteractor.Callback, UpdateCustomerInteractor.Callback, SendEmailVerifyAccInteractor.Callback{
+        UpdateCustomerBasicInfoInteractor.Callback, UpdateCustomerNecessaryInfo.Callback, UpdateCustomerImportantInfoInteractor.Callback,
+        SendEmailVerifyAccInteractor.Callback{
     public static final String TAG = UserInfoActivityPresenterImpl.class.getSimpleName();
     private SharedPreferences sharedPreferences;
     private UserInfoActivityPresenter.View mView;
@@ -52,7 +55,7 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
     private ValidateFragment validateFragment;
     private ChangeEmailFragment changeEmailFragment;
     private ModelUser mUser;
-    private String username;
+    private int userId;
 
     public UserInfoActivityPresenterImpl(SharedPreferences sharedPreferences, Executor executor, MainThread mainThread, View view,
                                          FragmentManager fragmentManager, CustomerManager customerManager, SendEmailManager sendEmailManager){
@@ -146,6 +149,11 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
     }
 
     @Override
+    public void setUserId(int userId) {
+        mUser.setId(userId);
+    }
+
+    @Override
     public void setAddress(String address) {
         mUser.setAddress(address);
     }
@@ -191,64 +199,82 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
     }
 
     @Override
-    public void getCustomerId() {
-        GetCustomerIdInteractor getCustomerIdInteractor = new GetCustomerIdInteractorImpl(mExecutor, mMainThread, this, customerManager, username);
-        getCustomerIdInteractor.execute();
-    }
-
-    @Override
-    public void onCustomerIdFound(int id) {
-        try {
-            mUser.setId(id);
-            UpdateCustomerInteractor updateCustomerInteractor = new UpdateCustomerInteractorImpl(mExecutor, mMainThread, this, customerManager, mUser);
-            updateCustomerInteractor.execute();
-        }catch (Exception e){
-            Log.w(TAG, e.toString());
-        }
-    }
-
-    @Override
-    public void onCustomerIdNotFound() {
-        try {
-            onError("Fail to get customer id");
-        }catch (Exception e){
-            Log.w(TAG, e.toString());
-        }
-    }
-
-    @Override
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Override
-    public void updateCustomer() {
+    public void updateBasicInfo() {
         mView.showProgress();
-        if (mUser.getID() == 0)
-            getCustomerId();
-        else{
-            UpdateCustomerInteractor updateCustomerInteractor = new UpdateCustomerInteractorImpl(mExecutor, mMainThread, this, customerManager, mUser);
-            updateCustomerInteractor.execute();
-        }
+        UpdateCustomerBasicInfoInteractor updateCustomerBasicInfoInteractor = new UpdateCustomerBasicInfoInteractorImpl(mExecutor, mMainThread, this, customerManager, mUser);
+        updateCustomerBasicInfoInteractor.execute();
     }
 
     @Override
-    public void onUpdateCustomerFail() {
+    public void onUpdateBasicInfoFail() {
         try {
             mView.hideProgress();
-            mView.showError(mView.getStringResource(R.string.update_fail));
+            Log.e(TAG, " Update Basic Info Fail");
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }
     }
 
     @Override
-    public void onUpdateCustomerSuccess() {
+    public void onUpdateBasicInfoSuccess() {
         try {
             mView.hideProgress();
-            mUser.setGender(ConverterForDisplay.convertStringGenderFromDBToDisplay(mUser.getGender(), mView.getStringResource(R.string.male), mView.getStringResource(R.string.male)));
-            customerManager.saveLocalUserToPref(sharedPreferences, mUser);
+            navigateFragment(UserInfoActivity.DOB_GENDER);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
+    }
+
+    @Override
+    public void updateNecessaryInfo() {
+        mView.showProgress();
+        UpdateCustomerNecessaryInfo updateCustomerNecessaryInfo = new UpdateCustomerNecessaryInfoInteractorImpl(mExecutor, mMainThread, this, customerManager, mUser);
+        updateCustomerNecessaryInfo.execute();
+    }
+
+    @Override
+    public void onUpdateNecessaryInfoFail() {
+        try {
+            mView.hideProgress();
+            Log.e(TAG, " Update Necessary Info Fail");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
+    }
+
+    @Override
+    public void onUpdateNecessaryInfoSuccess() {
+        try {
+            mView.hideProgress();
+            navigateFragment(UserInfoActivity.CONTACT);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
+    }
+
+
+    @Override
+    public void updateImportantInfo() {
+        mView.showProgress();
+        UpdateCustomerImportantInfoInteractor updateCustomerImportantInfoInteractor = new UpdateCustomerImportantInfoInteractorImpl(mExecutor, mMainThread, this, customerManager, mUser);
+        updateCustomerImportantInfoInteractor.execute();
+    }
+
+    @Override
+    public void onUpdateImportantInfoSuccess() {
+        try {
+            mView.hideProgress();
             navigateFragment(UserInfoActivity.VALIDATE);
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
+    }
+
+    @Override
+    public void onUpdateImportantInfoFail() {
+        try {
+            mView.hideProgress();
+            Log.e(TAG, " Update Important Info Fail");
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }

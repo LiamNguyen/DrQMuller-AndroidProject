@@ -9,6 +9,6 @@ import com.lanthanh.admin.icareapp.domain.interactor.base.Interactor;
 public interface LogInInteractor extends Interactor {
     interface Callback{
         void onLogInFail();
-        void onLogInSuccess(String jwt, String username);
+        void onLogInSuccess(String jwt);
     }
 }

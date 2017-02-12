@@ -19,6 +19,9 @@ import okhttp3.Response;
  * Created by ADMIN on 04-Jan-17.
  */
 public class iCareApiImpl implements iCareApi {
+    public static final MediaType JSON
+            = MediaType.parse("application/json; charset=utf-8");
+
     public static final String TAG = iCareApiImpl.class.getSimpleName();
 
     public static iCareApiImpl getAPI() {
@@ -67,6 +70,31 @@ public class iCareApiImpl implements iCareApi {
             formBuilder.add(keys[i], values[i]);
         }
         RequestBody body = formBuilder.build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            result = response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        callback.onResponse(result);
+    }
+
+    @Override
+    public void sendPostRequest(Callback callback, String url, String json) {
+        System.out.println(json + "JSON data");
+        OkHttpClient.Builder b = new OkHttpClient.Builder();
+        b.connectTimeout(3, TimeUnit.MINUTES);
+        b.readTimeout(3, TimeUnit.MINUTES);
+        b.writeTimeout(3, TimeUnit.MINUTES);
+        OkHttpClient client = b.build();
+
+        String result = null;
+        RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)

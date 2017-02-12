@@ -8,7 +8,7 @@ import com.lanthanh.admin.icareapp.domain.interactor.base.Interactor;
 
 public interface InsertNewCustomerInteractor extends Interactor {
     interface Callback{
-        void onInsertCustomerSuccess(String username);
-        void onInsertCustomerFail();
+        void onInsertCustomerSuccess(String jwt);
+        void onInsertCustomerFail(String status);
     }
 }
