@@ -26,11 +26,16 @@ import com.lanthanh.admin.icareapp.presentation.view.activity.UserInfoActivity;
 import com.lanthanh.admin.icareapp.presentation.view.fragment.register.ChooseFragment;
 import com.lanthanh.admin.icareapp.presentation.view.fragment.register.SignInFragment;
 import com.lanthanh.admin.icareapp.presentation.view.fragment.register.SignUpFragment;
+import com.lanthanh.admin.icareapp.service.LoginService;
+import com.lanthanh.admin.icareapp.service.MailService;
+import com.lanthanh.admin.icareapp.service.RegisterService;
 import com.lanthanh.admin.icareapp.threading.MainThread;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import retrofit2.Retrofit;
 
 /**
  * Created by ADMIN on 10-Jan-17.
@@ -46,6 +51,11 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
     private ChooseFragment chooseFragment;
     private SignInFragment signInFragment;
     private SignUpFragment signUpFragment;
+
+    //Service
+    private LoginService loginService;
+    private RegisterService registerService;
+    private MailService mailService;
 
     public RegisterActivityPresenterImpl(SharedPreferences sharedPreferences, Executor executor, MainThread mainThread, View view,
                                          FragmentManager fragmentManager, CustomerManager customerManager){

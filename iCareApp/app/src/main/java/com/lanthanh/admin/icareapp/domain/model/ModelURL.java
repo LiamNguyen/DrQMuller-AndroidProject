@@ -47,6 +47,8 @@ public enum ModelURL {
             "http://210.211.109.180/drmuller_test/Update_ImportantInfo1.php", "http://drqmuller.com/drmuller/Update_ImportantInfo1.php"),
     UPDATE_CUSTOMERINFO("http://210.211.109.180/drmuller/Update_CustomerInfo.php",
             "http://210.211.109.180/drmuller_test/Update_CustomerInfo.php", "http://drqmuller.com/drmuller/Update_CustomerInfo.php"),
+    UPDATE_CUSTOMEREMAIL("http://210.211.109.180/drmuller/Update_CustomerEmail.php",
+            "http://210.211.109.180/drmuller_test/Update_CustomerEmail.php", "http://drqmuller.com/drmuller/Update_CustomerEmail.php"),
     UPDATE_VALIDATEAPPOINTMENT("http://210.211.109.180/drmuller/Update_ValidateAppointment.php",
                                "http://210.211.109.180/drmuller_test/Update_ValidateAppointment.php", "http://drqmuller.com/drmuller/Update_ValidateAppointment.php"),
     UPDATE_APPOINTMENT("http://210.211.109.180/drmuller/Update_Appointment.php",

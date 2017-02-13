@@ -11,11 +11,13 @@ import com.lanthanh.admin.icareapp.data.manager.SendEmailManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
 import com.lanthanh.admin.icareapp.domain.interactor.SendEmailVerifyAccInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerBasicInfoInteractor;
+import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerEmailInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerImportantInfoInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerNecessaryInfo;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.SendEmailVerifyAccInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateCustomerBasicInfoInteractorImpl;
+import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateCustomerEmailInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateCustomerImportantInfoInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateCustomerInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateCustomerNecessaryInfoInteractorImpl;
@@ -42,7 +44,7 @@ import java.util.List;
 
 public class UserInfoActivityPresenterImpl extends AbstractPresenter implements UserInfoActivityPresenter,
         UpdateCustomerBasicInfoInteractor.Callback, UpdateCustomerNecessaryInfo.Callback, UpdateCustomerImportantInfoInteractor.Callback,
-        SendEmailVerifyAccInteractor.Callback{
+        SendEmailVerifyAccInteractor.Callback, UpdateCustomerEmailInteractor.Callback{
     public static final String TAG = UserInfoActivityPresenterImpl.class.getSimpleName();
     private SharedPreferences sharedPreferences;
     private UserInfoActivityPresenter.View mView;
@@ -275,6 +277,33 @@ public class UserInfoActivityPresenterImpl extends AbstractPresenter implements 
         try {
             mView.hideProgress();
             Log.e(TAG, " Update Important Info Fail");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
+    }
+
+    @Override
+    public void updateEmail() {
+        mView.showProgress();
+        UpdateCustomerEmailInteractor updateCustomerEmailInteractor = new UpdateCustomerEmailInteractorImpl(mExecutor, mMainThread, this, customerManager, mUser);
+        updateCustomerEmailInteractor.execute();
+    }
+
+    @Override
+    public void onUpdateCustomerEmailFail() {
+        try {
+            mView.hideProgress();
+            Log.e(TAG, " Update Customer Email Fail");
+        }catch (Exception e){
+            Log.w(TAG, e.toString());
+        }
+    }
+
+    @Override
+    public void onUpdateCustomerEmailSuccess() {
+        try {
+            mView.hideProgress();
+            navigateFragment(UserInfoActivity.VALIDATE);
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }

@@ -29,6 +29,7 @@ public interface CustomerManager extends Manager {
     boolean updateCustomerBasicInfo(ModelUser user);
     boolean updateCustomerNecessaryInfo(ModelUser user);
     boolean updateCustomerImpotantInfo(ModelUser user);
+    boolean updateCustomerEmail(ModelUser user);
     boolean updateCustomerPassword(String username, String password);
     boolean updateVerifyAcc(String id);
     ModelUser getLocalUserFromPref(SharedPreferences sharedPreferences);

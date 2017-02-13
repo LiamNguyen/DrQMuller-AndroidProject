@@ -21,7 +21,7 @@ import java.util.Calendar;
 
 public class CustomerManagerImpl extends AbstractManager implements CustomerManager {
     private String logInResult, newCusResult;
-    private boolean basicInfo, necessaryInfo, importantInfo, updateCusResult, updatePwResult, updateVerifyAcc;
+    private boolean basicInfo, necessaryInfo, importantInfo, updateCusResult, updatePwResult, updateVerifyAcc, updateEmail;
 
     public CustomerManagerImpl(iCareApi api){
         super(api);
@@ -93,6 +93,14 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
     }
 
     @Override
+    public boolean updateCustomerEmail(ModelUser user) {
+        String json = NetworkUtils.convertJsonData(new String[]{"userId", "userEmail", "updatedAt"},
+                new String[]{Integer.toString(user.getID()), user.getEmail(), NetworkUtils.convertDateForDB(Calendar.getInstance().getTime())});
+        mApi.sendPostRequest(this, ModelURL.UPDATE_CUSTOMEREMAIL.getUrl(Manager.DB_TYPE), json);
+        return updateEmail;
+    }
+
+    @Override
     public boolean updateVerifyAcc(String id) {
         mApi.sendPostRequest(this, ModelURL.UPDATE_VERIFYACC.getUrl(Manager.DB_TYPE),
                 NetworkUtils.getKeys(CustomerManager.CUSTOMER_ID_KEY_2),
@@ -159,6 +167,12 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
                 this.importantInfo = false;
             else
                 this.importantInfo = true;
+        }else if (jsonObject.has("Update_CustomerEmail")){
+            JsonArray result = jsonObject.get("Update_CustomerEmail").getAsJsonArray();
+            if (!result.get(0).getAsJsonObject().get("Status").getAsString().equals("1"))
+                this.updateEmail = false;
+            else
+                this.updateEmail = true;
         }else if (jsonObject.has("Update_ResetPw")){
             String result = jsonObject.get("Update_ResetPw").getAsString();
             if (result.equals("Updated"))
@@ -186,5 +200,6 @@ public class CustomerManagerImpl extends AbstractManager implements CustomerMana
         basicInfo = false;
         necessaryInfo = false;
         importantInfo = false;
+        updateEmail = false;
     }
 }

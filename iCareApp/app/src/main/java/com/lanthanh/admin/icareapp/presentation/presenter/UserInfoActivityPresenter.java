@@ -40,6 +40,7 @@ public interface UserInfoActivityPresenter extends Presenter {
     void updateBasicInfo();
     void updateNecessaryInfo();
     void updateImportantInfo();
+    void updateEmail();
     void sendEmailVerifyAcc();
     void onEmailChange(int string);
 }
