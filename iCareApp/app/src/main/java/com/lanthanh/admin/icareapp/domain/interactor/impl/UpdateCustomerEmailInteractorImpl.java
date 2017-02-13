@@ -25,7 +25,7 @@ public class UpdateCustomerEmailInteractorImpl extends AbstractInteractor implem
 
     @Override
     public void run() {
-        boolean result = mCustomerManager.updateCustomerBasicInfo(mUser);
+        boolean result = mCustomerManager.updateCustomerEmail(mUser);
         if (result){
             mMainThread.post(new Runnable() {
                 @Override
