@@ -30,10 +30,10 @@ public interface RegisterActivityPresenter extends Presenter {
     List<Fragment> getVisibleFragments();
     void navigateFragment(int selected);
     void onBackPressed();
-    void navigateToUserInfo(String username, int uistep);
+    void navigateToUserInfo(int id, String uistep);
     void navigateToResetPW();
     void navigateToMainActivity();
     void logIn(String username, String password);
-    void checkUserExistence(String username, String password);
+    void insertCustomer(String username, String password);
     void updateVerifyAcc(String id);
 }

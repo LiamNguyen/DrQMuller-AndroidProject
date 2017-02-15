@@ -38,7 +38,7 @@ import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterActivityPresenter.View{
     public final static String TAG = RegisterActivity.class.getSimpleName();
-    public final static String EXTRA_USERNAME = "username";
+    public final static String EXTRA_ID = "id";
     public final static String EXTRA_UISTEP = "uistep";
     public final static String LOGIN_STATUS = "loginstatus";
     public final static int LOGGED_IN = 1;

@@ -38,6 +38,6 @@ public interface MainActivityPresenter extends Presenter{
     void navigateToBookingActivity();
     void clearLocalStorage();
     SharedPreferences getLocalStorage();
-
+    void cancelAppointment(int appointmentId);
     void updateAppointmentList();
 }

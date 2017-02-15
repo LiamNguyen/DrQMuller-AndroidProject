@@ -13,6 +13,7 @@ import java.util.List;
 
 public class DTOAppointment {
     private ModelUser user;
+    private int id;
     private DTOCountry country;
     private DTOCity city;
     private DTODistrict district;
@@ -28,6 +29,10 @@ public class DTOAppointment {
     public DTOAppointment(){
         appointmentScheduleList = new ArrayList<>();
         status = false;
+    }
+
+    public void setAppointmentId(int id){
+        this.id = id;
     }
 
     public void setCustomer(ModelUser user){
@@ -80,6 +85,10 @@ public class DTOAppointment {
 
     public void addAppointment(DTOAppointmentSchedule appointment){
         appointmentScheduleList.add(appointment);
+    }
+
+    public int getAppointmentId(){
+        return id;
     }
 
     public int getCustomerId(){

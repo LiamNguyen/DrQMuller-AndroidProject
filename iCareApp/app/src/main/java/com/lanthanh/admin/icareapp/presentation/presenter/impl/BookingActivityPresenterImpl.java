@@ -223,6 +223,7 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
 
     @Override
     public void insertAppointment() {
+        mView.showProgress();
         mUser = customerManager.getLocalUserFromPref(sharedPreferences);
         appointment.setCustomer(mUser);
         do{
@@ -252,6 +253,7 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
     @Override
     public void onInsertAppointmentFail() {
         try {
+            mView.hideProgress();
             onError("Insert appointment fail");
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -259,8 +261,9 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
     }
 
     @Override
-    public void onInsertAppointmentSuccess() {
+    public void onInsertAppointmentSuccess(int appointmentId) {
         try {
+            mView.hideProgress();
             //Send mail to staff
             SendEmailNotifyBookingInteractor sendEmailNotifyBookingInteractor = new SendEmailNotifyBookingInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, appointment);
             sendEmailNotifyBookingInteractor.execute();
@@ -270,9 +273,10 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
             if (appointmentsList == null)
                 appointmentsList = new ArrayList<>();
             //Add appointment to a list of appointments
+            appointment.setAppointmentId(appointmentId);
             appointmentsList.add(appointment);
             //Put to shared pref
-            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList);
+            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList, mUser.getID());
             //reset appointment
             appointment = new DTOAppointment();
             //empty cart

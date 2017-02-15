@@ -7,12 +7,12 @@ import java.util.Date;
  */
 
 public class ModelUser {
-    private int id, active, step;
-    private String name, address, gender, email, phone, dob;
+    private int id, active;
+    private String name, address, gender, email, phone, dob, step;
 
     public ModelUser(){};
 
-    public ModelUser(int id, int active, int step, String name, String gender, String dob, String address, String email, String phone){
+    public ModelUser(int id, int active, String step, String name, String gender, String dob, String address, String email, String phone){
         this.id = id;
         this.active = active;
         this.step = step;
@@ -60,7 +60,7 @@ public class ModelUser {
         return active;
     }
 
-    public int getStep() {
+    public String getStep() {
         return step;
     }
 

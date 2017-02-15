@@ -1,10 +1,12 @@
 package com.lanthanh.admin.icareapp.presentation.view.adapter;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import com.lanthanh.admin.icareapp.domain.model.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.view.activity.ConfirmBookingActivity;
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.view.fragment.appointmenttab.AppointmentDialogFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
@@ -79,20 +82,21 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((BodyViewHolder) holder).setStartDate(ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getStartDate()));
             ((BodyViewHolder) holder).setEndDate(ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getExpireDate()));
             ((BodyViewHolder) holder).setStatus(list.get(position - 1).getStatus());
-            ((BodyViewHolder) holder).getView().setOnClickListener(new View.OnClickListener() {
+            final TextView status = ((BodyViewHolder) holder).getStatusTextView();
+            ((BodyViewHolder) holder).getDetailTextView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    TextView txt = (TextView) view.findViewById(R.id.status);
-                    if (txt.getText().toString().equals(ctx.getString(R.string.not_confirm_yet))) {
+                    if (status.getText().toString().equals(ctx.getString(R.string.not_confirm_yet))) {
                         Intent toConfirm = new Intent(ctx, ConfirmBookingActivity.class);
                         ctx.startActivity(toConfirm);
                         ctx.finish();
-                    } else if (txt.getText().toString().equals(ctx.getString(R.string.confirmed))) {
+                    } else if (status.getText().toString().equals(ctx.getString(R.string.confirmed))) {
                         AppointmentDialogFragment frag = new AppointmentDialogFragment();
 
                         //Set information into bundle so that fragment can display
                         Bundle args = new Bundle();
 
+                        args.putInt("appointmentId", list.get(position - 1).getAppointmentId());
                         args.putString("title", ctx.getString(R.string.bill));
                         args.putString("name", list.get(position - 1).getCustomerName());
                         args.putString("address", list.get(position - 1).getLocationName() + ", " + list.get(position - 1).getDistrictName() + ", " + list.get(position - 1).getCityName() + ", " + list.get(position - 1).getCountryName());
@@ -115,6 +119,27 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
                 }
             });
+            ((BodyViewHolder) holder).getCancelAppointmentTextView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(ctx)
+                            .setMessage(ctx.getString(R.string.cancel_confirm))
+                            .setPositiveButton(ctx.getString(R.string.agree_button), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    ((MainActivity) ctx).getMainPresenter().cancelAppointment(list.get(position - 1).getAppointmentId());
+                                }
+                            })
+                            .setNegativeButton(ctx.getString(R.string.abort_button), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setCancelable(true).show();
+                }
+            });
         }
     }
 
@@ -124,12 +149,11 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private class BodyViewHolder extends RecyclerView.ViewHolder {
-        private TextView txt1, txt2, txt3, txt4, txt5, txt3title, txt4title;
-        private View view;
+        private TextView txt1, txt2, txt3, txt4, txt5, txt3title, txt4title, detail, cancel;
 
         BodyViewHolder(View itemView) {
             super(itemView);
-            view = itemView;
+
             //Name
             txt1 = (TextView) itemView.findViewById(R.id.name);
             txt1.setTypeface(font);
@@ -147,6 +171,12 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
             //Status
             txt5 = (TextView) itemView.findViewById(R.id.status);
             txt5.setTypeface(font);
+            //Detail
+            detail = (TextView) itemView.findViewById(R.id.detail_appointment);
+            detail.setTypeface(font);
+            //Cancel
+            cancel = (TextView) itemView.findViewById(R.id.cancel_appointment);
+            cancel.setTypeface(font);
         }
 
         public void setName(String s) {
@@ -197,8 +227,16 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
                 txt5.setText(ctx.getString(R.string.not_confirm_yet));
         }
 
-        public View getView(){
-            return view;
+        public TextView getStatusTextView(){
+            return txt5;
+        }
+
+        public TextView getDetailTextView(){
+            return detail;
+        }
+
+        public TextView getCancelAppointmentTextView(){
+            return cancel;
         }
     }
 

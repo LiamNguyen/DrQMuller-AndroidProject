@@ -8,7 +8,7 @@ import com.lanthanh.admin.icareapp.domain.interactor.base.Interactor;
 
 public interface UpdateAppointmentInteractor extends Interactor {
     interface Callback{
-        void onUpdateAppointmentSuccess(String verificationCode);
+        void onUpdateAppointmentSuccess(int appointmentId);
         void onUpdateAppointmentFail();
     }
 }

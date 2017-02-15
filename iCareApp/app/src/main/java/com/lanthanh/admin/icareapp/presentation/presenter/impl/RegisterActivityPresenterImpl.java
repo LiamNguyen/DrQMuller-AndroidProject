@@ -8,14 +8,11 @@ import android.util.Log;
 
 import com.auth0.jwt.JWTVerifier;
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.domain.interactor.CheckUserExistenceInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.InsertNewCustomerInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.LogInInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.UpdateVerifyAccInteractor;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.CheckUserExistenceInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.InsertNewCustomerInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.LogInInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateVerifyAccInteractorImpl;
@@ -40,7 +37,7 @@ import java.util.Map;
  */
 
 public class RegisterActivityPresenterImpl extends AbstractPresenter implements RegisterActivityPresenter,
-            LogInInteractor.Callback, CheckUserExistenceInteractor.Callback, InsertNewCustomerInteractor.Callback, UpdateVerifyAccInteractor.Callback{
+            LogInInteractor.Callback, InsertNewCustomerInteractor.Callback, UpdateVerifyAccInteractor.Callback{
     public static final String TAG = RegisterActivityPresenterImpl.class.getSimpleName();
     private SharedPreferences sharedPreferences;
     private RegisterActivityPresenter.View mView;
@@ -116,10 +113,10 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
     }
 
     @Override
-    public void navigateToUserInfo(String username, int uiStep) {
+    public void navigateToUserInfo(int id, String uiStep) {
         Bundle extras = new Bundle();
-        extras.putString(RegisterActivity.EXTRA_USERNAME, username);
-        extras.putInt(RegisterActivity.EXTRA_UISTEP, uiStep);
+        extras.putInt(RegisterActivity.EXTRA_ID, id);
+        extras.putString(RegisterActivity.EXTRA_UISTEP, uiStep);
         mView.navigateActivity(UserInfoActivity.class, extras);
     }
 
@@ -147,7 +144,7 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
     }
 
     @Override
-    public void onLogInSuccess(String jwt, String username) {
+    public void onLogInSuccess(String jwt) {
         try {
             mView.hideProgress();
             final JWTVerifier verifier = new JWTVerifier("drmuller");
@@ -155,7 +152,7 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
                 final Map<String, String> jwtClaims = (Map<String, String>) verifier.verify(jwt).get("data");
                 ModelUser user = new ModelUser(Integer.parseInt(jwtClaims.get("userId")),
                         Integer.parseInt(jwtClaims.get("active")),
-                        Integer.parseInt(jwtClaims.get("step")),
+                        jwtClaims.get("step"),
                         jwtClaims.get("userName"),
                         jwtClaims.get("userGender"),
                         jwtClaims.get("userDob"),
@@ -166,7 +163,7 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
                 if (user.getActive() != 0)
                     navigateToMainActivity();
                 else
-                    navigateToUserInfo(username, user.getStep());
+                    navigateToUserInfo(user.getID(), user.getStep());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -176,48 +173,37 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
     }
 
     @Override
-    public void checkUserExistence(String username, String password) {
+    public void insertCustomer(String username, String password) {
         mView.showProgress();
         mView.hideSoftKeyboard();
-        CheckUserExistenceInteractor checkUserExistenceInteractor = new CheckUserExistenceInteractorImpl(mExecutor, mMainThread, this, customerManager, username, password);
-        checkUserExistenceInteractor.execute();
+        InsertNewCustomerInteractor insertNewCustomerInteractor = new InsertNewCustomerInteractorImpl(mExecutor, mMainThread, this, customerManager, username, password);
+        insertNewCustomerInteractor.execute();
     }
 
     @Override
-    public void onUserExist() {
+    public void onInsertCustomerFail(String status) {
         try {
             mView.hideProgress();
-            mView.showError(mView.getStringResource(R.string.username_invalid));
+            if (status.equals("0"))
+                onError("Insert customer fail");
+            else if (status.equals("2"))
+                mView.showError(mView.getStringResource(R.string.username_invalid));
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }
     }
 
     @Override
-    public void onUserNotExist(String username, String password) {
-        try {
-            InsertNewCustomerInteractor insertNewCustomerInteractor = new InsertNewCustomerInteractorImpl(mExecutor, mMainThread, this, customerManager, username, password);
-            insertNewCustomerInteractor.execute();
-        }catch (Exception e){
-            Log.w(TAG, e.toString());
-        }
-    }
-
-    @Override
-    public void onInsertCustomerFail() {
+    public void onInsertCustomerSuccess(String jwt) {
         try {
             mView.hideProgress();
-            onError("Insert customer fail");
-        }catch (Exception e){
-            Log.w(TAG, e.toString());
-        }
-    }
-
-    @Override
-    public void onInsertCustomerSuccess(String username) {
-        try {
-            mView.hideProgress();
-            navigateToUserInfo(username, 0);
+            final JWTVerifier verifier = new JWTVerifier("drmuller");
+            try {
+                final Map<String, String> jwtClaims = (Map<String, String>) verifier.verify(jwt).get("data");
+                navigateToUserInfo(Integer.parseInt(jwtClaims.get("userId")), jwtClaims.get("step"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }

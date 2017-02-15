@@ -36,9 +36,10 @@ import java.util.Set;
 public class AppointmentManagerImpl extends AbstractManager implements AppointmentManager{
     private boolean insertTempBookingResult,
                     removeTempBookingResult,
-                    insertAppointmentResult,
                     updateAppointmentResult,
+                    cancelAppointmentResult,
                     validateAppointmentResult;
+    private int insertAppointmentResult;
 
     public AppointmentManagerImpl(iCareApi api){
         super(api);
@@ -66,7 +67,7 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
     }
 
     @Override
-    public boolean insertAppointment(DTOAppointment dtoAppointment) {
+    public int insertAppointment(DTOAppointment dtoAppointment) {
         mApi.sendPostRequest(this, ModelURL.INSERT_NEWAPPOINTMENT.getUrl(Manager.DB_TYPE),
                 NetworkUtils.getKeys  (CustomerManager.CUSTOMER_ID_KEY, LocationManager.LOCATION_ID_KEY,
                         VoucherManager.VOUCHER_ID_KEY, TypeManager.TYPE_ID_KEY, MachineManager.MACHINE_ID_KEY,
@@ -91,11 +92,19 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
     }
 
     @Override
-    public boolean updateAppointment(int cusId, String verificationCode) {
+    public boolean updateAppointment(int appointmentId) {
         mApi.sendPostRequest(this, ModelURL.UPDATE_APPOINTMENT.getUrl(Manager.DB_TYPE),
-                    NetworkUtils.getKeys  (CustomerManager.CUSTOMER_ID_KEY_2, AppointmentManager.VERIFICATIONCODE_KEY),
-                    NetworkUtils.getValues(Integer.toString(cusId), verificationCode));
+                    NetworkUtils.getKeys  (AppointmentManager.APPOINTMENT_ID_KEY),
+                    NetworkUtils.getValues(Integer.toString(appointmentId)));
         return updateAppointmentResult;
+    }
+
+    @Override
+    public boolean cancelAppointment(int appointmentId) {
+        mApi.sendPostRequest(this, ModelURL.UPDATE_CANCELAPPOINTMENT.getUrl(Manager.DB_TYPE),
+                NetworkUtils.getKeys  (AppointmentManager.APPOINTMENT_ID_KEY),
+                NetworkUtils.getValues(Integer.toString(appointmentId)));
+        return cancelAppointmentResult;
     }
 
     @Override
@@ -119,13 +128,16 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
     }
 
     @Override
-    public void saveLocalAppointmentsToPref(SharedPreferences sharedPreferences, List<DTOAppointment> appointments) {
+    public void saveLocalAppointmentsToPref(SharedPreferences sharedPreferences, List<DTOAppointment> appointments, int userId) {
         Type mapType = new TypeToken<Map<Integer ,String>>(){}.getType();
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Map<Integer, String> appointmentDB = ConverterJson.convertJsonToObject(sharedPreferences.getString("appointmentDB", ""), mapType);
         if (appointmentDB == null)
             appointmentDB = new HashMap<>();
-        appointmentDB.put(appointments.get(0).getCustomerId(), ConverterJson.convertObjectToJson(appointments));
+        if (appointments == null || appointments.size() == 0)
+            appointmentDB.remove(userId);
+        else
+            appointmentDB.put(userId, ConverterJson.convertObjectToJson(appointments));
         editor.putString("appointmentDB", ConverterJson.convertObjectToJson(appointmentDB));
         editor.apply();
         editor.commit();
@@ -143,9 +155,9 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
         if (jsonObject.has("Insert_NewAppointment")){
             JsonArray result = jsonObject.get("Insert_NewAppointment").getAsJsonArray();
             if (result.size() != 0 && result.get(1).getAsJsonObject().get("Status").getAsString().equals("1")){
-                insertAppointmentResult = true;
+                insertAppointmentResult = result.get(0).getAsJsonObject().get("Appointment_ID").getAsInt();
             }else{
-                insertAppointmentResult = false;
+                insertAppointmentResult = 0;
             }
         }else if (jsonObject.has("BookingTransaction")){
             JsonArray result = jsonObject.get("BookingTransaction").getAsJsonArray();
@@ -162,11 +174,18 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
                 removeTempBookingResult = false;
             }
         }else if (jsonObject.has("Update_Appointment")){
-            String result = jsonObject.get("Update_Appointment").getAsString();
-            if (result.equals("Updated")) {
+            JsonArray result = jsonObject.get("Update_Appointment").getAsJsonArray();
+            if (result.size() != 0 && result.get(0).getAsJsonObject().get("Status").getAsString().equals("1")) {
                 updateAppointmentResult = true;
             }else {
                 updateAppointmentResult = false;
+            }
+        }else if (jsonObject.has("Update_CancelAppointment")){
+            JsonArray result = jsonObject.get("Update_CancelAppointment").getAsJsonArray();
+            if (result.size() != 0 && result.get(0).getAsJsonObject().get("Status").getAsString().equals("1")) {
+                cancelAppointmentResult = true;
+            }else {
+                cancelAppointmentResult = false;
             }
         }else if (jsonObject.has("Update_ValidateAppointment")){
             String result = jsonObject.get("Update_ValidateAppointment").getAsString();
@@ -181,10 +200,11 @@ public class AppointmentManagerImpl extends AbstractManager implements Appointme
 
     @Override
     public void resetResult() {
-        insertAppointmentResult = false;
+        insertAppointmentResult = 0;
         insertTempBookingResult = false;
         removeTempBookingResult = false;
         updateAppointmentResult = false;
         validateAppointmentResult = false;
+        cancelAppointmentResult = false;
     }
 }

@@ -24,10 +24,12 @@ public interface CustomerManager extends Manager {
     String CUSTOMER_PHONE_KEY = "phone";
     String CUSTOMER_UPDATE_DATE = "update_date";
     String  logIn(String username, String password);
-    boolean checkUserExistence(String username);
-    boolean insertNewCustomer(String username, String password);
-    int     getCustomerId(String username);
+    String insertNewCustomer(String username, String password);
     boolean updateCustomer(ModelUser user);
+    boolean updateCustomerBasicInfo(ModelUser user);
+    boolean updateCustomerNecessaryInfo(ModelUser user);
+    boolean updateCustomerImpotantInfo(ModelUser user);
+    boolean updateCustomerEmail(ModelUser user);
     boolean updateCustomerPassword(String username, String password);
     boolean updateVerifyAcc(String id);
     ModelUser getLocalUserFromPref(SharedPreferences sharedPreferences);
