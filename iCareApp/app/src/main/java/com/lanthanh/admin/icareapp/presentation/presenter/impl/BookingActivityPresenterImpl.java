@@ -225,11 +225,28 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
     public void insertAppointment() {
         mUser = customerManager.getLocalUserFromPref(sharedPreferences);
         appointment.setCustomer(mUser);
-        appointment.generateVerficationCode();
+        do{
+            appointment.generateVerficationCode();
+        }while (checkVerificationCodeExistence(appointment.getVerficationCode()));
         if (appointment.getStartDate() == null)
             appointment.setStartDate(ConverterForDisplay.convertStringToDate("11-11-1111"));
         InsertAppointmentInteractor insertAppointmentInteractor = new InsertAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointment);
         insertAppointmentInteractor.execute();
+    }
+
+    @Override
+    public boolean checkVerificationCodeExistence(String verificationCode) {
+        //Get appointment from local shared pref
+        List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
+        if (appointmentsList == null)
+            return false;
+        else{
+            for (DTOAppointment appointment: appointmentsList){
+                if (appointment.getVerficationCode().equals(verificationCode))
+                    return true;
+            }
+        }
+        return false;
     }
 
     @Override
