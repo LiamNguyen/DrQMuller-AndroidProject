@@ -76,7 +76,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener, Te
         switch (v.getId()){
             case R.id.su_sign_up_button:
                 if (validUN && validPW && validPWConf) {
-                    registerActivityPresenter.insertCustomer(username.getText().toString().trim(), password.getText().toString());
+                    registerActivityPresenter.register(username.getText().toString().trim(), password.getText().toString());
                 }
                 else {
                     if (!validUN){

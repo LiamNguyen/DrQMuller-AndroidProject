@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
@@ -94,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
                 if (b.containsKey(DeepLinkActivity.TAG)) {
                     Bundle bundle = b.getBundle(DeepLinkActivity.TAG);
                     if (bundle != null)
-                        registerActivityPresenter.updateVerifyAcc(bundle.getString("cus_id"));
+                        registerActivityPresenter.verifyAccount(bundle.getString("cus_id"));
                     else
                         Log.e(TAG, "No data received from DeepLinkActivity");
                 }else if (b.containsKey(ResetPasswordActivity.TAG)){

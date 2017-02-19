@@ -33,7 +33,7 @@ public interface RegisterActivityPresenter extends Presenter {
     void navigateToUserInfo(int id, String uistep);
     void navigateToResetPW();
     void navigateToMainActivity();
-    void logIn(String username, String password);
-    void insertCustomer(String username, String password);
-    void updateVerifyAcc(String id);
+    void login(String username, String password);
+    void register(String username, String password);
+    void verifyAccount(String id);
 }

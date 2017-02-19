@@ -63,7 +63,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.si_sign_in_button:
-                registerActivityPresenter.logIn(username.getText().toString().trim(), password.getText().toString());
+                registerActivityPresenter.login(username.getText().toString().trim(), password.getText().toString());
                 break;
             case R.id.si_forget_pw:
                 registerActivityPresenter.navigateToResetPW();

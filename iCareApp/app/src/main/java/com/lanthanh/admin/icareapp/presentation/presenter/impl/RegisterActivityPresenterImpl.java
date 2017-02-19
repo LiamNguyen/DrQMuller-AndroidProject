@@ -7,8 +7,14 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import com.auth0.jwt.JWTVerifier;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.api.RestClient;
+import com.lanthanh.admin.icareapp.api.impl.RestClientImpl;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
+import com.lanthanh.admin.icareapp.data.service.LoginService;
+import com.lanthanh.admin.icareapp.data.service.RegisterService;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
 import com.lanthanh.admin.icareapp.domain.interactor.InsertNewCustomerInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.LogInInteractor;
@@ -32,12 +38,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.RequestBody;
+
 /**
  * Created by ADMIN on 10-Jan-17.
  */
 
-public class RegisterActivityPresenterImpl extends AbstractPresenter implements RegisterActivityPresenter,
-            LogInInteractor.Callback, InsertNewCustomerInteractor.Callback, UpdateVerifyAccInteractor.Callback{
+public class RegisterActivityPresenterImpl extends AbstractPresenter implements RegisterActivityPresenter{
     public static final String TAG = RegisterActivityPresenterImpl.class.getSimpleName();
     private SharedPreferences sharedPreferences;
     private RegisterActivityPresenter.View mView;
@@ -47,8 +58,18 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
     private SignInFragment signInFragment;
     private SignUpFragment signUpFragment;
 
+    //Service
+    private LoginService loginService;
+    private RegisterService registerService;
+
+    //Rest client
+    private RestClient restClient;
+
+    //Composite disposable
+    private CompositeDisposable compositeDisposable;
+
     public RegisterActivityPresenterImpl(SharedPreferences sharedPreferences, Executor executor, MainThread mainThread, View view,
-                                         FragmentManager fragmentManager, CustomerManager customerManager){
+                                         FragmentManager fragmentManager, CustomerManager customerManager) {
         super(executor, mainThread);
         mView = view;
         this.sharedPreferences = sharedPreferences;
@@ -57,10 +78,19 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
         init();
     }
 
-    public void init(){
+    public void init() {
+        //Init fragment
         chooseFragment = new ChooseFragment();
         signInFragment = new SignInFragment();
         signUpFragment = new SignUpFragment();
+
+        //Init rest client
+        restClient = RestClientImpl.getRestClient();
+        //Init service
+        loginService = restClient.createService(LoginService.class);
+        registerService = restClient.createService(RegisterService.class);
+        //Init composite disposable
+        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
@@ -80,14 +110,14 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
 
     @Override
     public void onBackPressed() {
-        if (chooseFragment.isVisible()){
+        if (chooseFragment.isVisible()) {
             mView.backToHomeScreen();
-        }else
+        } else
             navigateFragment(RegisterActivity.CHOOSE);
     }
 
     @Override
-    public List<Fragment> getVisibleFragments(){
+    public List<Fragment> getVisibleFragments() {
         // We have 3 fragments, so initialize the arrayList to 3 to optimize memory
         List<Fragment> result = new ArrayList<>(3);
 
@@ -125,114 +155,185 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
         mView.navigateActivity(ResetPasswordActivity.class);
     }
 
+    /*=================== USE CASES ===================*/
+
     @Override
-    public void logIn(String username, String password) {
+    public void login(String username, String password) {
         mView.showProgress();
         mView.hideSoftKeyboard();
-        LogInInteractor logInInteractor = new LogInInteractorImpl(mExecutor, mMainThread, this, customerManager, username, password);
-        logInInteractor.execute();
+        RequestBody body = restClient.createRequestBody(new String[]{"username", "password"}, new String[]{username, password});
+        compositeDisposable.add(
+                loginService.login(body)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<JsonObject>() {
+                            String result;
+
+                            @Override
+                            public void onNext(JsonObject jsonObject) {
+                                try {
+                                    JsonArray array = jsonObject.getAsJsonArray("Select_ToAuthenticate");
+                                    if (array.get(0).getAsJsonObject().get("Status").getAsString().equals("0"))
+                                        result = LoginService.Status.UNAUTHORIZED;
+                                    else
+                                        result = array.get(1).getAsJsonObject().get("jwt").getAsString();
+                                } catch (Exception e) {
+                                    result = LoginService.Status.INTERNAL_ERROR;
+                                    Log.e(TAG, "Login status: onNext -> " + LoginService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e(TAG, "Login status: onError -> " + LoginService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                RegisterActivityPresenterImpl.this.mView.hideProgress();
+                                if (result.equals(LoginService.Status.UNAUTHORIZED) || result.equals(LoginService.Status.INTERNAL_ERROR)) {
+                                    if (result.equals(LoginService.Status.UNAUTHORIZED)) {
+                                        RegisterActivityPresenterImpl.this.mView.showError("Tên Đăng Nhập Hoặc Mật Khẩu Sai");
+                                    }
+                                } else {
+                                    final JWTVerifier verifier = new JWTVerifier("drmuller");
+                                    try {
+                                        final Map<String, String> jwtClaims = (Map<String, String>) verifier.verify(result).get("data");
+                                        ModelUser user = new ModelUser(Integer.parseInt(jwtClaims.get("userId")),
+                                                Integer.parseInt(jwtClaims.get("active")),
+                                                jwtClaims.get("step"),
+                                                jwtClaims.get("userName"),
+                                                jwtClaims.get("userGender"),
+                                                jwtClaims.get("userDob"),
+                                                jwtClaims.get("userAddress"),
+                                                jwtClaims.get("userEmail"),
+                                                jwtClaims.get("userPhone"));
+                                        customerManager.saveLocalUserToPref(sharedPreferences, user);
+                                        if (user.getActive() != 0)
+                                            navigateToMainActivity();
+                                        else
+                                            navigateToUserInfo(user.getID(), user.getStep());
+                                        Log.i(TAG, "Login status: onComplete -> " + LoginService.Status.SUCCESS);
+                                    } catch (Exception e) {
+                                        Log.e(TAG, "Login status: onComplete -> " + LoginService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        })
+
+        );
     }
 
     @Override
-    public void onLogInFail() {
-        try {
-            mView.hideProgress();
-            mView.showError("Tên Đăng Nhập Hoặc Mật Khẩu Sai");
-        }catch (Exception e){
-            Log.w(TAG, e.toString());
-        }
-    }
-
-    @Override
-    public void onLogInSuccess(String jwt) {
-        try {
-            mView.hideProgress();
-            final JWTVerifier verifier = new JWTVerifier("drmuller");
-            try {
-                final Map<String, String> jwtClaims = (Map<String, String>) verifier.verify(jwt).get("data");
-                ModelUser user = new ModelUser(Integer.parseInt(jwtClaims.get("userId")),
-                        Integer.parseInt(jwtClaims.get("active")),
-                        jwtClaims.get("step"),
-                        jwtClaims.get("userName"),
-                        jwtClaims.get("userGender"),
-                        jwtClaims.get("userDob"),
-                        jwtClaims.get("userAddress"),
-                        jwtClaims.get("userEmail"),
-                        jwtClaims.get("userPhone"));
-                customerManager.saveLocalUserToPref(sharedPreferences, user);
-                if (user.getActive() != 0)
-                    navigateToMainActivity();
-                else
-                    navigateToUserInfo(user.getID(), user.getStep());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }catch (Exception e){
-            Log.w(TAG, e.toString());
-        }
-    }
-
-    @Override
-    public void insertCustomer(String username, String password) {
+    public void register(String username, String password) {
         mView.showProgress();
         mView.hideSoftKeyboard();
-        InsertNewCustomerInteractor insertNewCustomerInteractor = new InsertNewCustomerInteractorImpl(mExecutor, mMainThread, this, customerManager, username, password);
-        insertNewCustomerInteractor.execute();
+        RequestBody body = restClient.createRequestBody(new String[]{"username", "password"}, new String[]{username, password});
+        compositeDisposable.add(
+                registerService.register(body)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<JsonObject>() {
+                            String result;
+
+                            @Override
+                            public void onNext(JsonObject jsonObject) {
+                                try {
+                                    JsonArray array = jsonObject.getAsJsonArray("Insert_NewCustomer");
+                                    if (array.get(0).getAsJsonObject().get("Status").getAsString().equals("0"))
+                                        result = RegisterService.Status.INTERNAL_ERROR;
+                                    else if (array.get(0).getAsJsonObject().get("Status").getAsString().equals("2"))
+                                        result = RegisterService.Status.EXISTED;
+                                    else
+                                        result = array.get(1).getAsJsonObject().get("jwt").getAsString();
+                                } catch (Exception e) {
+                                    result = RegisterService.Status.INTERNAL_ERROR;
+                                    Log.e(TAG, "Register status: onNext -> " + RegisterService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e(TAG, "Register status: onError -> " + RegisterService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                RegisterActivityPresenterImpl.this.mView.hideProgress();
+                                if (result.equals(RegisterService.Status.EXISTED) || result.equals(RegisterService.Status.INTERNAL_ERROR)) {
+                                    if (result.equals(RegisterService.Status.EXISTED)) {
+                                        RegisterActivityPresenterImpl.this.mView.showError(mView.getStringResource(R.string.username_invalid));
+                                    }
+                                } else {
+                                    final JWTVerifier verifier = new JWTVerifier("drmuller");
+                                    try {
+                                        final Map<String, String> jwtClaims = (Map<String, String>) verifier.verify(result).get("data");
+                                        navigateToUserInfo(Integer.parseInt(jwtClaims.get("userId")), jwtClaims.get("step"));
+                                        Log.i(TAG, "Register status: onComplete -> " + RegisterService.Status.SUCCESS);
+                                    } catch (Exception e) {
+                                        Log.e(TAG, "Register status: onComplete -> " + LoginService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        })
+
+        );
     }
 
     @Override
-    public void onInsertCustomerFail(String status) {
-        try {
-            mView.hideProgress();
-            if (status.equals("0"))
-                onError("Insert customer fail");
-            else if (status.equals("2"))
-                mView.showError(mView.getStringResource(R.string.username_invalid));
-        }catch (Exception e){
-            Log.w(TAG, e.toString());
-        }
-    }
-
-    @Override
-    public void onInsertCustomerSuccess(String jwt) {
-        try {
-            mView.hideProgress();
-            final JWTVerifier verifier = new JWTVerifier("drmuller");
-            try {
-                final Map<String, String> jwtClaims = (Map<String, String>) verifier.verify(jwt).get("data");
-                navigateToUserInfo(Integer.parseInt(jwtClaims.get("userId")), jwtClaims.get("step"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }catch (Exception e){
-            Log.w(TAG, e.toString());
-        }
-    }
-
-    @Override
-    public void updateVerifyAcc(String id) {
+    public void verifyAccount(String id) {
         mView.showProgress();
-        UpdateVerifyAccInteractor updateVerifyAccInteractor = new UpdateVerifyAccInteractorImpl(mExecutor, mMainThread, this, customerManager, id);
-        updateVerifyAccInteractor.execute();
-    }
+        mView.hideSoftKeyboard();
+        RequestBody body = restClient.createRequestBody(new String[]{"cus_id"}, new String[]{id});
+        compositeDisposable.add(
+                registerService.verifyAccount(body)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<JsonObject>() {
+                            String result;
 
-    @Override
-    public void onUpdateVerifyAccFail() {
-        try {
-            mView.hideProgress();
-            mView.showAlertDialog(R.string.verify_fail);
-        }catch (Exception e){
-            Log.w(TAG, e.toString());
-        }
-    }
+                            @Override
+                            public void onNext(JsonObject jsonObject) {
+                                try {
+                                    result = jsonObject.get("Update_VerifyAcc").getAsString();
+                                    if (result.equals("Updated"))
+                                        result = RegisterService.Status.SUCCESS;
+                                    else
+                                        result = RegisterService.Status.FAILED;
+                                } catch (Exception e) {
+                                    result = RegisterService.Status.INTERNAL_ERROR;
+                                    Log.e(TAG, "Register status: onNext -> " + RegisterService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                    e.printStackTrace();
+                                }
+                            }
 
-    @Override
-    public void onUpdateVerifyAccSuccess() {
-        try {
-            mView.hideProgress();
-            mView.showAlertDialog(R.string.verify_success);
-        }catch (Exception e){
-            Log.w(TAG, e.toString());
-        }
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e(TAG, "Register status: onError -> " + RegisterService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                RegisterActivityPresenterImpl.this.mView.hideProgress();
+                                if (result.equals(RegisterService.Status.INTERNAL_ERROR)) {
+                                    Log.e(TAG, "Register status: onComplete -> " + result);
+                                } else if (result.equals(RegisterService.Status.FAILED)) {
+                                    mView.showAlertDialog(R.string.verify_fail);
+                                    Log.e(TAG, "Register status: onComplete -> " + result);
+                                } else {
+                                    mView.showAlertDialog(R.string.verify_success);
+                                    Log.i(TAG, "Register status: onComplete -> " + result);
+                                }
+                            }
+                        })
+
+        );
     }
 }
