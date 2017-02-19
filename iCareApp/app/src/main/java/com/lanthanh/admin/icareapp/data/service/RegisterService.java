@@ -11,7 +11,7 @@ import retrofit2.http.POST;
  * Created by ADMIN on 19-Feb-17.
  */
 
-public interface RegisterService {
+public interface RegisterService extends Service {
     @POST("Insert_NewCustomer.php")
     Observable<JsonObject> register(@Body RequestBody body);
 
@@ -27,10 +27,6 @@ public interface RegisterService {
     @POST("Update_ImportantInfo1.php")
     Observable<JsonObject> updateImportantInfo(@Body RequestBody body);
 
-    class Status{
-        public final static String SUCCESS = "success";
-        public final static String EXISTED = "existed";
-        public final static String FAILED = "failed";
-        public final static String INTERNAL_ERROR = "internal_error";
-    }
+    @POST("Update_CustomerEmail.php")
+    Observable<JsonObject> updateEmail(@Body RequestBody body);
 }

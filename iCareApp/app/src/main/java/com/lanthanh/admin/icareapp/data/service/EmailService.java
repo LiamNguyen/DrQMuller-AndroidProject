@@ -11,7 +11,7 @@ import retrofit2.http.POST;
  * Created by ADMIN on 19-Feb-17.
  */
 
-public interface LoginService extends Service {
-    @POST("Select_ToAuthenticate.php")
-    Observable<JsonObject> login(@Body RequestBody body);
+public interface EmailService extends Service{
+    @POST("SendEmail_VerifyAcc")
+    Observable<JsonObject> sendEmailVerifyAcc(@Body RequestBody body);
 }

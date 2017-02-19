@@ -15,6 +15,7 @@ import com.lanthanh.admin.icareapp.api.impl.RestClientImpl;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.data.service.LoginService;
 import com.lanthanh.admin.icareapp.data.service.RegisterService;
+import com.lanthanh.admin.icareapp.data.service.Service;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
 import com.lanthanh.admin.icareapp.domain.interactor.InsertNewCustomerInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.LogInInteractor;
@@ -174,27 +175,27 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
                                 try {
                                     JsonArray array = jsonObject.getAsJsonArray("Select_ToAuthenticate");
                                     if (array.get(0).getAsJsonObject().get("Status").getAsString().equals("0"))
-                                        result = LoginService.Status.UNAUTHORIZED;
+                                        result = Service.Status.UNAUTHORIZED;
                                     else
                                         result = array.get(1).getAsJsonObject().get("jwt").getAsString();
                                 } catch (Exception e) {
-                                    result = LoginService.Status.INTERNAL_ERROR;
-                                    Log.e(TAG, "Login status: onNext -> " + LoginService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                    result = Service.Status.INTERNAL_ERROR;
+                                    Log.e(TAG, "Login status: onNext -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
                                     e.printStackTrace();
                                 }
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                Log.e(TAG, "Login status: onError -> " + LoginService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                Log.e(TAG, "Login status: onError -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
                                 e.printStackTrace();
                             }
 
                             @Override
                             public void onComplete() {
                                 RegisterActivityPresenterImpl.this.mView.hideProgress();
-                                if (result.equals(LoginService.Status.UNAUTHORIZED) || result.equals(LoginService.Status.INTERNAL_ERROR)) {
-                                    if (result.equals(LoginService.Status.UNAUTHORIZED)) {
+                                if (result.equals(Service.Status.UNAUTHORIZED) || result.equals(Service.Status.INTERNAL_ERROR)) {
+                                    if (result.equals(Service.Status.UNAUTHORIZED)) {
                                         RegisterActivityPresenterImpl.this.mView.showError("Tên Đăng Nhập Hoặc Mật Khẩu Sai");
                                     }
                                 } else {
@@ -215,9 +216,9 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
                                             navigateToMainActivity();
                                         else
                                             navigateToUserInfo(user.getID(), user.getStep());
-                                        Log.i(TAG, "Login status: onComplete -> " + LoginService.Status.SUCCESS);
+                                        Log.i(TAG, "Login status: onComplete -> " + Service.Status.SUCCESS);
                                     } catch (Exception e) {
-                                        Log.e(TAG, "Login status: onComplete -> " + LoginService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                        Log.e(TAG, "Login status: onComplete -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
                                         e.printStackTrace();
                                     }
                                 }
@@ -244,29 +245,29 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
                                 try {
                                     JsonArray array = jsonObject.getAsJsonArray("Insert_NewCustomer");
                                     if (array.get(0).getAsJsonObject().get("Status").getAsString().equals("0"))
-                                        result = RegisterService.Status.INTERNAL_ERROR;
+                                        result = Service.Status.INTERNAL_ERROR;
                                     else if (array.get(0).getAsJsonObject().get("Status").getAsString().equals("2"))
-                                        result = RegisterService.Status.EXISTED;
+                                        result = Service.Status.EXISTED;
                                     else
                                         result = array.get(1).getAsJsonObject().get("jwt").getAsString();
                                 } catch (Exception e) {
-                                    result = RegisterService.Status.INTERNAL_ERROR;
-                                    Log.e(TAG, "Register status: onNext -> " + RegisterService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                    result = Service.Status.INTERNAL_ERROR;
+                                    Log.e(TAG, "Register status: onNext -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
                                     e.printStackTrace();
                                 }
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                Log.e(TAG, "Register status: onError -> " + RegisterService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                Log.e(TAG, "Register status: onError -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
                                 e.printStackTrace();
                             }
 
                             @Override
                             public void onComplete() {
                                 RegisterActivityPresenterImpl.this.mView.hideProgress();
-                                if (result.equals(RegisterService.Status.EXISTED) || result.equals(RegisterService.Status.INTERNAL_ERROR)) {
-                                    if (result.equals(RegisterService.Status.EXISTED)) {
+                                if (result.equals(Service.Status.EXISTED) || result.equals(Service.Status.INTERNAL_ERROR)) {
+                                    if (result.equals(Service.Status.EXISTED)) {
                                         RegisterActivityPresenterImpl.this.mView.showError(mView.getStringResource(R.string.username_invalid));
                                     }
                                 } else {
@@ -274,9 +275,9 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
                                     try {
                                         final Map<String, String> jwtClaims = (Map<String, String>) verifier.verify(result).get("data");
                                         navigateToUserInfo(Integer.parseInt(jwtClaims.get("userId")), jwtClaims.get("step"));
-                                        Log.i(TAG, "Register status: onComplete -> " + RegisterService.Status.SUCCESS);
+                                        Log.i(TAG, "Register status: onComplete -> " + Service.Status.SUCCESS);
                                     } catch (Exception e) {
-                                        Log.e(TAG, "Register status: onComplete -> " + LoginService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                        Log.e(TAG, "Register status: onComplete -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
                                         e.printStackTrace();
                                     }
                                 }
@@ -303,28 +304,28 @@ public class RegisterActivityPresenterImpl extends AbstractPresenter implements 
                                 try {
                                     result = jsonObject.get("Update_VerifyAcc").getAsString();
                                     if (result.equals("Updated"))
-                                        result = RegisterService.Status.SUCCESS;
+                                        result = Service.Status.SUCCESS;
                                     else
-                                        result = RegisterService.Status.FAILED;
+                                        result = Service.Status.FAILED;
                                 } catch (Exception e) {
-                                    result = RegisterService.Status.INTERNAL_ERROR;
-                                    Log.e(TAG, "Register status: onNext -> " + RegisterService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                    result = Service.Status.INTERNAL_ERROR;
+                                    Log.e(TAG, "Register status: onNext -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
                                     e.printStackTrace();
                                 }
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                Log.e(TAG, "Register status: onError -> " + RegisterService.Status.INTERNAL_ERROR + "\n" + e.toString());
+                                Log.e(TAG, "Register status: onError -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
                                 e.printStackTrace();
                             }
 
                             @Override
                             public void onComplete() {
                                 RegisterActivityPresenterImpl.this.mView.hideProgress();
-                                if (result.equals(RegisterService.Status.INTERNAL_ERROR)) {
+                                if (result.equals(Service.Status.INTERNAL_ERROR)) {
                                     Log.e(TAG, "Register status: onComplete -> " + result);
-                                } else if (result.equals(RegisterService.Status.FAILED)) {
+                                } else if (result.equals(Service.Status.FAILED)) {
                                     mView.showAlertDialog(R.string.verify_fail);
                                     Log.e(TAG, "Register status: onComplete -> " + result);
                                 } else {
