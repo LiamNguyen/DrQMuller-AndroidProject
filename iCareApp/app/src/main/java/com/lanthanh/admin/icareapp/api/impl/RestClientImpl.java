@@ -2,7 +2,9 @@ package com.lanthanh.admin.icareapp.api.impl;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.lanthanh.admin.icareapp.api.RestClient;
+import com.lanthanh.admin.icareapp.utils.NetworkUtils;
 
+import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -12,6 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestClientImpl implements RestClient {
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final Retrofit retrofit;
     private static RestClientImpl restClient;
 
@@ -31,11 +34,12 @@ public class RestClientImpl implements RestClient {
 
     @Override
     public <T> T createService(Class<T> classOfT) {
-        return null;
+        return retrofit.create(classOfT);
     }
 
     @Override
     public RequestBody createRequestBody(String[] keys, String[] values) {
-        return null;
+        String json = NetworkUtils.convertJsonData(keys, values);
+        return RequestBody.create(JSON, json);
     }
 }
