@@ -6,7 +6,6 @@ import com.lanthanh.admin.icareapp.data.manager.LocationManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
 import com.lanthanh.admin.icareapp.domain.model.DTOLocation;
 import com.lanthanh.admin.icareapp.threading.MainThread;
-import com.lanthanh.admin.icareapp.domain.interactor.GetAllLocationsByDistrictInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.base.AbstractInteractor;
 
 import java.util.List;

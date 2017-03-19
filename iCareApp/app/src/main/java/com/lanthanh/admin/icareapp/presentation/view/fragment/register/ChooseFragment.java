@@ -12,64 +12,77 @@ import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.RegisterActivityPresenter;
+import com.lanthanh.admin.icareapp.presentation.presenter.base.Presenter;
+import com.lanthanh.admin.icareapp.presentation.presenter.impl.RegisterActivityPresenterImpl;
 import com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity;
+import com.lanthanh.admin.icareapp.presentation.view.fragment.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import okhttp3.RequestBody;
 
 /**
  * Created by ADMIN on 18-Oct-16.
  */
 
-public class ChooseFragment extends Fragment implements View.OnClickListener{
-    private RegisterActivityPresenter registerActivityPresenter;
+public class ChooseFragment extends BaseFragment implements View.OnClickListener{
+    @BindView(R.id.wel_log_in_button) private AppCompatButton logInButton;
+    @BindView(R.id.wel_sign_up_button) private AppCompatButton signUpButton;
+    @BindView(R.id.wel_text) private TextView welcomeText;
+    private Unbinder unbinder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_register_choose, container, false);
+        unbinder = ButterKnife.bind(this, view);
 
-        init();
-
-        //Log In Button
-        AppCompatButton log_in_button = (AppCompatButton) view.findViewById(R.id.wel_log_in_button);
-        log_in_button.setOnClickListener(this);
-
-        //Sign Up Button
-        AppCompatButton sign_up_button = (AppCompatButton) view.findViewById(R.id.wel_sign_up_button);
-        sign_up_button.setOnClickListener(this);
-
-        //Welcome text
-        TextView wel_txt = (TextView) view.findViewById(R.id.wel_text);
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_WELCOME);
-        wel_txt.setTypeface(font);
-        Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
-        log_in_button.setTypeface(font2);
-        sign_up_button.setTypeface(font2);
+        initViews();
 
         return view;
     }
 
-    public void init() {
-        registerActivityPresenter = ((RegisterActivity) getActivity()).getMainPresenter();
+    @Override
+    public void initViews(){
+        ((RegisterActivity) getActivity()).showToolbar(false);
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_WELCOME);
+        Typeface font_light = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
+        welcomeText.setTypeface(font);
+        signUpButton.setTypeface(font_light);
+        logInButton.setTypeface(font_light);
+        logInButton.setOnClickListener(this);
+        signUpButton.setOnClickListener(this);
+    }
+
+    @Override
+    public RegisterActivityPresenterImpl getMainPresenter(){
+        return ((RegisterActivity) getActivity()).getMainPresenter();
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible())
-            ((RegisterActivity) getActivity()).isToolBarHidden(true);
-        else
-            ((RegisterActivity) getActivity()).isToolBarHidden(false);
+            ((RegisterActivity) getActivity()).showToolbar(false);
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.wel_log_in_button:
-                registerActivityPresenter.navigateFragment(RegisterActivity.LOG_IN);
+                getMainPresenter().navigateFragment(LogInFragment.class);
                 break;
             case R.id.wel_sign_up_button:
-                registerActivityPresenter.navigateFragment(RegisterActivity.SIGN_UP);
+                getMainPresenter().navigateFragment(SignUpFragment.class);
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 }

@@ -27,15 +27,19 @@ import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.presentation.presenter.RegisterActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.impl.RegisterActivityPresenterImpl;
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.view.fragment.register.ChooseFragment;
 import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by ADMIN on 17-Oct-16.
  */
 
-public class RegisterActivity extends AppCompatActivity implements RegisterActivityPresenter.View{
+public class RegisterActivity extends BaseActivity{
     public final static String TAG = RegisterActivity.class.getSimpleName();
     public final static String EXTRA_ID = "id";
     public final static String EXTRA_UISTEP = "uistep";
@@ -45,21 +49,18 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
     public final static int CHOOSE = 0;
     public final static int LOG_IN = 1;
     public final static int SIGN_UP = 2;
-    private RegisterActivityPresenter registerActivityPresenter;
-    private Toolbar toolBar;
-    private ProgressBar progressBar;
-    private NetworkController networkController;
+    private RegisterActivityPresenterImpl registerActivityPresenter;
+
+    @BindView(R.id.toolbar) private Toolbar toolBar;
+    @BindView(R.id.progressbar) private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ButterKnife.bind(this);
 
         init();
-
-        //Init view
-        toolBar = (Toolbar) findViewById(R.id.toolbar);
-        progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
         //Set up for Toolbar
         setSupportActionBar(toolBar);
@@ -68,16 +69,15 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //ChooseFragment as default -> hide ToolBar
-        registerActivityPresenter.navigateFragment(CHOOSE);
-        toolBar.setVisibility(View.GONE);
+        if (savedInstanceState == null){
+            //ChooseFragment as default -> hide ToolBar
+            registerActivityPresenter.navigateFragment(ChooseFragment.class);
+        }
+
     }
 
     public void init(){
-        registerActivityPresenter = new RegisterActivityPresenterImpl(getSharedPreferences("content", Context.MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this,
-                    getSupportFragmentManager(), new CustomerManagerImpl(iCareApiImpl.getAPI()));
-        //Init controllers
-        networkController = new NetworkController(this);
+        registerActivityPresenter = new RegisterActivityPresenterImpl(this);
     }
 
     @Override
@@ -137,31 +137,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
         return getString(id);
     }
 
-    @Override
-    public void hideFragments(FragmentTransaction ft, List<Fragment> visibleFrags) {
-        for (Fragment fragment : visibleFrags) {
-            ft.hide(fragment);
-        }
-    }
 
-    @Override
-    public void showFragment(FragmentManager fm, Fragment f, List<Fragment> visibleFrags) {
-        hideProgress();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                                                /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                                                        R.anim.slide_in_left, R.anim.slide_out_right);*/
-        //Hide all current visible fragment
-        hideFragments(fragmentTransaction, visibleFrags);
-
-        if (!f.isAdded()){
-            fragmentTransaction.add(R.id.wel_fragment_container, f, f.getClass().getName());
-        }else{
-            fragmentTransaction.show(f);
-        }
-
-        fragmentTransaction.addToBackStack(null).commit();
-        hideSoftKeyboard();
-    }
 
     @Override
     public void navigateActivity(Class activityClass) {
@@ -201,7 +177,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
         toast.show();
     }
 
-    @Override
     public void showAlertDialog(int id) {
         new AlertDialog.Builder(this)
                 .setMessage(getString(id))
@@ -212,25 +187,14 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
                 }).setCancelable(false).show();
     }
 
-    //Hide SoftKeyBoard when needed
-    @Override
-    public void hideSoftKeyboard(){
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
     //Hide/show tool bar
-    public void isToolBarHidden(boolean hidden){
-        if (hidden)
-            toolBar.setVisibility(View.GONE);
-        else
+    public void showToolbar(boolean shouldShow){
+        if (shouldShow)
             toolBar.setVisibility(View.VISIBLE);
+        else
+            toolBar.setVisibility(View.GONE);
     }
 
-    @Override
     public void backToHomeScreen() {
         hideProgress();
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);
@@ -244,8 +208,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
         registerActivityPresenter.onBackPressed();
     }
 
-    @Override
-    public RegisterActivityPresenter getMainPresenter() {
+    public RegisterActivityPresenterImpl getMainPresenter() {
         return registerActivityPresenter;
     }
 }

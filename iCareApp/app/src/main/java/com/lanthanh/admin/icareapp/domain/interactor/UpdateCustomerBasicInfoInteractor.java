@@ -1,14 +1,40 @@
 package com.lanthanh.admin.icareapp.domain.interactor;
 
-import com.lanthanh.admin.icareapp.domain.interactor.base.Interactor;
+import com.google.gson.JsonObject;
+
+import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
+
+import io.reactivex.Observable;
 
 /**
- * Created by ADMIN on 12-Feb-17.
+ * @author longv
+ * Created on 19-Mar-17.
  */
 
-public interface UpdateCustomerBasicInfoInteractor extends Interactor{
-    interface Callback{
-        void onUpdateBasicInfoSuccess();
-        void onUpdateBasicInfoFail();
+public class UpdateCustomerBasicInfoInteractor extends BaseInteractor<JsonObject, UpdateCustomerBasicInfoInteractor.Params>{
+    private WelcomeRepository welcomeRepository;
+
+    public UpdateCustomerBasicInfoInteractor(WelcomeRepository welcomeRepository){
+        super();
+        this.welcomeRepository = welcomeRepository;
     }
+
+    @Override
+    Observable<JsonObject> buildUseCaseObservable(Params params) {
+        return welcomeRepository.updateCustomerBasicInfo(params.name, params.address);
+    }
+
+    public static final class Params {
+        private String name, address;
+
+        private Params(String name, String address){
+            this.name = name;
+            this.address = address;
+        }
+
+        public static Params forUpdateCustomerBasicInfo(String name, String address){
+            return new Params(name, address);
+        }
+    }
+
 }

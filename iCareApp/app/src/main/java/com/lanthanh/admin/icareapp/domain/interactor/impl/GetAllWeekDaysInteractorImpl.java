@@ -1,9 +1,7 @@
 package com.lanthanh.admin.icareapp.domain.interactor.impl;
 
-import com.lanthanh.admin.icareapp.data.manager.VoucherManager;
 import com.lanthanh.admin.icareapp.data.manager.WeekDayManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.domain.interactor.GetAllWeekDaysInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.base.AbstractInteractor;
 import com.lanthanh.admin.icareapp.domain.model.DTOWeekDay;
 import com.lanthanh.admin.icareapp.threading.MainThread;

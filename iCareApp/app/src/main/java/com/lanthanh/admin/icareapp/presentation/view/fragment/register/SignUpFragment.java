@@ -2,7 +2,6 @@ package com.lanthanh.admin.icareapp.presentation.view.fragment.register;
 
 import android.graphics.Typeface;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatButton;
@@ -14,174 +13,167 @@ import android.view.ViewGroup;
 
 import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.presenter.RegisterActivityPresenter;
+import com.lanthanh.admin.icareapp.presentation.presenter.impl.RegisterActivityPresenterImpl;
 import com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity;
+import com.lanthanh.admin.icareapp.presentation.view.fragment.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
+
+import butterknife.BindView;
 
 /**
  * Created by ADMIN on 19-Oct-16.
  */
 
-public class SignUpFragment extends Fragment implements View.OnClickListener, TextWatcher {
-    private TextInputEditText username;
-    private TextInputEditText password;
-    private TextInputEditText password_confirm;
-    private TextInputLayout username_container;
-    private TextInputLayout password_container;
-    private TextInputLayout password_confirm_container;
+public class SignUpFragment extends BaseFragment implements View.OnClickListener {
+    @BindView(R.id.su_username_input) private TextInputEditText editUsername;
+    @BindView(R.id.su_password_input) private TextInputEditText editPassword;
+    @BindView(R.id.su_password_confirm_input) private TextInputEditText editPasswordConfirm;
+    @BindView(R.id.su_username_container) private TextInputLayout editUsernameContainer;
+    @BindView(R.id.su_password_container) private TextInputLayout editPasswordContainer;
+    @BindView(R.id.su_password_confirm_container) private TextInputLayout editPasswordConfirmContainer;
+    @BindView(R.id.su_sign_up_button) private AppCompatButton signUpButton;
     private boolean validUN, validPW, validPWConf;
-    private RegisterActivityPresenter registerActivityPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_register_signup, container, false);
 
-        init();
-
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
-
-        AppCompatButton sign_up_button = (AppCompatButton) view.findViewById(R.id.su_sign_up_button);
-        sign_up_button.setOnClickListener(this);
-        sign_up_button.setTypeface(font);
-
-        username = (TextInputEditText) view.findViewById(R.id.su_username_input);
-        username.addTextChangedListener(this);
-        username.setTypeface(font);
-        password = (TextInputEditText) view.findViewById(R.id.su_password_input);
-        password.addTextChangedListener(this);
-        password.setTypeface(font);
-        password_confirm = (TextInputEditText) view.findViewById(R.id.su_password_confirm_input);
-        password_confirm.addTextChangedListener(this);
-        password_confirm.setTypeface(font);
-
-        username_container = (TextInputLayout) view.findViewById(R.id.su_username_container);
-        username_container.setTypeface(font);
-        password_container = (TextInputLayout) view.findViewById(R.id.su_password_container);
-        password_container.setTypeface(font);
-        password_confirm_container = (TextInputLayout) view.findViewById(R.id.su_password_confirm_container);
-        password_confirm_container.setTypeface(font);
+        initViews();
+        validUN = false; validPW = false; validPWConf = false;
 
         return view;
     }
 
-    public void init(){
-        registerActivityPresenter = ((RegisterActivity) getActivity()).getMainPresenter();
-        validUN = false;
-        validPW = false;
-        validPWConf = false;
+    @Override
+    public void initViews() {
+        //Custom font
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
+        signUpButton.setTypeface(font);
+        editUsername.setTypeface(font);
+        editPassword.setTypeface(font);
+        editPasswordConfirm.setTypeface(font);
+        editUsernameContainer.setTypeface(font);
+        editPasswordContainer.setTypeface(font);
+        editPasswordConfirmContainer.setTypeface(font);
+
+        signUpButton.setOnClickListener(this);
+
+        editUsername.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable editable) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                String username = editUsername.toString().trim();
+                if (!username.equals("")){
+                    if (username.matches(ModelInputRequirement.USERNAME)) {
+                        editUsername.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                        editUsernameContainer.setErrorEnabled(false);
+                        validUN = true;
+                    } else {
+                        editUsername.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, R.drawable.ic_invalid_input, 0);
+                        validUN = false;
+                    }
+                }
+                else {
+                    editUsername.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, 0, 0);
+                    validUN = false;
+                }
+            }
+        });
+        editPassword.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable editable) {}
+
+            @Override public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                String password = editPassword.toString();
+                if (!password.equals("")){
+                    if (password.matches(ModelInputRequirement.PASSWORD)) {
+                        editPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                        editPasswordContainer.setErrorEnabled(false);
+                        validPW = true;
+                    }
+                    else{
+                        editPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0 , R.drawable.ic_invalid_input, 0);
+                        validPW = false;
+                    }
+                    if (!editPasswordConfirm.getText().toString().isEmpty()) {
+                        if (!password.equals(editPasswordConfirm.getText().toString())) {
+                            editPasswordConfirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_invalid_input, 0);
+                            validPWConf = false;
+                        } else {
+                            editPasswordConfirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                            validPWConf = true;
+                        }
+                    }
+                }
+                else{
+                    editPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0 , 0, 0);
+                    validPW = false;
+                }
+            }
+        });
+        editPasswordConfirm.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable editable) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                String passwordConfirm = editPasswordConfirm.toString();
+                if (!passwordConfirm.equals("")){
+                    if (passwordConfirm.equals(editPassword.getText().toString())) {
+                        editPasswordConfirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                        editPasswordConfirmContainer.setErrorEnabled(false);
+                        validPWConf = true;
+                    }
+                    else{
+                        editPasswordConfirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0 , R.drawable.ic_invalid_input, 0);
+                        validPWConf = false;
+                    }
+                }
+                else{
+                    editPasswordConfirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0 , 0, 0);
+                    validPWConf = false;
+                }
+            }
+        });
+    }
+
+    @Override
+    public RegisterActivityPresenterImpl getMainPresenter() {
+        return ((RegisterActivity) getActivity()).getMainPresenter();
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.su_sign_up_button:
-                if (validUN && validPW && validPWConf) {
-                    registerActivityPresenter.register(username.getText().toString().trim(), password.getText().toString());
-                }
-                else {
-                    if (!validUN){
-                        if (username.getText().toString().equals(""))
-                            username_container.setError(getString(R.string.username_null));
-                        else
-                            username_container.setError(getString(R.string.username_requirement));
-                        username_container.setErrorEnabled(true);
-                    }
-
-                    if (!validPW){
-                        if (password.getText().toString().equals(""))
-                            password_container.setError(getString(R.string.password_null));
-                        else
-                            password_container.setError(getString(R.string.password_requirement));
-                        password_container.setErrorEnabled(true);
-                    }
-
-                    if (!validPWConf){
-                        if (password_confirm.getText().toString().equals(""))
-                            password_confirm_container.setError(getString(R.string.password_confirm_null));
-                        else
-                            password_confirm_container.setError(getString(R.string.password_confirm_requirement));
-                        password_confirm_container.setErrorEnabled(true);
-                    }
-                }
-                ((RegisterActivity) getActivity()).hideSoftKeyboard();
-                break;
-            default:
-                break;
+        if (validUN && validPW && validPWConf) {
+            getMainPresenter().signup(editUsername.getText().toString().trim(), editPassword.getText().toString());
         }
-    }
+        else {
+            if (!validUN){
+                if (editUsername.getText().toString().equals(""))
+                    editUsernameContainer.setError(getString(R.string.username_null));
+                else
+                    editUsernameContainer.setError(getString(R.string.username_requirement));
+                editUsernameContainer.setErrorEnabled(true);
+            }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (!validPW){
+                if (editPassword.getText().toString().equals(""))
+                    editPasswordContainer.setError(getString(R.string.password_null));
+                else
+                    editPasswordContainer.setError(getString(R.string.password_requirement));
+                editPasswordContainer.setErrorEnabled(true);
+            }
 
-    }
-
-    //Check user input by input to see whether it meets the requirements of login id or password
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (username.getText().hashCode() == s.hashCode()){ //Check username
-            String get_username = s.toString().trim();
-            if (!get_username.equals("")){
-                if (get_username.matches(ModelInputRequirement.USERNAME)) {
-                    username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, R.drawable.ic_valid_input, 0);
-                    username_container.setErrorEnabled(false);
-                    validUN = true;
-                } else {
-                    username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, R.drawable.ic_invalid_input, 0);
-                    validUN = false;
-                }
-            }
-            else {
-                username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, 0, 0);
-                validUN = false;
-            }
-        } else if (password.getText().hashCode() == s.hashCode()){ //Check password
-            String get_pw = s.toString();
-            if (!get_pw.equals("")){
-                if (get_pw.matches(ModelInputRequirement.PASSWORD)) {
-                    password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0, R.drawable.ic_valid_input, 0);
-                    password_container.setErrorEnabled(false);
-                    validPW = true;
-                }
-                else{
-                    password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0 , R.drawable.ic_invalid_input, 0);
-                    validPW = false;
-                }
-                if (!password_confirm.getText().toString().isEmpty()) {
-                    if (!get_pw.equals(password_confirm.getText().toString())) {
-                        password_confirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_invalid_input, 0);
-                        validPWConf = false;
-                    } else {
-                        password_confirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_valid_input, 0);
-                        validPWConf = true;
-                    }
-                }
-            }
-            else{
-                password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0 , 0, 0);
-                validPW = false;
-            }
-        } else if (password_confirm.getText().hashCode() == s.hashCode()){ //Check password
-            String pwconf = s.toString();
-            if (!pwconf.equals("")){
-                if (pwconf.equals(password.getText().toString())) {
-                    password_confirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_valid_input, 0);
-                    password_confirm_container.setErrorEnabled(false);
-                    validPWConf = true;
-                }
-                else{
-                    password_confirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0 , R.drawable.ic_invalid_input, 0);
-                    validPWConf = false;
-                }
-            }
-            else{
-                password_confirm.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0 , 0, 0);
-                validPWConf = false;
+            if (!validPWConf){
+                if (editPasswordConfirm.getText().toString().equals(""))
+                    editPasswordConfirmContainer.setError(getString(R.string.password_confirm_null));
+                else
+                    editPasswordConfirmContainer.setError(getString(R.string.password_confirm_requirement));
+                editPasswordConfirmContainer.setErrorEnabled(true);
             }
         }
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
+        ((RegisterActivity) getActivity()).hideSoftKeyboard();
     }
 }

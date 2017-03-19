@@ -1,7 +1,7 @@
-package com.lanthanh.admin.icareapp.api.impl;
+package com.lanthanh.admin.icareapp.data.restapi.impl;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.lanthanh.admin.icareapp.api.RestClient;
+import com.lanthanh.admin.icareapp.data.restapi.RestClient;
 import com.lanthanh.admin.icareapp.utils.NetworkUtils;
 
 import okhttp3.MediaType;

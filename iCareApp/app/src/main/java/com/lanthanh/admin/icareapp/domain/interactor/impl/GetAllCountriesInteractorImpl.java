@@ -2,7 +2,6 @@ package com.lanthanh.admin.icareapp.domain.interactor.impl;
 
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
 import com.lanthanh.admin.icareapp.threading.MainThread;
-import com.lanthanh.admin.icareapp.domain.interactor.GetAllCountriesInteractor;
 import com.lanthanh.admin.icareapp.data.manager.CountryManager;
 import com.lanthanh.admin.icareapp.domain.interactor.base.AbstractInteractor;
 import com.lanthanh.admin.icareapp.domain.model.DTOCountry;

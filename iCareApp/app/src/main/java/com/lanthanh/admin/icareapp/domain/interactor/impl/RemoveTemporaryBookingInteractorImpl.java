@@ -2,9 +2,7 @@ package com.lanthanh.admin.icareapp.domain.interactor.impl;
 
 import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.domain.interactor.RemoveTemporaryBookingInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.base.AbstractInteractor;
-import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.threading.MainThread;
 

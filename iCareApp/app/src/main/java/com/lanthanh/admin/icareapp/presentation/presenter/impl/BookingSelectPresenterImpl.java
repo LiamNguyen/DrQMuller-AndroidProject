@@ -11,12 +11,6 @@ import com.lanthanh.admin.icareapp.data.manager.VoucherManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.threading.MainThread;
-import com.lanthanh.admin.icareapp.domain.interactor.GetAllCitiesByCountryInteractor;
-import com.lanthanh.admin.icareapp.domain.interactor.GetAllCountriesInteractor;
-import com.lanthanh.admin.icareapp.domain.interactor.GetAllDistrictsByCityInteractor;
-import com.lanthanh.admin.icareapp.domain.interactor.GetAllLocationsByDistrictInteractor;
-import com.lanthanh.admin.icareapp.domain.interactor.GetAllTypesInteractor;
-import com.lanthanh.admin.icareapp.domain.interactor.GetAllVouchersInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.GetAllCitiesByCountryInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.GetAllCountriesInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.GetAllDistrictsByCityInteractorImpl;
@@ -33,7 +27,6 @@ import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.presenter.BookingSelectPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.base.AbstractPresenter;
 
-import java.util.Calendar;
 import java.util.List;
 
 /**

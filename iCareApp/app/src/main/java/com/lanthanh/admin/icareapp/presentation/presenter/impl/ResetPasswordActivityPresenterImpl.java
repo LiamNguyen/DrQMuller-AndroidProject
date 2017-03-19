@@ -10,8 +10,6 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.data.manager.SendEmailManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.domain.interactor.SendEmailResetPasswordInteractor;
-import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerPasswordInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.SendEmailResetPasswordInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateCustomerPasswordInteractorImpl;
 import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityPresenter;

@@ -4,7 +4,6 @@ import com.lanthanh.admin.icareapp.data.manager.TypeManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
 import com.lanthanh.admin.icareapp.domain.model.DTOType;
 import com.lanthanh.admin.icareapp.threading.MainThread;
-import com.lanthanh.admin.icareapp.domain.interactor.GetAllTypesInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.base.AbstractInteractor;
 
 import java.util.List;

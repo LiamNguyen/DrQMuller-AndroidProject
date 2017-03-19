@@ -5,11 +5,9 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
 import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateCustomerInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;

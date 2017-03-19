@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
-import com.lanthanh.admin.icareapp.domain.interactor.CancelAppointmentInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.impl.CancelAppointmentInteractorImpl;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 import com.lanthanh.admin.icareapp.presentation.view.activity.BookingActivity;

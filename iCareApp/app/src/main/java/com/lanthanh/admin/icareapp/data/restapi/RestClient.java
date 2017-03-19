@@ -1,4 +1,4 @@
-package com.lanthanh.admin.icareapp.api;
+package com.lanthanh.admin.icareapp.data.restapi;
 
 import okhttp3.RequestBody;
 
