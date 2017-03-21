@@ -32,7 +32,7 @@ public class CityManagerImpl extends AbstractManager implements CityManager{
                                         NetworkUtils.getKeys(CountryManager.COUNTRY_ID_KEY),
                                         NetworkUtils.getValues(Integer.toString(id)));
         mApi.sendGetRequest(this, url);
-        return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOCity.class);
+        return ConverterJson.convertGsonToObjectList(jsonArray, DTOCity.class);
     }
 
     @Override

@@ -22,4 +22,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+    public void showToast(String msg){
+
+    }
 }

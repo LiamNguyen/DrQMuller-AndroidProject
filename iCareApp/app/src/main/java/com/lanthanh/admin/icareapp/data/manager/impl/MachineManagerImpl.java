@@ -1,7 +1,5 @@
 package com.lanthanh.admin.icareapp.data.manager.impl;
 
-import android.util.JsonReader;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.api.iCareApi;
@@ -34,7 +32,7 @@ public class MachineManagerImpl extends AbstractManager implements MachineManage
                                         NetworkUtils.getKeys(LocationManager.LOCATION_ID_KEY),
                                         NetworkUtils.getValues(Integer.toString(id)));
         mApi.sendGetRequest(this, url);
-        return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOMachine.class);
+        return ConverterJson.convertGsonToObjectList(jsonArray, DTOMachine.class);
     }
 
     @Override

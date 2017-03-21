@@ -32,7 +32,7 @@ public class TimeManagerImpl extends AbstractManager implements TimeManager{
     public List<DTOTime> getAllTime() {
         URL url =  NetworkUtils.buildUrl(ModelURL.SELECT_ALLTIMEINADAY.getUrl(Manager.DB_TYPE), null, null);
         mApi.sendGetRequest(this, url);
-        return ConverterJson.convertGsonObjectToObjectList(allTimeJsonArray, DTOTime.class);
+        return ConverterJson.convertGsonToObjectList(allTimeJsonArray, DTOTime.class);
     }
 
     @Override
@@ -41,14 +41,14 @@ public class TimeManagerImpl extends AbstractManager implements TimeManager{
                                               NetworkUtils.getKeys(WeekDayManager.DAY_ID_KEY, LocationManager.LOCATION_ID_KEY, MachineManager.MACHINE_ID_KEY),
                                               NetworkUtils.getValues(Integer.toString(dayId), Integer.toString(locationId), Integer.toString(machineId)));
         mApi.sendGetRequest(this, url);
-        return ConverterJson.convertGsonObjectToObjectList(selectedTimeJsonArray, DTOTime.class);
+        return ConverterJson.convertGsonToObjectList(selectedTimeJsonArray, DTOTime.class);
     }
 
     @Override
     public List<DTOTime> getAllEcoTime() {
         URL url =  NetworkUtils.buildUrl(ModelURL.SELECT_ECOTIME.getUrl(Manager.DB_TYPE), null, null);
         mApi.sendGetRequest(this, url);
-        return ConverterJson.convertGsonObjectToObjectList(ecoTimeJsonArray, DTOTime.class);
+        return ConverterJson.convertGsonToObjectList(ecoTimeJsonArray, DTOTime.class);
     }
 
     @Override

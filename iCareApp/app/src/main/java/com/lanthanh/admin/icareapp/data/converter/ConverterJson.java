@@ -26,11 +26,11 @@ public class ConverterJson {
         return gson.fromJson(json, typeOfT);
     }
 
-    public static <T> T convertGsonObjectToObject(JsonElement json, Class<T> classOfT){
+    public static <T> T convertGsonToObject(JsonElement json, Class<T> classOfT){
         return gson.fromJson(json, classOfT);
     }
 
-    public static <T> List<T> convertGsonObjectToObjectList(JsonArray jsonArray, Class<T> classOfT){
+    public static <T> List<T> convertGsonToObjectList(JsonArray jsonArray, Class<T> classOfT){
         if (jsonArray == null || jsonArray.size() == 0)
             return null;
 

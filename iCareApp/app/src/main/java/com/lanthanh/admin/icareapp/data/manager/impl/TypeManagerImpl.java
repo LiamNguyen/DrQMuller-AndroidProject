@@ -29,7 +29,7 @@ public class TypeManagerImpl extends AbstractManager implements TypeManager {
     public List<DTOType> getAllTypes() {
         URL url = NetworkUtils.buildUrl(ModelURL.SELECT_TYPES.getUrl(Manager.DB_TYPE), null, null);
         mApi.sendGetRequest(this, url);
-        return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOType.class);
+        return ConverterJson.convertGsonToObjectList(jsonArray, DTOType.class);
     }
 
     @Override

@@ -32,7 +32,7 @@ public class LocationManagerImpl extends AbstractManager implements LocationMana
                                         NetworkUtils.getKeys(DistrictManager.DISTRICT_ID_KEY),
                                         NetworkUtils.getValues(Integer.toString(id)));
         mApi.sendGetRequest(this, url);
-        return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTOLocation.class);
+        return ConverterJson.convertGsonToObjectList(jsonArray, DTOLocation.class);
     }
 
     @Override

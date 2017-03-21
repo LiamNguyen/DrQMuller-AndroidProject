@@ -32,7 +32,7 @@ public class DistrictManagerImpl extends AbstractManager implements DistrictMana
                                         NetworkUtils.getKeys(CityManager.CITY_ID_KEY),
                                         NetworkUtils.getValues(Integer.toString(id)));
         mApi.sendGetRequest(this, url);
-        return ConverterJson.convertGsonObjectToObjectList(jsonArray, DTODistrict.class);
+        return ConverterJson.convertGsonToObjectList(jsonArray, DTODistrict.class);
     }
 
     @Override

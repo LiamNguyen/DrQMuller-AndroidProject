@@ -5,19 +5,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
-import com.auth0.jwt.JWTVerifier;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
 import com.lanthanh.admin.icareapp.data.repository.WelcomeRepositoryImpl;
-import com.lanthanh.admin.icareapp.data.restapi.RestClient;
-import com.lanthanh.admin.icareapp.data.restapi.impl.RestClientImpl;
-import com.lanthanh.admin.icareapp.data.restapi.service.iCareService;
-import com.lanthanh.admin.icareapp.data.service.Service;
 import com.lanthanh.admin.icareapp.domain.interactor.LogInInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.SignUpInteractor;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
-import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
+import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
 import com.lanthanh.admin.icareapp.presentation.presenter.base.Presenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity;
@@ -29,13 +25,6 @@ import com.lanthanh.admin.icareapp.presentation.view.fragment.register.SignUpFra
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.RequestBody;
 
 /**
  * Created by ADMIN on 10-Jan-17.
@@ -134,46 +123,51 @@ public class RegisterActivityPresenterImpl extends Presenter{
     }
 
     public void login(String username, String password){
+        String[] errorCode = new String[1];
         new LogInInteractor(welcomeRepository).execute(
-                new DisposableObserver<JsonObject>() {
-                    @Override
-                    public void onNext(JsonObject jsonObject) {
-
+            resp -> {
+                UserInfo userInfo;
+                if (resp.has("Select_ToAuthenticate")) {
+                    userInfo = ConverterJson.convertGsonToObject(resp.getAsJsonArray("Select_ToAuthenticate").getAsJsonObject(), UserInfo.class);
+                } else {
+                    Log.e(this.getClass().getName(), "onNext in login: Invalid response from server");
+                }
+            },
+            error -> {
+                if (error instanceof HttpException){
+                    JsonObject errorResp = ConverterJson.convertJsonToObject(((HttpException) error).message(), JsonObject.class);
+                    if (errorResp.has("Select_ToAuthenticate")) {
+                        errorCode[0] = errorResp.getAsJsonArray("Select_ToAuthenticate")
+                                             .getAsJsonObject()
+                                             .get("errorCode").getAsString();
+                    } else {
+                        Log.e(this.getClass().getName(), "onError in login: Invalid response from server");
                     }
-
-                    @Override
-                    public void onError(Throwable e) {
-
+                }
+            },
+            () -> {
+                if (errorCode[0] == null){
+                    //Login succeeded-> navigate to main activity
+                } else {
+                    //Login failed
+                    if (errorCode[0].equals("pattern-fail")) {
+                        //Invalid username submitted
+                        Log.e(this.getClass().getName(), "Invalid username submitted...Check user's input requirement again");
+                    } else if (errorCode[0].equals("invalid-username-or-password")) {
+                        //Invalid username or password
                     }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                },
-                LogInInteractor.Params.forLogin(username, password)
+                }
+            },
+            LogInInteractor.Params.forLogin(username, password)
         );
     }
 
     public void signup(String username, String password){
         new SignUpInteractor(welcomeRepository).execute(
-                new DisposableObserver<JsonObject>() {
-                    @Override
-                    public void onNext(JsonObject jsonObject) {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                },
-                SignUpInteractor.Params.forSignUp(username, password)
+            resp -> {},
+            error -> {},
+            () -> {},
+            SignUpInteractor.Params.forSignUp(username, password)
         );
     }
 

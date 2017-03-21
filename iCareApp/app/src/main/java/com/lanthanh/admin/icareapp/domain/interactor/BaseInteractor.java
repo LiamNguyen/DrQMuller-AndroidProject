@@ -3,7 +3,10 @@ package com.lanthanh.admin.icareapp.domain.interactor;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -21,12 +24,12 @@ public abstract class BaseInteractor<T, Params> {
 
     abstract Observable<T> buildUseCaseObservable(Params params);
 
-    public void execute(DisposableObserver<T> observer, Params params){
+    public void execute(Consumer<T> onNext, Consumer<Throwable> onError, Action onComplete, Params params){
         disposables.add(
             this.buildUseCaseObservable(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(observer)
+                .subscribe(onNext, onError, onComplete)
         );
     }
 
