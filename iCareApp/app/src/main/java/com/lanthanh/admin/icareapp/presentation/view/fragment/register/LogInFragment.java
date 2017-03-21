@@ -18,22 +18,26 @@ import com.lanthanh.admin.icareapp.presentation.view.fragment.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by ADMIN on 17-Oct-16.
  */
 
 public class LogInFragment extends BaseFragment implements View.OnClickListener{
-    @BindView(R.id.si_username_input) private TextInputEditText editUsername;
-    @BindView(R.id.si_password_input) private TextInputEditText editPassword;
-    @BindView(R.id.si_sign_in_button) private AppCompatButton logInButton;
-    @BindView(R.id.si_forget_pw) private TextView forgetPwText;
-    @BindView(R.id.si_username_container) private TextInputLayout editUsernameContainer;
-    @BindView(R.id.si_password_container) private TextInputLayout editPasswordContainer;
+    @BindView(R.id.si_username_input) TextInputEditText editUsername;
+    @BindView(R.id.si_password_input) TextInputEditText editPassword;
+    @BindView(R.id.si_sign_in_button) AppCompatButton logInButton;
+    @BindView(R.id.si_forget_pw) TextView forgetPwText;
+    @BindView(R.id.si_username_container) TextInputLayout editUsernameContainer;
+    @BindView(R.id.si_password_container) TextInputLayout editPasswordContainer;
+    private Unbinder unbinder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_register_signin, container, false);
+        unbinder = ButterKnife.bind(this, view);
 
         initViews();
 
@@ -42,6 +46,7 @@ public class LogInFragment extends BaseFragment implements View.OnClickListener{
 
     @Override
     public void initViews() {
+        ((RegisterActivity) getActivity()).showToolbar(true);
         //Custom font
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
         logInButton.setTypeface(font);
@@ -56,8 +61,22 @@ public class LogInFragment extends BaseFragment implements View.OnClickListener{
     }
 
     @Override
+    public void resetViews() {
+        editUsername.setText("");
+        editPassword.setText("");
+    }
+
+    @Override
     public RegisterActivityPresenterImpl getMainPresenter() {
         return ((RegisterActivity) getActivity()).getMainPresenter();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden && isVisible())
+            ((RegisterActivity) getActivity()).showToolbar(true);
+        else
+            resetViews();
     }
 
     @Override
@@ -67,9 +86,15 @@ public class LogInFragment extends BaseFragment implements View.OnClickListener{
                 getMainPresenter().login(editUsername.getText().toString().trim(), editPassword.getText().toString());
                 break;
             case R.id.si_forget_pw:
-                getMainPresenter().navigateToResetPW();
+                //getMainPresenter().navigateToResetPW();
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 }

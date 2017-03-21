@@ -19,24 +19,28 @@ import com.lanthanh.admin.icareapp.presentation.view.fragment.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by ADMIN on 19-Oct-16.
  */
 
 public class SignUpFragment extends BaseFragment implements View.OnClickListener {
-    @BindView(R.id.su_username_input) private TextInputEditText editUsername;
-    @BindView(R.id.su_password_input) private TextInputEditText editPassword;
-    @BindView(R.id.su_password_confirm_input) private TextInputEditText editPasswordConfirm;
-    @BindView(R.id.su_username_container) private TextInputLayout editUsernameContainer;
-    @BindView(R.id.su_password_container) private TextInputLayout editPasswordContainer;
-    @BindView(R.id.su_password_confirm_container) private TextInputLayout editPasswordConfirmContainer;
-    @BindView(R.id.su_sign_up_button) private AppCompatButton signUpButton;
+    @BindView(R.id.su_username_input) TextInputEditText editUsername;
+    @BindView(R.id.su_password_input) TextInputEditText editPassword;
+    @BindView(R.id.su_password_confirm_input) TextInputEditText editPasswordConfirm;
+    @BindView(R.id.su_username_container) TextInputLayout editUsernameContainer;
+    @BindView(R.id.su_password_container) TextInputLayout editPasswordContainer;
+    @BindView(R.id.su_password_confirm_container) TextInputLayout editPasswordConfirmContainer;
+    @BindView(R.id.su_sign_up_button) AppCompatButton signUpButton;
     private boolean validUN, validPW, validPWConf;
+    private Unbinder unbinder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_register_signup, container, false);
+        unbinder = ButterKnife.bind(this, view);
 
         initViews();
         validUN = false; validPW = false; validPWConf = false;
@@ -46,6 +50,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void initViews() {
+        ((RegisterActivity) getActivity()).showToolbar(true);
         //Custom font
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
         signUpButton.setTypeface(font);
@@ -140,6 +145,21 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
     }
 
     @Override
+    public void resetViews() {
+        editUsername.setText("");
+        editPassword.setText("");
+        editPasswordConfirm.setText("");
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden && isVisible())
+            ((RegisterActivity) getActivity()).showToolbar(true);
+        else
+            resetViews();
+    }
+
+    @Override
     public RegisterActivityPresenterImpl getMainPresenter() {
         return ((RegisterActivity) getActivity()).getMainPresenter();
     }
@@ -175,5 +195,11 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
             }
         }
         ((RegisterActivity) getActivity()).hideSoftKeyboard();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 }

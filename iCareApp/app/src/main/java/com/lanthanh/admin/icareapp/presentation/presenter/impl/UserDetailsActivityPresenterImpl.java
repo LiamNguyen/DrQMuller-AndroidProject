@@ -8,7 +8,6 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateCustomerInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
@@ -25,8 +24,7 @@ import java.util.List;
  * Created by ADMIN on 11-Jan-17.
  */
 
-public class UserDetailsActivityPresenterImpl extends AbstractPresenter implements UserDetailsActivityPresenter,
-             UpdateCustomerInteractor.Callback {
+public class UserDetailsActivityPresenterImpl extends AbstractPresenter implements UserDetailsActivityPresenter {
     public static final String TAG = UserDetailsActivityPresenterImpl.class.getSimpleName();
     private UserDetailsActivityPresenter.View mView;
     private FragmentManager fragmentManager;
@@ -137,11 +135,10 @@ public class UserDetailsActivityPresenterImpl extends AbstractPresenter implemen
 
     @Override
     public void updateCustomer() {
-        UpdateCustomerInteractor updateCustomerInteractor = new UpdateCustomerInteractorImpl(mExecutor, mMainThread, this, customerManager, mUser);
-        updateCustomerInteractor.execute();
+//        UpdateCustomerInteractor updateCustomerInteractor = new UpdateCustomerInteractorImpl(mExecutor, mMainThread, this, customerManager, mUser);
+//        updateCustomerInteractor.execute();
     }
 
-    @Override
     public void onUpdateCustomerFail() {
         try {
             onError("Update customer fail");
@@ -150,7 +147,6 @@ public class UserDetailsActivityPresenterImpl extends AbstractPresenter implemen
         }
     }
 
-    @Override
     public void onUpdateCustomerSuccess() {
         try {
             customerManager.saveLocalUserToPref(sharedPreferences, mUser);

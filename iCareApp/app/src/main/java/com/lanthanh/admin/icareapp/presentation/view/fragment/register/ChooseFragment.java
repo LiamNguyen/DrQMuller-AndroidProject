@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.RegisterActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.base.Presenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.impl.RegisterActivityPresenterImpl;
@@ -28,9 +29,9 @@ import okhttp3.RequestBody;
  */
 
 public class ChooseFragment extends BaseFragment implements View.OnClickListener{
-    @BindView(R.id.wel_log_in_button) private AppCompatButton logInButton;
-    @BindView(R.id.wel_sign_up_button) private AppCompatButton signUpButton;
-    @BindView(R.id.wel_text) private TextView welcomeText;
+    @BindView(R.id.wel_log_in_button) AppCompatButton logInButton;
+    @BindView(R.id.wel_sign_up_button) AppCompatButton signUpButton;
+    @BindView(R.id.wel_text) TextView welcomeText;
     private Unbinder unbinder;
 
     @Override
@@ -54,6 +55,9 @@ public class ChooseFragment extends BaseFragment implements View.OnClickListener
         logInButton.setOnClickListener(this);
         signUpButton.setOnClickListener(this);
     }
+
+    @Override
+    public void resetViews() {}
 
     @Override
     public RegisterActivityPresenterImpl getMainPresenter(){

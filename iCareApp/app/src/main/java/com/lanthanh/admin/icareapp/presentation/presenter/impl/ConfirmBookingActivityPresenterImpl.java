@@ -7,7 +7,6 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateAppointmentInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 import com.lanthanh.admin.icareapp.presentation.presenter.ConfirmBookingActivityPresenter;
@@ -21,8 +20,7 @@ import java.util.List;
  * Created by ADMIN on 11-Jan-17.
  */
 
-public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter implements ConfirmBookingActivityPresenter,
-             UpdateAppointmentInteractor.Callback {
+public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter implements ConfirmBookingActivityPresenter {
     public static final String TAG = ConfirmBookingActivityPresenterImpl.class.getSimpleName();
     private SharedPreferences sharedPreferences;
     private AppointmentManager appointmentManager;
@@ -68,12 +66,11 @@ public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter imple
             mView.hideProgress();
             mView.showError(mView.getStringResource(R.string.wrong_code));
         }else {
-            UpdateAppointmentInteractor updateAppointmentInteractor = new UpdateAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointmentId);
-            updateAppointmentInteractor.execute();
+//            UpdateAppointmentInteractor updateAppointmentInteractor = new UpdateAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointmentId);
+//            updateAppointmentInteractor.execute();
         }
     }
 
-    @Override
     public void onUpdateAppointmentFail() {
         try {
             mView.hideProgress();
@@ -83,7 +80,6 @@ public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter imple
         }
     }
 
-    @Override
     public void onUpdateAppointmentSuccess(int appointmentId) {
         try {
             mView.hideProgress();

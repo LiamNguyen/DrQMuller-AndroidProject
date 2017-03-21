@@ -10,8 +10,6 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.data.manager.SendEmailManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.SendEmailResetPasswordInteractorImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateCustomerPasswordInteractorImpl;
 import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.base.AbstractPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.ResetPasswordActivity;
@@ -26,8 +24,7 @@ import java.util.List;
  * Created by ADMIN on 12-Jan-17.
  */
 
-public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implements ResetPasswordActivityPresenter,
-        SendEmailResetPasswordInteractor.Callback, UpdateCustomerPasswordInteractor.Callback {
+public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implements ResetPasswordActivityPresenter{
     public static final String TAG = ResetPasswordActivityPresenterImpl.class.getSimpleName();
     private ResetPasswordActivityPresenter.View mView;
     private SendEmailManager sendEmailManager;
@@ -89,11 +86,10 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
     @Override
     public void sendEmailToResetPassword(String username) {
         mView.showProgress();
-        SendEmailResetPasswordInteractor sendEmailResetPasswordInteractor = new SendEmailResetPasswordInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, username);
-        sendEmailResetPasswordInteractor.execute();
+//        SendEmailResetPasswordInteractor sendEmailResetPasswordInteractor = new SendEmailResetPasswordInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, username);
+//        sendEmailResetPasswordInteractor.execute();
     }
 
-    @Override
     public void onEmailResetPasswordNotSent() {
         try {
             mView.hideProgress();
@@ -103,7 +99,6 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
         }
     }
 
-    @Override
     public void onUsernameOrEmailNotFound() {
         try {
             mView.hideProgress();
@@ -113,7 +108,6 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
         }
     }
 
-    @Override
     public void onEmailResetPasswordSent() {
         try {
             mView.hideProgress();
@@ -126,11 +120,10 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
     @Override
     public void updateCustomerPassword(String username, String password) {
         mView.showProgress();
-        UpdateCustomerPasswordInteractor updateCustomerPasswordInteractor = new UpdateCustomerPasswordInteractorImpl(mExecutor, mMainThread, this, customerManager, username, password);
-        updateCustomerPasswordInteractor.execute();
+//        UpdateCustomerPasswordInteractor updateCustomerPasswordInteractor = new UpdateCustomerPasswordInteractorImpl(mExecutor, mMainThread, this, customerManager, username, password);
+//        updateCustomerPasswordInteractor.execute();
     }
 
-    @Override
     public void onResetPasswordFail() {
         try {
             mView.hideProgress();
@@ -140,7 +133,6 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
         }
     }
 
-    @Override
     public void onResetPasswordSuccess() {
         try {
             mView.hideProgress();

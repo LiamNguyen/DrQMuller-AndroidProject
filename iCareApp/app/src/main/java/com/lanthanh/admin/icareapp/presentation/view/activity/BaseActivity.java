@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 /**
  * @author longv
@@ -11,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
+    private Toast toast;
 
     /**
      * This method is used for hiding soft keyboard if it is visible
@@ -24,6 +26,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void showToast(String msg){
-
+        toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+        //In case the toast is showing, cancel it
+        //toast.cancel();
+        //Set new test to the toast and show
+        //toast.setText(msg);
+        toast.show();
     }
 }

@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.CancelAppointmentInteractorImpl;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 import com.lanthanh.admin.icareapp.presentation.view.activity.BookingActivity;
 import com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity;
@@ -29,7 +28,7 @@ import java.util.List;
  * Created by ADMIN on 31-Dec-16.
  */
 
-public class MainActivityPresenterImpl extends AbstractPresenter implements MainActivityPresenter, CancelAppointmentInteractor.Callback{
+public class MainActivityPresenterImpl extends AbstractPresenter implements MainActivityPresenter{
     public static final String TAG = MainActivityPresenterImpl.class.getSimpleName();
     private MainActivityPresenter.View mView;
     private ModelUser mUser;
@@ -150,11 +149,10 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
     @Override
     public void cancelAppointment(int appointmentId) {
         mView.showProgress();
-        CancelAppointmentInteractor cancelAppointmentInteractor = new CancelAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointmentId);
-        cancelAppointmentInteractor.execute();
+//        CancelAppointmentInteractor cancelAppointmentInteractor = new CancelAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointmentId);
+//        cancelAppointmentInteractor.execute();
     }
 
-    @Override
     public void onCancelAppointmentFail() {
         try {
             mView.hideProgress();
@@ -164,7 +162,6 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
         }
     }
 
-    @Override
     public void onCancelAppointmentSuccess(int appointmentId) {
         try {
             mView.hideProgress();

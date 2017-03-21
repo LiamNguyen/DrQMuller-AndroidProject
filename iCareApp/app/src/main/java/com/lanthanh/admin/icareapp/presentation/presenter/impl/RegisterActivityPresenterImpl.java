@@ -14,6 +14,7 @@ import com.lanthanh.admin.icareapp.domain.interactor.LogInInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.SignUpInteractor;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
+import com.lanthanh.admin.icareapp.presentation.presenter.base.AbstractPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.base.Presenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity;
@@ -26,11 +27,13 @@ import com.lanthanh.admin.icareapp.presentation.view.fragment.register.SignUpFra
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Response;
+
 /**
  * Created by ADMIN on 10-Jan-17.
  */
 
-public class RegisterActivityPresenterImpl extends Presenter{
+public class RegisterActivityPresenterImpl implements Presenter{
     public static final String TAG = RegisterActivityPresenterImpl.class.getSimpleName();
     private ChooseFragment chooseFragment;
     private LogInFragment logInFragment;
@@ -102,71 +105,116 @@ public class RegisterActivityPresenterImpl extends Presenter{
         fragmentTransaction.addToBackStack(null).commit();
     }
 
-    @Override
-    public void navigateToMainActivity() {
-        Bundle extras = new Bundle();
-        extras.putInt(RegisterActivity.LOGIN_STATUS, RegisterActivity.LOGGED_IN);
-        mView.navigateActivity(MainActivity.class, extras);
-    }
-
-    @Override
-    public void navigateToUserInfo(int id, String uiStep) {
-        Bundle extras = new Bundle();
-        extras.putInt(RegisterActivity.EXTRA_ID, id);
-        extras.putString(RegisterActivity.EXTRA_UISTEP, uiStep);
-        mView.navigateActivity(UserInfoActivity.class, extras);
-    }
-
-    @Override
-    public void navigateToResetPW() {
-        mView.navigateActivity(ResetPasswordActivity.class);
-    }
+//
+//    public void navigateToMainActivity() {
+//        Bundle extras = new Bundle();
+//        extras.putInt(RegisterActivity.LOGIN_STATUS, RegisterActivity.LOGGED_IN);
+//        mView.navigateActivity(MainActivity.class, extras);
+//    }
+//
+//
+//    public void navigateToUserInfo(int id, String uiStep) {
+//        Bundle extras = new Bundle();
+//        extras.putInt(RegisterActivity.EXTRA_ID, id);
+//        extras.putString(RegisterActivity.EXTRA_UISTEP, uiStep);
+//        mView.navigateActivity(UserInfoActivity.class, extras);
+//    }
+//
+//
+//    public void navigateToResetPW() {
+//        mView.navigateActivity(ResetPasswordActivity.class);
+//    }
 
     public void login(String username, String password){
         String[] errorCode = new String[1];
         new LogInInteractor(welcomeRepository).execute(
-            resp -> {
+            success -> {
                 UserInfo userInfo;
-                if (resp.has("Select_ToAuthenticate")) {
-                    userInfo = ConverterJson.convertGsonToObject(resp.getAsJsonArray("Select_ToAuthenticate").getAsJsonObject(), UserInfo.class);
+                if (success.has("Select_ToAuthenticate")) {
+                    userInfo = ConverterJson.convertGsonToObject(success.getAsJsonArray("Select_ToAuthenticate").getAsJsonObject(), UserInfo.class);
                 } else {
                     Log.e(this.getClass().getName(), "onNext in login: Invalid response from server");
                 }
             },
             error -> {
                 if (error instanceof HttpException){
-                    JsonObject errorResp = ConverterJson.convertJsonToObject(((HttpException) error).message(), JsonObject.class);
-                    if (errorResp.has("Select_ToAuthenticate")) {
-                        errorCode[0] = errorResp.getAsJsonArray("Select_ToAuthenticate")
-                                             .getAsJsonObject()
-                                             .get("errorCode").getAsString();
-                    } else {
-                        Log.e(this.getClass().getName(), "onError in login: Invalid response from server");
+                    //Get error response from server
+                    Response response = ((HttpException) error).response();
+                    if (response.code() == 404){
+                        //Page not found
+                        Log.e(this.getClass().getName(), "onError in login: HTTP 404 Not Found...Please check again the URL and it's component");
+                    } else if (response.code() == 400){
+                        //Login failed
+                        //Get response body
+                        JsonObject errorResp = ConverterJson.convertJsonToObject(response.errorBody().string(), JsonObject.class);
+                        if (errorResp.has("Select_ToAuthenticate")) {
+                            //Get error code from server
+                            errorCode[0] = errorResp.getAsJsonArray("Select_ToAuthenticate")
+                                    .get(0).getAsJsonObject()
+                                    .get("errorCode").getAsString();
+                            if (errorCode[0].equals("pattern-fail")) {
+                                //Invalid username submitted
+                                this.activity.showToast(this.activity.getString(R.string.username_invalid));
+                            } else if (errorCode[0].equals("invalid-username-or-password")) {
+                                //Username or password does not match
+                                this.activity.showToast(this.activity.getString(R.string.login_fail));
+                            }
+                        } else {
+                            Log.e(this.getClass().getName(), "onError in login: Invalid response from server");
+                        }
                     }
                 }
             },
             () -> {
-                if (errorCode[0] == null){
-                    //Login succeeded-> navigate to main activity
-                } else {
-                    //Login failed
-                    if (errorCode[0].equals("pattern-fail")) {
-                        //Invalid username submitted
-                        Log.e(this.getClass().getName(), "Invalid username submitted...Check user's input requirement again");
-                    } else if (errorCode[0].equals("invalid-username-or-password")) {
-                        //Invalid username or password
-                    }
-                }
+
             },
             LogInInteractor.Params.forLogin(username, password)
         );
     }
 
     public void signup(String username, String password){
+        String[] errorCode = new String[1];
         new SignUpInteractor(welcomeRepository).execute(
-            resp -> {},
-            error -> {},
-            () -> {},
+            success -> {
+                UserInfo userInfo;
+                if (success.has("Insert_NewCustomer")) {
+                    userInfo = ConverterJson.convertGsonToObject(success.getAsJsonArray("Insert_NewCustomer").getAsJsonObject(), UserInfo.class);
+                } else {
+                    Log.e(this.getClass().getName(), "onNext in login: Invalid response from server");
+                }
+            },
+            error -> {
+                if (error instanceof HttpException){
+                    //Get error response from server
+                    Response response = ((HttpException) error).response();
+                    if (response.code() == 404){
+                        //Page not found
+                        Log.e(this.getClass().getName(), "onError in login: HTTP 404 Not Found...Please check again the URL and it's component");
+                    } else if (response.code() == 400){
+                        //Login failed
+                        //Get response body
+                        JsonObject errorResp = ConverterJson.convertJsonToObject(response.errorBody().string(), JsonObject.class);
+                        if (errorResp.has("Insert_NewCustomer")) {
+                            //Get error code from server
+                            errorCode[0] = errorResp.getAsJsonArray("Insert_NewCustomer")
+                                    .get(0).getAsJsonObject()
+                                    .get("errorCode").getAsString();
+                            if (errorCode[0].equals("pattern-fail")) {
+                                //Invalid username submitted
+                                this.activity.showToast(this.activity.getString(R.string.username_invalid));
+                            } else if (errorCode[0].equals("customer-existed")) {
+                                //Username or password does not match
+                                this.activity.showToast(this.activity.getString(R.string.username_unavailable));
+                            }
+                        } else {
+                            Log.e(this.getClass().getName(), "onError in login: Invalid response from server");
+                        }
+                    }
+                }
+            },
+            () -> {
+
+            },
             SignUpInteractor.Params.forSignUp(username, password)
         );
     }

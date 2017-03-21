@@ -11,12 +11,6 @@ import com.lanthanh.admin.icareapp.data.manager.VoucherManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.threading.MainThread;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.GetAllCitiesByCountryInteractorImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.GetAllCountriesInteractorImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.GetAllDistrictsByCityInteractorImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.GetAllLocationsByDistrictInteractorImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.GetAllTypesInteractorImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.GetAllVouchersInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.model.DTOCity;
 import com.lanthanh.admin.icareapp.domain.model.DTOCountry;
 import com.lanthanh.admin.icareapp.domain.model.DTODistrict;
@@ -33,9 +27,7 @@ import java.util.List;
  * Created by ADMIN on 04-Jan-17.
  */
 
-public class BookingSelectPresenterImpl extends AbstractPresenter implements BookingSelectPresenter,
-        GetAllCountriesInteractor.Callback, GetAllCitiesByCountryInteractor.Callback, GetAllDistrictsByCityInteractor.Callback,
-        GetAllLocationsByDistrictInteractor.Callback, GetAllVouchersInteractor.Callback, GetAllTypesInteractor.Callback{
+public class BookingSelectPresenterImpl extends AbstractPresenter implements BookingSelectPresenter {
     public static final String TAG = BookingSelectPresenterImpl.class.getSimpleName();
     private BookingSelectPresenter.View mView;
     private DTOAppointment dtoAppointment;
@@ -73,8 +65,8 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     @Override
     public void getAllCountries() {
         mView.showProgress();
-        GetAllCountriesInteractor getAllCountriesInteractor = new GetAllCountriesInteractorImpl(mExecutor, mMainThread, this, countryManager);
-        getAllCountriesInteractor.execute();
+//        GetAllCountriesInteractor getAllCountriesInteractor = new GetAllCountriesInteractorImpl(mExecutor, mMainThread, this, countryManager);
+//        getAllCountriesInteractor.execute();
     }
 
     @Override
@@ -87,7 +79,6 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     }
 
     //Receive country list from interactor
-    @Override
     public void onAllCountriesReceive(List<DTOCountry> countryList) {
         try {
             this.countryList = countryList;
@@ -98,7 +89,6 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
         }
     }
 
-    @Override
     public void onNoCountryFound() {
         try {
             Log.e(TAG, "No country found");
@@ -126,8 +116,8 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
             onError("No id found for this country");
             return;
         }
-        GetAllCitiesByCountryInteractor getAllCitiesByCountryInteractor = new GetAllCitiesByCountryInteractorImpl(mExecutor, mMainThread, this, cityManager, id);
-        getAllCitiesByCountryInteractor.execute();
+//        GetAllCitiesByCountryInteractor getAllCitiesByCountryInteractor = new GetAllCitiesByCountryInteractorImpl(mExecutor, mMainThread, this, cityManager, id);
+//        getAllCitiesByCountryInteractor.execute();
     }
 
     @Override
@@ -139,7 +129,6 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
         return null;
     }
 
-    @Override
     public void onAllCitiesReceive(List<DTOCity> cityList) {
         try {
             this.cityList = cityList;
@@ -150,7 +139,6 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
         }
     }
 
-    @Override
     public void onNoCityFound() {
         try {
             Log.e(TAG, "No city found");
@@ -178,8 +166,8 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
             onError("No id found for this city");
             return;
         }
-        GetAllDistrictsByCityInteractor getAllDistrictsByCityInteractor = new GetAllDistrictsByCityInteractorImpl(mExecutor, mMainThread, this, districtManager, id);
-        getAllDistrictsByCityInteractor.execute();
+//        GetAllDistrictsByCityInteractor getAllDistrictsByCityInteractor = new GetAllDistrictsByCityInteractorImpl(mExecutor, mMainThread, this, districtManager, id);
+//        getAllDistrictsByCityInteractor.execute();
     }
 
     @Override
@@ -191,7 +179,6 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
         return null;
     }
 
-    @Override
     public void onAllDistrictsReceive(List<DTODistrict> districtList) {
         try {
             this.districtList = districtList;
@@ -202,7 +189,6 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
         }
     }
 
-    @Override
     public void onNoDistrictFound() {
         try {
             Log.e(TAG, "No district found");
@@ -230,8 +216,8 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
             onError("No id found for this district");
             return;
         }
-        GetAllLocationsByDistrictInteractor getAllLocationsByDistrictInteractor = new GetAllLocationsByDistrictInteractorImpl(mExecutor, mMainThread, this, locationManager, id);
-        getAllLocationsByDistrictInteractor.execute();
+//        GetAllLocationsByDistrictInteractor getAllLocationsByDistrictInteractor = new GetAllLocationsByDistrictInteractorImpl(mExecutor, mMainThread, this, locationManager, id);
+//        getAllLocationsByDistrictInteractor.execute();
     }
 
     @Override
@@ -243,7 +229,6 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
         return null;
     }
 
-    @Override
     public void onAllLocationsReceive(List<DTOLocation> locationList) {
         try {
             mView.hideProgress();
@@ -255,7 +240,6 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
         }
     }
 
-    @Override
     public void onNoLocationFound() {
         try {
             mView.hideProgress();
@@ -279,8 +263,8 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     /*========================== VOUCHER ==========================*/
     @Override
     public void getAllVouchers() {
-        GetAllVouchersInteractor getAllVouchersInteractor = new GetAllVouchersInteractorImpl(mExecutor, mMainThread, this, voucherManager);
-        getAllVouchersInteractor.execute();
+//        GetAllVouchersInteractor getAllVouchersInteractor = new GetAllVouchersInteractorImpl(mExecutor, mMainThread, this, voucherManager);
+//        getAllVouchersInteractor.execute();
     }
 
     @Override
@@ -292,7 +276,6 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
         return null;
     }
 
-    @Override
     public void onAllVouchersReceive(List<DTOVoucher> voucherList) {
         try {
             this.voucherList = voucherList;
@@ -303,7 +286,6 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
         }
     }
 
-    @Override
     public void onNoVoucherFound() {
         try {
             Log.e(TAG, "No voucher found");
@@ -329,8 +311,8 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
     /*========================== TYPE ==========================*/
     @Override
     public void getAllTypes() {
-        GetAllTypesInteractor getAllTypesInteractor = new GetAllTypesInteractorImpl(mExecutor, mMainThread, this, typeManager);
-        getAllTypesInteractor.execute();
+//        GetAllTypesInteractor getAllTypesInteractor = new GetAllTypesInteractorImpl(mExecutor, mMainThread, this, typeManager);
+//        getAllTypesInteractor.execute();
     }
 
     @Override
@@ -342,7 +324,6 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
         return null;
     }
 
-    @Override
     public void onAllTypesReceive(List<DTOType> typeList) {
         try {
             this.typeList = typeList;
@@ -353,7 +334,6 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
         }
     }
 
-    @Override
     public void onNoTypeFound() {
         try {
             Log.e(TAG, "No type found");

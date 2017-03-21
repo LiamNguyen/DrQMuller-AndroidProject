@@ -3,8 +3,12 @@
     <string name="app_name">Dr.Q-Muller</string>
     <string name="welcome">Welcome to\nDr.Q-Muller</string>
 
+    <!-- LOGIN -->
+    <string name="login_fail">Ten dang nhap hoac mat khau khong dung</string><!-- TODO change to proper sentence -->
+
     <string name="username_input_hint">Tên Đăng Nhập</string>
-    <string name="username_invalid">Tên đăng nhập đã được sử dụng</string>
+    <string name="username_unavailable">Tên đăng nhập đã được sử dụng</string>
+    <string name="username_invalid">Ten dang nhap khong phu hop</string><!-- TODO change to proper sentence -->
     <string name="username_null">Xin vui lòng nhập tên đăng nhập</string>
     <string name="username_requirement">Ít nhất 6 kí tự - Không có ký tự đặc biệt ở đầu và cuối</string>
 

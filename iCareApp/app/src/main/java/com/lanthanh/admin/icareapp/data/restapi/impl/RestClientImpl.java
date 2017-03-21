@@ -20,7 +20,7 @@ public class RestClientImpl implements RestClient {
 
     private RestClientImpl(){
         retrofit = new Retrofit.Builder()
-                            .baseUrl("http://210.211.109.180/drmuller_test/")
+                            .baseUrl("http://210.211.109.180/beta_drmuller/api/index.php/")
                             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();

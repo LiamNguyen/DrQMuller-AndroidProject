@@ -8,12 +8,6 @@ import com.lanthanh.admin.icareapp.data.manager.MachineManager;
 import com.lanthanh.admin.icareapp.data.manager.TimeManager;
 import com.lanthanh.admin.icareapp.data.manager.WeekDayManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.BookingInteractorImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.GetAllEcoTimeInteractorImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.GetAllMachinesByLocationInteractorImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.GetAllSelectedTimeInteractorImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.GetAllTimeInteractorImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.GetAllWeekDaysInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.domain.model.DTOMachine;
@@ -33,9 +27,7 @@ import java.util.List;
  * Created by ADMIN on 06-Jan-17.
  */
 
-public class BookingBookPresenterImpl extends AbstractPresenter implements BookingBookPresenter,
-        GetAllTimeInteractor.Callback, GetAllSelectedTimeInteractor.Callback, GetAllWeekDaysInteractor.Callback,
-        GetAllEcoTimeInteractor.Callback, BookingInteractor.Callback, GetAllMachinesByLocationInteractor.Callback{
+public class BookingBookPresenterImpl extends AbstractPresenter implements BookingBookPresenter{
     public static final String TAG = BookingBookPresenter.class.getSimpleName();
     private BookingBookPresenter.View mView;
     private DTOAppointment dtoAppointment;
@@ -107,11 +99,10 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     @Override
     public void getAllMachines() {
         mView.showProgress();
-        GetAllMachinesByLocationInteractor getAllMachinesByLocationInteractor = new GetAllMachinesByLocationInteractorImpl(mExecutor, mMainThread, this, machineManager, dtoAppointment.getLocationId());
-        getAllMachinesByLocationInteractor.execute();
+//        GetAllMachinesByLocationInteractor getAllMachinesByLocationInteractor = new GetAllMachinesByLocationInteractorImpl(mExecutor, mMainThread, this, machineManager, dtoAppointment.getLocationId());
+//        getAllMachinesByLocationInteractor.execute();
     }
 
-    @Override
     public void onAllMachinesReceive(List<DTOMachine> machineList) {
         try {
             this.machineList = machineList;
@@ -122,7 +113,6 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
         }
     }
 
-    @Override
     public void onNoMachineFound() {
         try {
             Log.e(TAG, "No machine found");
@@ -153,8 +143,8 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     /*========================= TIME =========================*/
     @Override
     public void getAllTime() {
-        GetAllTimeInteractor getAllTimeInteractor = new GetAllTimeInteractorImpl(mExecutor, mMainThread, this, timeManager);
-        getAllTimeInteractor.execute();
+//        GetAllTimeInteractor getAllTimeInteractor = new GetAllTimeInteractorImpl(mExecutor, mMainThread, this, timeManager);
+//        getAllTimeInteractor.execute();
     }
 
     @Override
@@ -166,7 +156,6 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
         return -1;
     }
 
-    @Override
     public void onAllTimeReceive(List<DTOTime> timeList) {
         try {
             this.timeList = timeList;
@@ -176,7 +165,6 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
         }
     }
 
-    @Override
     public void onNoTimeFound() {
         try {
             Log.e(TAG, "No all time found");
@@ -198,11 +186,11 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     /*========================= ECO TIME =========================*/
     @Override
     public void getAllEcoTime() {
-        GetAllEcoTimeInteractor getAllEcoTimeInteractor = new GetAllEcoTimeInteractorImpl(mExecutor, mMainThread, this, timeManager);
-        getAllEcoTimeInteractor.execute();
+//        GetAllEcoTimeInteractor getAllEcoTimeInteractor = new GetAllEcoTimeInteractorImpl(mExecutor, mMainThread, this, timeManager);
+//        getAllEcoTimeInteractor.execute();
     }
 
-    @Override
+
     public void onEcoTimeFound(List<DTOTime> ecoTimeList) {
         try {
             mView.hideProgress();
@@ -213,7 +201,6 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
         }
     }
 
-    @Override
     public void onNoEcoTimeFound() {
         try {
             mView.hideProgress();
@@ -226,11 +213,10 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
     /*========================= WEEK DAY =========================*/
     @Override
     public void getAllWeekDays() {
-        GetAllWeekDaysInteractor getAllWeekDaysInteractor = new GetAllWeekDaysInteractorImpl(mExecutor, mMainThread, this, weekDayManager);
-        getAllWeekDaysInteractor.execute();
+//        GetAllWeekDaysInteractor getAllWeekDaysInteractor = new GetAllWeekDaysInteractorImpl(mExecutor, mMainThread, this, weekDayManager);
+//        getAllWeekDaysInteractor.execute();
     }
 
-    @Override
     public void onAllWeekDaysReceive(List<DTOWeekDay> weekDayList) {
         try {
             this.weekDaysList = weekDayList;
@@ -256,7 +242,6 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
         return -1;
     }
 
-    @Override
     public void onNoWeekDayFound() {
         try {
             Log.e(TAG, "No week day found");
@@ -308,12 +293,11 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
             onError("No id found for this day");
             return;
         }
-        GetAllSelectedTimeInteractor getAllSelectedTimeInteractor = new GetAllSelectedTimeInteractorImpl(mExecutor, mMainThread, this, timeManager,
-                                                                                            id, dtoAppointment.getLocationId(), dtoAppointment.getMachineId());
-        getAllSelectedTimeInteractor.execute();
+//        GetAllSelectedTimeInteractor getAllSelectedTimeInteractor = new GetAllSelectedTimeInteractorImpl(mExecutor, mMainThread, this, timeManager,
+//                                                                                            id, dtoAppointment.getLocationId(), dtoAppointment.getMachineId());
+//        getAllSelectedTimeInteractor.execute();
     }
 
-    @Override
     public void onSelectedTimeReceive(List<DTOTime> selectedTimeList) {
         try {
             mView.hideProgress();
@@ -325,7 +309,6 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
         }
     }
 
-    @Override
     public void onNoSelectedTimeFound() {
         try {
             mView.hideProgress();
@@ -359,9 +342,9 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
             appointmentSchedule.setMachineId(dtoAppointment.getMachineId());
             appointmentSchedule.setMachineName(dtoAppointment.getMachineName());
             dtoAppointment.addAppointment(appointmentSchedule);
-            BookingInteractor bookingInteractor = new BookingInteractorImpl(mExecutor, mMainThread, this, appointmentManager,
-                                                                            dayId, timeId, dtoAppointment.getLocationId(), dtoAppointment.getMachineId());
-            bookingInteractor.execute();
+//            BookingInteractor bookingInteractor = new BookingInteractorImpl(mExecutor, mMainThread, this, appointmentManager,
+//                                                                            dayId, timeId, dtoAppointment.getLocationId(), dtoAppointment.getMachineId());
+//            bookingInteractor.execute();
         }else
             mView.showError(mView.getResourceString(R.string.selected_day));
     }
@@ -378,7 +361,6 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
         return true;
     }
 
-    @Override
     public void onBookingFail() {
         try {
             mView.hideProgress();
@@ -388,7 +370,7 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
         }
     }
 
-    @Override
+
     public void onBookingSuccess() {
         try {
             mView.hideProgress();

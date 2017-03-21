@@ -12,4 +12,5 @@ import com.lanthanh.admin.icareapp.presentation.presenter.base.Presenter;
 public abstract class BaseFragment<T extends Presenter> extends Fragment{
     public abstract T getMainPresenter();
     public abstract void initViews();
+    public abstract void resetViews();
 }

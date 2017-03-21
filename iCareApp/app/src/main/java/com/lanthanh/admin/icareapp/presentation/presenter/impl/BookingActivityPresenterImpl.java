@@ -9,10 +9,6 @@ import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.data.manager.SendEmailManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.InsertAppointmentInteractorImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.RemoveTemporaryBookingInteractorImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.SendEmailNotifyBookingInteractorImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.impl.UpdateValidateAppointmentInteractorImpl;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
@@ -34,9 +30,7 @@ import java.util.List;
  * Created by ADMIN on 24-Jan-17.
  */
 
-public class BookingActivityPresenterImpl extends AbstractPresenter implements BookingActivityPresenter,
-        InsertAppointmentInteractor.Callback, RemoveTemporaryBookingInteractor.Callback,
-        SendEmailNotifyBookingInteractor.Callback, UpdateValidateAppointmentInteractor.Callback{
+public class BookingActivityPresenterImpl extends AbstractPresenter implements BookingActivityPresenter{
     public static final String TAG = BookingActivityPresenterImpl.class.getSimpleName();
     private BookingActivityPresenter.View mView;
     private ModelUser mUser;
@@ -130,10 +124,10 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
         //Get appointment schedule
         DTOAppointmentSchedule dtoAppointmentSchedule = getSpecificSchedule(item);
         if (dtoAppointmentSchedule != null){
-            //Remove on DB
-            RemoveTemporaryBookingInteractor removeTemporaryBookingInteractor =
-                    new RemoveTemporaryBookingInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointment.getLocationId(), dtoAppointmentSchedule.getMachineId(), dtoAppointmentSchedule);
-            removeTemporaryBookingInteractor.execute();
+//            //Remove on DB
+//            RemoveTemporaryBookingInteractor removeTemporaryBookingInteractor =
+//                    new RemoveTemporaryBookingInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointment.getLocationId(), dtoAppointmentSchedule.getMachineId(), dtoAppointmentSchedule);
+//            removeTemporaryBookingInteractor.execute();
         }else
             onError("Item to be removed doesn't exist");
     }
@@ -147,7 +141,6 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
         return null;
     }
 
-    @Override
     public void onRemoveTempBookingSuccess(List<DTOAppointmentSchedule> list) {
         try {
             for (DTOAppointmentSchedule dtoAppointmentSchedule: list) {
@@ -163,7 +156,6 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
         }
     }
 
-    @Override
     public void onRemoveTempBookingFail() {
         try {
             onError("REMOVE TEMP BOOK FAIL");
@@ -183,9 +175,9 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
             array[i] = dtoAppointmentScheduleList.get(i);
         }
         //Remove on DB
-        RemoveTemporaryBookingInteractor removeTemporaryBookingInteractor =
-                new RemoveTemporaryBookingInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointment.getLocationId(), appointment.getMachineId(), array);
-        removeTemporaryBookingInteractor.execute();
+//        RemoveTemporaryBookingInteractor removeTemporaryBookingInteractor =
+//                new RemoveTemporaryBookingInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointment.getLocationId(), appointment.getMachineId(), array);
+//        removeTemporaryBookingInteractor.execute();
     }
 
     @Override
@@ -195,11 +187,10 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
 
     @Override
     public void validateAppointment() {
-        UpdateValidateAppointmentInteractor updateValidateAppointmentInteractor = new UpdateValidateAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager);
-        updateValidateAppointmentInteractor.execute();
+//        UpdateValidateAppointmentInteractor updateValidateAppointmentInteractor = new UpdateValidateAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager);
+//        updateValidateAppointmentInteractor.execute();
     }
 
-    @Override
     public void onValidateFail() {
         try {
             onError("Validate fail");
@@ -208,7 +199,6 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
         }
     }
 
-    @Override
     public void onValidateSuccess() {
         try {
             System.out.println("Validate success");
@@ -227,8 +217,8 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
         }while (checkVerificationCodeExistence(appointment.getVerficationCode()));
         if (appointment.getStartDate() == null)
             appointment.setStartDate(ConverterForDisplay.convertStringToDate("11-11-1111"));
-        InsertAppointmentInteractor insertAppointmentInteractor = new InsertAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointment);
-        insertAppointmentInteractor.execute();
+//        InsertAppointmentInteractor insertAppointmentInteractor = new InsertAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointment);
+//        insertAppointmentInteractor.execute();
     }
 
     @Override
@@ -246,7 +236,6 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
         return false;
     }
 
-    @Override
     public void onInsertAppointmentFail() {
         try {
             mView.hideProgress();
@@ -256,13 +245,12 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
         }
     }
 
-    @Override
     public void onInsertAppointmentSuccess(int appointmentId) {
         try {
             mView.hideProgress();
             //Send mail to staff
-            SendEmailNotifyBookingInteractor sendEmailNotifyBookingInteractor = new SendEmailNotifyBookingInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, appointment);
-            sendEmailNotifyBookingInteractor.execute();
+//            SendEmailNotifyBookingInteractor sendEmailNotifyBookingInteractor = new SendEmailNotifyBookingInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, appointment);
+//            sendEmailNotifyBookingInteractor.execute();
 
             //Get appointment from local shared pref
             List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
@@ -284,7 +272,6 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
         }
     }
 
-    @Override
     public void onEmailNotifyBookingNotSent() {
         try{
             System.out.println("Notify email sent fail");
@@ -293,7 +280,6 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
         }
     }
 
-    @Override
     public void onEmailNotifyBookingSent() {
         try {
             System.out.println("Notify email sent success");
