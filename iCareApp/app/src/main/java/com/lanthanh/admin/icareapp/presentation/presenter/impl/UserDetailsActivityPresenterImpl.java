@@ -35,7 +35,6 @@ public class UserDetailsActivityPresenterImpl extends AbstractPresenter implemen
     private List<DTOAppointment> mAppointments;
     public UserDetailsActivityPresenterImpl(SharedPreferences sharedPreferences, Executor executor, MainThread mainThread, View view,
                                             FragmentManager fragmentManager, CustomerManager customerManager, AppointmentManager appointmentManager) {
-        super(executor, mainThread);
         mView = view;
         this.sharedPreferences = sharedPreferences;
         this.fragmentManager = fragmentManager;

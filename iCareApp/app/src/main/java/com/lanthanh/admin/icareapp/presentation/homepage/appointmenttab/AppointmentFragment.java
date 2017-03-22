@@ -1,4 +1,4 @@
-package com.lanthanh.admin.icareapp.presentation.view.fragment.appointmenttab;
+package com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
-import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
+import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.view.adapter.AppointmentCVAdapter;
 
 

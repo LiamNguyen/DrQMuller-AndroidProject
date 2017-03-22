@@ -20,7 +20,6 @@ public class BookingSelectDatePresenterImpl extends AbstractPresenter implements
     private Calendar startDate, expireDate;
 
     public BookingSelectDatePresenterImpl(Executor executor, MainThread mainThread, View view, DTOAppointment dtoAppointment){
-        super(executor, mainThread);
         mView= view;
         this.dtoAppointment = dtoAppointment;
     }

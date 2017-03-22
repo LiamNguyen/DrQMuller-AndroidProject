@@ -1,10 +1,9 @@
-package com.lanthanh.admin.icareapp.presentation.view.fragment.register;
+package com.lanthanh.admin.icareapp.presentation.welcomepage;
 
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-
-import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.presenter.impl.RegisterActivityPresenterImpl;
-import com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity;
+import com.lanthanh.admin.icareapp.presentation.view.activity.ResetPasswordActivity;
 import com.lanthanh.admin.icareapp.presentation.view.fragment.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
@@ -25,12 +23,16 @@ import butterknife.Unbinder;
  * Created by ADMIN on 17-Oct-16.
  */
 
-public class LogInFragment extends BaseFragment implements View.OnClickListener{
-    @BindView(R.id.si_username_input) TextInputEditText editUsername;
+public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implements View.OnClickListener{
+    @BindView(R.id.si_username_input)
+    TextInputEditText editUsername;
     @BindView(R.id.si_password_input) TextInputEditText editPassword;
-    @BindView(R.id.si_sign_in_button) AppCompatButton logInButton;
-    @BindView(R.id.si_forget_pw) TextView forgetPwText;
-    @BindView(R.id.si_username_container) TextInputLayout editUsernameContainer;
+    @BindView(R.id.si_sign_in_button)
+    AppCompatButton logInButton;
+    @BindView(R.id.si_forget_pw)
+    TextView forgetPwText;
+    @BindView(R.id.si_username_container)
+    TextInputLayout editUsernameContainer;
     @BindView(R.id.si_password_container) TextInputLayout editPasswordContainer;
     private Unbinder unbinder;
 
@@ -46,7 +48,7 @@ public class LogInFragment extends BaseFragment implements View.OnClickListener{
 
     @Override
     public void initViews() {
-        ((RegisterActivity) getActivity()).showToolbar(true);
+        ((WelcomeActivity) getActivity()).showToolbar(true);
         //Custom font
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
         logInButton.setTypeface(font);
@@ -67,26 +69,27 @@ public class LogInFragment extends BaseFragment implements View.OnClickListener{
     }
 
     @Override
-    public RegisterActivityPresenterImpl getMainPresenter() {
-        return ((RegisterActivity) getActivity()).getMainPresenter();
+    public WelcomeActivityPresenter getMainPresenter() {
+        return ((WelcomeActivity) getActivity()).getMainPresenter();
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible())
-            ((RegisterActivity) getActivity()).showToolbar(true);
+            ((WelcomeActivity) getActivity()).showToolbar(true);
         else
             resetViews();
     }
 
     @Override
     public void onClick(View v) {
+        ((WelcomeActivity) getActivity()).hideSoftKeyboard();
         switch (v.getId()){
             case R.id.si_sign_in_button:
                 getMainPresenter().login(editUsername.getText().toString().trim(), editPassword.getText().toString());
                 break;
             case R.id.si_forget_pw:
-                //getMainPresenter().navigateToResetPW();
+                getMainPresenter().navigateActivity(ResetPasswordActivity.class);
             default:
                 break;
         }
@@ -98,3 +101,4 @@ public class LogInFragment extends BaseFragment implements View.OnClickListener{
         unbinder.unbind();
     }
 }
+

@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -27,7 +28,7 @@ public interface iCareService {
         "Content-Type: application/json"
     })
     @POST("user/register")
-    Observable<JsonObject> signup(@Body RequestBody body);
+    Observable<Response<JsonObject>> signup(@Body RequestBody body);
 
     /**
      * This request method is used for logging account
@@ -38,7 +39,7 @@ public interface iCareService {
         "Content-Type: application/json"
     })
     @POST("user/login")
-    Observable<JsonObject> login(@Body RequestBody body);
+    Observable<Response<JsonObject>> login(@Body RequestBody body);
 
     /**
      * This request method is used for updating user's basic info
@@ -50,7 +51,7 @@ public interface iCareService {
         "Content-Type: application/json"
     })
     @PUT("user/basicinformation")
-    Observable<JsonObject> updateBasicInfo(@Header("Authorization") String authToken, @Body RequestBody body);
+    Observable<Response<JsonObject>> updateBasicInfo(@Header("Authorization") String authToken, @Body RequestBody body);
 
     /**
      * This request method is used for updating user's necessary info
@@ -62,7 +63,7 @@ public interface iCareService {
         "Content-Type: application/json"
     })
     @PUT("user/necessaryinformation")
-    Observable<JsonObject> updateNecessaryInfo(@Header("Authorization") String authToken, @Body RequestBody body);
+    Observable<Response<JsonObject>> updateNecessaryInfo(@Header("Authorization") String authToken, @Body RequestBody body);
 
     /**
      * This request method is used for updating user's important info
@@ -74,14 +75,14 @@ public interface iCareService {
         "Content-Type: application/json"
     })
     @PUT("user/importantinfomation")
-    Observable<JsonObject> updateImportantInfo(@Header("Authorization") String authToken, @Body RequestBody body);
+    Observable<Response<JsonObject>> updateImportantInfo(@Header("Authorization") String authToken, @Body RequestBody body);
 
     /**
      * This request method is used for getting list of countries
      * @return an Observable
      */
     @GET("datasource/countries")
-    Observable<JsonObject> getCountries();
+    Observable<Response<JsonObject>> getCountries();
 
     /**
      * This request method is used for getting list of cities by country id
@@ -89,7 +90,7 @@ public interface iCareService {
      * @return an Observable
      */
     @GET("datasource/cities/{countryId}")
-    Observable<JsonObject> getCitiesByCountryId(@Path("countryId") int countryId);
+    Observable<Response<JsonObject>> getCitiesByCountryId(@Path("countryId") int countryId);
 
     /**
      * This request method is used for getting list of districts by city id
@@ -97,7 +98,7 @@ public interface iCareService {
      * @return an Observable
      */
     @GET("datasource/districts/{cityId}")
-    Observable<JsonObject> getDistrictsByCityId(@Path("cityId") int cityId);
+    Observable<Response<JsonObject>> getDistrictsByCityId(@Path("cityId") int cityId);
 
     /**
      * This request method is used for getting list of locations by district id
@@ -105,35 +106,35 @@ public interface iCareService {
      * @return an Observable
      */
     @GET("datasource/locations/{districtId}")
-    Observable<JsonObject> getLocationsByDistrictId(@Path("districtId") int districtId);
+    Observable<Response<JsonObject>> getLocationsByDistrictId(@Path("districtId") int districtId);
 
     /**
      * This request method is used for getting list of vouchers
      * @return an Observable
      */
     @GET("datasource/vouchers")
-    Observable<JsonObject> getVouchers();
+    Observable<Response<JsonObject>> getVouchers();
 
     /**
      * This request method is used for getting list of types
      * @return an Observable
      */
     @GET("datasource/types")
-    Observable<JsonObject> getTypes();
+    Observable<Response<JsonObject>> getTypes();
 
     /**
      * This request method is used for getting all time
      * @return an Observable
      */
     @GET("time/alltime")
-    Observable<JsonObject> getAllTime();
+    Observable<Response<JsonObject>> getAllTime();
 
     /**
      * This request method is used for getting eco time
      * @return an Observable
      */
     @GET("time/ecotime")
-    Observable<JsonObject> getEcoTime();
+    Observable<Response<JsonObject>> getEcoTime();
 
     /**
      * This request method is used for getting selected time
@@ -143,14 +144,14 @@ public interface iCareService {
      * @return an Observable
      */
     @GET("time/selectedtime/{dayId}/{locationId}/{timeId}")
-    Observable<JsonObject> getSelectedTime(@Path("dayId") int dayId, @Path("locationId") int locationId, @Path("machineId") int machineId);
+    Observable<Response<JsonObject>> getSelectedTime(@Path("dayId") int dayId, @Path("locationId") int locationId, @Path("machineId") int machineId);
 
     /**
      * This request method is used for getting days of week
      * @return an Observable
      */
     @GET("datasource/daysofweek")
-    Observable<JsonObject> getDaysOfWeek();
+    Observable<Response<JsonObject>> getDaysOfWeek();
 
     /**
      * This request method is used for getting machines by location id
@@ -158,7 +159,7 @@ public interface iCareService {
      * @return an Observable
      */
     @GET("datasource/machines/{locationId}")
-    Observable<JsonObject> getMachinesByLocationId(@Path("locationId") int locationId);
+    Observable<Response<JsonObject>> getMachinesByLocationId(@Path("locationId") int locationId);
 
     /**
      * This request method is used for booking time
@@ -170,7 +171,7 @@ public interface iCareService {
         "Content-Type: application/json"
     })
     @POST("time/book")
-    Observable<JsonObject> bookTime(@Header("Authorization") String authToken, @Body RequestBody body);
+    Observable<Response<JsonObject>> bookTime(@Header("Authorization") String authToken, @Body RequestBody body);
 
     /**
      * This request method is used for releasing time that no longer being booked
@@ -182,14 +183,14 @@ public interface iCareService {
         "Content-Type: application/json"
     })
     @PUT("time/release")
-    Observable<JsonObject> releaseTime(@Header("Authorization") String authToken, @Body RequestBody body);
+    Observable<Response<JsonObject>> releaseTime(@Header("Authorization") String authToken, @Body RequestBody body);
 
     /**
      * This request method is used for validate all appointments
      * @return an Observable
      */
     @PUT("appointment/validate")
-    Observable<JsonObject> validateAppointment();
+    Observable<Response<JsonObject>> validateAppointment();
 
     /**
      * This request method is used for creating an appointment
@@ -201,7 +202,7 @@ public interface iCareService {
         "Content-Type: application/json"
     })
     @POST("appointment/create")
-    Observable<JsonObject> createAppointment(@Header("Authorization") String authToken, @Body RequestBody body);
+    Observable<Response<JsonObject>> createAppointment(@Header("Authorization") String authToken, @Body RequestBody body);
 
     /**
      * This request method is used for confirming an appointment
@@ -213,7 +214,7 @@ public interface iCareService {
             "Content-Type: application/json"
     })
     @PUT("appointment/confirm")
-    Observable<JsonObject> confirmAppointment(@Header("Authorization") String authToken, @Body RequestBody body);
+    Observable<Response<JsonObject>> confirmAppointment(@Header("Authorization") String authToken, @Body RequestBody body);
 
     /**
      * This request method is used for canceling an apoointment
@@ -225,5 +226,5 @@ public interface iCareService {
             "Content-Type: application/json"
     })
     @PUT("appointment/cancel")
-    Observable<JsonObject> cancelAppointment(@Header("Authorization") String authToken, @Body RequestBody body);
+    Observable<Response<JsonObject>> cancelAppointment(@Header("Authorization") String authToken, @Body RequestBody body);
 }

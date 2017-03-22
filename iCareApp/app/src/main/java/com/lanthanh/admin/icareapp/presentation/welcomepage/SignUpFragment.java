@@ -1,8 +1,8 @@
-package com.lanthanh.admin.icareapp.presentation.view.fragment.register;
+package com.lanthanh.admin.icareapp.presentation.welcomepage;
 
 import android.graphics.Typeface;
-import android.support.design.widget.TextInputEditText;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatButton;
 import android.text.Editable;
@@ -11,29 +11,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.presenter.impl.RegisterActivityPresenterImpl;
-import com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity;
+import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
 import com.lanthanh.admin.icareapp.presentation.view.fragment.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
 /**
  * Created by ADMIN on 19-Oct-16.
  */
 
-public class SignUpFragment extends BaseFragment implements View.OnClickListener {
-    @BindView(R.id.su_username_input) TextInputEditText editUsername;
+public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> implements View.OnClickListener {
+    @BindView(R.id.su_username_input)
+    TextInputEditText editUsername;
     @BindView(R.id.su_password_input) TextInputEditText editPassword;
     @BindView(R.id.su_password_confirm_input) TextInputEditText editPasswordConfirm;
-    @BindView(R.id.su_username_container) TextInputLayout editUsernameContainer;
+    @BindView(R.id.su_username_container)
+    TextInputLayout editUsernameContainer;
     @BindView(R.id.su_password_container) TextInputLayout editPasswordContainer;
     @BindView(R.id.su_password_confirm_container) TextInputLayout editPasswordConfirmContainer;
-    @BindView(R.id.su_sign_up_button) AppCompatButton signUpButton;
+    @BindView(R.id.su_sign_up_button)
+    AppCompatButton signUpButton;
     private boolean validUN, validPW, validPWConf;
     private Unbinder unbinder;
 
@@ -50,7 +50,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void initViews() {
-        ((RegisterActivity) getActivity()).showToolbar(true);
+        ((WelcomeActivity) getActivity()).showToolbar(true);
         //Custom font
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
         signUpButton.setTypeface(font);
@@ -154,18 +154,19 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible())
-            ((RegisterActivity) getActivity()).showToolbar(true);
+            ((WelcomeActivity) getActivity()).showToolbar(true);
         else
             resetViews();
     }
 
     @Override
-    public RegisterActivityPresenterImpl getMainPresenter() {
-        return ((RegisterActivity) getActivity()).getMainPresenter();
+    public WelcomeActivityPresenter getMainPresenter() {
+        return ((WelcomeActivity) getActivity()).getMainPresenter();
     }
 
     @Override
     public void onClick(View v) {
+        ((WelcomeActivity) getActivity()).hideSoftKeyboard();
         if (validUN && validPW && validPWConf) {
             getMainPresenter().signup(editUsername.getText().toString().trim(), editPassword.getText().toString());
         }
@@ -194,7 +195,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
                 editPasswordConfirmContainer.setErrorEnabled(true);
             }
         }
-        ((RegisterActivity) getActivity()).hideSoftKeyboard();
+        ((WelcomeActivity) getActivity()).hideSoftKeyboard();
     }
 
     @Override
@@ -203,3 +204,4 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
         unbinder.unbind();
     }
 }
+

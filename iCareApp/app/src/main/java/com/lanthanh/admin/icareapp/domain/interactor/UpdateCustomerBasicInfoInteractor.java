@@ -2,6 +2,7 @@ package com.lanthanh.admin.icareapp.domain.interactor;
 
 import com.google.gson.JsonObject;
 
+import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 
 import io.reactivex.Observable;
@@ -11,7 +12,7 @@ import io.reactivex.Observable;
  * Created on 19-Mar-17.
  */
 
-public class UpdateCustomerBasicInfoInteractor extends BaseInteractor<JsonObject, UpdateCustomerBasicInfoInteractor.Params>{
+public class UpdateCustomerBasicInfoInteractor extends BaseInteractor<RepositorySimpleStatus, UpdateCustomerBasicInfoInteractor.Params>{
     private WelcomeRepository welcomeRepository;
 
     public UpdateCustomerBasicInfoInteractor(WelcomeRepository welcomeRepository){
@@ -20,7 +21,7 @@ public class UpdateCustomerBasicInfoInteractor extends BaseInteractor<JsonObject
     }
 
     @Override
-    Observable<JsonObject> buildUseCaseObservable(Params params) {
+    Observable<RepositorySimpleStatus> buildUseCaseObservable(Params params) {
         return welcomeRepository.updateCustomerBasicInfo(params.name, params.address);
     }
 

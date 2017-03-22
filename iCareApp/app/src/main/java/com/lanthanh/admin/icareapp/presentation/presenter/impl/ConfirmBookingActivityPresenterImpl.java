@@ -29,7 +29,6 @@ public class ConfirmBookingActivityPresenterImpl extends AbstractPresenter imple
     private ModelUser mUser;
 
     public ConfirmBookingActivityPresenterImpl(SharedPreferences sharedPreferences, Executor executor, MainThread mainThread, View view, CustomerManager customerManager, AppointmentManager appointmentManager){
-        super(executor, mainThread);
         mView = view;
         this.sharedPreferences = sharedPreferences;
         this.appointmentManager = appointmentManager;

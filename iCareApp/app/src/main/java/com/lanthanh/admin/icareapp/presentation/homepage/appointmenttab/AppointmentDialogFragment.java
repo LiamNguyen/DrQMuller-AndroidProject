@@ -1,4 +1,4 @@
-package com.lanthanh.admin.icareapp.presentation.view.fragment.appointmenttab;
+package com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -17,8 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
-import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
+import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import java.util.ArrayList;

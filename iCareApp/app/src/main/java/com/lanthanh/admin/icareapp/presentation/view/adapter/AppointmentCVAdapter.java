@@ -20,8 +20,8 @@ import com.lanthanh.admin.icareapp.domain.model.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.view.activity.ConfirmBookingActivity;
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.appointmenttab.AppointmentDialogFragment;
+import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
+import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import java.util.ArrayList;

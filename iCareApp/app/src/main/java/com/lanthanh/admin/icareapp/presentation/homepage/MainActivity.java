@@ -1,4 +1,4 @@
-package com.lanthanh.admin.icareapp.presentation.view.activity;
+package com.lanthanh.admin.icareapp.presentation.homepage;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -48,7 +48,6 @@ import java.util.List;
  */
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, MainActivityPresenter.View{
-    public final static boolean isUAT = false;
     public final static int NEWSTAB = 0;
     public final static int APPOINTMENTTAB = 1;
     public final static int USERTAB = 2;
@@ -78,9 +77,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     public void init(){
-        mMainPresenter = new MainActivityPresenterImpl(
-                getSharedPreferences("content", Context.MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this,
-                getSupportFragmentManager(), new AppointmentManagerImpl(iCareApiImpl.getAPI()), new CustomerManagerImpl(iCareApiImpl.getAPI()));
+//        mMainPresenter = new MainActivityPresenterImpl(
+//                getSharedPreferences("content", Context.MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this,
+//                getSupportFragmentManager(), new AppointmentManagerImpl(iCareApiImpl.getAPI()), new CustomerManagerImpl(iCareApiImpl.getAPI()));
 
         //Init controllers
         networkController = new NetworkController(this);
@@ -93,70 +92,68 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onResume() {
         super.onResume();
-        //networkController.registerNetworkReceiver();
-        mMainPresenter.resume();
-
-        Intent i = getIntent();
-        if (i != null) {
-            Bundle b = i.getExtras();
-
-            if (b == null) {
-                //Check user's privilege to use the app. If false (NOT log in or NOT activate account), return to register
-                if (!mMainPresenter.checkPrivilege()) {
-                    mMainPresenter.navigateToRegisterActivity();
-                } else {
-                    showCurrentTab();
-                }
-            } else {
-                if (b.containsKey(RegisterActivity.TAG)) {
-                    Bundle bundle = b.getBundle(RegisterActivity.TAG);
-                    if (bundle != null) {
-                        int n = bundle.getInt(RegisterActivity.LOGIN_STATUS);
-                        if (n == RegisterActivity.LOGGED_IN) {
-                            onNavigationItemSelected(bottomNavigationView.getMenu().getItem(APPOINTMENTTAB));
-                        }
-                    }
-                } else if (b.containsKey(UserDetailsActivity.TAG)) {
-                    if (b.getBoolean(UserDetailsActivity.TAG))
-                        onNavigationItemSelected(bottomNavigationView.getMenu().getItem(USERTAB));
-                } else if (b.containsKey(ConfirmBookingActivity.TAG)) {
-                    int m = b.getInt(ConfirmBookingActivity.TAG, 0);
-                    if (m == ConfirmBookingActivity.CONFIRMED) {
-                        new AlertDialog.Builder(this)
-                                .setMessage(getString(R.string.booking_success))
-                                .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).setCancelable(false).show();
-                    } else {
-                        new AlertDialog.Builder(this)
-                                .setMessage(getString(R.string.booking_fail))
-                                .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).setCancelable(false).show();
-                    }
-                    onNavigationItemSelected(bottomNavigationView.getMenu().getItem(APPOINTMENTTAB));
-                }else{
-                    //Check user's privilege to use the app. If false (NOT log in or NOT activate account), return to register
-                    if (!mMainPresenter.checkPrivilege()) {
-                        mMainPresenter.navigateToRegisterActivity();
-                    } else {
-                        showCurrentTab();
-                    }
-                }
-            }
-        }
-        setIntent(null);
+//        //networkController.registerNetworkReceiver();
+//        mMainPresenter.resume();
+//
+//        Intent i = getIntent();
+//        if (i != null) {
+//            Bundle b = i.getExtras();
+//
+//            if (b == null) {
+//                //Check user's privilege to use the app. If false (NOT log in or NOT activate account), return to register
+//                if (!mMainPresenter.checkPrivilege()) {
+//                    mMainPresenter.navigateToRegisterActivity();
+//                } else {
+//                    showCurrentTab();
+//                }
+//            } else {
+//                if (b.containsKey(RegisterActivity.TAG)) {
+//                    Bundle bundle = b.getBundle(RegisterActivity.TAG);
+//                    if (bundle != null) {
+//                        int n = bundle.getInt(RegisterActivity.LOGIN_STATUS);
+//                        if (n == RegisterActivity.LOGGED_IN) {
+//                            onNavigationItemSelected(bottomNavigationView.getMenu().getItem(APPOINTMENTTAB));
+//                        }
+//                    }
+//                } else if (b.containsKey(UserDetailsActivity.TAG)) {
+//                    if (b.getBoolean(UserDetailsActivity.TAG))
+//                        onNavigationItemSelected(bottomNavigationView.getMenu().getItem(USERTAB));
+//                } else if (b.containsKey(ConfirmBookingActivity.TAG)) {
+//                    int m = b.getInt(ConfirmBookingActivity.TAG, 0);
+//                    if (m == ConfirmBookingActivity.CONFIRMED) {
+//                        new AlertDialog.Builder(this)
+//                                .setMessage(getString(R.string.booking_success))
+//                                .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        dialog.dismiss();
+//                                    }
+//                                }).setCancelable(false).show();
+//                    } else {
+//                        new AlertDialog.Builder(this)
+//                                .setMessage(getString(R.string.booking_fail))
+//                                .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        dialog.dismiss();
+//                                    }
+//                                }).setCancelable(false).show();
+//                    }
+//                    onNavigationItemSelected(bottomNavigationView.getMenu().getItem(APPOINTMENTTAB));
+//                }else{
+//                    //Check user's privilege to use the app. If false (NOT log in or NOT activate account), return to register
+//                    if (!mMainPresenter.checkPrivilege()) {
+//                        mMainPresenter.navigateToRegisterActivity();
+//                    } else {
+//                        showCurrentTab();
+//                    }
+//                }
+//            }
+//        }
+//        setIntent(null);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //releaseCartWhenReselect();
-        //networkController.unregisterNetworkReceiver();
     }
 
     @Override

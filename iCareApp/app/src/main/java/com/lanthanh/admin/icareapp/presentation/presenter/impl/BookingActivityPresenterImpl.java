@@ -17,7 +17,7 @@ import com.lanthanh.admin.icareapp.presentation.presenter.BookingActivityPresent
 import com.lanthanh.admin.icareapp.presentation.presenter.base.AbstractPresenter;
 import com.lanthanh.admin.icareapp.presentation.view.activity.BookingActivity;
 import com.lanthanh.admin.icareapp.presentation.view.activity.ConfirmBookingActivity;
-import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
+import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.view.fragment.booking.BookingBookFragment;
 import com.lanthanh.admin.icareapp.presentation.view.fragment.booking.BookingSelectDateFragment;
 import com.lanthanh.admin.icareapp.presentation.view.fragment.booking.BookingSelectFragment;
@@ -49,8 +49,6 @@ public class BookingActivityPresenterImpl extends AbstractPresenter implements B
     public BookingActivityPresenterImpl(SharedPreferences sharedPreferences, Executor executor, MainThread mainThread, View view,
                                         FragmentManager fragmentManager, AppointmentManager appointmentManager,
                                         SendEmailManager sendEmailManager, CustomerManager customerManager) {
-        super(executor, mainThread);
-
         //Init local variable
         init();
 

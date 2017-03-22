@@ -46,7 +46,6 @@ public class BookingSelectPresenterImpl extends AbstractPresenter implements Boo
 
     public BookingSelectPresenterImpl(Executor executor, MainThread mainThread, View view, DTOAppointment dtoAppointment,
     CountryManager countryManager, CityManager cityManager, DistrictManager districtManager, LocationManager locationManager, VoucherManager voucherManager, TypeManager typeManager){
-        super(executor, mainThread);
         mView = view;
         this.dtoAppointment = dtoAppointment;
         this.countryManager = countryManager;

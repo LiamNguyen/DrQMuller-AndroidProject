@@ -36,7 +36,6 @@ public class ResetPasswordActivityPresenterImpl extends AbstractPresenter implem
 
     public ResetPasswordActivityPresenterImpl(SharedPreferences sharedPreferences, Executor executor, MainThread mainThread, View view,
                                               FragmentManager fragmentManager, SendEmailManager sendEmailManager, CustomerManager customerManager){
-        super(executor, mainThread);
         mView = view;
         this.sendEmailManager = sendEmailManager;
         this.fragmentManager = fragmentManager;

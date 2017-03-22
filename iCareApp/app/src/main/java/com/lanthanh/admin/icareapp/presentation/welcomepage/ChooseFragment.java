@@ -1,8 +1,6 @@
-package com.lanthanh.admin.icareapp.presentation.view.fragment.register;
+package com.lanthanh.admin.icareapp.presentation.welcomepage;
 
 import android.graphics.Typeface;
-import android.support.v4.app.Fragment;
-
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
@@ -11,27 +9,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
-import com.lanthanh.admin.icareapp.presentation.presenter.RegisterActivityPresenter;
-import com.lanthanh.admin.icareapp.presentation.presenter.base.Presenter;
-import com.lanthanh.admin.icareapp.presentation.presenter.impl.RegisterActivityPresenterImpl;
-import com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity;
 import com.lanthanh.admin.icareapp.presentation.view.fragment.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import okhttp3.RequestBody;
 
 /**
  * Created by ADMIN on 18-Oct-16.
  */
 
-public class ChooseFragment extends BaseFragment implements View.OnClickListener{
-    @BindView(R.id.wel_log_in_button) AppCompatButton logInButton;
+public class ChooseFragment extends BaseFragment<WelcomeActivityPresenter> implements View.OnClickListener{
+    @BindView(R.id.wel_log_in_button)
+    AppCompatButton logInButton;
     @BindView(R.id.wel_sign_up_button) AppCompatButton signUpButton;
-    @BindView(R.id.wel_text) TextView welcomeText;
+    @BindView(R.id.wel_text)
+    TextView welcomeText;
     private Unbinder unbinder;
 
     @Override
@@ -46,7 +40,7 @@ public class ChooseFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void initViews(){
-        ((RegisterActivity) getActivity()).showToolbar(false);
+        ((WelcomeActivity) getActivity()).showToolbar(false);
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_WELCOME);
         Typeface font_light = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
         welcomeText.setTypeface(font);
@@ -60,14 +54,14 @@ public class ChooseFragment extends BaseFragment implements View.OnClickListener
     public void resetViews() {}
 
     @Override
-    public RegisterActivityPresenterImpl getMainPresenter(){
-        return ((RegisterActivity) getActivity()).getMainPresenter();
+    public WelcomeActivityPresenter getMainPresenter(){
+        return ((WelcomeActivity) getActivity()).getMainPresenter();
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible())
-            ((RegisterActivity) getActivity()).showToolbar(false);
+            ((WelcomeActivity) getActivity()).showToolbar(false);
     }
 
     @Override
@@ -90,3 +84,4 @@ public class ChooseFragment extends BaseFragment implements View.OnClickListener
         unbinder.unbind();
     }
 }
+

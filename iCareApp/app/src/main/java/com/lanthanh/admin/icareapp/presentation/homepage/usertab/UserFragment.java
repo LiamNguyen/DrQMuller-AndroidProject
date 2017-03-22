@@ -1,7 +1,5 @@
-package com.lanthanh.admin.icareapp.presentation.view.fragment.usertab;
+package com.lanthanh.admin.icareapp.presentation.homepage.usertab;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,7 +15,7 @@ import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
-import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
+import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.view.adapter.UserTabAdapter;
 
 import java.util.ArrayList;

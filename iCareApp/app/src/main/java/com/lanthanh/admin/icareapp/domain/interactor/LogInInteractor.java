@@ -1,19 +1,16 @@
 package com.lanthanh.admin.icareapp.domain.interactor;
 
-import com.google.gson.JsonObject;
+import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.RequestBody;
 
 /**
  * @author longv
  * Created on 19-Mar-17.
  */
 
-public class LogInInteractor extends BaseInteractor<JsonObject, LogInInteractor.Params> {
+public class LogInInteractor extends BaseInteractor<RepositorySimpleStatus, LogInInteractor.Params> {
     private WelcomeRepository welcomeRepository;
 
     public LogInInteractor(WelcomeRepository welcomeRepository){
@@ -22,7 +19,7 @@ public class LogInInteractor extends BaseInteractor<JsonObject, LogInInteractor.
     }
 
     @Override
-    Observable<JsonObject> buildUseCaseObservable(Params params) {
+    Observable<RepositorySimpleStatus> buildUseCaseObservable(Params params) {
         return welcomeRepository.login(params.username, params.password);
     }
 

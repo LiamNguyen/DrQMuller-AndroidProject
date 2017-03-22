@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity"
+        <activity android:name="com.lanthanh.admin.icareapp.presentation.homepage.MainActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
@@ -20,10 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustResize"/>
 
         <activity android:name="com.lanthanh.admin.icareapp.presentation.view.activity.DeepLinkActivity"
             android:noHistory="true"
@@ -41,7 +37,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
 
-        <activity android:name="com.lanthanh.admin.icareapp.presentation.view.activity.UserInfoActivity"
+        <activity android:name=".presentation.userinfopage.UserInfoActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>

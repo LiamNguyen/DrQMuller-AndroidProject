@@ -10,9 +10,9 @@ import io.reactivex.Observable;
  */
 
 public interface WelcomeRepository {
-    Observable<JsonObject> login(String username, String password);
-    Observable<JsonObject> signup(String username, String password);
-    Observable<JsonObject> updateCustomerBasicInfo(String name, String address);
-    Observable<JsonObject> updateCustomerNecessaryInfo(String dob, String gender);
-    Observable<JsonObject> updateCustomerImportantInfo(String email, String phone);
+    Observable<RepositorySimpleStatus> login(String username, String password);
+    Observable<RepositorySimpleStatus> signup(String username, String password);
+    Observable<RepositorySimpleStatus> updateCustomerBasicInfo(String name, String address);
+    Observable<RepositorySimpleStatus> updateCustomerNecessaryInfo(String dob, String gender);
+    Observable<RepositorySimpleStatus> updateCustomerImportantInfo(String email, String phone);
 }

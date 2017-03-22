@@ -1,36 +1,19 @@
-package com.lanthanh.admin.icareapp.presentation.view.activity;
+package com.lanthanh.admin.icareapp.presentation.welcomepage;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.lanthanh.admin.icareapp.Controller.NetworkController;
-import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
-import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
-import com.lanthanh.admin.icareapp.presentation.presenter.RegisterActivityPresenter;
-import com.lanthanh.admin.icareapp.presentation.presenter.impl.RegisterActivityPresenterImpl;
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.view.activity.BaseActivity;
 import com.lanthanh.admin.icareapp.presentation.view.fragment.register.ChooseFragment;
-import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,8 +22,8 @@ import butterknife.ButterKnife;
  * Created by ADMIN on 17-Oct-16.
  */
 
-public class RegisterActivity extends BaseActivity{
-    public final static String TAG = RegisterActivity.class.getSimpleName();
+public class WelcomeActivity extends BaseActivity {
+    //public final static String TAG = RegisterActivity.class.getSimpleName();
     public final static String EXTRA_ID = "id";
     public final static String EXTRA_UISTEP = "uistep";
     public final static String LOGIN_STATUS = "loginstatus";
@@ -49,10 +32,12 @@ public class RegisterActivity extends BaseActivity{
     public final static int CHOOSE = 0;
     public final static int LOG_IN = 1;
     public final static int SIGN_UP = 2;
-    private RegisterActivityPresenterImpl registerActivityPresenter;
+    private WelcomeActivityPresenter registerActivityPresenter;
 
-    @BindView(R.id.toolbar) Toolbar toolBar;
-    @BindView(R.id.progressbar) ProgressBar progressBar;
+    @BindView(R.id.toolbar)
+    Toolbar toolBar;
+    @BindView(R.id.progressbar)
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +62,7 @@ public class RegisterActivity extends BaseActivity{
     }
 
     public void init(){
-        registerActivityPresenter = new RegisterActivityPresenterImpl(this);
+        registerActivityPresenter = new WelcomeActivityPresenter(this);
     }
 
     @Override
@@ -85,35 +70,35 @@ public class RegisterActivity extends BaseActivity{
         super.onResume();
 
         //networkController.registerNetworkReceiver();
-
-        if (getIntent() != null) {
-            Intent intent = getIntent();
-            Bundle b = intent.getExtras();
-            if (b != null) {
-                if (b.containsKey(DeepLinkActivity.TAG)) {
-                    Bundle bundle = b.getBundle(DeepLinkActivity.TAG);
-                    if (bundle != null)
-                        //registerActivityPresenter.verifyAccount(bundle.getString("cus_id"));
-                        System.out.println("yaa");
-                    else
-                        Log.e(TAG, "No data received from DeepLinkActivity");
-                }else if (b.containsKey(ResetPasswordActivity.TAG)){
-                    Bundle bundle = b.getBundle(ResetPasswordActivity.TAG);
-                    if (bundle != null){
-                        int result = bundle.getInt("result");
-
-                        if (result == ResetPasswordActivity.SUCCESS)
-                            showAlertDialog(R.string.reset_success);
-                        else if (result == ResetPasswordActivity.FAIL)
-                            showAlertDialog(R.string.reset_fail);
-                    }else
-                        Log.e(TAG, "No data received from ResetPasswordActivity");
-                }
-            }else{
-                Log.i(TAG, "No data received from intent");
-            }
-        }
-        setIntent(null);
+//
+//        if (getIntent() != null) {
+//            Intent intent = getIntent();
+//            Bundle b = intent.getExtras();
+//            if (b != null) {
+//                if (b.containsKey(DeepLinkActivity.TAG)) {
+//                    Bundle bundle = b.getBundle(DeepLinkActivity.TAG);
+//                    if (bundle != null)
+//                        //registerActivityPresenter.verifyAccount(bundle.getString("cus_id"));
+//                        System.out.println("yaa");
+//                    else
+//                        Log.e(TAG, "No data received from DeepLinkActivity");
+//                }else if (b.containsKey(ResetPasswordActivity.TAG)){
+//                    Bundle bundle = b.getBundle(ResetPasswordActivity.TAG);
+//                    if (bundle != null){
+//                        int result = bundle.getInt("result");
+//
+//                        if (result == ResetPasswordActivity.SUCCESS)
+//                            showAlertDialog(R.string.reset_success);
+//                        else if (result == ResetPasswordActivity.FAIL)
+//                            showAlertDialog(R.string.reset_fail);
+//                    }else
+//                        Log.e(TAG, "No data received from ResetPasswordActivity");
+//                }
+//            }else{
+//                Log.i(TAG, "No data received from intent");
+//            }
+//        }
+//        setIntent(null);
     }
 
     @Override
@@ -139,25 +124,25 @@ public class RegisterActivity extends BaseActivity{
 
 
 
-    public void navigateActivity(Class activityClass) {
-        hideProgress();
-        Intent toActivity = new Intent(this, activityClass);
-        hideSoftKeyboard();
-        startActivity(toActivity);
-        finish();
-    }
-
-
-    public void navigateActivity(Class activityClass, Bundle extras) {
-        hideProgress();
-        Intent toActivity = new Intent(this, activityClass);
-        hideSoftKeyboard();
-        if (activityClass == UserInfoActivity.class || activityClass == MainActivity.class) {
-            toActivity.putExtra(TAG, extras);
-        }
-        startActivity(toActivity);
-        finish();
-    }
+//    public void navigateActivity(Class activityClass) {
+//        hideProgress();
+//        Intent toActivity = new Intent(this, activityClass);
+//        hideSoftKeyboard();
+//        startActivity(toActivity);
+//        finish();
+//    }
+//
+//
+//    public void navigateActivity(Class activityClass, Bundle extras) {
+//        hideProgress();
+//        Intent toActivity = new Intent(this, activityClass);
+//        hideSoftKeyboard();
+//        if (activityClass == UserInfoActivity.class || activityClass == MainActivity.class) {
+//            toActivity.putExtra(TAG, extras);
+//        }
+//        startActivity(toActivity);
+//        finish();
+//    }
 
 
     public void showProgress() {
@@ -206,7 +191,8 @@ public class RegisterActivity extends BaseActivity{
 //        registerActivityPresenter.onBackPressed();
 //    }
 
-    public RegisterActivityPresenterImpl getMainPresenter() {
+    public WelcomeActivityPresenter getMainPresenter() {
         return registerActivityPresenter;
     }
 }
+

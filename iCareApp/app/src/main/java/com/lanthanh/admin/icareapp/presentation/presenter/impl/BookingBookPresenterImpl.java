@@ -42,7 +42,6 @@ public class BookingBookPresenterImpl extends AbstractPresenter implements Booki
 
     public BookingBookPresenterImpl(Executor executor, MainThread mainThread, View view, DTOAppointment dtoAppointment,
                                     TimeManager timeManager, AppointmentManager appointmentManager, WeekDayManager weekDayManager, MachineManager machineManager) {
-        super(executor, mainThread);
         mView = view;
         this.dtoAppointment = dtoAppointment;
         this.timeManager = timeManager;

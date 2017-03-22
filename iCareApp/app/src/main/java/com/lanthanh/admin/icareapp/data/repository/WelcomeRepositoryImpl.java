@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.data.restapi.RestClient;
 import com.lanthanh.admin.icareapp.data.restapi.impl.RestClientImpl;
 import com.lanthanh.admin.icareapp.data.restapi.service.iCareService;
+import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 
 import io.reactivex.Observable;
@@ -19,36 +20,32 @@ public class WelcomeRepositoryImpl implements WelcomeRepository{
     private iCareService service;
 
     public WelcomeRepositoryImpl(){
-        restClient = RestClientImpl.getRestClient();
-        service = restClient.createService(iCareService.class);
+        restClient = RestClientImpl.createRestClient();
+
     }
 
     @Override
-    public Observable<JsonObject> login(String username, String password) {
-        RequestBody body = restClient.createRequestBody(new String[]{"username", "password"}, new String[]{username, password});
-        return service.login(body);
+    public Observable<RepositorySimpleStatus> login(String username, String password) {
+        return restClient.login(username, password);
     }
 
     @Override
-    public Observable<JsonObject> signup(String username, String password) {
-        RequestBody body = restClient.createRequestBody(new String[]{"username", "password"}, new String[]{username, password});
-        return service.signup(body);
+    public Observable<RepositorySimpleStatus> signup(String username, String password) {
+        return restClient.signup(username, password);
     }
 
     @Override
-    public Observable<JsonObject> updateCustomerBasicInfo(String name, String address) {
-//        RequestBody body = restClient.createRequestBody(new String[]{"userId", "userName", "userAddress"}, new String[]{id, name, address});
-//        return service.updateBasicInfo(,)
-        return null;
+    public Observable<RepositorySimpleStatus> updateCustomerBasicInfo(String name, String address) {
+        return restClient.updateBasicInfo("", name, address); //TODO check 1st params
     }
 
     @Override
-    public Observable<JsonObject> updateCustomerNecessaryInfo(String dob, String gender) {
-        return null;
+    public Observable<RepositorySimpleStatus> updateCustomerNecessaryInfo(String dob, String gender) {
+        return restClient.updateNecessaryInfo("", dob, gender); //TODO check 1st params
     }
 
     @Override
-    public Observable<JsonObject> updateCustomerImportantInfo(String email, String phone) {
-        return null;
+    public Observable<RepositorySimpleStatus> updateCustomerImportantInfo(String email, String phone) {
+        return restClient.updateImportantInfo("", email, phone); //TODO check 1st params
     }
 }

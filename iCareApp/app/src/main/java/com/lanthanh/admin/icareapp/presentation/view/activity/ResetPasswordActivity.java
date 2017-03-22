@@ -155,7 +155,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
     @Override
     public void navigateToRegisterActivity(int result){
         hideProgress();
-        Intent toRegister = new Intent(this, RegisterActivity.class);
+        Intent toRegister = new Intent(this, WelcomeActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("result", result);
         toRegister.putExtra(TAG, bundle);
@@ -169,7 +169,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
     @Override
     public void navigateToRegisterActivity() {
         hideProgress();
-        Intent toRegister = new Intent(this, RegisterActivity.class);
+        Intent toRegister = new Intent(this, WelcomeActivity.class);
         startActivity(toRegister);
         finish();
 

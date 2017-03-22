@@ -1,6 +1,6 @@
 package com.lanthanh.admin.icareapp.domain.interactor;
 
-import com.google.gson.JsonObject;
+import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 
 import io.reactivex.Observable;
@@ -10,7 +10,7 @@ import io.reactivex.Observable;
  * Created on 19-Mar-17.
  */
 
-public class SignUpInteractor extends BaseInteractor<JsonObject, SignUpInteractor.Params> {
+public class SignUpInteractor extends BaseInteractor<RepositorySimpleStatus, SignUpInteractor.Params> {
     private WelcomeRepository welcomeRepository;
 
     public SignUpInteractor(WelcomeRepository welcomeRepository){
@@ -19,7 +19,7 @@ public class SignUpInteractor extends BaseInteractor<JsonObject, SignUpInteracto
     }
 
     @Override
-    Observable<JsonObject> buildUseCaseObservable(Params params) {
+    Observable<RepositorySimpleStatus> buildUseCaseObservable(Params params) {
         return welcomeRepository.signup(params.username, params.password);
     }
 

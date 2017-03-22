@@ -27,29 +27,29 @@ public class DeepLinkActivity extends Activity {
 //            startActivity(i);
 //            finish();
 //        }else {
-            Intent intent = getIntent();
-            Uri data = intent.getData();
-            if (data != null) {
-                if (data.getPath().equals("/drmuller/verify") && data.getQueryParameterNames().size() == 1 && data.getQueryParameterNames().contains("cus_id")) {
-                    String queryParameter = data.getQueryParameter("cus_id");
-                    Intent i = new Intent(this, RegisterActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("cus_id", queryParameter);
-                    i.putExtra(TAG, bundle);
-                    startActivity(i);
-                    finish();
-                } else if (data.getPath().equals("/drmuller/restore") && data.getQueryParameterNames().size() == 1 && data.getQueryParameterNames().contains("login_id")) {
-                    String queryParameter = data.getQueryParameter("login_id");
-                    Intent i = new Intent(this, ResetPasswordActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("login_id", queryParameter);
-                    i.putExtra(TAG, bundle);
-                    startActivity(i);
-                    finish();
-                }
-            } else {
-                Log.e(TAG, "Problem with send email");
-            }
+//            Intent intent = getIntent();
+//            Uri data = intent.getData();
+//            if (data != null) {
+//                if (data.getPath().equals("/drmuller/verify") && data.getQueryParameterNames().size() == 1 && data.getQueryParameterNames().contains("cus_id")) {
+//                    String queryParameter = data.getQueryParameter("cus_id");
+//                    Intent i = new Intent(this, RegisterActivity.class);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("cus_id", queryParameter);
+//                    i.putExtra(TAG, bundle);
+//                    startActivity(i);
+//                    finish();
+//                } else if (data.getPath().equals("/drmuller/restore") && data.getQueryParameterNames().size() == 1 && data.getQueryParameterNames().contains("login_id")) {
+//                    String queryParameter = data.getQueryParameter("login_id");
+//                    Intent i = new Intent(this, ResetPasswordActivity.class);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("login_id", queryParameter);
+//                    i.putExtra(TAG, bundle);
+//                    startActivity(i);
+//                    finish();
+//                }
+//            } else {
+//                Log.e(TAG, "Problem with send email");
+//            }
 //        }
     }
 }

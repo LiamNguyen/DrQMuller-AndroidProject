@@ -9,17 +9,14 @@ import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
 import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 import com.lanthanh.admin.icareapp.presentation.view.activity.BookingActivity;
-import com.lanthanh.admin.icareapp.presentation.view.activity.RegisterActivity;
 import com.lanthanh.admin.icareapp.presentation.view.activity.UserDetailsActivity;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.appointmenttab.AppointmentFragment;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.appointmenttab.DefaultAppointmentFragment;
+import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentFragment;
+import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.DefaultAppointmentFragment;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.usertab.UserFragment;
-import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.threading.MainThread;
+import com.lanthanh.admin.icareapp.presentation.homepage.usertab.UserFragment;
 import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.base.AbstractPresenter;
-import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
+import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +25,7 @@ import java.util.List;
  * Created by ADMIN on 31-Dec-16.
  */
 
-public class MainActivityPresenterImpl extends AbstractPresenter implements MainActivityPresenter{
+public class MainActivityPresenterImpl extends AbstractPresenter{
     public static final String TAG = MainActivityPresenterImpl.class.getSimpleName();
     private MainActivityPresenter.View mView;
     private ModelUser mUser;
@@ -41,14 +38,8 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
     private DefaultAppointmentFragment defaultAppointmentFragment;
     private UserFragment userFragment;
 
-    public MainActivityPresenterImpl(SharedPreferences sharedPreferences, Executor executor, MainThread mainThread, View view,
-                                     FragmentManager fragmentManager, AppointmentManager appointmentManager, CustomerManager customerManager){
-        super(executor, mainThread);
-        this.mView = view;
-        this.fragmentManager = fragmentManager;
-        this.appointmentManager = appointmentManager;
-        this.customerManager = customerManager;
-        this.sharedPreferences = sharedPreferences;
+    public MainActivityPresenterImpl(){
+
         init();
     }
 
@@ -63,7 +54,6 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
         mUser = customerManager.getLocalUserFromPref(sharedPreferences);
     }
 
-    @Override
     public void navigateTab(int selected) {
         if (selected == MainActivity.APPOINTMENTTAB){
             List<DTOAppointment> dtoAppointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
@@ -76,7 +66,7 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
             mView.showFragment(fragmentManager, userFragment, getVisibleFragments());
     }
 
-    @Override
+
     public List<Fragment> getVisibleFragments() {
         // We have 3 fragments, so initialize the arrayList to 3 to optimize memory
         List<Fragment> result = new ArrayList<>(3);
@@ -94,64 +84,64 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
 
         return result;
     }
+//
+//    @Override
+//    public AppointmentChildView getAppointmentView() {
+//        return appointmentFragment;
+//    }
 
-    @Override
-    public AppointmentChildView getAppointmentView() {
-        return appointmentFragment;
-    }
 
-    @Override
     public boolean checkPrivilege() {
         //mUser = customerManager.getLocalUserFromPref(sharedPreferences);
         return mUser != null && mUser.getID() != 0 && mUser.getActive() != 0;
     }
 
-    @Override
+
     public void navigateToBookingActivity() {
         mView.navigateActivity(BookingActivity.class);
     }
 
-    @Override
-    public void navigateToRegisterActivity() {
-        mView.navigateActivity(RegisterActivity.class);
-    }
+//    @Override
+//    public void navigateToRegisterActivity() {
+//        mView.navigateActivity(RegisterActivity.class);
+//    }
 
-    @Override
-    public void navigateToUserDetailsActivity() {
-        mView.navigateActivity(UserDetailsActivity.class);
-    }
-
-    @Override
-    public void clearLocalStorage() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("user");
-        editor.apply();
-        editor.commit();
-    }
-
-    @Override
-    public SharedPreferences getLocalStorage() {
-        return sharedPreferences;
-    }
-
-    @Override
-    public void updateAppointmentList() {
-        //Get local appointment list
-        List<DTOAppointment> dtoAppointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
-
-        if ( dtoAppointmentsList != null) {
-            appointmentFragment.updateList(dtoAppointmentsList);
-        }else{
-            mView.showFragment(fragmentManager, defaultAppointmentFragment, getVisibleFragments());
-        }
-    }
-
-    @Override
-    public void cancelAppointment(int appointmentId) {
-        mView.showProgress();
+//    @Override
+//    public void navigateToUserDetailsActivity() {
+//        mView.navigateActivity(UserDetailsActivity.class);
+//    }
+//
+//    @Override
+//    public void clearLocalStorage() {
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.remove("user");
+//        editor.apply();
+//        editor.commit();
+//    }
+//
+//    @Override
+//    public SharedPreferences getLocalStorage() {
+//        return sharedPreferences;
+//    }
+//
+//    @Override
+//    public void updateAppointmentList() {
+//        //Get local appointment list
+//        List<DTOAppointment> dtoAppointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
+//
+//        if ( dtoAppointmentsList != null) {
+//            appointmentFragment.updateList(dtoAppointmentsList);
+//        }else{
+//            mView.showFragment(fragmentManager, defaultAppointmentFragment, getVisibleFragments());
+//        }
+//    }
+//
+//    @Override
+//    public void cancelAppointment(int appointmentId) {
+//        mView.showProgress();
 //        CancelAppointmentInteractor cancelAppointmentInteractor = new CancelAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointmentId);
 //        cancelAppointmentInteractor.execute();
-    }
+
 
     public void onCancelAppointmentFail() {
         try {
@@ -182,7 +172,7 @@ public class MainActivityPresenterImpl extends AbstractPresenter implements Main
             //Put to shared pref
             appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList, mUser.getID());
             //Update list
-            updateAppointmentList();
+            //updateAppointmentList();
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }
