@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.lanthanh.admin.icareapp.presentation.presenter.base.Presenter;
-import com.lanthanh.admin.icareapp.presentation.view.base.BaseView;
+import com.lanthanh.admin.icareapp.presentation.base.Presenter;
+import com.lanthanh.admin.icareapp.presentation.base.BaseView;
 
 import java.util.List;
 

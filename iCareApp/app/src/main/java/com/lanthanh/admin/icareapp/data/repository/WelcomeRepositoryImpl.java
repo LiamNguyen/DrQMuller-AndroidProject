@@ -1,14 +1,12 @@
 package com.lanthanh.admin.icareapp.data.repository;
 
-import com.google.gson.JsonObject;
 import com.lanthanh.admin.icareapp.data.restapi.RestClient;
 import com.lanthanh.admin.icareapp.data.restapi.impl.RestClientImpl;
-import com.lanthanh.admin.icareapp.data.restapi.service.iCareService;
+import com.lanthanh.admin.icareapp.data.restapi.iCareService;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 
 import io.reactivex.Observable;
-import okhttp3.RequestBody;
 
 /**
  * @author longv
@@ -21,7 +19,6 @@ public class WelcomeRepositoryImpl implements WelcomeRepository{
 
     public WelcomeRepositoryImpl(){
         restClient = RestClientImpl.createRestClient();
-
     }
 
     @Override

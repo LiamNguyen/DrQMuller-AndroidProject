@@ -16,7 +16,7 @@ import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
-import com.lanthanh.admin.icareapp.presentation.view.adapter.UserTabAdapter;
+import com.lanthanh.admin.icareapp.presentation.adapter.UserTabAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

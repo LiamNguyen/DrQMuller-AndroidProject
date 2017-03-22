@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.BaseFragment;
+import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import butterknife.BindView;

@@ -12,9 +12,9 @@ import com.lanthanh.admin.icareapp.domain.interactor.LogInInteractor;
 import com.lanthanh.admin.icareapp.domain.interactor.SignUpInteractor;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
-import com.lanthanh.admin.icareapp.presentation.presenter.base.AbstractPresenter;
+import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
-import com.lanthanh.admin.icareapp.presentation.userinfopage.UserInfoActivity;
+import com.lanthanh.admin.icareapp.presentation.signupinfopage.UserInfoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
  * Created by ADMIN on 10-Jan-17.
  */
 
-public class WelcomeActivityPresenter extends AbstractPresenter{
+public class WelcomeActivityPresenter extends BasePresenter {
     public static final String TAG = WelcomeActivityPresenter.class.getSimpleName();
     private ChooseFragment chooseFragment;
     private LogInFragment logInFragment;

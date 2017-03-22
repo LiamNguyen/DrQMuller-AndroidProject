@@ -3,9 +3,11 @@ package com.lanthanh.admin.icareapp.data.restapi.impl;
 import com.google.gson.JsonObject;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
+import com.lanthanh.admin.icareapp.data.repository.datasource.LocalStorage;
 import com.lanthanh.admin.icareapp.data.restapi.RestClient;
-import com.lanthanh.admin.icareapp.data.restapi.service.iCareService;
+import com.lanthanh.admin.icareapp.data.restapi.iCareService;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
+import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
 import com.lanthanh.admin.icareapp.utils.NetworkUtils;
 
 import java.util.Arrays;
@@ -23,26 +25,34 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestClientImpl implements RestClient {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private final Retrofit retrofit;
     private final iCareService service;
-    private static RestClientImpl restClient;
-    private List<RepositorySimpleStatus> validFailReponse;
+    private LocalStorage localStorage;
+    private List<RepositorySimpleStatus> validFailResponse;
 
     private RestClientImpl(){
-        retrofit = new Retrofit.Builder()
+        final Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl("http://210.211.109.180/beta_drmuller/api/index.php/")
                             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
         service = retrofit.create(iCareService.class);
-        validFailReponse = Arrays.asList(RepositorySimpleStatus.TIME_BOOKED_SUCCESSFULLY,
+        validFailResponse = Arrays.asList(RepositorySimpleStatus.TIME_BOOKED_SUCCESSFULLY,
                                          RepositorySimpleStatus.TIME_HAS_BEEN_BOOKED,
                                          RepositorySimpleStatus.USERNAME_EXISTED,
                                          RepositorySimpleStatus.USERNAME_PASSWORD_NOT_MATCH);
     }
 
+    private RestClientImpl(LocalStorage localStorage){
+        this();
+        this.localStorage = localStorage;
+    }
+
     public static RestClient createRestClient(){
         return new RestClientImpl();
+    }
+
+    public static RestClient createRestClient(LocalStorage localStorage){
+        return new RestClientImpl(localStorage);
     }
 
     @Override
@@ -57,12 +67,13 @@ public class RestClientImpl implements RestClient {
                           response -> {
                               if (response.code() == 200) {
                                   if (response.body().has("Select_ToAuthenticate")) {
-                                      response.body().getAsJsonArray("Select_ToAuthenticate").getAsString(); //TODO save user json to pref
+                                      UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Select_ToAuthenticate").get(0), UserInfo.class);
+                                      localStorage.saveUserToLocal(user);
                                       return Observable.just(RepositorySimpleStatus.SUCCESS);
                                   }
                               } else {
                                   RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Select_ToAuthenticate");
-                                  if (validFailReponse.contains(status)){
+                                  if (validFailResponse.contains(status)){
                                       return Observable.just(status);
                                   }
                               }
@@ -78,12 +89,13 @@ public class RestClientImpl implements RestClient {
                             response -> {
                                 if (response.code() == 200) {
                                     if (response.body().has("Insert_NewCustomer")) {
-                                        response.body().getAsJsonArray("Insert_NewCustomer").getAsString(); //TODO save user json to pref
+                                        UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Select_ToAuthenticate").get(0), UserInfo.class);
+                                        localStorage.saveUserToLocal(user);
                                         return Observable.just(RepositorySimpleStatus.SUCCESS);
                                     }
                                 } else {
                                     RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Insert_NewCustomer");
-                                    if (validFailReponse.contains(status)){
+                                    if (validFailResponse.contains(status)){
                                         return Observable.just(status);
                                     }
                                 }
@@ -105,7 +117,7 @@ public class RestClientImpl implements RestClient {
                                     }
                                 } else {
                                     RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Update_BasicInfo");
-                                    if (validFailReponse.contains(status)){
+                                    if (validFailResponse.contains(status)){
                                         return Observable.just(status);
                                     }
                                 }
@@ -127,7 +139,7 @@ public class RestClientImpl implements RestClient {
                                 }
                             } else {
                                 RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Update_NecessaryInfo");
-                                if (validFailReponse.contains(status)){
+                                if (validFailResponse.contains(status)){
                                     return Observable.just(status);
                                 }
                             }
@@ -149,7 +161,7 @@ public class RestClientImpl implements RestClient {
                                 }
                             } else {
                                 RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Update_ImportantInfo");
-                                if (validFailReponse.contains(status)){
+                                if (validFailResponse.contains(status)){
                                     return Observable.just(status);
                                 }
                             }

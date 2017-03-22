@@ -14,7 +14,7 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
-import com.lanthanh.admin.icareapp.presentation.view.adapter.AppointmentCVAdapter;
+import com.lanthanh.admin.icareapp.presentation.adapter.AppointmentCVAdapter;
 
 
 import java.util.ArrayList;

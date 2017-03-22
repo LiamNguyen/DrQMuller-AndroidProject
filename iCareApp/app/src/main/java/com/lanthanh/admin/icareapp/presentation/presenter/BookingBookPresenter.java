@@ -1,8 +1,8 @@
 package com.lanthanh.admin.icareapp.presentation.presenter;
 
 import com.lanthanh.admin.icareapp.domain.model.DTOMachine;
-import com.lanthanh.admin.icareapp.presentation.presenter.base.Presenter;
-import com.lanthanh.admin.icareapp.presentation.view.base.BaseView;
+import com.lanthanh.admin.icareapp.presentation.base.Presenter;
+import com.lanthanh.admin.icareapp.presentation.base.BaseView;
 
 import java.util.Date;
 import java.util.List;

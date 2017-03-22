@@ -12,8 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.view.activity.BaseActivity;
-import com.lanthanh.admin.icareapp.presentation.view.fragment.register.ChooseFragment;
+import com.lanthanh.admin.icareapp.presentation.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +23,7 @@ import butterknife.ButterKnife;
 
 public class WelcomeActivity extends BaseActivity {
     //public final static String TAG = RegisterActivity.class.getSimpleName();
+    //TODO check used fields
     public final static String EXTRA_ID = "id";
     public final static String EXTRA_UISTEP = "uistep";
     public final static String LOGIN_STATUS = "loginstatus";
@@ -34,10 +34,8 @@ public class WelcomeActivity extends BaseActivity {
     public final static int SIGN_UP = 2;
     private WelcomeActivityPresenter registerActivityPresenter;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolBar;
-    @BindView(R.id.progressbar)
-    ProgressBar progressBar;
+    @BindView(R.id.toolbar) Toolbar toolBar;
+    @BindView(R.id.progressbar) ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
