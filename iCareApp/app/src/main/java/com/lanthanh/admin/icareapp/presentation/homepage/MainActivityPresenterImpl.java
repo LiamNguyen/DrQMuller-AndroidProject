@@ -1,6 +1,9 @@
 package com.lanthanh.admin.icareapp.presentation.homepage;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -97,6 +100,19 @@ public class MainActivityPresenterImpl extends BasePresenter {
         }
 
         fragmentTransaction.addToBackStack(null).commit();
+    }
+
+    public void navigateActivity(Class<? extends Activity> activityClass) {
+        Intent intent = new Intent(this.activity, activityClass);
+        this.activity.startActivity(intent);
+        this.activity.finish();
+    }
+
+    public void navigateActivity(Class<? extends Activity> activityClass, Bundle b) {
+        Intent intent = new Intent(this.activity, activityClass);
+        intent.putExtra(this.getClass().getName(), b); //TODO check this put extra
+        this.activity.startActivity(intent);
+        this.activity.finish();
     }
 
 //

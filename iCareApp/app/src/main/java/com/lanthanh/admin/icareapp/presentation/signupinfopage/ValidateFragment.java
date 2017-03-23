@@ -10,9 +10,12 @@ import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
+import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by ADMIN on 08-Nov-16.
@@ -24,10 +27,13 @@ public class ValidateFragment extends BaseFragment<UserInfoActivityPresenterImpl
     @BindView(R.id.ui_back_to_register) AppCompatButton toRegisterButton;
     @BindView(R.id.ui_validate_noti) TextView validateMessage;
 
+    private Unbinder unbinder;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.userinfo_validate, container, false);
-
+        unbinder = ButterKnife.bind(this, view);
+        initViews();
 
         return view;
     }
@@ -49,9 +55,7 @@ public class ValidateFragment extends BaseFragment<UserInfoActivityPresenterImpl
     }
 
     @Override
-    public void resetViews() {
-
-    }
+    public void resetViews() {}
 
     @Override
     public UserInfoActivityPresenterImpl getMainPresenter() {
@@ -62,6 +66,12 @@ public class ValidateFragment extends BaseFragment<UserInfoActivityPresenterImpl
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible())
             ((UserInfoActivity) getActivity()).showToolbar(false);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     public void showEmailResult(int string){

@@ -22,11 +22,31 @@ import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * Created by ADMIN on 26-Nov-16.
  */
 
 public class AppointmentDialogFragment extends DialogFragment {
+    @BindView(R.id.name) TextView name;
+    @BindView(R.id.address) TextView address;
+    @BindView(R.id.voucher) TextView voucher;
+    @BindView(R.id.type) TextView type;
+    @BindView(R.id.startdate) TextView startDate;
+    @BindView(R.id.startdatetitle) TextView startDateTitle;
+    @BindView(R.id.expiredate) TextView expireDate;
+    @BindView(R.id.expiredatetitle) TextView expireDateTitle;
+    @BindView(R.id.appointment_1) TextView appointment1;
+    @BindView(R.id.appointment_2) TextView appointment2;
+    @BindView(R.id.appointment_3) TextView appointment3;
+    @BindView(R.id.confirm_code) TextView confirmCode;
+    @BindView(R.id.cancel_appointment) TextView cancelText;
+    @BindView(R.id.button_close) AppCompatButton closeButton;
+    private Unbinder unbinder;
+
 
     public AppointmentDialogFragment(){
     }
@@ -34,7 +54,9 @@ public class AppointmentDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.details_diaglog_fragment, container);
+        View view = inflater.inflate(R.layout.details_diaglog_fragment, container);
+        unbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
     @NonNull
@@ -52,71 +74,40 @@ public class AppointmentDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
-        // Get field from view
-        TextView name = (TextView) view.findViewById(R.id.name);
         name.setTypeface(font);
-
-        TextView address = (TextView) view.findViewById(R.id.address);
         address.setTypeface(font);
-
-        TextView voucher = (TextView) view.findViewById(R.id.voucher);
         voucher.setTypeface(font);
-
-        TextView type = (TextView) view.findViewById(R.id.type);
         type.setTypeface(font);
+        startDate.setTypeface(font);
+        expireDate.setTypeface(font);
+        appointment1.setTypeface(font);
+        appointment2.setTypeface(font);
+        appointment3.setTypeface(font);
+        confirmCode.setTypeface(font);
+        cancelText.setTypeface(font);
+        closeButton.setTypeface(font);
 
-        TextView start_date = (TextView) view.findViewById(R.id.startdate);
-        start_date.setTypeface(font);
-        TextView start_date_title = (TextView) view.findViewById(R.id.startdatetitle);
-
-        TextView expire_date = (TextView) view.findViewById(R.id.expiredate);
-        expire_date.setTypeface(font);
-        TextView expire_date_title = (TextView) view.findViewById(R.id.expiredatetitle);
-
-        TextView app1 = (TextView) view.findViewById(R.id.appointment_1);
-        app1.setTypeface(font);
-
-        TextView app2 = (TextView) view.findViewById(R.id.appointment_2);
-        app2.setTypeface(font);
-
-        TextView app3 = (TextView) view.findViewById(R.id.appointment_3);
-        app3.setTypeface(font);
-
-        TextView code = (TextView) view.findViewById(R.id.confirm_code);
-        code.setTypeface(font);
-
-        TextView cancel = (TextView) view.findViewById(R.id.cancel_appointment);
-        cancel.setTypeface(font);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(getActivity())
-                        .setMessage(getString(R.string.cancel_confirm))
-                        .setPositiveButton(getString(R.string.agree_button), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                getDialog().dismiss();
-                                ((MainActivity) getActivity()).getMainPresenter().cancelAppointment(getArguments().getInt("appointmentId"));
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.abort_button), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setCancelable(true).show();
-            }
-        });
-
-        AppCompatButton button = (AppCompatButton) view.findViewById(R.id.button_close);
-        button.setTypeface(font);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getDialog().dismiss();
-            }
-        });
+        cancelText.setOnClickListener(
+                clickedView -> {
+                    new AlertDialog.Builder(getActivity())
+                            .setMessage(getString(R.string.cancel_confirm))
+                            .setPositiveButton(getString(R.string.agree_button), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    getDialog().dismiss();
+//                                    ((MainActivity) getActivity()).getMainPresenter().cancelAppointment(getArguments().getInt("appointmentId"));//TODO check this
+                                }
+                            })
+                            .setNegativeButton(getString(R.string.abort_button), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setCancelable(true).show();
+                }
+        );
+        closeButton.setOnClickListener(clickedView -> getDialog().dismiss());
 
         // Fetch arguments from bundle
         name.setText(getArguments().getString("name", "Không Có"));
@@ -126,47 +117,52 @@ public class AppointmentDialogFragment extends DialogFragment {
 
         if (getArguments().getString("start_date") != null) {
             if (getArguments().getString("start_date").equals("11/11/1111")) {
-                start_date.setVisibility(View.GONE);
-                start_date_title.setVisibility(View.GONE);
+                startDate.setVisibility(View.GONE);
+                startDate.setVisibility(View.GONE);
                 //If start date = null => one day booking => while hiding start date, move expire date to the left
                 //rename to Ngay thuc hien
-                expire_date_title.setText(getString(R.string.booking_do_date));
+                expireDateTitle.setText(getString(R.string.booking_do_date));
 
                 //move to left
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) expire_date.getLayoutParams();
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) expireDate.getLayoutParams();
                 params.addRule(RelativeLayout.ALIGN_PARENT_START);
-                RelativeLayout.LayoutParams params_title = (RelativeLayout.LayoutParams) expire_date_title.getLayoutParams();
+                RelativeLayout.LayoutParams params_title = (RelativeLayout.LayoutParams) expireDateTitle.getLayoutParams();
                 params_title.addRule(RelativeLayout.ALIGN_PARENT_START);
-                expire_date.setLayoutParams(params);
-                expire_date_title.setLayoutParams(params_title);
+                expireDate.setLayoutParams(params);
+                expireDateTitle.setLayoutParams(params_title);
             } else
-                start_date.setText(getArguments().getString("start_date"));
+                startDate.setText(getArguments().getString("start_date"));
         }
 
         if (getArguments().getString("end_date") == null)
             System.out.println("Severe: No expire date from AppointmentCVAdapter class");
         else {
-            expire_date.setText(getArguments().getString("end_date"));
+            expireDate.setText(getArguments().getString("end_date"));
         }
 
         ArrayList<String> schedules = getArguments().getStringArrayList("schedules");
         if (schedules != null){
             for (int i = 0; i < schedules.size(); i++){
                 if (i == 0)
-                    app1.setText(schedules.get(i));
+                    appointment1.setText(schedules.get(i));
                 else if (i == 2)
-                    app2.setText(schedules.get(i));
+                    appointment2.setText(schedules.get(i));
                 else
-                    app3.setText(schedules.get(i));
+                    appointment3.setText(schedules.get(i));
             }
         }
 
-        code.setText(getArguments().getString("code", "Không Có"));
+        confirmCode.setText(getArguments().getString("code", "Không Có"));
 
-        if (!app2.getText().toString().isEmpty())
-            app2.setVisibility(View.VISIBLE);
-        if (!app3.getText().toString().isEmpty())
-            app3.setVisibility(View.VISIBLE);
+        if (!appointment2.getText().toString().isEmpty())
+            appointment2.setVisibility(View.VISIBLE);
+        if (!appointment3.getText().toString().isEmpty())
+            appointment3.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
 }

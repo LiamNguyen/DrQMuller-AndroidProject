@@ -17,6 +17,8 @@ import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by ADMIN on 08-Nov-16.
@@ -27,13 +29,14 @@ public class ChangeEmailFragment extends BaseFragment<UserInfoActivityPresenterI
     @BindView(R.id.ui_email_container) TextInputLayout editEmailContainer;
     @BindView(R.id.ui_change_button) AppCompatButton changeButton;
 
+    private Unbinder unbinder;
     private boolean validEmail;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.userinfo_changeemail, container, false);
-
-
+        unbinder = ButterKnife.bind(this, view);
+        initViews();
         validEmail = false;
 
         return view;
@@ -90,6 +93,12 @@ public class ChangeEmailFragment extends BaseFragment<UserInfoActivityPresenterI
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible())
             ((UserInfoActivity) getActivity()).showToolbar(true);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     private void toggleChangeButton() {

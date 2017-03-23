@@ -10,6 +10,7 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.base.BaseActivity;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by ADMIN on 22-Oct-16.
@@ -24,6 +25,7 @@ public class UserInfoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userinfo);
+        ButterKnife.bind(this);
 
         init();
 

@@ -26,6 +26,7 @@ import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by ADMIN on 12-Nov-16.
@@ -45,6 +46,7 @@ public class MainActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         init();
 

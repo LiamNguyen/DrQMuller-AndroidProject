@@ -30,6 +30,7 @@ import com.lanthanh.admin.icareapp.data.manager.impl.AppointmentManagerImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
 import com.lanthanh.admin.icareapp.data.manager.impl.SendEmailManagerImpl;
 import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
+import com.lanthanh.admin.icareapp.presentation.base.BaseActivity;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.presenter.BookingActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.adapter.ListPopupWindowAdapter;
@@ -39,20 +40,22 @@ import com.mikepenz.actionitembadge.library.ActionItemBadge;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by ADMIN on 24-Jan-17.
  */
 
-public class BookingActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, BookingActivityPresenter.View{
+public class BookingActivity extends BaseActivity implements AdapterView.OnItemClickListener, BookingActivityPresenter.View{
     public final static boolean isUAT = false;
     public final static int FIRST_SELECT = 0;
     public final static int SECOND_SELECT = 1;
     public final static int BOOK = 2;
-    private BookingActivityPresenter bookingActivityPresenter;
+    private BookingActivityPresenterImpl bookingActivityPresenter;
     private Drawable cartIcon;
     private ListPopupWindow popupWindow;
     private ListPopupWindowAdapter popupAdapter;
-    private ProgressBar progressBar;
+    ProgressBar progressBar;
     private MenuItem cart;
     private View removedItem;
     private List<String> cartList;
@@ -63,6 +66,7 @@ public class BookingActivity extends AppCompatActivity implements AdapterView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
+        ButterKnife.bind(this);
 
         init();
 

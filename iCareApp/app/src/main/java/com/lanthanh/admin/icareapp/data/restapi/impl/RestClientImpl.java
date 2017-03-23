@@ -8,8 +8,20 @@ import com.lanthanh.admin.icareapp.data.restapi.RestClient;
 import com.lanthanh.admin.icareapp.data.restapi.iCareService;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOLocation;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOMachine;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTime;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTimeEco;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTimeSelected;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOWeekDay;
 import com.lanthanh.admin.icareapp.utils.NetworkUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -131,20 +143,20 @@ public class RestClientImpl implements RestClient {
         String userId=""; //TODO put user id here
         return service.updateNecessaryInfo(authToken, createRequestBody(new String[]{"userId", "userDob", "userGender"}, new String[]{userId, dob, gender}))
                 .concatMap(
-                        response -> {
-                            if (response.code() == 200) {
-                                if (response.body().has("Update_NecessaryInfo")) {
-                                    response.body().getAsJsonArray("Update_NecessaryInfo").getAsString(); //TODO save user json to pref
-                                    return Observable.just(RepositorySimpleStatus.SUCCESS);
-                                }
-                            } else {
-                                RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Update_NecessaryInfo");
-                                if (validFailResponse.contains(status)){
-                                    return Observable.just(status);
-                                }
+                    response -> {
+                        if (response.code() == 200) {
+                            if (response.body().has("Update_NecessaryInfo")) {
+                                response.body().getAsJsonArray("Update_NecessaryInfo").getAsString(); //TODO save user json to pref
+                                return Observable.just(RepositorySimpleStatus.SUCCESS);
                             }
-                            return Observable.just(RepositorySimpleStatus.SUCCESS);
+                        } else {
+                            RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Update_NecessaryInfo");
+                            if (validFailResponse.contains(status)){
+                                return Observable.just(status);
+                            }
                         }
+                        return Observable.just(RepositorySimpleStatus.SUCCESS);
+                    }
                 );
     }
 
@@ -153,76 +165,197 @@ public class RestClientImpl implements RestClient {
         String userId=""; //TODO put user id here
         return service.updateImportantInfo(authToken, createRequestBody(new String[]{"userId", "userEmail", "userPhone"}, new String[]{userId, email, phone}))
                 .concatMap(
-                        response -> {
-                            if (response.code() == 200) {
-                                if (response.body().has("Update_ImportantInfo")) {
-                                    response.body().getAsJsonArray("Update_ImportantInfo").getAsString(); //TODO save user json to pref
-                                    return Observable.just(RepositorySimpleStatus.SUCCESS);
-                                }
-                            } else {
-                                RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Update_ImportantInfo");
-                                if (validFailResponse.contains(status)){
-                                    return Observable.just(status);
-                                }
+                    response -> {
+                        if (response.code() == 200) {
+                            if (response.body().has("Update_ImportantInfo")) {
+                                response.body().getAsJsonArray("Update_ImportantInfo").getAsString(); //TODO save user json to pref
+                                return Observable.just(RepositorySimpleStatus.SUCCESS);
                             }
-                            return Observable.just(RepositorySimpleStatus.SUCCESS);
+                        } else {
+                            RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Update_ImportantInfo");
+                            if (validFailResponse.contains(status)){
+                                return Observable.just(status);
+                            }
                         }
+                        return Observable.just(RepositorySimpleStatus.SUCCESS);
+                    }
                 );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> getCountries() {
-        return null;
+    public Observable<List<DTOCountry>> getCountries() {
+        return service.getCountries()
+                .concatMap(
+                    response -> {
+                        if (response.code() == 200) {
+                            if (response.body().has("Select_Countries")) {
+                                List<DTOCountry> countries = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Countries")); //TODO save user json to pref
+                                return Observable.just(countries);
+                            }
+                        }
+                        return Observable.just(new ArrayList<DTOCountry>());
+                    }
+                );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> getCitiesByCountryId(int countryId) {
-        return null;
+    public Observable<List<DTOCity>> getCitiesByCountryId(int countryId) {
+        return service.getCitiesByCountryId(countryId)
+                .concatMap(
+                    response -> {
+                        if (response.code() == 200) {
+                            if (response.body().has("Select_Cities")) {
+                                List<DTOCity> cities = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Cities")); //TODO save user json to pref
+                                return Observable.just(cities);
+                            }
+                        }
+                        return Observable.just(new ArrayList<DTOCity>());
+                    }
+                );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> getDistrictsByCityId(int cityId) {
-        return null;
+    public Observable<List<DTODistrict>> getDistrictsByCityId(int cityId) {
+        return service.getDistrictsByCityId(cityId)
+                .concatMap(
+                    response -> {
+                        if (response.code() == 200) {
+                            if (response.body().has("Select_Districts")) {
+                                List<DTODistrict> districts = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Districts")); //TODO save user json to pref
+                                return Observable.just(districts);
+                            }
+                        }
+                        return Observable.just(new ArrayList<DTODistrict>());
+                    }
+                );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> getLocationsByDistrictId(int districtId) {
-        return null;
+    public Observable<List<DTOLocation>> getLocationsByDistrictId(int districtId) {
+        return service.getLocationsByDistrictId(districtId)
+                .concatMap(
+                    response -> {
+                        if (response.code() == 200) {
+                            if (response.body().has("Select_Locations")) {
+                                List<DTOLocation> locations = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Locations")); //TODO save user json to pref
+                                return Observable.just(locations);
+                            }
+                        }
+                        return Observable.just(new ArrayList<DTOLocation>());
+                    }
+                );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> getVouchers() {
-        return null;
+    public Observable<List<DTOVoucher>> getVouchers() {
+        return service.getVouchers()
+                .concatMap(
+                    response -> {
+                        if (response.code() == 200) {
+                            if (response.body().has("Select_Vouchers")) {
+                                List<DTOVoucher> vouchers = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Vouchers")); //TODO save user json to pref
+                                return Observable.just(vouchers);
+                            }
+                        }
+                        return Observable.just(new ArrayList<DTOVoucher>());
+                    }
+                );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> getTypes() {
-        return null;
+    public Observable<List<DTOType>> getTypes() {
+        return service.getTypes()
+                .concatMap(
+                    response -> {
+                        if (response.code() == 200) {
+                            if (response.body().has("Select_Types")) {
+                                List<DTOType> types = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Types")); //TODO save user json to pref
+                                return Observable.just(types);
+                            }
+                        }
+                        return Observable.just(new ArrayList<DTOType>());
+                    }
+                );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> getAllTime() {
-        return null;
+    public Observable<List<DTOTime>> getAllTime() {
+        return service.getAllTime()
+                .concatMap(
+                    response -> {
+                        if (response.code() == 200) {
+                            if (response.body().has("Select_AllTime")) {
+                                List<DTOTime> time = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_AllTime")); //TODO save user json to pref
+                                return Observable.just(time);
+                            }
+                        }
+                        return Observable.just(new ArrayList<DTOTime>());
+                    }
+                );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> getEcoTime() {
-        return null;
+    public Observable<List<DTOTimeEco>> getEcoTime() {
+        return service.getCountries()
+                .concatMap(
+                    response -> {
+                        if (response.code() == 200) {
+                            if (response.body().has("Select_EcoTime")) {
+                                List<DTOTimeEco> ecoTime = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_EcoTime")); //TODO save user json to pref
+                                return Observable.just(ecoTime);
+                            }
+                        }
+                        return Observable.just(new ArrayList<DTOTimeEco>());
+                    }
+                );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> getSelectedTime(int dayId, int locationId, int machineId) {
-        return null;
+    public Observable<List<DTOTimeSelected>> getSelectedTime(int dayId, int locationId, int machineId) {
+        return service.getSelectedTime(dayId, locationId, machineId)
+                .concatMap(
+                    response -> {
+                        if (response.code() == 200) {
+                            if (response.body().has("Select_SelectedTime")) {
+                                List<DTOTimeSelected> selectedTime = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_SelectedTime")); //TODO save user json to pref
+                                return Observable.just(selectedTime);
+                            }
+                        }
+                        return Observable.just(new ArrayList<DTOTimeSelected>());
+                    }
+                );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> getDaysOfWeek() {
-        return null;
+    public Observable<List<DTOWeekDay>> getDaysOfWeek() {
+        return service.getCountries()
+                .concatMap(
+                    response -> {
+                        if (response.code() == 200) {
+                            if (response.body().has("Select_DaysOfWeek")) {
+                                List<DTOWeekDay> weekdays = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_DaysOfWeek")); //TODO save user json to pref
+                                return Observable.just(weekdays);
+                            }
+                        }
+                        return Observable.just(new ArrayList<DTOWeekDay>());
+                    }
+                );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> getMachinesByLocationId(int locationId) {
-        return null;
+    public Observable<List<DTOMachine>> getMachinesByLocationId(int locationId) {
+        return service.getMachinesByLocationId(locationId)
+                .concatMap(
+                    response -> {
+                        if (response.code() == 200) {
+                            if (response.body().has("Select_Machines")) {
+                                List<DTOMachine> machines = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Machines")); //TODO save user json to pref
+                                return Observable.just(machines);
+                            }
+                        }
+                        return Observable.just(new ArrayList<DTOMachine>());
+                    }
+                );
     }
 
     @Override

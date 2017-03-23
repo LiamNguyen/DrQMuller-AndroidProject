@@ -15,7 +15,6 @@ import io.reactivex.Observable;
 
 public class WelcomeRepositoryImpl implements WelcomeRepository{
     private RestClient restClient;
-    private iCareService service;
 
     public WelcomeRepositoryImpl(){
         restClient = RestClientImpl.createRestClient();

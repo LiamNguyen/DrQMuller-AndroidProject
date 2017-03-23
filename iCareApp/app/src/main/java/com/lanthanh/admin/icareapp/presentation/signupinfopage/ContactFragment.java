@@ -18,6 +18,8 @@ import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by ADMIN on 22-Oct-16.
@@ -31,12 +33,13 @@ public class ContactFragment extends BaseFragment<UserInfoActivityPresenterImpl>
     @BindView(R.id.ui_next_button_p3) AppCompatButton nextButton;
     @BindView(R.id.ui_contacts_noti) TextView contactMessage;
 
+    private Unbinder unbinder;
     private boolean validEmail, validPhone;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.userinfo_contacts, container, false);
-
+        unbinder = ButterKnife.bind(this, view);
         initViews();
         validEmail = false; validPhone = false;
 
@@ -123,6 +126,12 @@ public class ContactFragment extends BaseFragment<UserInfoActivityPresenterImpl>
     @Override
     public UserInfoActivityPresenterImpl getMainPresenter() {
         return ((UserInfoActivity) getActivity()).getMainPresenter();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     private void toggleNextButton() {

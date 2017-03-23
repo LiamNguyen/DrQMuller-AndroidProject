@@ -18,6 +18,8 @@ import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 import java.util.Calendar;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by ADMIN on 22-Oct-16.
@@ -32,12 +34,13 @@ public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenterI
     @BindView(R.id.ui_female) RadioButton femaleButton;
     @BindView(R.id.ui_next_button_p2) AppCompatButton nextButton;
 
+    private Unbinder unbinder;
     private String dob, gender;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.userinfo_dobvsgender, container, false);
-
+        unbinder = ButterKnife.bind(this, view);
         initViews();
 
         return view;
@@ -102,6 +105,11 @@ public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenterI
     @Override
     public UserInfoActivityPresenterImpl getMainPresenter() {
         return ((UserInfoActivity) getActivity()).getMainPresenter();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     private void updateDatePicker() {

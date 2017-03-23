@@ -17,6 +17,8 @@ import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by ADMIN on 22-Oct-16.
@@ -29,12 +31,13 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
     @BindView(R.id.ui_address_container) TextInputLayout editAddressContainer;
     @BindView(R.id.ui_next_button_p1) AppCompatButton nextButton;
 
+    private Unbinder unbinder;
     private boolean validName, validAddress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.userinfo_namevsaddress, container, false);
-
+        unbinder = ButterKnife.bind(this, view);
         initViews();
         validName = false; validAddress = false;
 
@@ -119,6 +122,12 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
     public void onHiddenChanged(boolean hidden) {
         if (hidden || !isVisible())
             resetViews();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     //                if (validName && validAddress){

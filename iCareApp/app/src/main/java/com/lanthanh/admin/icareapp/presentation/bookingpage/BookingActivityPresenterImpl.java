@@ -1,22 +1,21 @@
 package com.lanthanh.admin.icareapp.presentation.bookingpage;
 
-import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
-import com.lanthanh.admin.icareapp.data.manager.AppointmentManager;
-import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
-import com.lanthanh.admin.icareapp.data.manager.SendEmailManager;
-import com.lanthanh.admin.icareapp.domain.executor.Executor;
+import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.data.repository.AppointmentRepositoryImpl;
+import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
+import com.lanthanh.admin.icareapp.domain.interactor.InteractorFactory;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointmentSchedule;
+import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
 import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
-import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
-import com.lanthanh.admin.icareapp.presentation.presenter.BookingActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
-import com.lanthanh.admin.icareapp.threading.MainThread;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,39 +24,23 @@ import java.util.List;
  * Created by ADMIN on 24-Jan-17.
  */
 
-public class BookingActivityPresenterImpl extends BasePresenter implements BookingActivityPresenter{
+public class BookingActivityPresenterImpl extends BasePresenter{
     public static final String TAG = BookingActivityPresenterImpl.class.getSimpleName();
-    private BookingActivityPresenter.View mView;
-    private ModelUser mUser;
-    private FragmentManager fragmentManager;
-    private AppointmentManager appointmentManager;
-    private CustomerManager customerManager;
-    private SendEmailManager sendEmailManager;
-    private SharedPreferences sharedPreferences;
+    private BookingActivity activity;
     private DTOAppointment appointment;
 
     //Fragment
     private BookingSelectFragment bookingSelectFragment;
     private BookingSelectDateFragment bookingSelectDateFragment;
     private BookingBookFragment bookingBookFragment;
+    private AppointmentRepository appointmentRepository;
 
-    public BookingActivityPresenterImpl(SharedPreferences sharedPreferences, Executor executor, MainThread mainThread, View view,
-                                        FragmentManager fragmentManager, AppointmentManager appointmentManager,
-                                        SendEmailManager sendEmailManager, CustomerManager customerManager) {
-        //Init local variable
+    private Interactor<List<DTOCountry>> getCountriesInteractor;
+    private Interactor<List<DTOCity>> getCitiesInteractor;
+
+    public BookingActivityPresenterImpl(BookingActivity activity) {
+        this.activity = activity;
         init();
-
-        //Init view
-        mView = view;
-
-        //Init manager
-        this.fragmentManager = fragmentManager;
-        this.appointmentManager = appointmentManager;
-        this.sendEmailManager = sendEmailManager;
-        this.customerManager = customerManager;
-
-        //Init local storage
-        this.sharedPreferences = sharedPreferences;
     }
 
     public void init(){
@@ -66,6 +49,10 @@ public class BookingActivityPresenterImpl extends BasePresenter implements Booki
         bookingBookFragment = new BookingBookFragment();
         bookingSelectFragment = new BookingSelectFragment();
         bookingSelectDateFragment = new BookingSelectDateFragment();
+        appointmentRepository = new AppointmentRepositoryImpl();
+
+        getCountriesInteractor = InteractorFactory.create(() -> appointmentRepository.getCountries());
+        getCitiesInteractor = InteractorFactory.create(() -> appointmentRepository.getCitiesByCountryId())
     }
 
     @Override
@@ -73,17 +60,15 @@ public class BookingActivityPresenterImpl extends BasePresenter implements Booki
 
     }
 
-    @Override
-    public void navigateTab(int selected) {
-        if (selected == BookingActivity.FIRST_SELECT)
-            mView.showFragment(fragmentManager, bookingSelectFragment, getVisibleFragments());
-        else if (selected == BookingActivity.SECOND_SELECT)
-            mView.showFragment(fragmentManager, bookingSelectDateFragment, getVisibleFragments());
-        else if (selected == BookingActivity.BOOK)
-            mView.showFragment(fragmentManager, bookingBookFragment, getVisibleFragments());
+    public void navigateFragment(Class<? extends Fragment> fragmentClass) {
+        if (fragmentClass == BookingSelectFragment.class)
+            showFragment(bookingSelectFragment);
+        else if (fragmentClass == BookingSelectFragment.class)
+            showFragment(bookingSelectDateFragment);
+        else if (fragmentClass == BookingBookFragment.class)
+            showFragment(bookingBookFragment);
     }
 
-    @Override
     public List<Fragment> getVisibleFragments() {
         // We have 3 fragments, so initialize the arrayList to 3 to optimize memory
         List<Fragment> result = new ArrayList<>(3);
@@ -102,18 +87,38 @@ public class BookingActivityPresenterImpl extends BasePresenter implements Booki
         return result;
     }
 
-    @Override
+    public void hideFragments(FragmentTransaction ft, List<Fragment> visibleFrags) {
+        for (Fragment fragment : visibleFrags) {
+            ft.hide(fragment);
+        }
+    }
+
+    public void showFragment(Fragment f) {
+        FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
+                                                /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                                                        R.anim.slide_in_left, R.anim.slide_out_right);*/
+        //Hide all current visible fragment
+        hideFragments(fragmentTransaction, getVisibleFragments());
+
+        if (!f.isAdded()){
+            fragmentTransaction.add(R.id.wel_fragment_container, f, f.getClass().getName());
+        }else{
+            fragmentTransaction.show(f);
+        }
+
+        fragmentTransaction.addToBackStack(null).commit();
+    }
+    
     public void addCartItem(){
         int totalItems = appointment.getAppointmentScheduleList().size();
         String latest = appointment.getAppointmentScheduleList().get(totalItems - 1).toString();
-        mView.onAddCartItem(latest);
+        //this.activity.onAddCartItem(latest);
     }
-
-    @Override
+    
     public void removeCartItem(String item)
     {
         //Set responsive color for item being removed
-        mView.onRemoveCartItemColor(false);
+        this.activity.onRemoveCartItemColor(false);
         //Get appointment schedule
         DTOAppointmentSchedule dtoAppointmentSchedule = getSpecificSchedule(item);
         if (dtoAppointmentSchedule != null){
@@ -124,7 +129,8 @@ public class BookingActivityPresenterImpl extends BasePresenter implements Booki
         }else
             onError("Item to be removed doesn't exist");
     }
-    @Override
+
+    
     public DTOAppointmentSchedule getSpecificSchedule(String item) {
         List<DTOAppointmentSchedule> dtoAppointmentScheduleList = appointment.getAppointmentScheduleList();
         for (DTOAppointmentSchedule dtoAppointmentSchedule : dtoAppointmentScheduleList){
@@ -138,8 +144,8 @@ public class BookingActivityPresenterImpl extends BasePresenter implements Booki
         try {
             for (DTOAppointmentSchedule dtoAppointmentSchedule: list) {
                 //Update UI
-                mView.onRemoveCartItem(dtoAppointmentSchedule.toString());
-                mView.onRemoveCartItemColor(true);
+                this.activity.onRemoveCartItem(dtoAppointmentSchedule.toString());
+                this.activity.onRemoveCartItemColor(true);
                 bookingBookFragment.autoExpandGroup(0);
                 //Update DTO
                 appointment.getAppointmentScheduleList().remove(dtoAppointmentSchedule);
@@ -149,19 +155,11 @@ public class BookingActivityPresenterImpl extends BasePresenter implements Booki
         }
     }
 
-    public void onRemoveTempBookingFail() {
-        try {
-            onError("REMOVE TEMP BOOK FAIL");
-        }catch (Exception e){
-            Log.w(TAG, e.toString());
-        }
-    }
 
-    @Override
     public void emptyCart() {
         if (!appointment.isMachineFilled())
             return;
-        mView.onEmptyCart();
+        this.activity.onEmptyCart();
         List<DTOAppointmentSchedule> dtoAppointmentScheduleList = appointment.getAppointmentScheduleList();
         DTOAppointmentSchedule[] array = new DTOAppointmentSchedule[dtoAppointmentScheduleList.size()];
         for (int i = 0; i < dtoAppointmentScheduleList.size(); i++){
@@ -173,12 +171,11 @@ public class BookingActivityPresenterImpl extends BasePresenter implements Booki
 //        removeTemporaryBookingInteractor.execute();
     }
 
-    @Override
+
     public DTOAppointment getDTOAppointment() {
         return appointment;
     }
 
-    @Override
     public void validateAppointment() {
 //        UpdateValidateAppointmentInteractor updateValidateAppointmentInteractor = new UpdateValidateAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager);
 //        updateValidateAppointmentInteractor.execute();
@@ -200,9 +197,8 @@ public class BookingActivityPresenterImpl extends BasePresenter implements Booki
         }
     }
 
-    @Override
     public void insertAppointment() {
-        mView.showProgress();
+        this.activity.showProgress();
         mUser = customerManager.getLocalUserFromPref(sharedPreferences);
         appointment.setCustomer(mUser);
         do{
@@ -231,7 +227,7 @@ public class BookingActivityPresenterImpl extends BasePresenter implements Booki
 
     public void onInsertAppointmentFail() {
         try {
-            mView.hideProgress();
+            this.activity.hideProgress();
             onError("Insert appointment fail");
         }catch (Exception e){
             Log.w(TAG, e.toString());
@@ -240,7 +236,7 @@ public class BookingActivityPresenterImpl extends BasePresenter implements Booki
 
     public void onInsertAppointmentSuccess(int appointmentId) {
         try {
-            mView.hideProgress();
+            this.activity.hideProgress();
             //Send mail to staff
 //            SendEmailNotifyBookingInteractor sendEmailNotifyBookingInteractor = new SendEmailNotifyBookingInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, appointment);
 //            sendEmailNotifyBookingInteractor.execute();
@@ -259,7 +255,7 @@ public class BookingActivityPresenterImpl extends BasePresenter implements Booki
             //empty cart
             emptyCart();
             //move to confirm activity
-            mView.navigateActivity(ConfirmBookingActivity.class);
+            this.activity.navigateActivity(ConfirmBookingActivity.class);
         }catch (Exception e){
             Log.w(TAG, e.toString());
         }
@@ -281,18 +277,24 @@ public class BookingActivityPresenterImpl extends BasePresenter implements Booki
         }
     }
 
-    @Override
     public void onBackPressed() {
         if (bookingSelectFragment.isVisible())
-            mView.navigateActivity(MainActivity.class);
+            this.activity.navigateActivity(MainActivity.class);
         else if (bookingSelectDateFragment.isVisible())
-            navigateTab(BookingActivity.FIRST_SELECT);
+            navigateFragment(BookingSelectFragment.class);
         else if (bookingBookFragment.isVisible())
-            navigateTab(BookingActivity.SECOND_SELECT);
+            navigateFragment(BookingSelectDateFragment.class);
     }
 
     @Override
     public void destroy() {
         emptyCart();
+    }
+
+    public void getCountries(int id){
+        getCountriesInteractor.execute(
+                success -> System.out.println(),
+                er -> System.out.println()
+        );
     }
 }

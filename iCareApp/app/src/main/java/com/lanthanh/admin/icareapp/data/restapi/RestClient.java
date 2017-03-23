@@ -1,6 +1,19 @@
 package com.lanthanh.admin.icareapp.data.restapi;
 
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOLocation;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOMachine;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTime;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTimeEco;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTimeSelected;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOWeekDay;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -16,17 +29,17 @@ public interface RestClient {
     Observable<RepositorySimpleStatus> updateBasicInfo(String authToken, String name, String address);
     Observable<RepositorySimpleStatus> updateNecessaryInfo(String authToken, String dob, String gender);
     Observable<RepositorySimpleStatus> updateImportantInfo(String authToken, String email, String phone);
-    Observable<RepositorySimpleStatus> getCountries();
-    Observable<RepositorySimpleStatus> getCitiesByCountryId(int countryId);
-    Observable<RepositorySimpleStatus> getDistrictsByCityId(int cityId);
-    Observable<RepositorySimpleStatus> getLocationsByDistrictId(int districtId);
-    Observable<RepositorySimpleStatus> getVouchers();
-    Observable<RepositorySimpleStatus> getTypes();
-    Observable<RepositorySimpleStatus> getAllTime();
-    Observable<RepositorySimpleStatus> getEcoTime();
-    Observable<RepositorySimpleStatus> getSelectedTime(int dayId, int locationId, int machineId);
-    Observable<RepositorySimpleStatus> getDaysOfWeek();
-    Observable<RepositorySimpleStatus> getMachinesByLocationId(int locationId);
+    Observable<List<DTOCountry>> getCountries();
+    Observable<List<DTOCity>> getCitiesByCountryId(int countryId);
+    Observable<List<DTODistrict>> getDistrictsByCityId(int cityId);
+    Observable<List<DTOLocation>> getLocationsByDistrictId(int districtId);
+    Observable<List<DTOVoucher>> getVouchers();
+    Observable<List<DTOType>> getTypes();
+    Observable<List<DTOTime>> getAllTime();
+    Observable<List<DTOTimeEco>> getEcoTime();
+    Observable<List<DTOTimeSelected>> getSelectedTime(int dayId, int locationId, int machineId);
+    Observable<List<DTOWeekDay>> getDaysOfWeek();
+    Observable<List<DTOMachine>> getMachinesByLocationId(int locationId);
     Observable<RepositorySimpleStatus> bookTime(String authToken, RequestBody body);
     Observable<RepositorySimpleStatus> releaseTime(String authToken, RequestBody body);
     Observable<RepositorySimpleStatus> validateAppointment();
