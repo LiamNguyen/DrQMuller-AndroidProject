@@ -7,23 +7,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
-import com.lanthanh.admin.icareapp.presentation.base.Presenter;
-import com.lanthanh.admin.icareapp.presentation.presenter.BookingActivityPresenter;
-import com.lanthanh.admin.icareapp.presentation.presenter.BookingSelectDatePresenter;
-import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import butterknife.BindView;
@@ -34,7 +26,7 @@ import butterknife.Unbinder;
  * Created by ADMIN on 25-Jan-17.
  */
 
-public class BookingSelectDateFragment extends BaseFragment<BookingActivityPresenterImpl> implements DatePickerDialog.OnDateSetListener{
+public class BookingSelectDateFragment extends BaseFragment<BookingActivityPresenterImpl>{
     @BindView(R.id.booking_startdate_text) TextInputEditText startDate;
     @BindView(R.id.booking_expiredate_text) TextInputEditText expireDate;
     @BindView(R.id.booking_startdate_text) TextView startDateText;
@@ -58,37 +50,73 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
 
     @Override
     public void initViews() {
+        resetViews();
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
         startDate.setTypeface(font);
         expireDate.setTypeface(font);
 
-        startDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        expireDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        //Create date picker dialog
+        initStartDatePickerDialog();
+        initExpireDatePickerDialog();
 
-        startDate.setOnClickListener(
-            view -> {
-
+        //Response to click
+        startDate.setOnClickListener(view -> getMainPresenter().onStartDatePickerClick(
+            calendar -> {
+                initStartDatePickerDialog();
+                startDatePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+                startDatePickerDialog.show();
             }
-        );
-        expireDate.setOnClickListener(view ->  bookingSelectDatePresenter.onExpireDatePickerClick());
+        ));
+        expireDate.setOnClickListener(view ->  getMainPresenter().onExpireDatePickerClick(
+            calendar -> {
+                initExpireDatePickerDialog();
+                expireDatePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+                expireDatePickerDialog.show();
+            }
+        ));
         nextButton.setOnClickListener(view -> getMainPresenter().navigateFragment(BookingBookFragment.class));
-
         nextButton.setEnabled(false);
+    }
+
+    public void initStartDatePickerDialog() {
+        startDatePickerDialog = new DatePickerDialog(
+                getActivity(),
+                (DatePicker datePicker, int year, int month, int day) -> {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(year, month, day);
+                    getMainPresenter().onStartDateSet(calendar, success -> { startDate.setText(success); expireDate.setEnabled(true);}, this::showToast);
+                    if (getProvider().getCurrentAppointment().isFirstSelectFilled()) {
+                        nextButton.setEnabled(true);
+                    } else {
+                        nextButton.setEnabled(false);
+                    }
+                },
+                Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+    }
+
+    public void initExpireDatePickerDialog() {
+        expireDatePickerDialog = new DatePickerDialog(getActivity(),
+                (DatePicker datePicker, int year, int month, int day) -> {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(year, month, day);
+                    getMainPresenter().onExpireDateSet(calendar, this.expireDate::setText, this::showToast);
+                },
+                Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
     }
 
     @Override
     public void resetViews() {
-
+        getMainPresenter().setUpDatePickerView(this::resetDatePickerView);
     }
 
     @Override
     public BookingActivityPresenterImpl getMainPresenter() {
-        return null;
+        return ((BookingActivity) getActivity()).getMainPresenter();
     }
 
     @Override
     public ApplicationProvider getProvider() {
-        return null;
+        return ((BookingActivity) getActivity()).getProvider();
     }
 
     @Override
@@ -98,69 +126,15 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
     }
 
     @Override
-    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
-        calendar.set(year, month, day);
-        if (startDatePickerDialog.getDatePicker().hashCode() == datePicker.hashCode()) {
-            bookingSelectDatePresenter.onStartDateSet(calendar);
-        }
-        else
-            bookingSelectDatePresenter.onExpireDateSet(calendar);
-    }
-
-    @Override
-    public void displayStartDate(String startDate) {
-//        if (startDate == null)
-//            this.startDate.setText(getActivity().getString(R.string.booking_start_date));
-//        else
-        this.startDate.setText(startDate);
-    }
-
-    @Override
-    public void displayExpireDate(String expireDate) {
-//        if (expireDate == null)
-//            this.expireDate.setText(getActivity().getString(R.string.booking_expire_date));
-//        else
-        this.expireDate.setText(expireDate);
-    }
-
-    @Override
-    public void enableExpireDate() {
-        expireDate.setEnabled(true);
-    }
-
-
-    public void showStartDatePicker(Calendar calendar) {
-        startDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        startDatePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
-        startDatePickerDialog.show();
-    }
-
-    public void showExpireDatePicker(Calendar calendar) {
-        expireDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        expireDatePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
-        expireDatePickerDialog.show();
-    }
-
-    @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible()) {
-            dateDisplayOnTypeOrVoucherChange();
-            bookingSelectDatePresenter.resume();
+            resetViews();
         }
     }
 
-    @Override
-    public void dateDisplayOnTypeOrVoucherChange() {
-        if (bookingActivityPresenter.getDTOAppointment().getTypeId() == type && bookingActivityPresenter.getDTOAppointment().getVoucherId() == voucher)
-            return;
-
-        bookingSelectDatePresenter.resetStartDate();
-        bookingSelectDatePresenter.resetExpireDate();
-        type = bookingActivityPresenter.getDTOAppointment().getTypeId();
-        voucher = bookingActivityPresenter.getDTOAppointment().getVoucherId();
-
-        if (type == 1) {
+    public void resetDatePickerView(int typeId) {
+        nextButton.setEnabled(false);
+        if (typeId == 1) {
             //If type = Co dinh, show start date. Set expire date to Ngay Ket Thuc
             startDate.setVisibility(View.VISIBLE);
             startDate.setText(getString(R.string.booking_date_hint));
@@ -177,4 +151,5 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
             expireDate.setText(getString(R.string.booking_date_hint));
         }
     }
+
 }

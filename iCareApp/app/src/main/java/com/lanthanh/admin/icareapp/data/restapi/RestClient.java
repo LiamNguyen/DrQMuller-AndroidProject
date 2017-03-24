@@ -1,6 +1,7 @@
 package com.lanthanh.admin.icareapp.data.restapi;
 
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
+import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
@@ -22,6 +23,7 @@ import okhttp3.RequestBody;
 
 public interface RestClient {
     RequestBody createRequestBody(String[] keys, String[] values);
+    RequestBody createRequestBody(String json);
     Observable<RepositorySimpleStatus> login(String username, String password);
     Observable<RepositorySimpleStatus> signup(String username, String password);
     Observable<RepositorySimpleStatus> updateBasicInfo(String authToken, String name, String address);
@@ -38,10 +40,10 @@ public interface RestClient {
     Observable<List<DTOTime>> getSelectedTime(int dayId, int locationId, int machineId);
     Observable<List<DTOWeekDay>> getDaysOfWeek();
     Observable<List<DTOMachine>> getMachinesByLocationId(int locationId);
-    Observable<RepositorySimpleStatus> bookTime(String authToken, RequestBody body);
-    Observable<RepositorySimpleStatus> releaseTime(String authToken, RequestBody body);
+    Observable<RepositorySimpleStatus> bookTime(String authToken, int locationdId, int dayId, int timeId, int machineId);
+    Observable<RepositorySimpleStatus> releaseTime(String authToken, int locationdId, int dayId, int timeId, int machineId);
     Observable<RepositorySimpleStatus> validateAppointment();
-    Observable<RepositorySimpleStatus> createAppointment(String authToken, RequestBody body);
-    Observable<RepositorySimpleStatus> confirmAppointment(String authToken, RequestBody body);
-    Observable<RepositorySimpleStatus> cancelAppointment(String authToken, RequestBody body);
+    Observable<String> createAppointment(String authToken, DTOAppointment appointment);
+    Observable<RepositorySimpleStatus> confirmAppointment(String authToken, String userId, String appointmentId);
+    Observable<RepositorySimpleStatus> cancelAppointment(String authToken, String userId, String appointmentId);
 }

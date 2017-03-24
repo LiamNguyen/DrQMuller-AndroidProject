@@ -27,9 +27,9 @@ public class DTOAppointment {
     private DTOLocation location;
     private DTOVoucher voucher;
     private DTOType type;
-    private DTOMachine machine;
     private Date startDate, expireDate;
     private List<DTOAppointmentSchedule> appointmentScheduleList;
+    private DTOAppointmentSchedule currentSchedule;
     private String verificationCode;
     private boolean status;
 
@@ -102,14 +102,6 @@ public class DTOAppointment {
         this.type = type;
     }
 
-    public DTOMachine getMachine() {
-        return machine;
-    }
-
-    public void setMachine(DTOMachine machine) {
-        this.machine = machine;
-    }
-
     public Date getStartDate() {
         return startDate;
     }
@@ -125,6 +117,19 @@ public class DTOAppointment {
     public void setExpireDate(Date expireDate) {
         this.expireDate = expireDate;
     }
+
+
+    public DTOAppointmentSchedule getCurrentSchedule() {
+        if (currentSchedule == null) {
+            currentSchedule = new DTOAppointmentSchedule();
+        }
+        return currentSchedule;
+    }
+
+    public void setCurrentSchedule(DTOAppointmentSchedule currentSchedule) {
+        this.currentSchedule = currentSchedule;
+    }
+
 
     public String getVerificationCode() {
         return verificationCode;
@@ -142,12 +147,15 @@ public class DTOAppointment {
         this.status = status;
     }
 
-    public void addAppointment(DTOAppointmentSchedule appointment){
-        appointmentScheduleList.add(appointment);
+    public List<DTOAppointmentSchedule> getAppointmentScheduleList(){
+        if (appointmentScheduleList == null) {
+            appointmentScheduleList = new ArrayList<>();
+        }
+        return appointmentScheduleList;
     }
 
-    public List<DTOAppointmentSchedule> getAppointmentScheduleList(){
-        return appointmentScheduleList;
+    public void setAppointmentScheduleList (List<DTOAppointmentSchedule> appointmentScheduleList) {
+        this.appointmentScheduleList = appointmentScheduleList;
     }
 
     public boolean isFirstSelectFilled(){
@@ -165,6 +173,6 @@ public class DTOAppointment {
     }
 
     public boolean isMachineFilled(){
-        return machine != null;
+        return currentSchedule != null && currentSchedule.getBookedMachine() != null;
     }
 }

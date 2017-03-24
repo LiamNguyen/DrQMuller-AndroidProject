@@ -67,7 +67,7 @@ public class NetworkUtils {
     public static List<int[]> convertToBookingTimeArray(List<DTOAppointmentSchedule> appointmentSchedulesList){
         List<int[]> result = new ArrayList<>();
         for (DTOAppointmentSchedule schedule : appointmentSchedulesList){
-            int[] i = {schedule.getDayId(), schedule.getHourId()};
+            int[] i = {schedule.getBookedDay().getDayId(), schedule.getBookedTime().getTimeId(), schedule.getBookedMachine().getMachineId()};
             result.add(i);
         }
         return result;

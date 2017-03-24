@@ -3,10 +3,13 @@ package com.lanthanh.admin.icareapp.data.restapi.impl;
 import com.google.gson.JsonObject;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
+import com.lanthanh.admin.icareapp.data.model.BookedTime;
+import com.lanthanh.admin.icareapp.data.model.DataMapper;
 import com.lanthanh.admin.icareapp.data.repository.datasource.LocalStorage;
 import com.lanthanh.admin.icareapp.data.restapi.RestClient;
 import com.lanthanh.admin.icareapp.data.restapi.iCareService;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
+import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
@@ -36,6 +39,7 @@ public class RestClientImpl implements RestClient {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final iCareService service;
     private LocalStorage localStorage;
+    private DataMapper dataMapper;
     private List<RepositorySimpleStatus> validFailResponse;
 
     private RestClientImpl(){
@@ -45,6 +49,7 @@ public class RestClientImpl implements RestClient {
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
         service = retrofit.create(iCareService.class);
+        dataMapper = new DataMapper();
         validFailResponse = Arrays.asList(RepositorySimpleStatus.TIME_BOOKED_SUCCESSFULLY,
                                          RepositorySimpleStatus.TIME_HAS_BEEN_BOOKED,
                                          RepositorySimpleStatus.USERNAME_EXISTED,
@@ -70,23 +75,28 @@ public class RestClientImpl implements RestClient {
         return RequestBody.create(JSON, json);
     }
 
+    @Override
+    public RequestBody createRequestBody(String json) {
+        return RequestBody.create(JSON, json);
+    }
+
     public Observable<RepositorySimpleStatus> login(String username, String password){
         return service.login(createRequestBody(new String[]{"username", "password"}, new String[]{username, password}))
-                      .concatMap(
+                      .map(
                           response -> {
                               if (response.code() == 200) {
                                   if (response.body().has("Select_ToAuthenticate")) {
                                       UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Select_ToAuthenticate").get(0), UserInfo.class);
                                       localStorage.saveUserToLocal(user);
-                                      return Observable.just(RepositorySimpleStatus.SUCCESS);
+                                      return RepositorySimpleStatus.SUCCESS;
                                   }
                               } else {
                                   RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Select_ToAuthenticate");
                                   if (validFailResponse.contains(status)){
-                                      return Observable.just(status);
+                                      return status;
                                   }
                               }
-                              return Observable.just(RepositorySimpleStatus.SUCCESS);
+                              return RepositorySimpleStatus.UNKNOWN_ERROR;
                           }
                       );
     }
@@ -94,21 +104,21 @@ public class RestClientImpl implements RestClient {
     public Observable<RepositorySimpleStatus> signup(String username, String password){
         String userId=""; //TODO put user id here
         return service.login(createRequestBody(new String[]{"userId", "username", "password"}, new String[]{userId, username, password}))
-                        .concatMap(
+                        .map(
                             response -> {
                                 if (response.code() == 200) {
                                     if (response.body().has("Insert_NewCustomer")) {
                                         UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Select_ToAuthenticate").get(0), UserInfo.class);
                                         localStorage.saveUserToLocal(user);
-                                        return Observable.just(RepositorySimpleStatus.SUCCESS);
+                                        return RepositorySimpleStatus.SUCCESS;
                                     }
                                 } else {
                                     RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Insert_NewCustomer");
                                     if (validFailResponse.contains(status)){
-                                        return Observable.just(status);
+                                        return status;
                                     }
                                 }
-                                return Observable.just(RepositorySimpleStatus.SUCCESS);
+                                return RepositorySimpleStatus.UNKNOWN_ERROR;
                             }
                         );
     }
@@ -117,20 +127,20 @@ public class RestClientImpl implements RestClient {
     public Observable<RepositorySimpleStatus> updateBasicInfo(String authToken, String name, String address) {
         String userId=""; //TODO put user id here
         return service.updateBasicInfo(authToken, createRequestBody(new String[]{"userId", "userName", "userAddress"}, new String[]{userId, name, address}))
-                        .concatMap(
+                        .map(
                             response -> {
                                 if (response.code() == 200) {
                                     if (response.body().has("Update_BasicInfo")) {
                                         response.body().getAsJsonArray("Update_BasicInfo").getAsString(); //TODO save user json to pref
-                                        return Observable.just(RepositorySimpleStatus.SUCCESS);
+                                        return RepositorySimpleStatus.SUCCESS;
                                     }
                                 } else {
                                     RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Update_BasicInfo");
                                     if (validFailResponse.contains(status)){
-                                        return Observable.just(status);
+                                        return status;
                                     }
                                 }
-                                return Observable.just(RepositorySimpleStatus.SUCCESS);
+                                return RepositorySimpleStatus.UNKNOWN_ERROR;
                             }
                         );
     }
@@ -139,20 +149,20 @@ public class RestClientImpl implements RestClient {
     public Observable<RepositorySimpleStatus> updateNecessaryInfo(String authToken, String dob, String gender) {
         String userId=""; //TODO put user id here
         return service.updateNecessaryInfo(authToken, createRequestBody(new String[]{"userId", "userDob", "userGender"}, new String[]{userId, dob, gender}))
-                .concatMap(
+                .map(
                     response -> {
                         if (response.code() == 200) {
                             if (response.body().has("Update_NecessaryInfo")) {
                                 response.body().getAsJsonArray("Update_NecessaryInfo").getAsString(); //TODO save user json to pref
-                                return Observable.just(RepositorySimpleStatus.SUCCESS);
+                                return RepositorySimpleStatus.SUCCESS;
                             }
                         } else {
                             RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Update_NecessaryInfo");
                             if (validFailResponse.contains(status)){
-                                return Observable.just(status);
+                                return status;
                             }
                         }
-                        return Observable.just(RepositorySimpleStatus.SUCCESS);
+                        return RepositorySimpleStatus.UNKNOWN_ERROR;
                     }
                 );
     }
@@ -161,20 +171,20 @@ public class RestClientImpl implements RestClient {
     public Observable<RepositorySimpleStatus> updateImportantInfo(String authToken, String email, String phone) {
         String userId=""; //TODO put user id here
         return service.updateImportantInfo(authToken, createRequestBody(new String[]{"userId", "userEmail", "userPhone"}, new String[]{userId, email, phone}))
-                .concatMap(
+                .map(
                     response -> {
                         if (response.code() == 200) {
                             if (response.body().has("Update_ImportantInfo")) {
                                 response.body().getAsJsonArray("Update_ImportantInfo").getAsString(); //TODO save user json to pref
-                                return Observable.just(RepositorySimpleStatus.SUCCESS);
+                                return RepositorySimpleStatus.SUCCESS;
                             }
                         } else {
                             RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Update_ImportantInfo");
                             if (validFailResponse.contains(status)){
-                                return Observable.just(status);
+                                return status;
                             }
                         }
-                        return Observable.just(RepositorySimpleStatus.SUCCESS);
+                        return RepositorySimpleStatus.UNKNOWN_ERROR;
                     }
                 );
     }
@@ -356,33 +366,113 @@ public class RestClientImpl implements RestClient {
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> bookTime(String authToken, RequestBody body) {
-        return null;
+    public Observable<RepositorySimpleStatus> bookTime(String authToken, int locationId, int dayId, int timeId, int machineId) {
+        String bookedTimeStr = ConverterJson.convertObjectToJson(new BookedTime[]{dataMapper.transform(dayId, timeId, machineId)});
+        return service.bookTime(authToken, createRequestBody(new String[]{"locationId", "time"}, new String[]{Integer.toString(locationId), bookedTimeStr}))
+                .map(
+                    response -> {
+                        if (response.code() == 200) {
+                            return RepositorySimpleStatus.SUCCESS;
+                        } else {
+                            RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "BookingTransaction");
+                            if (validFailResponse.contains(status)){
+                                return status;
+                            }
+                        }
+                        return RepositorySimpleStatus.UNKNOWN_ERROR;
+                    }
+                );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> releaseTime(String authToken, RequestBody body) {
-        return null;
+    public Observable<RepositorySimpleStatus> releaseTime(String authToken, int locationId, int dayId, int timeId, int machineId) {
+        String bookedTimeStr = ConverterJson.convertObjectToJson(new BookedTime[]{dataMapper.transform(dayId, timeId, machineId)});
+        return service.releaseTime(authToken, createRequestBody(new String[]{"locationId", "time"}, new String[]{Integer.toString(locationId), bookedTimeStr}))
+                .map(
+                    response -> {
+                        if (response.code() == 200) {
+                            return RepositorySimpleStatus.SUCCESS;
+                        } else {
+                            RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Update_ReleaseTime");
+                            if (validFailResponse.contains(status)){
+                                return status;
+                            }
+                        }
+                        return RepositorySimpleStatus.UNKNOWN_ERROR;
+                    }
+                );
     }
 
     @Override
     public Observable<RepositorySimpleStatus> validateAppointment() {
-        return null;
+        return service.validateAppointment()
+                .map(
+                    response -> {
+                        if (response.code() == 200) {
+                            return RepositorySimpleStatus.SUCCESS;
+                        } else {
+                            RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Update_ValidateAppointment");
+                            if (validFailResponse.contains(status)){
+                                return status;
+                            }
+                        }
+                        return RepositorySimpleStatus.UNKNOWN_ERROR;
+                    }
+                );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> createAppointment(String authToken, RequestBody body) {
-        return null;
+    public Observable<String> createAppointment(String authToken, DTOAppointment appointment) {
+        String json  = ConverterJson.convertObjectToJson(dataMapper.transform(appointment));
+        return service.createAppointment(authToken, createRequestBody(json))
+                .map(
+                    response -> {
+                        if (response.code() == 200) {
+                            if (response.body().has("Insert_NewAppointment")) {
+                                return response.body().getAsJsonArray("Insert_Appointment")
+                                        .get(0).getAsJsonObject()
+                                        .get("appointmentId").getAsString(); //TODO save user json to pref
+                            }
+                        }
+                        return null;
+                    }
+                );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> confirmAppointment(String authToken, RequestBody body) {
-        return null;
+    public Observable<RepositorySimpleStatus> confirmAppointment(String authToken, String userId, String appointmentId) {
+        return service.confirmAppointment(authToken, createRequestBody(new String[]{"userId", "appointmentId"}, new String[]{userId, appointmentId}))
+                .map(
+                    response -> {
+                        if (response.code() == 200) {
+                            return RepositorySimpleStatus.SUCCESS;
+                        } else {
+                            RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "BookingTransaction");
+                            if (validFailResponse.contains(status)){
+                                return status;
+                            }
+                        }
+                        return RepositorySimpleStatus.UNKNOWN_ERROR;
+                    }
+                );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> cancelAppointment(String authToken, RequestBody body) {
-        return null;
+    public Observable<RepositorySimpleStatus> cancelAppointment(String authToken, String userId, String appointmentId) {
+        return service.cancelAppointment(authToken, createRequestBody(new String[]{"userId", "appointmentId"}, new String[]{userId, appointmentId}))
+                .map(
+                    response -> {
+                        if (response.code() == 200) {
+                            return RepositorySimpleStatus.SUCCESS;
+                        } else {
+                            RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "BookingTransaction");
+                            if (validFailResponse.contains(status)){
+                                return status;
+                            }
+                        }
+                        return RepositorySimpleStatus.UNKNOWN_ERROR;
+                    }
+                );
     }
 
     private RepositorySimpleStatus resolveErrorReponse(int respCode, String error, String key) {

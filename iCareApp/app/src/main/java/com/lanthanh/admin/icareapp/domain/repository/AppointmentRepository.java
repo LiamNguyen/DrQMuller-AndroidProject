@@ -1,5 +1,7 @@
 package com.lanthanh.admin.icareapp.domain.repository;
 
+import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
+import com.lanthanh.admin.icareapp.presentation.model.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
@@ -30,4 +32,10 @@ public interface AppointmentRepository {
     Observable<List<DTOTime>> getSelectedTime(int dayId, int locationId, int machineId);
     Observable<List<DTOTime>> getEcoTime();
     Observable<List<DTOWeekDay>> getWeekDays();
+    Observable<RepositorySimpleStatus> bookTime(String authToken, int locationdId, List<DTOAppointmentSchedule> appointmentScheduleList);
+    Observable<RepositorySimpleStatus> releaseTime(String authToken, int locationId, List<DTOAppointmentSchedule> appointmentScheduleList);
+    Observable<RepositorySimpleStatus> validateAppointment();
+    Observable<String> createAppointment(String authToken, DTOAppointment appointment);
+    Observable<RepositorySimpleStatus> confirmAppointment(String authToken, int userId, int appointmentId);
+    Observable<RepositorySimpleStatus> cancelAppointment(String authToken, int userId, int appointmentId);
 }

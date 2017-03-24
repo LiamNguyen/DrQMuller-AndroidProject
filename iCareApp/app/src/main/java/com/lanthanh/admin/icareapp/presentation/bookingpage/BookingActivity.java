@@ -1,40 +1,23 @@
 package com.lanthanh.admin.icareapp.presentation.bookingpage;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.AppointmentManagerImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.SendEmailManagerImpl;
-import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.presentation.base.BaseActivity;
-import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
-import com.lanthanh.admin.icareapp.presentation.presenter.BookingActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.adapter.ListPopupWindowAdapter;
-import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
 import com.mikepenz.actionitembadge.library.ActionItemBadge;
 
 import java.util.ArrayList;
@@ -142,7 +125,12 @@ public class BookingActivity extends BaseActivity{
                         .setPositiveButton(getString(R.string.agree_button), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                bookingActivityPresenter.emptyCart();
+                                bookingActivityPresenter.emptyCart(
+                                    () -> {
+                                        cartList.clear();
+                                        invalidateOptionsMenu();
+                                    }
+                                );
                             }
                         }).setNegativeButton(getString(R.string.abort_button), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -185,7 +173,17 @@ public class BookingActivity extends BaseActivity{
             (AdapterView<?> adapterView, View view, int position, long id) -> {
                 if (position != 0) {
                     removedItem = view;
-                    bookingActivityPresenter.removeCartItem((String) adapterView.getAdapter().getItem(position));
+                    bookingActivityPresenter.releaseTime(
+                        (String) adapterView.getAdapter().getItem(position),
+                        item -> {
+                            cartList.remove(item);
+                            popupAdapter.notifyDataSetChanged();
+                            if (popupWindow.isShowing())
+                                popupWindow.getListView().invalidateViews();
+                            refreshCartIcon();
+                            onRemoveCartItemColor(true);
+                        }
+                    );
                 }
             }
         );
@@ -194,14 +192,6 @@ public class BookingActivity extends BaseActivity{
     public void onAddCartItem(String item) {
         cartList.add(item);
         invalidateOptionsMenu();
-    }
-
-    public void onRemoveCartItem(String item) {
-        cartList.remove(item);
-        popupAdapter.notifyDataSetChanged();
-        if (popupWindow.isShowing())
-            popupWindow.getListView().invalidateViews();
-        refreshCartIcon();
     }
 
     public void onRemoveCartItemColor(boolean isDone) {
@@ -217,14 +207,6 @@ public class BookingActivity extends BaseActivity{
             }
         }
     }
-
-    public void onEmptyCart() {
-        cartList.clear();
-        invalidateOptionsMenu();
-    }
-
-
-
 
     /* =============================== END OF TOOLBAR ===============================*/
 

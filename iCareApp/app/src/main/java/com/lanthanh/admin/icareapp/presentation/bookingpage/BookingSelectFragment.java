@@ -221,13 +221,16 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()){
             case R.id.spinner_countries:
-                getMainPresenter().getCitiesByCountryId((DTOCountry) countrySp.getSelectedItem());
+                getMainPresenter().getCitiesByCountryId(((DTOCountry) countrySp.getSelectedItem()).getCountryId());
+                getProvider().getCurrentAppointment().setCountry((DTOCountry) countrySp.getSelectedItem());
                 break;
             case R.id.spinner_cities:
-                getMainPresenter().getDistrictsByCityId((DTOCity) countrySp.getSelectedItem());
+                getMainPresenter().getDistrictsByCityId(((DTOCity) countrySp.getSelectedItem()).getCityId());
+                getProvider().getCurrentAppointment().setCity((DTOCity) citySp.getSelectedItem());
                 break;
             case R.id.spinner_districts:
-                getMainPresenter().getLocationsByDistrictId((DTODistrict) countrySp.getSelectedItem());
+                getMainPresenter().getLocationsByDistrictId(((DTODistrict) countrySp.getSelectedItem()).getDistrictId());
+                getProvider().getCurrentAppointment().setDistrict((DTODistrict) districtSp.getSelectedItem());
                 break;
             case R.id.spinner_locations:
                 getProvider().getCurrentAppointment().setLocation((DTOLocation) locationSp.getSelectedItem());

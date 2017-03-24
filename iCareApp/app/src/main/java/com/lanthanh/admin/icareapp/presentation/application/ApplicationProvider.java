@@ -1,7 +1,12 @@
 package com.lanthanh.admin.icareapp.presentation.application;
 
 
+import android.content.SharedPreferences;
+
+import com.google.gson.reflect.TypeToken;
+import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
 import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
+import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
@@ -12,8 +17,11 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOWeekDay;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author longv
@@ -34,6 +42,51 @@ public class ApplicationProvider {
     private List<DTOTime> selectedTime;
     private List<DTOAppointment> appointments;
     private DTOAppointment currentAppointment;
+    private SharedPreferences sharedPreferences;
+    private UserInfo user;
+
+    public ApplicationProvider(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
+    }
+
+    public UserInfo getUser() {
+        return ConverterJson.convertJsonToObject(sharedPreferences.getString("user", ""), UserInfo.class);
+    }
+
+    public void saveUserToLocal(UserInfo user) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("user", ConverterJson.convertObjectToJson(user, UserInfo.class));
+        editor.apply();
+        editor.commit();
+    }
+
+    public List<DTOAppointment> getAppointments() {
+        Type mapType = new TypeToken<Map<String ,String>>(){}.getType();
+        Type listType = new TypeToken<List<DTOAppointment>>(){}.getType();
+        Map<String, String> appointmentDB = ConverterJson.convertJsonToObject(sharedPreferences.getString("appointmentDB", ""), mapType);
+        if (appointmentDB == null)
+            appointmentDB = new HashMap<>();
+        for (String i : appointmentDB.keySet()){
+            if (i.equals(getUser().getId()))
+                return ConverterJson.convertJsonToObject(appointmentDB.get(i), listType);
+        }
+        return null;
+    }
+
+    public void saveAppointmentsToLocal(SharedPreferences sharedPreferences, List<DTOAppointment> appointments) {
+        Type mapType = new TypeToken<Map<String ,String>>(){}.getType();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Map<String, String> appointmentDB = ConverterJson.convertJsonToObject(sharedPreferences.getString("appointmentDB", ""), mapType);
+        if (appointmentDB == null)
+            appointmentDB = new HashMap<>();
+        if (appointments == null || appointments.size() == 0)
+            appointmentDB.remove(getUser().getId());
+        else
+            appointmentDB.put(getUser().getId(), ConverterJson.convertObjectToJson(appointments));
+        editor.putString("appointmentDB", ConverterJson.convertObjectToJson(appointmentDB));
+        editor.apply();
+        editor.commit();
+    }
 
     public List<DTOCountry> getCountries() {
         if (countries == null) {
@@ -156,17 +209,10 @@ public class ApplicationProvider {
         this.selectedTime = selectedTime;
     }
 
-    public List<DTOAppointment> getAppointments() {
-        return appointments;
-    }
-
-    public void setAppointments(List<DTOAppointment> appointments) {
-        this.appointments = appointments;
-    }
-
     public DTOAppointment getCurrentAppointment() {
         if (currentAppointment == null) {
             currentAppointment = new DTOAppointment();
+            currentAppointment.setUser(getUser());
         }
         return currentAppointment;
     }

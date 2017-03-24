@@ -3,6 +3,8 @@ package com.lanthanh.admin.icareapp.data.repository;
 import com.lanthanh.admin.icareapp.data.restapi.RestClient;
 import com.lanthanh.admin.icareapp.data.restapi.impl.RestClientImpl;
 import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
+import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
+import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
@@ -81,5 +83,35 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     @Override
     public Observable<List<DTOWeekDay>> getWeekDays() {
         return restClient.getDaysOfWeek();
+    }
+
+    @Override
+    public Observable<RepositorySimpleStatus> bookTime(int locationdId, int dayId, int timeId, int machineId) {
+        return restClient.bookTime(locationdId, dayId, timeId, machineId);
+    }
+
+    @Override
+    public Observable<RepositorySimpleStatus> releaseTime(int locationdId, int dayId, int timeId, int machineId) {
+        return null;
+    }
+
+    @Override
+    public Observable<RepositorySimpleStatus> validateAppointment() {
+        return null;
+    }
+
+    @Override
+    public Observable<String> createAppointment(DTOAppointment appointment) {
+        return null;
+    }
+
+    @Override
+    public Observable<RepositorySimpleStatus> confirmAppointment(int userId, int appointmentId) {
+        return null;
+    }
+
+    @Override
+    public Observable<RepositorySimpleStatus> cancelAppointment(int userId, int appointmentId) {
+        return null;
     }
 }
