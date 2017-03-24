@@ -1,5 +1,8 @@
 package com.lanthanh.admin.icareapp.presentation.bookingpage;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -7,15 +10,12 @@ import android.util.Log;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.repository.AppointmentRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
-import com.lanthanh.admin.icareapp.domain.interactor.InteractorFactory;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.domain.model.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
 import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +33,9 @@ public class BookingActivityPresenterImpl extends BasePresenter{
     private BookingSelectFragment bookingSelectFragment;
     private BookingSelectDateFragment bookingSelectDateFragment;
     private BookingBookFragment bookingBookFragment;
-    private AppointmentRepository appointmentRepository;
 
-    private Interactor<List<DTOCountry>> getCountriesInteractor;
-    private Interactor<List<DTOCity>> getCitiesInteractor;
+    private AppointmentRepository appointmentRepository;
+    private Interactor interactor;
 
     public BookingActivityPresenterImpl(BookingActivity activity) {
         this.activity = activity;
@@ -50,9 +49,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         bookingSelectFragment = new BookingSelectFragment();
         bookingSelectDateFragment = new BookingSelectDateFragment();
         appointmentRepository = new AppointmentRepositoryImpl();
-
-        getCountriesInteractor = InteractorFactory.create(() -> appointmentRepository.getCountries());
-        getCitiesInteractor = InteractorFactory.create(() -> appointmentRepository.getCitiesByCountryId())
+        interactor = new Interactor();
     }
 
     @Override
@@ -155,6 +152,19 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         }
     }
 
+    public void navigateActivity(Class<? extends Activity> activityClass) {
+        Intent intent = new Intent(this.activity, activityClass);
+        this.activity.startActivity(intent);
+        this.activity.finish();
+    }
+
+    public void navigateActivity(Class<? extends Activity> activityClass, Bundle b) {
+        Intent intent = new Intent(this.activity, activityClass);
+        intent.putExtra(this.getClass().getName(), b); //TODO check this put extra
+        this.activity.startActivity(intent);
+        this.activity.finish();
+    }
+
 
     public void emptyCart() {
         if (!appointment.isMachineFilled())
@@ -176,26 +186,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         return appointment;
     }
 
-    public void validateAppointment() {
-//        UpdateValidateAppointmentInteractor updateValidateAppointmentInteractor = new UpdateValidateAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager);
-//        updateValidateAppointmentInteractor.execute();
-    }
-
-    public void onValidateFail() {
-        try {
-            onError("Validate fail");
-        }catch (Exception e){
-            Log.w(TAG, e.toString());
-        }
-    }
-
-    public void onValidateSuccess() {
-        try {
-            System.out.println("Validate success");
-        }catch (Exception e){
-            Log.w(TAG, e.toString());
-        }
-    }
+    //TODO remember to impl validate appointment
 
     public void insertAppointment() {
         this.activity.showProgress();
@@ -210,7 +201,6 @@ public class BookingActivityPresenterImpl extends BasePresenter{
 //        insertAppointmentInteractor.execute();
     }
 
-    @Override
     public boolean checkVerificationCodeExistence(String verificationCode) {
         //Get appointment from local shared pref
         List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
@@ -279,7 +269,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
 
     public void onBackPressed() {
         if (bookingSelectFragment.isVisible())
-            this.activity.navigateActivity(MainActivity.class);
+            navigateActivity(MainActivity.class);
         else if (bookingSelectDateFragment.isVisible())
             navigateFragment(BookingSelectFragment.class);
         else if (bookingBookFragment.isVisible())
@@ -291,10 +281,106 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         emptyCart();
     }
 
-    public void getCountries(int id){
-        getCountriesInteractor.execute(
-                success -> System.out.println(),
-                er -> System.out.println()
+    public void getCountries(){
+        interactor.execute(
+            () -> appointmentRepository.getCountries(),
+            success -> this.activity.getProvider().setCountries(success),
+            error -> {}
+        );
+    }
+
+    public void getCitiesByCountryId(int countryId){
+        interactor.execute(
+            () -> appointmentRepository.getCitiesByCountryId(countryId),
+            success -> this.activity.getProvider().setCities(success),
+            error -> {}
+        );
+    }
+
+    public void getDistrictsByCityId(int cityId){
+        interactor.execute(
+            () -> appointmentRepository.getDistrictsByCityId(cityId),
+            success -> this.activity.getProvider().setDistricts(success),
+            error -> {}
+        );
+    }
+
+    public void getLocationsByDistrictId(int districtId){
+        interactor.execute(
+            () -> appointmentRepository.getLocationsByDistrictId(districtId),
+            success -> {
+                this.activity.getProvider().setLocations(success);
+            },
+            error -> {}
+        );
+    }
+
+    public void getVouchers() {
+        interactor.execute(
+            () -> appointmentRepository.getVouchers(),
+            success -> {
+                this.activity.getProvider().setVouchers(success);
+            },
+            error -> {}
+        );
+    }
+
+    public void getTypes() {
+        interactor.execute(
+            () -> appointmentRepository.getTypes(),
+            success -> {
+                this.activity.getProvider().setTypes(success);
+            },
+            error -> {}
+        );
+    }
+
+    public void getMachinesByLocationId(int locationId) {
+        interactor.execute(
+            () -> appointmentRepository.getMachinesByLocationId(locationId),
+            success -> {
+                this.activity.getProvider().setMachines(success);
+            },
+            error -> {}
+        );
+    }
+
+    public void getWeekDays() {
+        interactor.execute(
+            () -> appointmentRepository.getWeekDays(),
+            success -> {
+                this.activity.getProvider().setWeekDays(success);
+            },
+            error -> {}
+        );
+    }
+
+    public void getAllTime() {
+        interactor.execute(
+            () -> appointmentRepository.getAllTime(),
+            success -> {
+                this.activity.getProvider().setAllTime(success);
+                getEcoTime();
+            },
+            error -> {}
+        );
+    }
+
+    public void getEcoTime() {
+        interactor.execute(
+            () -> appointmentRepository.getEcoTime(),
+            success -> {
+                this.activity.getProvider().setEcoTime(success);
+            },
+            error -> {}
+        );
+    }
+
+    public void getSelectedTime(int dayId, int locationId, int machineId) {
+        interactor.execute(
+            () -> appointmentRepository.getSelectedTime(dayId, locationId, machineId),
+            success -> this.activity.getProvider().setSelectedTime(success),
+            error -> {}
         );
     }
 }

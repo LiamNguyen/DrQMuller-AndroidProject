@@ -9,8 +9,6 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOLocation;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOMachine;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTime;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTimeEco;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTimeSelected;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOWeekDay;
@@ -71,12 +69,12 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     }
 
     @Override
-    public Observable<List<DTOTimeSelected>> getSelectedTime(int dayId, int locationId, int machineId) {
+    public Observable<List<DTOTime>> getSelectedTime(int dayId, int locationId, int machineId) {
         return restClient.getSelectedTime(dayId, locationId, machineId);
     }
 
     @Override
-    public Observable<List<DTOTimeEco>> getEcoTime() {
+    public Observable<List<DTOTime>> getEcoTime() {
         return restClient.getEcoTime();
     }
 

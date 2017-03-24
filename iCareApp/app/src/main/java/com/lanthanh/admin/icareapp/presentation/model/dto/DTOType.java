@@ -22,4 +22,9 @@ public class DTOType {
     public String getTypeName() {
         return typeName;
     }
+
+    @Override
+    public String toString() {
+        return typeName;
+    }
 }

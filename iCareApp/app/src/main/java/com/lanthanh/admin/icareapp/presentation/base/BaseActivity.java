@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
+import com.lanthanh.admin.icareapp.presentation.application.iCareApplication;
+
 /**
  * @author longv
  * Created on 19-Mar-17.
@@ -13,6 +16,10 @@ import android.widget.Toast;
 
 public abstract class BaseActivity extends AppCompatActivity {
     private Toast toast;
+
+    public ApplicationProvider getProvider() {
+        return ((iCareApplication) getApplication()).getProvider();
+    }
 
     /**
      * This method is used for hiding soft keyboard if it is visible

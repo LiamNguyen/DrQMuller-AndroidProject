@@ -14,14 +14,11 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOLocation;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOMachine;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTime;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTimeEco;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTimeSelected;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOWeekDay;
 import com.lanthanh.admin.icareapp.utils.NetworkUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -185,15 +182,15 @@ public class RestClientImpl implements RestClient {
     @Override
     public Observable<List<DTOCountry>> getCountries() {
         return service.getCountries()
-                .concatMap(
+                .map(
                     response -> {
                         if (response.code() == 200) {
+                            //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Countries")) {
-                                List<DTOCountry> countries = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Countries")); //TODO save user json to pref
-                                return Observable.just(countries);
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Countries"));
                             }
                         }
-                        return Observable.just(new ArrayList<DTOCountry>());
+                        return null;
                     }
                 );
     }
@@ -201,15 +198,15 @@ public class RestClientImpl implements RestClient {
     @Override
     public Observable<List<DTOCity>> getCitiesByCountryId(int countryId) {
         return service.getCitiesByCountryId(countryId)
-                .concatMap(
+                .map(
                     response -> {
                         if (response.code() == 200) {
                             if (response.body().has("Select_Cities")) {
-                                List<DTOCity> cities = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Cities")); //TODO save user json to pref
-                                return Observable.just(cities);
+                                //TODO error handling needed in stead of null?
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Cities"));
                             }
                         }
-                        return Observable.just(new ArrayList<DTOCity>());
+                        return null;
                     }
                 );
     }
@@ -217,15 +214,15 @@ public class RestClientImpl implements RestClient {
     @Override
     public Observable<List<DTODistrict>> getDistrictsByCityId(int cityId) {
         return service.getDistrictsByCityId(cityId)
-                .concatMap(
+                .map(
                     response -> {
                         if (response.code() == 200) {
+                            //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Districts")) {
-                                List<DTODistrict> districts = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Districts")); //TODO save user json to pref
-                                return Observable.just(districts);
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Districts"));
                             }
                         }
-                        return Observable.just(new ArrayList<DTODistrict>());
+                        return null;
                     }
                 );
     }
@@ -233,15 +230,15 @@ public class RestClientImpl implements RestClient {
     @Override
     public Observable<List<DTOLocation>> getLocationsByDistrictId(int districtId) {
         return service.getLocationsByDistrictId(districtId)
-                .concatMap(
+                .map(
                     response -> {
                         if (response.code() == 200) {
+                            //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Locations")) {
-                                List<DTOLocation> locations = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Locations")); //TODO save user json to pref
-                                return Observable.just(locations);
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Locations"));
                             }
                         }
-                        return Observable.just(new ArrayList<DTOLocation>());
+                        return null;
                     }
                 );
     }
@@ -249,15 +246,15 @@ public class RestClientImpl implements RestClient {
     @Override
     public Observable<List<DTOVoucher>> getVouchers() {
         return service.getVouchers()
-                .concatMap(
+                .map(
                     response -> {
                         if (response.code() == 200) {
+                            //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Vouchers")) {
-                                List<DTOVoucher> vouchers = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Vouchers")); //TODO save user json to pref
-                                return Observable.just(vouchers);
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Vouchers"));
                             }
                         }
-                        return Observable.just(new ArrayList<DTOVoucher>());
+                        return null;
                     }
                 );
     }
@@ -265,15 +262,15 @@ public class RestClientImpl implements RestClient {
     @Override
     public Observable<List<DTOType>> getTypes() {
         return service.getTypes()
-                .concatMap(
+                .map(
                     response -> {
                         if (response.code() == 200) {
+                            //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Types")) {
-                                List<DTOType> types = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Types")); //TODO save user json to pref
-                                return Observable.just(types);
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Types"));
                             }
                         }
-                        return Observable.just(new ArrayList<DTOType>());
+                        return null;
                     }
                 );
     }
@@ -281,47 +278,47 @@ public class RestClientImpl implements RestClient {
     @Override
     public Observable<List<DTOTime>> getAllTime() {
         return service.getAllTime()
-                .concatMap(
+                .map(
                     response -> {
+                        //TODO error handling needed in stead of null?
                         if (response.code() == 200) {
                             if (response.body().has("Select_AllTime")) {
-                                List<DTOTime> time = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_AllTime")); //TODO save user json to pref
-                                return Observable.just(time);
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_AllTime"));
                             }
                         }
-                        return Observable.just(new ArrayList<DTOTime>());
+                        return null;
                     }
                 );
     }
 
     @Override
-    public Observable<List<DTOTimeEco>> getEcoTime() {
+    public Observable<List<DTOTime>> getEcoTime() {
         return service.getCountries()
-                .concatMap(
+                .map(
                     response -> {
                         if (response.code() == 200) {
+                            //TODO error handling needed in stead of null?
                             if (response.body().has("Select_EcoTime")) {
-                                List<DTOTimeEco> ecoTime = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_EcoTime")); //TODO save user json to pref
-                                return Observable.just(ecoTime);
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_EcoTime"));
                             }
                         }
-                        return Observable.just(new ArrayList<DTOTimeEco>());
+                        return null;
                     }
                 );
     }
 
     @Override
-    public Observable<List<DTOTimeSelected>> getSelectedTime(int dayId, int locationId, int machineId) {
+    public Observable<List<DTOTime>> getSelectedTime(int dayId, int locationId, int machineId) {
         return service.getSelectedTime(dayId, locationId, machineId)
-                .concatMap(
+                .map(
                     response -> {
                         if (response.code() == 200) {
+                            //TODO error handling needed in stead of null?
                             if (response.body().has("Select_SelectedTime")) {
-                                List<DTOTimeSelected> selectedTime = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_SelectedTime")); //TODO save user json to pref
-                                return Observable.just(selectedTime);
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_SelectedTime"));
                             }
                         }
-                        return Observable.just(new ArrayList<DTOTimeSelected>());
+                        return null;
                     }
                 );
     }
@@ -329,15 +326,15 @@ public class RestClientImpl implements RestClient {
     @Override
     public Observable<List<DTOWeekDay>> getDaysOfWeek() {
         return service.getCountries()
-                .concatMap(
+                .map(
                     response -> {
                         if (response.code() == 200) {
+                            //TODO error handling needed in stead of null?
                             if (response.body().has("Select_DaysOfWeek")) {
-                                List<DTOWeekDay> weekdays = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_DaysOfWeek")); //TODO save user json to pref
-                                return Observable.just(weekdays);
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_DaysOfWeek"));
                             }
                         }
-                        return Observable.just(new ArrayList<DTOWeekDay>());
+                        return null;
                     }
                 );
     }
@@ -345,15 +342,15 @@ public class RestClientImpl implements RestClient {
     @Override
     public Observable<List<DTOMachine>> getMachinesByLocationId(int locationId) {
         return service.getMachinesByLocationId(locationId)
-                .concatMap(
+                .map(
                     response -> {
                         if (response.code() == 200) {
+                            //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Machines")) {
-                                List<DTOMachine> machines = ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Machines")); //TODO save user json to pref
-                                return Observable.just(machines);
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Machines"));
                             }
                         }
-                        return Observable.just(new ArrayList<DTOMachine>());
+                        return null;
                     }
                 );
     }

@@ -22,4 +22,9 @@ public class DTODistrict {
     public String getDistrictName() {
         return districtName;
     }
+
+    @Override
+    public String toString() {
+        return districtName;
+    }
 }

@@ -1,6 +1,9 @@
 package com.lanthanh.admin.icareapp.presentation.base;
 
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
+
+import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 
 /**
  * @author longv
@@ -11,4 +14,9 @@ public abstract class BaseFragment<T extends Presenter> extends Fragment{
     public abstract void initViews();
     public abstract void resetViews();
     public abstract T getMainPresenter();
+    public abstract ApplicationProvider getProvider();
+    public void showToast(String msg){
+        Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
+        toast.show();
+    }
 }

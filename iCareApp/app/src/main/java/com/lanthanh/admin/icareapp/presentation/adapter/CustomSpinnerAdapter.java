@@ -3,6 +3,7 @@ package com.lanthanh.admin.icareapp.presentation.adapter;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -17,12 +18,14 @@ import java.util.List;
  * Created by ADMIN on 06-Jan-17.
  */
 
-public class CustomSpinnerAdapter extends ArrayAdapter {
+public class CustomSpinnerAdapter<T> extends ArrayAdapter {
     private Context context;
     private Typeface font;
+    private String defaultText;
 
-    public CustomSpinnerAdapter(Context context, int layout, List<String> list){
+    public CustomSpinnerAdapter(Context context, int layout, List<T> list, String defaulText){
         super(context, layout, list);
+        this.defaultText = defaulText;
         this.context = context;
         font = Typeface.createFromAsset(this.context.getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
     }
@@ -59,12 +62,11 @@ public class CustomSpinnerAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = super.getView(position, convertView, parent);
         ((TextView) view).setTypeface(font);
-//        TextView tv = (TextView) view;
-//
-//        if (parent.getId() == R.id.spinner_countries || parent.getId() == R.id.spinner_cities || parent.getId() == R.id.spinner_districts){
-//            if (!parent.isEnabled())
-//                tv.setTextColor(context.getResources().getColor(R.color.colorLightBlack));
-//        }
+        if (position == 0) {
+            ((TextView) view).setText(defaultText);
+        } else {
+            ((TextView) view).setText(getItem(position - 1).toString());
+        }
 
         return view;
     }

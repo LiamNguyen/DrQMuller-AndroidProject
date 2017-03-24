@@ -40,27 +40,24 @@ import com.mikepenz.actionitembadge.library.ActionItemBadge;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindDrawable;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by ADMIN on 24-Jan-17.
  */
 
-public class BookingActivity extends BaseActivity implements AdapterView.OnItemClickListener, BookingActivityPresenter.View{
-    public final static boolean isUAT = false;
-    public final static int FIRST_SELECT = 0;
-    public final static int SECOND_SELECT = 1;
-    public final static int BOOK = 2;
+public class BookingActivity extends BaseActivity{
     private BookingActivityPresenterImpl bookingActivityPresenter;
-    private Drawable cartIcon;
+    @BindDrawable(R.drawable.ic_shopping_cart_white_32dp) Drawable cartIcon;
+    @BindView(R.id.toolbar) Toolbar toolBar;
+    @BindView(R.id.progressbar) ProgressBar progressBar;
     private ListPopupWindow popupWindow;
     private ListPopupWindowAdapter popupAdapter;
-    ProgressBar progressBar;
     private MenuItem cart;
     private View removedItem;
     private List<String> cartList;
-    //Controller
-    private NetworkController networkController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,18 +67,6 @@ public class BookingActivity extends BaseActivity implements AdapterView.OnItemC
 
         init();
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
-            // Do something for lollipop and above versions
-            cartIcon = getResources().getDrawable(R.drawable.ic_shopping_cart_white_32dp, null);
-        } else{
-            // do something for phones running an SDK before lollipop
-            cartIcon = getResources().getDrawable(R.drawable.ic_shopping_cart_white_32dp);
-        }
-
-        //Init view
-        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
-        progressBar = (ProgressBar) findViewById(R.id.progressbar);
-
         //Set up Toolbar
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -89,22 +74,16 @@ public class BookingActivity extends BaseActivity implements AdapterView.OnItemC
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        bookingActivityPresenter.navigateTab(FIRST_SELECT);
+        bookingActivityPresenter.navigateFragment(BookingSelectFragment.class);
     }
 
     public void init(){
-        bookingActivityPresenter = new BookingActivityPresenterImpl(
-                getSharedPreferences("content", Context.MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this,
-                getSupportFragmentManager(), new AppointmentManagerImpl(iCareApiImpl.getAPI()),
-                new SendEmailManagerImpl(iCareApiImpl.getAPI()), new CustomerManagerImpl(iCareApiImpl.getAPI()));
+        bookingActivityPresenter = new BookingActivityPresenterImpl(this);
         //Init cart list for display
         cartList = new ArrayList<>();
-        //Init controllers
-        networkController = new NetworkController(this);
     }
 
-    @Override
-    public BookingActivityPresenter getMainPresenter() {
+    public BookingActivityPresenterImpl getMainPresenter() {
         return bookingActivityPresenter;
     }
 
@@ -139,6 +118,14 @@ public class BookingActivity extends BaseActivity implements AdapterView.OnItemC
         return true;
     }
 
+    public void refreshCartIcon() {
+        if (cartList.size() > 0) {
+            ActionItemBadge.update(this, cart, cartIcon, ActionItemBadge.BadgeStyles.RED, cartList.size());
+        }else {
+            ActionItemBadge.update(this, cart, cartIcon, ActionItemBadge.BadgeStyles.RED, Integer.MIN_VALUE);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -156,7 +143,6 @@ public class BookingActivity extends BaseActivity implements AdapterView.OnItemC
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 bookingActivityPresenter.emptyCart();
-                                navigateActivity(MainActivity.class);
                             }
                         }).setNegativeButton(getString(R.string.abort_button), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -195,16 +181,21 @@ public class BookingActivity extends BaseActivity implements AdapterView.OnItemC
         popupWindow.setHorizontalOffset(width);
         popupWindow.setVerticalOffset(height);
         popupWindow.setModal(true);
-        popupWindow.setOnItemClickListener(this);
+        popupWindow.setOnItemClickListener(
+            (AdapterView<?> adapterView, View view, int position, long id) -> {
+                if (position != 0) {
+                    removedItem = view;
+                    bookingActivityPresenter.removeCartItem((String) adapterView.getAdapter().getItem(position));
+                }
+            }
+        );
     }
 
-    @Override
     public void onAddCartItem(String item) {
         cartList.add(item);
         invalidateOptionsMenu();
     }
 
-    @Override
     public void onRemoveCartItem(String item) {
         cartList.remove(item);
         popupAdapter.notifyDataSetChanged();
@@ -213,7 +204,6 @@ public class BookingActivity extends BaseActivity implements AdapterView.OnItemC
         refreshCartIcon();
     }
 
-    @Override
     public void onRemoveCartItemColor(boolean isDone) {
         if (removedItem != null){
             if (isDone){
@@ -228,93 +218,26 @@ public class BookingActivity extends BaseActivity implements AdapterView.OnItemC
         }
     }
 
-    @Override
     public void onEmptyCart() {
         cartList.clear();
         invalidateOptionsMenu();
     }
 
-    @Override
-    public void refreshCartIcon() {
-        if (cartList.size() > 0) {
-            ActionItemBadge.update(this, cart, cartIcon, ActionItemBadge.BadgeStyles.RED, cartList.size());
-        }else {
-            ActionItemBadge.update(this, cart, cartIcon, ActionItemBadge.BadgeStyles.RED, Integer.MIN_VALUE);
-        }
-    }
 
-    //Response to user click on cart window
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        if (position != 0) {
-            removedItem = view;
-            bookingActivityPresenter.removeCartItem((String) adapterView.getAdapter().getItem(position));
-        }
-    }
+
 
     /* =============================== END OF TOOLBAR ===============================*/
 
-    @Override
-    public void showFragment(FragmentManager fm, Fragment f, List<Fragment> visibleFrags) {
-        hideProgress();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                                                /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                                                        R.anim.slide_in_left, R.anim.slide_out_right);*/
-        //Hide all current visible fragment
-        hideFragments(fragmentTransaction, visibleFrags);
-
-        if (!f.isAdded()){
-            fragmentTransaction.add(R.id.fragment_container, f, f.getClass().getName());
-        }else{
-            fragmentTransaction.show(f);
-        }
-
-        if (f instanceof BookingSelectFragment)
-            fragmentTransaction.commit();
-        else
-            fragmentTransaction.addToBackStack(null).commit();
-    }
-
-    @Override
-    public void hideFragments(FragmentTransaction ft, List<Fragment> visibleFrags) {
-        for (Fragment fragment : visibleFrags) {
-            ft.hide(fragment);
-        }
-    }
-
-    @Override
-    public void navigateActivity(Class activityClass) {
-        hideProgress();
-        Intent toActivity = new Intent(this, activityClass);
-        startActivity(toActivity);
-        finish();
-    }
-
-    @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
-    @Override
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showError(String message) {
-        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM, 0, 110);
-        toast.show();
     }
 
     @Override
     public void onBackPressed() {
         bookingActivityPresenter.onBackPressed();
     }
-
-    //Call in case losing network and then connected again
-    public void refreshAfterNetworkConnected(){
-        this.onPostResume();
-    }
-
 }

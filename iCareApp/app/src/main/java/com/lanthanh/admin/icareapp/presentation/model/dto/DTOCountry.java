@@ -8,9 +8,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class DTOCountry {
     @SerializedName("COUNTRY_ID") private int countryId;
-    @SerializedName("COUNTRY") private int countryName;
+    @SerializedName("COUNTRY") private String countryName;
 
-    public DTOCountry(int countryId, int countryName){
+    public DTOCountry(int countryId, String countryName){
         this.countryId = countryId;
         this.countryName = countryName;
     }
@@ -19,7 +19,12 @@ public class DTOCountry {
         return countryId;
     }
 
-    public int getCountryName() {
+    public String getCountryName() {
+        return countryName;
+    }
+
+    @Override
+    public String toString() {
         return countryName;
     }
 }

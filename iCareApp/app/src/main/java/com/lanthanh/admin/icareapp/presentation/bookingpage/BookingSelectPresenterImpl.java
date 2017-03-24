@@ -37,12 +37,7 @@ public class BookingSelectPresenterImpl extends BasePresenter implements Booking
     private List<DTOLocation> locationList;
     private List<DTOVoucher> voucherList;
     private List<DTOType> typeList;
-    private CountryManager countryManager;
-    private CityManager cityManager;
-    private DistrictManager districtManager;
-    private LocationManager locationManager;
-    private VoucherManager voucherManager;
-    private TypeManager typeManager;
+   
 
     public BookingSelectPresenterImpl(Executor executor, MainThread mainThread, View view, DTOAppointment dtoAppointment,
     CountryManager countryManager, CityManager cityManager, DistrictManager districtManager, LocationManager locationManager, VoucherManager voucherManager, TypeManager typeManager){

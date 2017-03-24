@@ -28,4 +28,9 @@ public class DTOVoucher {
     public int getVoucherPrice() {
         return voucherPrice;
     }
+
+    @Override
+    public String toString() {
+        return voucherName + " - " + voucherPrice + " VND";
+    }
 }

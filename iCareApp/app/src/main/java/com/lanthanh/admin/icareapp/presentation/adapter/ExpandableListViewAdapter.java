@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTime;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOWeekDay;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import java.util.List;
@@ -19,13 +21,14 @@ import java.util.List;
  */
 
 public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
-    private List<String> listOfDays, listOfHours;
+    private List<DTOWeekDay> listOfDays;
+    private List<DTOTime> listOfHours;
     private Typeface fontDay, fontTime;
     private Activity context;
     private ChildViewHolder childViewHolder;
     private GroupViewHolder groupViewHolder;
 
-    public ExpandableListViewAdapter(Activity context, List<String> listOfDays, List<String> listOfHours) {
+    public ExpandableListViewAdapter(Activity context, List<DTOWeekDay> listOfDays, List<DTOTime> listOfHours) {
         this.listOfDays = listOfDays;
         this.listOfHours = listOfHours;
         this.context = context;
@@ -35,13 +38,13 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
 
     //Get one header (a day of week) of the group
     @Override
-    public String getGroup(int groupPosition) {
+    public DTOWeekDay getGroup(int groupPosition) {
         return listOfDays.get(groupPosition);
     }
 
     //Get an hour in the list of hours per day
     @Override
-    public String getChild(int groupPosition, int childPosition) {
+    public DTOTime getChild(int groupPosition, int childPosition) {
         //return listOfHoursPerDay.get(listOfDays.get(groupPosition)).get(childPosition);
         return listOfHours.get(childPosition);
     }
@@ -94,7 +97,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
 
         groupViewHolder.setImage(isExpanded);
         TextView dayDisplay = groupViewHolder.getTextDisplay();
-        dayDisplay.setText(getGroup(groupPosition));
+        dayDisplay.setText(getGroup(groupPosition).toString());
         dayDisplay.setTypeface(fontDay);
 
         return convertView;
@@ -114,7 +117,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
 
 
         TextView timeDisplay = childViewHolder.getTextDisplay();
-        timeDisplay.setText(getChild(groupPosition, childPosition));
+        timeDisplay.setText(getChild(groupPosition, childPosition).toString());
         timeDisplay.setTypeface(fontTime);
 
         return convertView;
@@ -153,13 +156,13 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
         }
     }
 
-    public void updateGroupList(List<String> l){
-        listOfDays = l;
+    public void updateGroupList(List<DTOWeekDay> newList){
+        listOfDays = newList;
         this.notifyDataSetChanged();
     }
 
-    public void updateChildList(List<String> l){
-        listOfHours = l;
+    public void updateChildList(List<DTOTime> newList){
+        listOfHours = newList;
         this.notifyDataSetChanged();
     }
 }

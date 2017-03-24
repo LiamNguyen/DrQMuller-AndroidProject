@@ -22,4 +22,9 @@ public class DTOWeekDay {
     public String getDayName() {
         return dayName;
     }
+
+    @Override
+    public String toString() {
+        return dayName;
+    }
 }

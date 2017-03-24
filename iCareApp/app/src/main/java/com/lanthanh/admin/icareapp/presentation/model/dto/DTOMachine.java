@@ -22,4 +22,9 @@ public class DTOMachine {
     public String getMachineName() {
         return machineName;
     }
+
+    @Override
+    public String toString() {
+        return machineName;
+    }
 }

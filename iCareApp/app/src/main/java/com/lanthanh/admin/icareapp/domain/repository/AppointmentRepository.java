@@ -6,8 +6,6 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOLocation;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOMachine;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTime;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTimeEco;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTimeSelected;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOWeekDay;
@@ -29,7 +27,7 @@ public interface AppointmentRepository {
     Observable<List<DTOType>> getTypes();
     Observable<List<DTOMachine>> getMachinesByLocationId(int locationId);
     Observable<List<DTOTime>> getAllTime();
-    Observable<List<DTOTimeSelected>> getSelectedTime(int dayId, int locationId, int machineId);
-    Observable<List<DTOTimeEco>> getEcoTime();
+    Observable<List<DTOTime>> getSelectedTime(int dayId, int locationId, int machineId);
+    Observable<List<DTOTime>> getEcoTime();
     Observable<List<DTOWeekDay>> getWeekDays();
 }

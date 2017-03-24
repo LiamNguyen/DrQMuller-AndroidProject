@@ -11,18 +11,16 @@ import io.reactivex.schedulers.Schedulers;
  * Created by long.vu on 3/23/2017.
  */
 
-public class Interactor<T>{
+public class Interactor{
     private final CompositeDisposable disposables;
-    private BuildUseCase<T> buildUseCase;
 
-    protected Interactor(BuildUseCase<T> buildUseCase){
-        this.buildUseCase = buildUseCase;
+    public Interactor(){
         disposables = new CompositeDisposable();
     }
 
-    public void execute(Consumer<T> onNext, Consumer<Throwable> onError){
+    public <T> void execute(BuildUseCase<T> buildUseCase, Consumer<T> onNext, Consumer<Throwable> onError){
         disposables.add(
-                this.buildUseCase.build()
+                buildUseCase.build()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(onNext, onError)
