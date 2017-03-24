@@ -3,7 +3,7 @@ package com.lanthanh.admin.icareapp.utils;
 import android.net.Uri;
 import android.util.Log;
 
-import com.lanthanh.admin.icareapp.domain.model.DTOAppointmentSchedule;
+import com.lanthanh.admin.icareapp.presentation.model.DTOAppointmentSchedule;
 
 import org.json.JSONObject;
 

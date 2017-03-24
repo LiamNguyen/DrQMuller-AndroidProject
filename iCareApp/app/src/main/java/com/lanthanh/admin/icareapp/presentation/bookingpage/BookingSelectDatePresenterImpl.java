@@ -2,7 +2,7 @@ package com.lanthanh.admin.icareapp.presentation.bookingpage;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
+import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.presenter.BookingSelectDatePresenter;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;

@@ -18,80 +18,83 @@ import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
+import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
+import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
+import com.lanthanh.admin.icareapp.presentation.base.Presenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.BookingActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.BookingSelectDatePresenter;
 import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * Created by ADMIN on 25-Jan-17.
  */
 
-public class BookingSelectDateFragment extends Fragment implements DatePickerDialog.OnDateSetListener, View.OnClickListener, BookingSelectDatePresenter.View{
-    public static final String TAG = BookingSelectDateFragment.class.getSimpleName();
-    private BookingSelectDatePresenter bookingSelectDatePresenter;
-    private BookingActivityPresenter bookingActivityPresenter;
-    private TextInputEditText startDate, expireDate;
-    private TextView startDateText, expireDateText;
+public class BookingSelectDateFragment extends BaseFragment<BookingActivityPresenterImpl> implements DatePickerDialog.OnDateSetListener{
+    @BindView(R.id.booking_startdate_text) TextInputEditText startDate;
+    @BindView(R.id.booking_expiredate_text) TextInputEditText expireDate;
+    @BindView(R.id.booking_startdate_text) TextView startDateText;
+    @BindView(R.id.booking_expiredate_text) TextView expireDateText;
+    @BindView(R.id.fab) FloatingActionButton nextButton;
+
     private DatePickerDialog startDatePickerDialog, expireDatePickerDialog;
     private int type, voucher;
+    private Unbinder unbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_booking_selectdate, container, false);
+        unbinder = ButterKnife.bind(this, view);
 
-        init();
-
-        /* =============================== PICK DATE =============================== */
-        //Initialize TextView
-        startDateText = (TextView) view.findViewById(R.id.booking_startdate_text);
-        expireDateText = (TextView) view.findViewById(R.id.booking_expiredate_text);
-
-        //Initialize TextInputEditText
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
-        startDate = (TextInputEditText) view.findViewById(R.id.booking_startdate);
-        startDate.setOnClickListener(this);
-        startDate.setTypeface(font);
-        expireDate = (TextInputEditText) view.findViewById(R.id.booking_expiredate);
-        expireDate.setOnClickListener(this);
-        expireDate.setTypeface(font);
-
-        //Initialize DatePickerDialog
-        startDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        expireDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-
-        //Set up floating button
-        FloatingActionButton nextBut = (FloatingActionButton) view.findViewById(R.id.fab);
-        nextBut.setOnClickListener(this);
-
-        bookingSelectDatePresenter.resume();
+        initViews();
 
         return view;
     }
 
-    public void init(){
-        //Init presenter
-        bookingActivityPresenter = ((BookingActivity) getActivity()).getMainPresenter();
-        bookingSelectDatePresenter = new BookingSelectDatePresenterImpl(ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this, bookingActivityPresenter.getDTOAppointment());
+    @Override
+    public void initViews() {
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
+        startDate.setTypeface(font);
+        expireDate.setTypeface(font);
+
+        startDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        expireDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+
+        startDate.setOnClickListener(
+            view -> {
+
+            }
+        );
+        expireDate.setOnClickListener(view ->  bookingSelectDatePresenter.onExpireDatePickerClick());
+        nextButton.setOnClickListener(view -> getMainPresenter().navigateFragment(BookingBookFragment.class));
+
+        nextButton.setEnabled(false);
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case  R.id.fab:
-                if (bookingSelectDatePresenter.isAllInfoFilled())
-                    bookingActivityPresenter.navigateTab(BookingActivity.BOOK);
-                else
-                    showError(getString(R.string.missing_detail));
-                break;
-            case R.id.booking_startdate:
-                bookingSelectDatePresenter.onStartDatePickerClick();
-                break;
-            case R.id.booking_expiredate:
-                bookingSelectDatePresenter.onExpireDatePickerClick();
-                break;
-        }
+    public void resetViews() {
+
+    }
+
+    @Override
+    public BookingActivityPresenterImpl getMainPresenter() {
+        return null;
+    }
+
+    @Override
+    public ApplicationProvider getProvider() {
+        return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     @Override
@@ -126,14 +129,13 @@ public class BookingSelectDateFragment extends Fragment implements DatePickerDia
         expireDate.setEnabled(true);
     }
 
-    @Override
+
     public void showStartDatePicker(Calendar calendar) {
         startDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         startDatePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
         startDatePickerDialog.show();
     }
 
-    @Override
     public void showExpireDatePicker(Calendar calendar) {
         expireDatePickerDialog = new DatePickerDialog(getActivity(), this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         expireDatePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
@@ -174,27 +176,5 @@ public class BookingSelectDateFragment extends Fragment implements DatePickerDia
             expireDate.setEnabled(true);
             expireDate.setText(getString(R.string.booking_date_hint));
         }
-    }
-
-    @Override
-    public void hideProgress() {
-        ((BookingActivity) getActivity()).hideProgress();
-    }
-
-    @Override
-    public void showProgress() {
-        ((BookingActivity) getActivity()).showProgress();
-    }
-
-    @Override
-    public void showError(String message) {
-        Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM, 0, 110);
-        toast.show();
-    }
-
-    @Override
-    public String getStringResource(int id) {
-        return getString(id);
     }
 }

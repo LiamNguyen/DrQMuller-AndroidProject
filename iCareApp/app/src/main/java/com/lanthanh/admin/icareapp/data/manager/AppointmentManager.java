@@ -2,10 +2,9 @@ package com.lanthanh.admin.icareapp.data.manager;
 
 import android.content.SharedPreferences;
 
-import com.google.gson.JsonArray;
 import com.lanthanh.admin.icareapp.data.manager.base.Manager;
-import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
-import com.lanthanh.admin.icareapp.domain.model.DTOAppointmentSchedule;
+import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
+import com.lanthanh.admin.icareapp.presentation.model.DTOAppointmentSchedule;
 
 import java.util.List;
 

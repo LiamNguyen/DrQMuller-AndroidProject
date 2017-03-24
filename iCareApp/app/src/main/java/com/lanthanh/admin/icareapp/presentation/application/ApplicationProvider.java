@@ -1,6 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.application;
 
 
+import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
@@ -20,17 +21,19 @@ import java.util.List;
  */
 
 public class ApplicationProvider {
-    List<DTOCountry> countries;
-    List<DTOCity> cities;
-    List<DTODistrict> districts;
-    List<DTOLocation> locations;
-    List<DTOVoucher> vouchers;
-    List<DTOType> types;
-    List<DTOMachine> machines;
-    List<DTOWeekDay> weekDays;
-    List<DTOTime> allTime;
-    List<DTOTime> ecoTime;
-    List<DTOTime> selectedTime;
+    private List<DTOCountry> countries;
+    private List<DTOCity> cities;
+    private List<DTODistrict> districts;
+    private List<DTOLocation> locations;
+    private List<DTOVoucher> vouchers;
+    private List<DTOType> types;
+    private List<DTOMachine> machines;
+    private List<DTOWeekDay> weekDays;
+    private List<DTOTime> allTime;
+    private List<DTOTime> ecoTime;
+    private List<DTOTime> selectedTime;
+    private List<DTOAppointment> appointments;
+    private DTOAppointment currentAppointment;
 
     public List<DTOCountry> getCountries() {
         if (countries == null) {
@@ -152,5 +155,25 @@ public class ApplicationProvider {
     public void setSelectedTime(List<DTOTime> selectedTime) {
         this.selectedTime = selectedTime;
     }
+
+    public List<DTOAppointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<DTOAppointment> appointments) {
+        this.appointments = appointments;
+    }
+
+    public DTOAppointment getCurrentAppointment() {
+        if (currentAppointment == null) {
+            currentAppointment = new DTOAppointment();
+        }
+        return currentAppointment;
+    }
+
+    public void setCurrentAppointment(DTOAppointment currentAppointment) {
+        this.currentAppointment = currentAppointment;
+    }
+
 
 }

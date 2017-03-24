@@ -9,7 +9,7 @@ import com.lanthanh.admin.icareapp.data.manager.LocationManager;
 import com.lanthanh.admin.icareapp.data.manager.TypeManager;
 import com.lanthanh.admin.icareapp.data.manager.VoucherManager;
 import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
+import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.threading.MainThread;
 import com.lanthanh.admin.icareapp.domain.model.DTOCity;
 import com.lanthanh.admin.icareapp.domain.model.DTOCountry;

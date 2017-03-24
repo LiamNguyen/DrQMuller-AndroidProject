@@ -1,7 +1,7 @@
 package com.lanthanh.admin.icareapp.data.manager;
 
 import com.lanthanh.admin.icareapp.data.manager.base.Manager;
-import com.lanthanh.admin.icareapp.domain.model.DTOAppointment;
+import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
 
 /**
  * Created by ADMIN on 10-Jan-17.

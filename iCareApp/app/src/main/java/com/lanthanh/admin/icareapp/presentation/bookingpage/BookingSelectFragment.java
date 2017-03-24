@@ -29,7 +29,13 @@ import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.presentation.base.Presenter;
+import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOLocation;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.presenter.BookingActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.BookingSelectPresenter;
 import com.lanthanh.admin.icareapp.presentation.adapter.CustomSpinnerAdapter;
@@ -46,7 +52,7 @@ import butterknife.Unbinder;
  * Created by ADMIN on 13-Nov-16.
  */
 
-public class BookingSelectFragment extends BaseFragment<BookingActivityPresenterImpl>{
+public class BookingSelectFragment extends BaseFragment<BookingActivityPresenterImpl> implements AdapterView.OnItemSelectedListener{
     @BindView(R.id.drop_down_icon_locations) AppCompatImageView locationIv;
     @BindView(R.id.drop_down_icon_vouchers) AppCompatImageView voucherIv;
     @BindView(R.id.drop_down_icon_types) AppCompatImageView typeIv;
@@ -57,6 +63,8 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
     @BindView(R.id.spinner_vouchers) Spinner voucherSp;
     @BindView(R.id.spinner_type) Spinner typeSp;
     @BindView(R.id.fab) FloatingActionButton nextButton;
+    @BindView(R.id.type_container) RelativeLayout typeContainer;
+
     private CustomSpinnerAdapter countryAdapter, cityAdapter, districtAdapter, locationAdapter, voucherAdapter, typeAdapter;
     Unbinder unbinder;
 
@@ -67,13 +75,9 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
         unbinder = ButterKnife.bind(this, view);
         initViews();
 
-        /* =============================== LAST STEP =============================== */
-        //Initialize data for Country Spinner first
-        bookingSelectPresenter.getAllCountries();
-        bookingSelectPresenter.getAllVouchers();
-        bookingSelectPresenter.getAllTypes();
-
-
+        getMainPresenter().getCountries();
+        getMainPresenter().getVouchers();
+        getMainPresenter().getTypes();
 
         return view;
     }
@@ -124,8 +128,6 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
         );
         locationSp.setEnabled(false);
         voucherSp.setEnabled(false);
-
-        RelativeLayout typeContainer = (RelativeLayout) view.findViewById(R.id.type_container);
         typeContainer.setVisibility(View.INVISIBLE);
 
         //Set up adapter for spinner
@@ -160,45 +162,14 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
         typeSp.setSelection(0, false);
 
         //Set Listeners for Spinners
-        countrySp.setOnItemSelectedListener(
-                (AdapterView<?> adapterView, View _view, int i, long l) -> {
-                    getMainPresenter().getCitiesByCountryId(((DTOCountry) countrySp.getSelectedItem()).getCountryId());
-                    bookingSelectPresenter.onCountrySelect(countrySp.getSelectedItem().toString());
-                }
-        );
-        citySp.setOnItemSelectedListener(
-                (AdapterView<?> adapterView, View _view, int i, long l) -> {
-                    bookingSelectPresenter.getAllDistrictsByCity(citySp.getSelectedItem().toString());
-                    bookingSelectPresenter.onCitySelect(citySp.getSelectedItem().toString());
-                }
-        );
-        districtSp.setOnItemSelectedListener(
-                (AdapterView<?> adapterView, View _view, int i, long l) -> {
-                    bookingSelectPresenter.getAllLocationsByDistrict(districtSp.getSelectedItem().toString());
-                    bookingSelectPresenter.onDistrictSelect(districtSp.getSelectedItem().toString());
-                }
-        );
-        locationSp.setOnItemSelectedListener(
-                (AdapterView<?> adapterView, View _view, int i, long l) -> {
-                    //bookingSelectPresenter.getAllVouchers();
-                    bookingSelectPresenter.onLocationSelect(locationSp.getSelectedItem().toString());
-                    voucherSp.setEnabled(true);
-                    voucherIv.setEnabled(true);
-                    setImageTint(voucherIv, true);
-                }
-        );
-        voucherSp.setOnItemSelectedListener(
-                (AdapterView<?> adapterView, View _view, int i, long l) -> {
-                    //bookingSelectPresenter.getAllTypes();
-                    bookingSelectPresenter.onVoucherSelect(voucherSp.getSelectedItem().toString());
-                    typeSp.setEnabled(true);
-                    typeIv.setEnabled(true);
-                    setImageTint(typeIv, true);
-                }
-        );
-        typeSp.setOnItemSelectedListener((AdapterView<?> adapterView, View _view, int i, long l) -> bookingSelectPresenter.onTypeSelect(typeSp.getSelectedItem().toString()));
+        countrySp.setOnItemSelectedListener(this);
+        citySp.setOnItemSelectedListener(this);
+        districtSp.setOnItemSelectedListener(this);
+        locationSp.setOnItemSelectedListener(this);
+        voucherSp.setOnItemSelectedListener(this);
+        typeSp.setOnItemSelectedListener(this);
 
-        nextButton.setOnClickListener(this);
+        nextButton.setOnClickListener(view -> getMainPresenter().navigateFragment(BookingSelectDateFragment.class));
         nextButton.setEnabled(false);
     }
 
@@ -246,6 +217,48 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
         setImageTint(locationIv, true);
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        switch (adapterView.getId()){
+            case R.id.spinner_countries:
+                getMainPresenter().getCitiesByCountryId((DTOCountry) countrySp.getSelectedItem());
+                break;
+            case R.id.spinner_cities:
+                getMainPresenter().getDistrictsByCityId((DTOCity) countrySp.getSelectedItem());
+                break;
+            case R.id.spinner_districts:
+                getMainPresenter().getLocationsByDistrictId((DTODistrict) countrySp.getSelectedItem());
+                break;
+            case R.id.spinner_locations:
+                getProvider().getCurrentAppointment().setLocation((DTOLocation) locationSp.getSelectedItem());
+                voucherSp.setEnabled(true);
+                voucherIv.setEnabled(true);
+                setImageTint(voucherIv, true);
+                break;
+            case R.id.spinner_vouchers:
+                getProvider().getCurrentAppointment().setVoucher((DTOVoucher) voucherSp.getSelectedItem());
+                typeSp.setEnabled(true);
+                typeIv.setEnabled(true);
+                setImageTint(typeIv, true);
+                break;
+            case R.id.spinner_type:
+                getProvider().getCurrentAppointment().setType((DTOType) typeSp.getSelectedItem());
+            default:
+                break;
+        }
+        if (getProvider().getCurrentAppointment().isFirstSelectFilled()) {
+            nextButton.setEnabled(true);
+        } else {
+            nextButton.setEnabled(false);
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {}
+
+
+    //TODO check this one and remove it
 //    @Override
 //    public void onVoucherChange() {
 //        bookingActivityPresenter.emptyCart();
