@@ -1,6 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.application;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
 
@@ -17,7 +18,7 @@ public class iCareApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        provider = new ApplicationProvider();
+        provider = new ApplicationProvider(getSharedPreferences("content", Context.MODE_PRIVATE));
     }
 
     public ApplicationProvider getProvider() {

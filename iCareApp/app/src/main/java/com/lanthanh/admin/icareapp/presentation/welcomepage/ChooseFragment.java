@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
@@ -20,7 +21,7 @@ import butterknife.Unbinder;
  * Created by ADMIN on 18-Oct-16.
  */
 
-public class ChooseFragment extends BaseFragment<WelcomeActivityPresenter> implements View.OnClickListener{
+public class ChooseFragment extends BaseFragment<WelcomeActivityPresenter>{
     @BindView(R.id.wel_log_in_button)
     AppCompatButton logInButton;
     @BindView(R.id.wel_sign_up_button) AppCompatButton signUpButton;
@@ -46,8 +47,8 @@ public class ChooseFragment extends BaseFragment<WelcomeActivityPresenter> imple
         welcomeText.setTypeface(font);
         signUpButton.setTypeface(font_light);
         logInButton.setTypeface(font_light);
-        logInButton.setOnClickListener(this);
-        signUpButton.setOnClickListener(this);
+        logInButton.setOnClickListener(view ->  getMainPresenter().navigateFragment(LogInFragment.class));
+        signUpButton.setOnClickListener(view -> getMainPresenter().navigateFragment(SignUpFragment.class));
     }
 
     @Override
@@ -65,17 +66,8 @@ public class ChooseFragment extends BaseFragment<WelcomeActivityPresenter> imple
     }
 
     @Override
-    public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.wel_log_in_button:
-                getMainPresenter().navigateFragment(LogInFragment.class);
-                break;
-            case R.id.wel_sign_up_button:
-                getMainPresenter().navigateFragment(SignUpFragment.class);
-                break;
-            default:
-                break;
-        }
+    public ApplicationProvider getProvider() {
+        return null;
     }
 
     @Override

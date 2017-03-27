@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
@@ -162,6 +163,11 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> imple
     @Override
     public WelcomeActivityPresenter getMainPresenter() {
         return ((WelcomeActivity) getActivity()).getMainPresenter();
+    }
+
+    @Override
+    public ApplicationProvider getProvider() {
+        return null;
     }
 
     @Override

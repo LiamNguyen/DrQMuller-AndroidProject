@@ -189,16 +189,16 @@ public class BookingActivityPresenterImpl extends BasePresenter{
     }
 
     public boolean checkVerificationCodeExistence(String verificationCode) {
-        //Get appointment from local shared pref
-        List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
-        if (appointmentsList == null)
-            return false;
-        else{
-            for (DTOAppointment appointment: appointmentsList){
-                if (appointment.getVerficationCode().equals(verificationCode))
-                    return true;
-            }
-        }
+//        //Get appointment from local shared pref
+//        List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
+//        if (appointmentsList == null)
+//            return false;
+//        else{
+//            for (DTOAppointment appointment: appointmentsList){
+//                if (appointment.getVerficationCode().equals(verificationCode))
+//                    return true;
+//            }
+//        }
         return false;
     }
 

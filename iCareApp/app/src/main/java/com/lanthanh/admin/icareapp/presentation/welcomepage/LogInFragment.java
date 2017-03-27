@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.resetpasswordpage.ResetPasswordActivity;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
@@ -23,7 +24,7 @@ import butterknife.Unbinder;
  * Created by ADMIN on 17-Oct-16.
  */
 
-public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implements View.OnClickListener{
+public class LogInFragment extends BaseFragment<WelcomeActivityPresenter>{
     @BindView(R.id.si_username_input)
     TextInputEditText editUsername;
     @BindView(R.id.si_password_input) TextInputEditText editPassword;
@@ -58,8 +59,18 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implem
         editUsernameContainer.setTypeface(font);
         editPasswordContainer.setTypeface(font);
 
-        logInButton.setOnClickListener(this);
-        forgetPwText.setOnClickListener(this);
+        logInButton.setOnClickListener(
+            view ->  {
+                ((WelcomeActivity) getActivity()).hideSoftKeyboard();
+                getMainPresenter().login(editUsername.getText().toString().trim(), editPassword.getText().toString());
+            }
+        );
+        forgetPwText.setOnClickListener(
+            view -> {
+                ((WelcomeActivity) getActivity()).hideSoftKeyboard();
+                getMainPresenter().navigateActivity(ResetPasswordActivity.class);
+            }
+        );
     }
 
     @Override
@@ -82,17 +93,8 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implem
     }
 
     @Override
-    public void onClick(View v) {
-        ((WelcomeActivity) getActivity()).hideSoftKeyboard();
-        switch (v.getId()){
-            case R.id.si_sign_in_button:
-                getMainPresenter().login(editUsername.getText().toString().trim(), editPassword.getText().toString());
-                break;
-            case R.id.si_forget_pw:
-                getMainPresenter().navigateActivity(ResetPasswordActivity.class);
-            default:
-                break;
-        }
+    public ApplicationProvider getProvider() {
+        return null;
     }
 
     @Override

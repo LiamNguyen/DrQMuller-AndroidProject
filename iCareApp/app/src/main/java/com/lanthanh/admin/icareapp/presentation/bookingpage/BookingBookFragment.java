@@ -63,8 +63,8 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenterIm
                 if (this.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() <= 0){
                     showToast(getString(R.string.min_item));
                 }else {
-                    getMainPresenter()
-                    bookingActivityPresenter.insertAppointment();
+                    //getMainPresenter()
+                    //bookingActivityPresenter.insertAppointment();
                 }
         });
         finishButton.setEnabled(false);
@@ -177,7 +177,7 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenterIm
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible()) {
-           bookingBookPresenter.resume();
+           //bookingBookPresenter.resume();
         }
         else
             collapseAllGroups();
