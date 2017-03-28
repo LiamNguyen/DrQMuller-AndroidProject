@@ -4,14 +4,13 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by long.vu on 3/23/2017.
  */
 
-public class Interactor{
+public class Interactor {
     private final CompositeDisposable disposables;
 
     public Interactor(){
@@ -27,7 +26,7 @@ public class Interactor{
         );
     }
 
-    private void dispose(){
+    public void dispose(){
         if (!disposables.isDisposed()){
             disposables.dispose();
         }

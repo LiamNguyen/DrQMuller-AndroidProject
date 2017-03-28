@@ -1,6 +1,5 @@
 package com.lanthanh.admin.icareapp.presentation.presenter;
 
-import com.lanthanh.admin.icareapp.domain.model.DTOMachine;
 import com.lanthanh.admin.icareapp.presentation.base.Presenter;
 import com.lanthanh.admin.icareapp.presentation.base.BaseView;
 
@@ -36,6 +35,6 @@ public interface BookingBookPresenter extends Presenter{
     boolean checkAppointmentScheduleValidity(int dayId);
     String getDayOfWeek(Date date);
     void onMachineSelected(String machine);
-    DTOMachine getMachine(String machine);
+//    DTOMachine getMachine(String machine);
     boolean isMachineFilled();
 }

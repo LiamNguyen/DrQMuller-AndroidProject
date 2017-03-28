@@ -23,9 +23,6 @@ import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.AppointmentManagerImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
-import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
 import com.lanthanh.admin.icareapp.R;
@@ -139,8 +136,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void init(){
-        userDetailsActivityPresenter = new UserDetailsActivityPresenterImpl(getSharedPreferences("content", MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this,
-                getSupportFragmentManager(), new CustomerManagerImpl(iCareApiImpl.getAPI()), new AppointmentManagerImpl(iCareApiImpl.getAPI()));
+        //userDetailsActivityPresenter = new UserDetailsActivityPresenterImpl();
         //Init controllers
         networkController = new NetworkController(this);
         validName = true; validAddress = true; validEmail = true; validPhone = true;

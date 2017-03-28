@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.presentation.base.Presenter;
 import com.lanthanh.admin.icareapp.presentation.bookingpage.BookingActivity;
@@ -60,5 +61,10 @@ public class DefaultAppointmentFragment extends BaseFragment<MainActivityPresent
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    @Override
+    public ApplicationProvider getProvider() {
+        return null;
     }
 }

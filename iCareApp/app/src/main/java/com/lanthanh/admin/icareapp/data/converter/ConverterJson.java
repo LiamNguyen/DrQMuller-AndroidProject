@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
-import com.lanthanh.admin.icareapp.domain.model.DTOCountry;
-import com.lanthanh.admin.icareapp.domain.model.DTOType;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

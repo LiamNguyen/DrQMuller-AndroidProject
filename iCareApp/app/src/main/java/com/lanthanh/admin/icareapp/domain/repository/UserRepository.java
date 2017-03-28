@@ -8,5 +8,5 @@ import io.reactivex.Observable;
  */
 
 public interface UserRepository {
-    Observable<RepositorySimpleStatus> checkUserLoggedIn();
+    Observable<Boolean> checkUserLoggedIn();
 }

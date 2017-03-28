@@ -1,6 +1,6 @@
 package com.lanthanh.admin.icareapp.presentation.model;
 
-import com.auth0.jwt.internal.org.apache.commons.lang3.RandomStringUtils;
+//import com.auth0.jwt.internal.org.apache.commons.lang3.RandomStringUtils;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
@@ -136,7 +136,7 @@ public class DTOAppointment {
     }
 
     public void setVerificationCode() {
-        this.verificationCode = RandomStringUtils.randomAlphanumeric(10).toUpperCase();
+       // this.verificationCode = RandomStringUtils.randomAlphanumeric(10).toUpperCase();
     }
 
     public boolean getStatus() {

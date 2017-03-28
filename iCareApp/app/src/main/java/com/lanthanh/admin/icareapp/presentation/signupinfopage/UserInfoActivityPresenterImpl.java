@@ -8,9 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.repository.WelcomeRepositoryImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerBasicInfoInteractor;
-import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerImportantInfoInteractor;
-import com.lanthanh.admin.icareapp.domain.interactor.UpdateCustomerNecessaryInfoInteractor;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
@@ -48,7 +45,7 @@ public class UserInfoActivityPresenterImpl extends BasePresenter {
         validateFragment = new ValidateFragment();
         changeEmailFragment = new ChangeEmailFragment();
 
-        welcomeRepository = new WelcomeRepositoryImpl();
+        welcomeRepository = new WelcomeRepositoryImpl(this.activity);
     }
 
     public List<Fragment> getVisibleFragments() {
@@ -206,53 +203,53 @@ public class UserInfoActivityPresenterImpl extends BasePresenter {
 
     public void updateBasicInfo(String name, String address) {
         this.activity.showProgress();
-        new UpdateCustomerBasicInfoInteractor(welcomeRepository).execute(
-                success -> {
-                    this.activity.hideProgress();
-                    if (success == RepositorySimpleStatus.SUCCESS){
-                        navigateFragment(DOBvsGenderFragment.class);
-                    }
-                },
-                error -> {
-                    this.activity.hideProgress();
-                },
-                () -> {},
-                UpdateCustomerBasicInfoInteractor.Params.forUpdateCustomerBasicInfo(name, address)
-        );
+//        new UpdateCustomerBasicInfoInteractor(welcomeRepository).execute(
+//                success -> {
+//                    this.activity.hideProgress();
+//                    if (success == RepositorySimpleStatus.SUCCESS){
+//                        navigateFragment(DOBvsGenderFragment.class);
+//                    }
+//                },
+//                error -> {
+//                    this.activity.hideProgress();
+//                },
+//                () -> {},
+//                UpdateCustomerBasicInfoInteractor.Params.forUpdateCustomerBasicInfo(name, address)
+//        );
     }
 
     public void updateNecessaryInfo(String dob, String gender) {
         this.activity.showProgress();
-        new UpdateCustomerNecessaryInfoInteractor(welcomeRepository).execute(
-                success -> {
-                    this.activity.hideProgress();
-                    if (success == RepositorySimpleStatus.SUCCESS){
-                        navigateFragment(ContactFragment.class);
-                    }
-                },
-                error -> {
-                    this.activity.hideProgress();
-                },
-                () -> {},
-                UpdateCustomerNecessaryInfoInteractor.Params.forUpdateCustomerNecessaryInfo(dob, gender)
-        );
+//        new UpdateCustomerNecessaryInfoInteractor(welcomeRepository).execute(
+//                success -> {
+//                    this.activity.hideProgress();
+//                    if (success == RepositorySimpleStatus.SUCCESS){
+//                        navigateFragment(ContactFragment.class);
+//                    }
+//                },
+//                error -> {
+//                    this.activity.hideProgress();
+//                },
+//                () -> {},
+//                UpdateCustomerNecessaryInfoInteractor.Params.forUpdateCustomerNecessaryInfo(dob, gender)
+//        );
     }
 
     public void updateImportantInfo(String email, String phone) {
         this.activity.showProgress();
-        new UpdateCustomerImportantInfoInteractor(welcomeRepository).execute(
-                success -> {
-                    this.activity.hideProgress();
-                    if (success == RepositorySimpleStatus.SUCCESS){
-                        navigateFragment(ValidateFragment.class);
-                    }
-                },
-                error -> {
-                    this.activity.hideProgress();
-                },
-                () -> {},
-                UpdateCustomerImportantInfoInteractor.Params.forUpdateCustomerImportantInfo(phone, email)
-        );
+//        new UpdateCustomerImportantInfoInteractor(welcomeRepository).execute(
+//                success -> {
+//                    this.activity.hideProgress();
+//                    if (success == RepositorySimpleStatus.SUCCESS){
+//                        navigateFragment(ValidateFragment.class);
+//                    }
+//                },
+//                error -> {
+//                    this.activity.hideProgress();
+//                },
+//                () -> {},
+//                UpdateCustomerImportantInfoInteractor.Params.forUpdateCustomerImportantInfo(phone, email)
+//        );
     }
 
 //    @Override

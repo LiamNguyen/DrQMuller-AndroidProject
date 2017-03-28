@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
@@ -122,5 +123,10 @@ public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenterI
             nextButton.setEnabled(true);
         else
             nextButton.setEnabled(false);
+    }
+
+    @Override
+    public ApplicationProvider getProvider() {
+        return null;
     }
 }

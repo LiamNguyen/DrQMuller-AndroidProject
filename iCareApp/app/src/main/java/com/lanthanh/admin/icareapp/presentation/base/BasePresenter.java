@@ -1,15 +1,10 @@
 package com.lanthanh.admin.icareapp.presentation.base;
 
-import com.lanthanh.admin.icareapp.domain.executor.Executor;
-import com.lanthanh.admin.icareapp.threading.MainThread;
-
 /**
  * Created by ADMIN on 05-Jan-17.
  */
 
 public abstract class BasePresenter implements Presenter {
-    protected Executor mExecutor;
-    protected MainThread mMainThread;
 
     public BasePresenter(){
     }

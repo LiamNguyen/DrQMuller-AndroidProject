@@ -27,13 +27,11 @@
                 android:text="@string/booking_start_date"
                 android:textColor="@color/colorWhite" />
 
-            <android.support.design.widget.TextInputEditText
+            <TextView
                 android:id="@+id/booking_startdate"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:inputType="date"
-                android:focusable="false"
                 android:background="@drawable/bookingselect_spinner_border"
                 android:gravity="center"
                 android:padding="3dp"
@@ -51,13 +49,11 @@
                 android:text="@string/booking_expire_date"
                 android:textColor="@color/colorWhite" />
 
-            <android.support.design.widget.TextInputEditText
+            <TextView
                 android:id="@+id/booking_expiredate"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:inputType="date"
-                android:focusable="false"
                 android:background="@drawable/bookingselect_spinner_border"
                 android:gravity="center"
                 android:padding="3dp"

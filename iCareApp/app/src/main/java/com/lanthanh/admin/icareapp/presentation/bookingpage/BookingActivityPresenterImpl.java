@@ -11,13 +11,11 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.repository.AppointmentRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.presentation.Function;
-import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.model.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
 import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTime;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOWeekDay;
 
@@ -120,7 +118,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         if (dtoAppointmentSchedule != null){
             //Remove on DB
             interactor.execute(
-                () -> appointmentRepository.releaseTime(this.activity.getProvider().getUser().getToken(), this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(), Arrays.asList(dtoAppointmentSchedule)),
+                () -> appointmentRepository.releaseTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(), Arrays.asList(dtoAppointmentSchedule)),
                 success -> {
                     callback.apply(item);
                     bookingBookFragment.expandGroup(0, true);
@@ -160,7 +158,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
     public void emptyCart(Function.VoidParam callback) {
         //Remove on DB
         interactor.execute(
-                () -> appointmentRepository.releaseTime(this.activity.getProvider().getUser().getToken(), this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
+                () -> appointmentRepository.releaseTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
                                 this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList()),
                 success -> {
                     callback.apply();
@@ -490,7 +488,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         appointmentSchedule.setBookedDay(weekDay);
         appointmentSchedule.setBookedTime(time);
         interactor.execute(
-            () -> appointmentRepository.bookTime(this.activity.getProvider().getUser().getToken(), this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
+            () -> appointmentRepository.bookTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
                     Arrays.asList(this.activity.getProvider().getCurrentAppointment().getCurrentSchedule())),
             success -> {
                 int totalItems = this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size();

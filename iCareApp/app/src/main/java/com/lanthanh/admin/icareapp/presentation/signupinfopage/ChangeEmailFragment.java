@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
@@ -106,5 +107,10 @@ public class ChangeEmailFragment extends BaseFragment<UserInfoActivityPresenterI
             changeButton.setEnabled(true);
         else
             changeButton.setEnabled(false);
+    }
+
+    @Override
+    public ApplicationProvider getProvider() {
+        return null;
     }
 }

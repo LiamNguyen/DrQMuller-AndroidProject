@@ -64,4 +64,15 @@ public class UserInfo {
     public String getToken(){
         return token;
     }
+
+    public boolean isValid() {
+        boolean valid = false;
+        try {
+            valid = !name.isEmpty() && !dob.isEmpty() && !gender.isEmpty() && !phone.isEmpty() && !address.isEmpty() && !email.isEmpty()
+                    && !id.isEmpty() && !token.isEmpty();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return valid;
+    }
 }

@@ -3,10 +3,10 @@ package com.lanthanh.admin.icareapp.presentation.splashscreen;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.lanthanh.admin.icareapp.data.repository.UserRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
-import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
@@ -35,11 +35,11 @@ public class SplashScreenPresenter extends BasePresenter {
     public void checkLoggedIn() {
         interactor.execute(
             () -> userRepository.checkUserLoggedIn(),
-            success -> {
-                if (success == RepositorySimpleStatus.NOT_LOGGED_IN_YET) {
-                    navigateActivity(WelcomeActivity.class);
-                } else {
+            isLoggedIn -> {
+                if (isLoggedIn) {
                     navigateActivity(MainActivity.class);
+                } else {
+                    navigateActivity(WelcomeActivity.class);
                 }
             },
             error -> {}

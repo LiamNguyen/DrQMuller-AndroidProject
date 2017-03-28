@@ -8,8 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.repository.WelcomeRepositoryImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.LogInInteractor;
-import com.lanthanh.admin.icareapp.domain.interactor.SignUpInteractor;
+import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
@@ -31,6 +30,7 @@ public class WelcomeActivityPresenter extends BasePresenter {
     private WelcomeActivity activity;
 
     private WelcomeRepository welcomeRepository;
+    private Interactor interactor;
 
     public WelcomeActivityPresenter(WelcomeActivity activity) {
         this.activity = activity;
@@ -44,15 +44,22 @@ public class WelcomeActivityPresenter extends BasePresenter {
         signUpFragment = new SignUpFragment();
 
         welcomeRepository = new WelcomeRepositoryImpl(this.activity);
+        interactor = new Interactor();
     }
 
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {
-        if (fragmentClass == ChooseFragment.class)
+        if (fragmentClass == ChooseFragment.class) {
+            WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.CHOOSE_FRAGMENT;
             showFragment(chooseFragment);
-        else if (fragmentClass == LogInFragment.class)
+        }
+        else if (fragmentClass == LogInFragment.class) {
+            WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.LOGIN_FRAGMENT;
             showFragment(logInFragment);
-        else if (fragmentClass == SignUpFragment.class)
+        }
+        else if (fragmentClass == SignUpFragment.class) {
+            WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.SIGNUP_FRAGMENT;
             showFragment(signUpFragment);
+        }
     }
 
     public List<Fragment> getVisibleFragments() {
@@ -109,51 +116,48 @@ public class WelcomeActivityPresenter extends BasePresenter {
 //        extras.putString(RegisterActivity.EXTRA_UISTEP, uiStep);
 //        mView.navigateActivity(UserInfoActivity.class, extras);
 //    }
-//
-//
-//    public void navigateToResetPW() {
-//        mView.navigateActivity(ResetPasswordActivity.class);
-//    }
 
     public void login(String username, String password){
         this.activity.showProgress();
-        new LogInInteractor(welcomeRepository).execute(
+        interactor.execute(
+            () -> welcomeRepository.login(username, password),
             success -> {
                 this.activity.hideProgress();
                 if (success == RepositorySimpleStatus.SUCCESS){
                     navigateActivity(MainActivity.class);
                 } else if (success == RepositorySimpleStatus.PATTERN_FAIL) {
-                    this.activity.showToast(this.activity.getString(R.string.username_invalid));
+                    this.activity.showToast(this.activity.getString(R.string.pattern_fail));
                 } else if (success == RepositorySimpleStatus.USERNAME_PASSWORD_NOT_MATCH) {
                     this.activity.showToast(this.activity.getString(R.string.login_fail));
                 }
             },
-            error -> {
-                this.activity.hideProgress();
-            },
-            () -> {},
-            LogInInteractor.Params.forLogin(username, password)
+            error -> this.activity.hideProgress()
         );
+    }
+
+    public void onBackPressed() {
+        if (logInFragment.isVisible() || signUpFragment.isVisible()) {
+            navigateFragment(ChooseFragment.class);
+        } else {
+            this.activity.backToHomeScreen();
+        }
     }
 
     public void signup(String username, String password){
         this.activity.showProgress();
-        new SignUpInteractor(welcomeRepository).execute(
+        interactor.execute(
+            () -> welcomeRepository.signup(username, password),
             success -> {
                 this.activity.hideProgress();
                 if (success == RepositorySimpleStatus.SUCCESS){
                     navigateActivity(UserInfoActivity.class);
                 } else if (success == RepositorySimpleStatus.PATTERN_FAIL) {
-                    this.activity.showToast(this.activity.getString(R.string.username_invalid));
-                } else if (success == RepositorySimpleStatus.USERNAME_PASSWORD_NOT_MATCH) {
+                    this.activity.showToast(this.activity.getString(R.string.pattern_fail));
+                } else if (success == RepositorySimpleStatus.USERNAME_EXISTED) {
                     this.activity.showToast(this.activity.getString(R.string.username_unavailable));
                 }
             },
-            error -> {
-                this.activity.hideProgress();
-            },
-            () -> {},
-            SignUpInteractor.Params.forSignUp(username, password)
+            error -> this.activity.hideProgress()
         );
     }
 
@@ -168,6 +172,11 @@ public class WelcomeActivityPresenter extends BasePresenter {
         intent.putExtra(this.getClass().getName(), b); //TODO check this put extra
         this.activity.startActivity(intent);
         this.activity.finish();
+    }
+
+    @Override
+    public void destroy() {
+        interactor.dispose();
     }
 
     @Override

@@ -77,8 +77,8 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (getItemViewType(position) == TYPE_HEADER){
             ((HeaderViewHolder) holder).setHeaderTextView(ctx.getString(R.string.appointment));
         }else {
-            ((BodyViewHolder) holder).setName(list.get(position - 1).getCustomerName());
-            ((BodyViewHolder) holder).setVoucher(list.get(position - 1).getVoucherName());
+//            ((BodyViewHolder) holder).setName(list.get(position - 1).getCustomerName());
+//            ((BodyViewHolder) holder).setVoucher(list.get(position - 1).getVoucherName());
             ((BodyViewHolder) holder).setStartDate(ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getStartDate()));
             ((BodyViewHolder) holder).setEndDate(ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getExpireDate()));
             ((BodyViewHolder) holder).setStatus(list.get(position - 1).getStatus());
@@ -98,13 +98,13 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                         args.putInt("appointmentId", list.get(position - 1).getAppointmentId());
                         args.putString("title", ctx.getString(R.string.bill));
-                        args.putString("name", list.get(position - 1).getCustomerName());
-                        args.putString("address", list.get(position - 1).getLocationName() + ", " + list.get(position - 1).getDistrictName() + ", " + list.get(position - 1).getCityName() + ", " + list.get(position - 1).getCountryName());
-                        args.putString("voucher", list.get(position - 1).getVoucherName());
-                        args.putString("type", list.get(position - 1).getTypeName());
-                        args.putString("start_date", ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getStartDate()));
-                        args.putString("end_date", ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getExpireDate()));
-                        args.putString("code", list.get(position - 1).getVerficationCode());
+//                        args.putString("name", list.get(position - 1).getCustomerName());
+//                        args.putString("address", list.get(position - 1).getLocationName() + ", " + list.get(position - 1).getDistrictName() + ", " + list.get(position - 1).getCityName() + ", " + list.get(position - 1).getCountryName());
+//                        args.putString("voucher", list.get(position - 1).getVoucherName());
+//                        args.putString("type", list.get(position - 1).getTypeName());
+//                        args.putString("start_date", ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getStartDate()));
+//                        args.putString("end_date", ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getExpireDate()));
+//                        args.putString("code", list.get(position - 1).getVerficationCode());
                         ArrayList<String> appointmentScheduleString = new ArrayList<>();
                         for (DTOAppointmentSchedule dtoAppointmentSchedule : list.get(position - 1).getAppointmentScheduleList()) {
                             appointmentScheduleString.add(dtoAppointmentSchedule.toString());
@@ -128,7 +128,7 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
-                                    ((MainActivity) ctx).getMainPresenter().cancelAppointment(list.get(position - 1).getAppointmentId());
+                                    //((MainActivity) ctx).getMainPresenter().cancelAppointment(list.get(position - 1).getAppointmentId());
                                 }
                             })
                             .setNegativeButton(ctx.getString(R.string.abort_button), new DialogInterface.OnClickListener() {

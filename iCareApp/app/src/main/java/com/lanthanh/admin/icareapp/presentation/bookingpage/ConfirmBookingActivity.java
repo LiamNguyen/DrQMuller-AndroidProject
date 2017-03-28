@@ -20,9 +20,6 @@ import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.AppointmentManagerImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
-import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.presenter.ConfirmBookingActivityPresenter;
@@ -74,8 +71,8 @@ public class ConfirmBookingActivity extends AppCompatActivity implements View.On
     }
 
     public void init(){
-        confirmBookingActivityPresenter = new ConfirmBookingActivityPresenterImpl(getSharedPreferences("content", MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this,
-                new CustomerManagerImpl(iCareApiImpl.getAPI()), new AppointmentManagerImpl(iCareApiImpl.getAPI()));
+//        confirmBookingActivityPresenter = new ConfirmBookingActivityPresenterImpl(getSharedPreferences("content", MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(), this,
+//                new CustomerManagerImpl(iCareApiImpl.getAPI()), new AppointmentManagerImpl(iCareApiImpl.getAPI()));
         //Init controllers
         networkController = new NetworkController(this);
     }

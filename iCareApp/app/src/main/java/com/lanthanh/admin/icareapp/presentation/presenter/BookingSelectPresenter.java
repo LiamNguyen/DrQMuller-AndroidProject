@@ -2,12 +2,6 @@ package com.lanthanh.admin.icareapp.presentation.presenter;
 
 import android.support.v7.widget.AppCompatImageView;
 
-import com.lanthanh.admin.icareapp.domain.model.DTOCity;
-import com.lanthanh.admin.icareapp.domain.model.DTOCountry;
-import com.lanthanh.admin.icareapp.domain.model.DTODistrict;
-import com.lanthanh.admin.icareapp.domain.model.DTOLocation;
-import com.lanthanh.admin.icareapp.domain.model.DTOType;
-import com.lanthanh.admin.icareapp.domain.model.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.base.Presenter;
 import com.lanthanh.admin.icareapp.presentation.base.BaseView;
 
@@ -36,12 +30,12 @@ public interface BookingSelectPresenter extends Presenter {
     void getAllLocationsByDistrict(String district);
     void getAllVouchers();
     void getAllTypes();
-    DTOCountry getCountry(String country);
-    DTOCity getCity(String city);
-    DTODistrict getDistrict(String city);
-    DTOLocation getLocation(String location);
-    DTOVoucher getVoucher(String voucher);
-    DTOType getType(String type);
+//    DTOCountry getCountry(String country);
+//    DTOCity getCity(String city);
+//    DTODistrict getDistrict(String city);
+//    DTOLocation getLocation(String location);
+//    DTOVoucher getVoucher(String voucher);
+//    DTOType getType(String type);
     void onCountrySelect(String country);
     void onCitySelect(String city);
     void onDistrictSelect(String district);

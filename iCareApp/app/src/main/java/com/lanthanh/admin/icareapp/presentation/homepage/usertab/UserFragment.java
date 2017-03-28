@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
-import com.lanthanh.admin.icareapp.data.manager.CustomerManager;
-import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
@@ -45,13 +43,13 @@ public class UserFragment extends Fragment{
 
     public void init(){
         //Init presenter
-        mainActivityPresenter = ((MainActivity) getActivity()).getMainPresenter();
-        //Get user to gather info
-        CustomerManager customerManager = new CustomerManagerImpl(iCareApiImpl.getAPI());
-        ModelUser mUser = customerManager.getLocalUserFromPref(mainActivityPresenter.getLocalStorage());
+//        mainActivityPresenter = ((MainActivity) getActivity()).getMainPresenter();
+//        //Get user to gather info
+//        CustomerManager customerManager = new CustomerManagerImpl(iCareApiImpl.getAPI());
+//        ModelUser mUser = customerManager.getLocalUserFromPref(mainActivityPresenter.getLocalStorage());
         //Init options list
         list = new ArrayList<>();
-        list.add(mUser.getName());
+//        list.add(mUser.getName());
         //list.add(getString(R.string.user_option_bag));
         list.add(getString(R.string.user_option_logout));
     }

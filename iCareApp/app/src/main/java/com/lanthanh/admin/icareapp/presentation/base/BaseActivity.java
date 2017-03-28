@@ -2,6 +2,7 @@ package com.lanthanh.admin.icareapp.presentation.base;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void showToast(String msg){
         toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
         //In case the toast is showing, cancel it
         //toast.cancel();
         //Set new test to the toast and show

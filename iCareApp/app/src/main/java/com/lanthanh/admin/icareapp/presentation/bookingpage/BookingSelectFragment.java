@@ -18,31 +18,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.CityManagerImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.CountryManagerImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.DistrictManagerImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.LocationManagerImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.TypeManagerImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.VoucherManagerImpl;
-import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
-import com.lanthanh.admin.icareapp.presentation.base.Presenter;
-import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOLocation;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
-import com.lanthanh.admin.icareapp.presentation.presenter.BookingActivityPresenter;
-import com.lanthanh.admin.icareapp.presentation.presenter.BookingSelectPresenter;
 import com.lanthanh.admin.icareapp.presentation.adapter.CustomSpinnerAdapter;
-import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

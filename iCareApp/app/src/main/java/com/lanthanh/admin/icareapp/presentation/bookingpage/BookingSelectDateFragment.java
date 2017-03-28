@@ -27,8 +27,8 @@ import butterknife.Unbinder;
  */
 
 public class BookingSelectDateFragment extends BaseFragment<BookingActivityPresenterImpl>{
-    @BindView(R.id.booking_startdate_text) TextInputEditText startDate;
-    @BindView(R.id.booking_expiredate_text) TextInputEditText expireDate;
+    @BindView(R.id.booking_startdate) TextView startDate;
+    @BindView(R.id.booking_expiredate) TextView expireDate;
     @BindView(R.id.booking_startdate_text) TextView startDateText;
     @BindView(R.id.booking_expiredate_text) TextView expireDateText;
     @BindView(R.id.fab) FloatingActionButton nextButton;

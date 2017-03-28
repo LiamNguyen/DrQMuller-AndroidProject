@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
@@ -77,5 +78,10 @@ public class ValidateFragment extends BaseFragment<UserInfoActivityPresenterImpl
     public void showEmailResult(int string){
         validateMessage.setText(string);
         validateMessage.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public ApplicationProvider getProvider() {
+        return null;
     }
 }

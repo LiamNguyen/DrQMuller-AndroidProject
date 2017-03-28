@@ -1,12 +1,15 @@
 package com.lanthanh.admin.icareapp.presentation.splashscreen;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.application.iCareApplication;
 import com.lanthanh.admin.icareapp.presentation.base.BaseActivity;
+
+import java.util.Timer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +40,6 @@ public class SplashScreenActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.checkLoggedIn();
+        new Handler().postDelayed(() -> presenter.checkLoggedIn(), 1000);
     }
 }

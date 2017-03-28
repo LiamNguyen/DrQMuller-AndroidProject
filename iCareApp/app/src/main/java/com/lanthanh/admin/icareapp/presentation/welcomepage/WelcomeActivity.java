@@ -24,14 +24,12 @@ import butterknife.ButterKnife;
 public class WelcomeActivity extends BaseActivity {
     //public final static String TAG = RegisterActivity.class.getSimpleName();
     //TODO check used fields
-    public final static String EXTRA_ID = "id";
-    public final static String EXTRA_UISTEP = "uistep";
-    public final static String LOGIN_STATUS = "loginstatus";
-    public final static int LOGGED_IN = 1;
-    public final static int NOT_LOGGED_IN = 0;
-    public final static int CHOOSE = 0;
-    public final static int LOG_IN = 1;
-    public final static int SIGN_UP = 2;
+    public static final String CHOOSE_FRAGMENT = ChooseFragment.class.getName();
+    public static final String LOGIN_FRAGMENT = LogInFragment.class.getName();
+    public static final String SIGNUP_FRAGMENT = SignUpFragment.class.getName();
+    public static String CURRENT_FRAGMENT;
+    public static final String CURRENT_FRAGMENT_KEY = "CurrentFragment";
+
     private WelcomeActivityPresenter registerActivityPresenter;
 
     @BindView(R.id.toolbar) Toolbar toolBar;
@@ -55,6 +53,16 @@ public class WelcomeActivity extends BaseActivity {
         if (savedInstanceState == null){
             //ChooseFragment as default -> hide ToolBar
             registerActivityPresenter.navigateFragment(ChooseFragment.class);
+            CURRENT_FRAGMENT = CHOOSE_FRAGMENT;
+        } else {
+            CURRENT_FRAGMENT = savedInstanceState.getString(CURRENT_FRAGMENT_KEY, "");
+            if (CURRENT_FRAGMENT.equals(LOGIN_FRAGMENT)) {
+                registerActivityPresenter.navigateFragment(LogInFragment.class);
+            } else if (CURRENT_FRAGMENT.equals(SIGNUP_FRAGMENT)) {
+                registerActivityPresenter.navigateFragment(SignUpFragment.class);
+            } else {
+                registerActivityPresenter.navigateFragment(ChooseFragment.class);
+            }
         }
 
     }
@@ -106,23 +114,29 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        registerActivityPresenter.destroy();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                //registerActivityPresenter.onBackPressed();
+                registerActivityPresenter.onBackPressed();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public String getStringResource(int id) {
-        return getString(id);
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(CURRENT_FRAGMENT_KEY, CURRENT_FRAGMENT);
     }
 
-
-
-//    public void navigateActivity(Class activityClass) {
+    //    public void navigateActivity(Class activityClass) {
 //        hideProgress();
 //        Intent toActivity = new Intent(this, activityClass);
 //        hideSoftKeyboard();
@@ -183,11 +197,11 @@ public class WelcomeActivity extends BaseActivity {
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(homeIntent);
     }
-//
-//    @Override
-//    public void onBackPressed() {
-//        registerActivityPresenter.onBackPressed();
-//    }
+
+    @Override
+    public void onBackPressed() {
+        registerActivityPresenter.onBackPressed();
+    }
 
     public WelcomeActivityPresenter getMainPresenter() {
         return registerActivityPresenter;

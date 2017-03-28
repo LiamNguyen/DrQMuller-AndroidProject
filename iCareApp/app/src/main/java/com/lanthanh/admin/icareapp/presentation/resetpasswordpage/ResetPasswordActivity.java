@@ -19,9 +19,6 @@ import android.widget.ProgressBar;
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.CustomerManagerImpl;
-import com.lanthanh.admin.icareapp.data.manager.impl.SendEmailManagerImpl;
-import com.lanthanh.admin.icareapp.domain.executor.impl.ThreadExecutor;
 import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
 import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
@@ -64,8 +61,8 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
     }
 
     public void init(){
-        resetPasswordActivityPresenter = new ResetPasswordActivityPresenterImpl(getSharedPreferences("content", Context.MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(),
-                this, getSupportFragmentManager(), new SendEmailManagerImpl(iCareApiImpl.getAPI()), new CustomerManagerImpl(iCareApiImpl.getAPI()));
+//        resetPasswordActivityPresenter = new ResetPasswordActivityPresenterImpl(getSharedPreferences("content", Context.MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(),
+//                this, getSupportFragmentManager(), new SendEmailManagerImpl(iCareApiImpl.getAPI()), new CustomerManagerImpl(iCareApiImpl.getAPI()));
         //Init controllers
         networkController = new NetworkController(this);
     }
