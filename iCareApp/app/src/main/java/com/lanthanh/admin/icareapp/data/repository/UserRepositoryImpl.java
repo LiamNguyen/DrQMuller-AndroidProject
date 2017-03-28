@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.data.repository;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.lanthanh.admin.icareapp.data.repository.datasource.LocalStorage;
@@ -16,8 +17,8 @@ import io.reactivex.Observable;
 public class UserRepositoryImpl implements UserRepository {
     private LocalStorage localStorage;
 
-    UserRepositoryImpl(SharedPreferences preferences){
-        localStorage = new LocalStorage(preferences);
+    public UserRepositoryImpl(Context context){
+        localStorage =  new LocalStorage(context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE));
     }
 
     @Override

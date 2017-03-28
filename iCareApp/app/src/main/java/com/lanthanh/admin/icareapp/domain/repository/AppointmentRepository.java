@@ -32,10 +32,10 @@ public interface AppointmentRepository {
     Observable<List<DTOTime>> getSelectedTime(int dayId, int locationId, int machineId);
     Observable<List<DTOTime>> getEcoTime();
     Observable<List<DTOWeekDay>> getWeekDays();
-    Observable<RepositorySimpleStatus> bookTime(String authToken, int locationdId, List<DTOAppointmentSchedule> appointmentScheduleList);
-    Observable<RepositorySimpleStatus> releaseTime(String authToken, int locationId, List<DTOAppointmentSchedule> appointmentScheduleList);
+    Observable<RepositorySimpleStatus> bookTime(int locationdId, List<DTOAppointmentSchedule> appointmentScheduleList);
+    Observable<RepositorySimpleStatus> releaseTime(int locationId, List<DTOAppointmentSchedule> appointmentScheduleList);
     Observable<RepositorySimpleStatus> validateAppointment();
-    Observable<String> createAppointment(String authToken, DTOAppointment appointment);
-    Observable<RepositorySimpleStatus> confirmAppointment(String authToken, int userId, int appointmentId);
-    Observable<RepositorySimpleStatus> cancelAppointment(String authToken, int userId, int appointmentId);
+    Observable<String> createAppointment(DTOAppointment appointment);
+    Observable<RepositorySimpleStatus> confirmAppointment(int appointmentId);
+    Observable<RepositorySimpleStatus> cancelAppointment(int appointmentId);
 }

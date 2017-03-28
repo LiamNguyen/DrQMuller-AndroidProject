@@ -37,13 +37,13 @@ public class WelcomeActivityPresenter extends BasePresenter {
         init();
     }
 
-    public void init() {
+    private void init() {
         //Init fragment
         chooseFragment = new ChooseFragment();
         logInFragment = new LogInFragment();
         signUpFragment = new SignUpFragment();
 
-        welcomeRepository = new WelcomeRepositoryImpl();
+        welcomeRepository = new WelcomeRepositoryImpl(this.activity);
     }
 
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {

@@ -1,7 +1,9 @@
 package com.lanthanh.admin.icareapp.data.restapi;
 
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
+import com.lanthanh.admin.icareapp.presentation.Function;
 import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
+import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
@@ -24,11 +26,11 @@ import okhttp3.RequestBody;
 public interface RestClient {
     RequestBody createRequestBody(String[] keys, String[] values);
     RequestBody createRequestBody(String json);
-    Observable<RepositorySimpleStatus> login(String username, String password);
-    Observable<RepositorySimpleStatus> signup(String username, String password);
-    Observable<RepositorySimpleStatus> updateBasicInfo(String authToken, String name, String address);
-    Observable<RepositorySimpleStatus> updateNecessaryInfo(String authToken, String dob, String gender);
-    Observable<RepositorySimpleStatus> updateImportantInfo(String authToken, String email, String phone);
+    Observable<RepositorySimpleStatus> login(Function.Void<UserInfo> saveUser, String username, String password);
+    Observable<RepositorySimpleStatus> signup(Function.Void<UserInfo> saveUser, String username, String password);
+    Observable<RepositorySimpleStatus> updateBasicInfo(Function.Void<UserInfo> saveUser, String authToken, String userId, String name, String address);
+    Observable<RepositorySimpleStatus> updateNecessaryInfo(Function.Void<UserInfo> saveUser, String authToken, String userId, String dob, String gender);
+    Observable<RepositorySimpleStatus> updateImportantInfo(Function.Void<UserInfo> saveUser, String authToken, String userId, String email, String phone);
     Observable<List<DTOCountry>> getCountries();
     Observable<List<DTOCity>> getCitiesByCountryId(int countryId);
     Observable<List<DTODistrict>> getDistrictsByCityId(int cityId);

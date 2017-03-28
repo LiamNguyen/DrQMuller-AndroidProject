@@ -13,16 +13,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.lanthanh.admin.icareapp.presentation.homepage.MainActivity"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+        <activity android:name=".presentation.splashscreen.SplashScreenActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.lanthanh.admin.icareapp.presentation.splashscreen.DeepLinkActivity"
+        <activity android:name=".presentation.homepage.MainActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
+
+        <activity android:name=".presentation.splashscreen.DeepLinkActivity"
             android:noHistory="true"
             android:theme="@android:style/Theme.NoDisplay">
             <intent-filter android:autoVerify="true">
@@ -33,7 +37,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.lanthanh.admin.icareapp.presentation.bookingpage.BookingActivity"
+        <activity android:name=".presentation.bookingpage.BookingActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
@@ -43,16 +47,16 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
 
-        <activity android:name="com.lanthanh.admin.icareapp.presentation.bookingpage.ConfirmBookingActivity"
+        <activity android:name=".presentation.bookingpage.ConfirmBookingActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
-        <activity android:name="com.lanthanh.admin.icareapp.presentation.resetpasswordpage.ResetPasswordActivity"
+        <activity android:name=".presentation.resetpasswordpage.ResetPasswordActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
 
-        <activity android:name="com.lanthanh.admin.icareapp.presentation.userdetailpage.UserDetailsActivity"
+        <activity android:name=".presentation.userdetailpage.UserDetailsActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 

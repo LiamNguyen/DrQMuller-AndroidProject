@@ -9,6 +9,7 @@ import com.lanthanh.admin.icareapp.data.repository.datasource.LocalStorage;
 import com.lanthanh.admin.icareapp.data.restapi.RestClient;
 import com.lanthanh.admin.icareapp.data.restapi.iCareService;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
+import com.lanthanh.admin.icareapp.presentation.Function;
 import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
@@ -80,15 +81,18 @@ public class RestClientImpl implements RestClient {
         return RequestBody.create(JSON, json);
     }
 
-    public Observable<RepositorySimpleStatus> login(String username, String password){
+    public Observable<RepositorySimpleStatus> login(Function.Void<UserInfo> saveUser, String username, String password){
         return service.login(createRequestBody(new String[]{"username", "password"}, new String[]{username, password}))
                       .map(
                           response -> {
                               if (response.code() == 200) {
                                   if (response.body().has("Select_ToAuthenticate")) {
                                       UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Select_ToAuthenticate").get(0), UserInfo.class);
-                                      localStorage.saveUserToLocal(user);
-                                      return RepositorySimpleStatus.SUCCESS;
+                                      if (user != null) {
+                                          saveUser.apply(user);
+                                          return RepositorySimpleStatus.SUCCESS;
+                                      }
+                                      return RepositorySimpleStatus.UNKNOWN_ERROR;
                                   }
                               } else {
                                   RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Select_ToAuthenticate");
@@ -101,7 +105,8 @@ public class RestClientImpl implements RestClient {
                       );
     }
 
-    public Observable<RepositorySimpleStatus> signup(String username, String password){
+    @Override
+    public Observable<RepositorySimpleStatus> signup(Function.Void<UserInfo> saveUser, String username, String password){
         String userId=""; //TODO put user id here
         return service.login(createRequestBody(new String[]{"userId", "username", "password"}, new String[]{userId, username, password}))
                         .map(
@@ -109,8 +114,19 @@ public class RestClientImpl implements RestClient {
                                 if (response.code() == 200) {
                                     if (response.body().has("Insert_NewCustomer")) {
                                         UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Select_ToAuthenticate").get(0), UserInfo.class);
-                                        localStorage.saveUserToLocal(user);
-                                        return RepositorySimpleStatus.SUCCESS;
+                                        if (user != null) {
+                                            saveUser.apply(user);
+                                            if (user.getName() == null || user.getAddress() == null) {
+                                                return RepositorySimpleStatus.MISSING_NAME_AND_ADDRESS;
+                                            } else if (user.getDateOfBirth() == null || user.getGender() == null) {
+                                                return RepositorySimpleStatus.MISSING_DOB_AND_GENDER;
+                                            } else if (user.getEmail() == null || user.getPhone() == null) {
+                                                return RepositorySimpleStatus.MISSING_EMAIL_AND_PHONE;
+                                            } else {
+                                                return RepositorySimpleStatus.SUCCESS;
+                                            }
+                                        }
+                                        return RepositorySimpleStatus.UNKNOWN_ERROR;
                                     }
                                 } else {
                                     RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Insert_NewCustomer");
@@ -124,15 +140,25 @@ public class RestClientImpl implements RestClient {
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> updateBasicInfo(String authToken, String name, String address) {
+    public Observable<RepositorySimpleStatus> updateBasicInfo(Function.Void<UserInfo> saveUser, String authToken, String name, String address) {
         String userId=""; //TODO put user id here
         return service.updateBasicInfo(authToken, createRequestBody(new String[]{"userId", "userName", "userAddress"}, new String[]{userId, name, address}))
                         .map(
                             response -> {
                                 if (response.code() == 200) {
                                     if (response.body().has("Update_BasicInfo")) {
-                                        response.body().getAsJsonArray("Update_BasicInfo").getAsString(); //TODO save user json to pref
-                                        return RepositorySimpleStatus.SUCCESS;
+                                        UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Update_BasicInfo").get(0), UserInfo.class);
+                                        if (user != null) {
+                                            saveUser.apply(user);
+                                            if (user.getDateOfBirth() == null || user.getGender() == null) {
+                                                return RepositorySimpleStatus.MISSING_DOB_AND_GENDER;
+                                            } else if (user.getEmail() == null || user.getPhone() == null) {
+                                                return RepositorySimpleStatus.MISSING_EMAIL_AND_PHONE;
+                                            } else {
+                                                return RepositorySimpleStatus.SUCCESS;
+                                            }
+                                        }
+                                        return RepositorySimpleStatus.UNKNOWN_ERROR;
                                     }
                                 } else {
                                     RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Update_BasicInfo");
@@ -146,15 +172,25 @@ public class RestClientImpl implements RestClient {
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> updateNecessaryInfo(String authToken, String dob, String gender) {
+    public Observable<RepositorySimpleStatus> updateNecessaryInfo(Function.Void<UserInfo> saveUser, String authToken, String dob, String gender) {
         String userId=""; //TODO put user id here
         return service.updateNecessaryInfo(authToken, createRequestBody(new String[]{"userId", "userDob", "userGender"}, new String[]{userId, dob, gender}))
                 .map(
                     response -> {
                         if (response.code() == 200) {
                             if (response.body().has("Update_NecessaryInfo")) {
-                                response.body().getAsJsonArray("Update_NecessaryInfo").getAsString(); //TODO save user json to pref
-                                return RepositorySimpleStatus.SUCCESS;
+                                UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Update_NecessaryInfo").get(0), UserInfo.class);
+                                if (user != null) {
+                                    saveUser.apply(user);
+                                    if (user.getName() == null || user.getAddress() == null) {
+                                        return RepositorySimpleStatus.MISSING_NAME_AND_ADDRESS;
+                                    } else if (user.getEmail() == null || user.getPhone() == null) {
+                                        return RepositorySimpleStatus.MISSING_EMAIL_AND_PHONE;
+                                    } else {
+                                        return RepositorySimpleStatus.SUCCESS;
+                                    }
+                                }
+                                return RepositorySimpleStatus.UNKNOWN_ERROR;
                             }
                         } else {
                             RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Update_NecessaryInfo");
@@ -168,15 +204,25 @@ public class RestClientImpl implements RestClient {
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> updateImportantInfo(String authToken, String email, String phone) {
+    public Observable<RepositorySimpleStatus> updateImportantInfo(Function.Void<UserInfo> saveUser, String authToken, String email, String phone) {
         String userId=""; //TODO put user id here
         return service.updateImportantInfo(authToken, createRequestBody(new String[]{"userId", "userEmail", "userPhone"}, new String[]{userId, email, phone}))
                 .map(
                     response -> {
                         if (response.code() == 200) {
                             if (response.body().has("Update_ImportantInfo")) {
-                                response.body().getAsJsonArray("Update_ImportantInfo").getAsString(); //TODO save user json to pref
-                                return RepositorySimpleStatus.SUCCESS;
+                                UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Update_ImportantInfo").get(0), UserInfo.class);
+                                if (user != null) {
+                                    saveUser.apply(user);
+                                    if (user.getName() == null || user.getAddress() == null) {
+                                        return RepositorySimpleStatus.MISSING_NAME_AND_ADDRESS;
+                                    } else if (user.getDateOfBirth() == null || user.getGender() == null) {
+                                        return RepositorySimpleStatus.MISSING_DOB_AND_GENDER;
+                                    } else {
+                                        return RepositorySimpleStatus.SUCCESS;
+                                    }
+                                }
+                                return RepositorySimpleStatus.UNKNOWN_ERROR;
                             }
                         } else {
                             RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "Update_ImportantInfo");

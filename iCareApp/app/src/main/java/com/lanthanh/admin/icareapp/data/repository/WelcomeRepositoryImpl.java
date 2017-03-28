@@ -1,10 +1,14 @@
 package com.lanthanh.admin.icareapp.data.repository;
 
+import android.content.Context;
+
+import com.lanthanh.admin.icareapp.data.repository.datasource.LocalStorage;
 import com.lanthanh.admin.icareapp.data.restapi.RestClient;
 import com.lanthanh.admin.icareapp.data.restapi.impl.RestClientImpl;
 import com.lanthanh.admin.icareapp.data.restapi.iCareService;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
+import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
 
 import io.reactivex.Observable;
 
@@ -15,33 +19,41 @@ import io.reactivex.Observable;
 
 public class WelcomeRepositoryImpl implements WelcomeRepository{
     private RestClient restClient;
+    private LocalStorage localStorage;
 
-    public WelcomeRepositoryImpl(){
+    public WelcomeRepositoryImpl(Context context){
         restClient = RestClientImpl.createRestClient();
+        localStorage =  new LocalStorage(context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE));
     }
 
     @Override
     public Observable<RepositorySimpleStatus> login(String username, String password) {
-        return restClient.login(username, password);
+        return restClient.login(localStorage::saveUserToLocal, username, password);
     }
 
     @Override
     public Observable<RepositorySimpleStatus> signup(String username, String password) {
-        return restClient.signup(username, password);
+        return restClient.signup(localStorage::saveUserToLocal, username, password);
     }
 
+    //TODO check 1st param
     @Override
     public Observable<RepositorySimpleStatus> updateCustomerBasicInfo(String name, String address) {
-        return restClient.updateBasicInfo("", name, address); //TODO check 1st params
+        UserInfo user = localStorage.getUserFromLocal();
+        return restClient.updateBasicInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), name, address);
     }
 
+    //TODO check 1st param
     @Override
     public Observable<RepositorySimpleStatus> updateCustomerNecessaryInfo(String dob, String gender) {
-        return restClient.updateNecessaryInfo("", dob, gender); //TODO check 1st params
+        UserInfo user = localStorage.getUserFromLocal();
+        return restClient.updateNecessaryInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), dob, gender);
     }
 
+    //TODO check 1st param
     @Override
     public Observable<RepositorySimpleStatus> updateCustomerImportantInfo(String email, String phone) {
-        return restClient.updateImportantInfo("", email, phone); //TODO check 1st params
+        UserInfo user = localStorage.getUserFromLocal();
+        return restClient.updateImportantInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), email, phone);
     }
 }

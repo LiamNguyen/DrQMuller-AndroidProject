@@ -5,6 +5,7 @@ import com.lanthanh.admin.icareapp.data.restapi.impl.RestClientImpl;
 import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
+import com.lanthanh.admin.icareapp.presentation.model.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
@@ -86,12 +87,12 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> bookTime(int locationdId, int dayId, int timeId, int machineId) {
-        return restClient.bookTime(locationdId, dayId, timeId, machineId);
+    public Observable<RepositorySimpleStatus> bookTime(int locationdId, List<DTOAppointmentSchedule> appointmentScheduleList) {
+        return null;
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> releaseTime(int locationdId, int dayId, int timeId, int machineId) {
+    public Observable<RepositorySimpleStatus> releaseTime(int locationId, List<DTOAppointmentSchedule> appointmentScheduleList) {
         return null;
     }
 
@@ -106,12 +107,12 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> confirmAppointment(int userId, int appointmentId) {
+    public Observable<RepositorySimpleStatus> confirmAppointment(int appointmentId) {
         return null;
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> cancelAppointment(int userId, int appointmentId) {
+    public Observable<RepositorySimpleStatus> cancelAppointment(int appointmentId) {
         return null;
     }
 }
