@@ -135,6 +135,12 @@ public class MainActivity extends BaseActivity{
 //        setIntent(null);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mainActivityPresenter.destroy();
+    }
+
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
     }

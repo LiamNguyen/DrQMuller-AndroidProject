@@ -35,25 +35,4 @@ public class WelcomeRepositoryImpl implements WelcomeRepository{
     public Observable<RepositorySimpleStatus> signup(String username, String password) {
         return restClient.signup(localStorage::saveUserToLocal, username, password);
     }
-
-    //TODO check 1st param
-    @Override
-    public Observable<RepositorySimpleStatus> updateCustomerBasicInfo(String name, String address) {
-        UserInfo user = localStorage.getUserFromLocal();
-        return restClient.updateBasicInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), name, address);
-    }
-
-    //TODO check 1st param
-    @Override
-    public Observable<RepositorySimpleStatus> updateCustomerNecessaryInfo(String dob, String gender) {
-        UserInfo user = localStorage.getUserFromLocal();
-        return restClient.updateNecessaryInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), dob, gender);
-    }
-
-    //TODO check 1st param
-    @Override
-    public Observable<RepositorySimpleStatus> updateCustomerImportantInfo(String email, String phone) {
-        UserInfo user = localStorage.getUserFromLocal();
-        return restClient.updateImportantInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), email, phone);
-    }
 }

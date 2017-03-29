@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.lanthanh.admin.icareapp.data.repository.datasource.LocalStorage;
+import com.lanthanh.admin.icareapp.data.restapi.RestClient;
+import com.lanthanh.admin.icareapp.data.restapi.impl.RestClientImpl;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
@@ -17,9 +19,11 @@ import io.reactivex.Observable;
  */
 
 public class UserRepositoryImpl implements UserRepository {
+    private RestClient restClient;
     private LocalStorage localStorage;
 
     public UserRepositoryImpl(Context context){
+        restClient = RestClientImpl.createRestClient();
         localStorage = new LocalStorage(context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE));
     }
 
@@ -62,5 +66,26 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Observable<UserInfo> getUserInformation() {
         return Observable.just(localStorage.getUserFromLocal());
+    }
+
+    //TODO check 1st param
+    @Override
+    public Observable<RepositorySimpleStatus> updateCustomerBasicInfo(String name, String address) {
+        UserInfo user = localStorage.getUserFromLocal();
+        return restClient.updateBasicInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), name, address);
+    }
+
+    //TODO check 1st param
+    @Override
+    public Observable<RepositorySimpleStatus> updateCustomerNecessaryInfo(String dob, String gender) {
+        UserInfo user = localStorage.getUserFromLocal();
+        return restClient.updateNecessaryInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), dob, gender);
+    }
+
+    //TODO check 1st param
+    @Override
+    public Observable<RepositorySimpleStatus> updateCustomerImportantInfo(String email, String phone) {
+        UserInfo user = localStorage.getUserFromLocal();
+        return restClient.updateImportantInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), email, phone);
     }
 }

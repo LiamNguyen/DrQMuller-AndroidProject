@@ -17,26 +17,33 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.presenter.UserDetailsActivityPresenter;
-import com.lanthanh.admin.icareapp.presentation.userdetailpage.UserDetailsActivity;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by ADMIN on 03-Dec-16.
  */
 
-public class GenderFragment extends DialogFragment implements RadioGroup.OnCheckedChangeListener{
-    private UserDetailsActivityPresenter userDetailsActivityPresenter;
+public class GenderFragment extends DialogFragment {
+    @BindView(R.id.ud_gender_txt) TextView genderTitle;
+    @BindView(R.id.ud_male) RadioButton maleButton;
+    @BindView(R.id.ud_female) RadioButton femaleButton;
+    @BindView(R.id.ud_cancel_button) TextView cancelButton;
+    @BindView(R.id.ud_confirm_button) TextView confirmButton;
 
-    public GenderFragment(){
+    private Unbinder unbinder;
 
-    }
+    public GenderFragment(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        userDetailsActivityPresenter = ((UserDetailsActivity) getActivity()).getMainPresenter();
-        return inflater.inflate(R.layout.userdetails_gender, container);
+        View view = inflater.inflate(R.layout.userdetails_gender, container);
+        unbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
     @NonNull
@@ -53,7 +60,7 @@ public class GenderFragment extends DialogFragment implements RadioGroup.OnCheck
     public void onResume() {
         super.onResume();
         //Set dialog size and position
-        getDialog().getWindow().setLayout(470, 600);
+        getDialog().getWindow().setLayout(600, 680);
         getDialog().getWindow().setGravity(Gravity.CENTER);
     }
 
@@ -63,47 +70,29 @@ public class GenderFragment extends DialogFragment implements RadioGroup.OnCheck
 
         //Custom font
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
-        Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_SEMIBOLD);
-        // Get and set up view
-        TextView gender_txt = (TextView) view.findViewById(R.id.ud_gender_txt);
-        gender_txt.setTypeface(font2);
-        final TextView gender_noti = (TextView) view.findViewById(R.id.ud_gender_noti);
-        gender_noti.setTypeface(font);
-        final RadioButton male = (RadioButton) view.findViewById(R.id.ud_male);
-        male.setTypeface(font);
-        final RadioButton female = (RadioButton) view.findViewById(R.id.ud_female);
-        female.setTypeface(font);
-        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.ud_radio_group);
-        radioGroup.setOnCheckedChangeListener(this);
-        AppCompatButton button = (AppCompatButton) view.findViewById(R.id.button_close);
-        button.setTypeface(font);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!male.isChecked() && !female.isChecked())
-                    gender_noti.setVisibility(View.VISIBLE);
-                else{
-                    if (male.isChecked()){
-                        ((UserDetailsActivity) getActivity()).setGenderView(getActivity().getString(R.string.male));
-                    }else{
-                        ((UserDetailsActivity) getActivity()).setGenderView(getActivity().getString(R.string.female));
-                    }
-                    getDialog().dismiss();
+        Typeface fontSemiBold = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_SEMIBOLD);
+        genderTitle.setTypeface(fontSemiBold);
+        maleButton.setTypeface(font);
+        femaleButton.setTypeface(font);
+        cancelButton.setTypeface(font);
+        confirmButton.setTypeface(font);
+
+        cancelButton.setOnClickListener(_view -> getDialog().dismiss());
+        confirmButton.setOnClickListener(
+            _view -> {
+                if (maleButton.isChecked()){
+                    ((UserDetailsActivity) getActivity()).setGenderValue(getActivity().getString(R.string.male));
+                }else{
+                    ((UserDetailsActivity) getActivity()).setGenderValue(getActivity().getString(R.string.female));
                 }
+                getDialog().dismiss();
             }
-        });
+        );
     }
 
     @Override
-    public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-        switch (checkedId){
-            case R.id.ud_male:
-                userDetailsActivityPresenter.setGender("Male");
-                break;
-            case R.id.ud_female:
-                userDetailsActivityPresenter.setGender("Female");
-            default:
-                break;
-        }
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 }

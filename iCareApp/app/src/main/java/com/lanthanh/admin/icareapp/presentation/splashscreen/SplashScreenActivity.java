@@ -9,8 +9,6 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.application.iCareApplication;
 import com.lanthanh.admin.icareapp.presentation.base.BaseActivity;
 
-import java.util.Timer;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -21,7 +19,7 @@ import butterknife.ButterKnife;
 public class SplashScreenActivity extends BaseActivity {
     @BindView(R.id.versionName) TextView versionName;
 
-    private SplashScreenPresenter presenter;
+    private SplashScreenPresenter splashScreenPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,12 +32,18 @@ public class SplashScreenActivity extends BaseActivity {
     }
 
     public void init() {
-        presenter = new SplashScreenPresenter(this);
+        splashScreenPresenter = new SplashScreenPresenter(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        new Handler().postDelayed(() -> presenter.checkLoggedIn(), 1000);
+        new Handler().postDelayed(() -> splashScreenPresenter.checkLoggedIn(), 1000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        splashScreenPresenter.destroy();
     }
 }

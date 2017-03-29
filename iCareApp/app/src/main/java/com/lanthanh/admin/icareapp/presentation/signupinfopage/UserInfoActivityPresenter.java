@@ -55,6 +55,11 @@ public class UserInfoActivityPresenter extends BasePresenter {
         interactor = new Interactor();
     }
 
+    @Override
+    public void destroy() {
+        interactor.dispose();
+    }
+
     public List<Fragment> getVisibleFragments() {
         //Create array of 3 for 3 fragments
         List<Fragment> result = new ArrayList<>(5);
@@ -166,7 +171,7 @@ public class UserInfoActivityPresenter extends BasePresenter {
     public void updateBasicInfo(String name, String address) {
         this.activity.showProgress();
         interactor.execute(
-            () -> welcomeRepository.updateCustomerBasicInfo(name, address),
+            () -> userRepository.updateCustomerBasicInfo(name, address),
             success -> {
                 this.activity.hideProgress();
                 if (success == RepositorySimpleStatus.SUCCESS){
@@ -180,7 +185,7 @@ public class UserInfoActivityPresenter extends BasePresenter {
     public void updateNecessaryInfo(String dob, String gender) {
         this.activity.showProgress();
         interactor.execute(
-            () -> welcomeRepository.updateCustomerNecessaryInfo(dob, gender),
+            () -> userRepository.updateCustomerNecessaryInfo(dob, gender),
             success -> {
                 this.activity.hideProgress();
                 if (success == RepositorySimpleStatus.SUCCESS){
@@ -194,7 +199,7 @@ public class UserInfoActivityPresenter extends BasePresenter {
     public void updateImportantInfo(String email, String phone) {
         this.activity.showProgress();
         interactor.execute(
-            () -> welcomeRepository.updateCustomerImportantInfo(email, phone),
+            () -> userRepository.updateCustomerImportantInfo(email, phone),
             success -> {
                 this.activity.hideProgress();
                 if (success == RepositorySimpleStatus.SUCCESS){

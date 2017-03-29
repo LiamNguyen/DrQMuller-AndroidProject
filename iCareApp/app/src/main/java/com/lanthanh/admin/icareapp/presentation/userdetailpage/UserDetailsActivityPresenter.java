@@ -3,6 +3,11 @@ package com.lanthanh.admin.icareapp.presentation.userdetailpage;
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentManager;
 
+import com.lanthanh.admin.icareapp.data.repository.UserRepositoryImpl;
+import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
+import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
+import com.lanthanh.admin.icareapp.presentation.Function;
+import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 
@@ -12,127 +17,68 @@ import java.util.List;
  * Created by ADMIN on 11-Jan-17.
  */
 
-public class UserDetailsActivityPresenter {
+public class UserDetailsActivityPresenter extends BasePresenter {
     public static final String TAG = UserDetailsActivityPresenter.class.getSimpleName();
-    private com.lanthanh.admin.icareapp.presentation.presenter.UserDetailsActivityPresenter.View mView;
-    private FragmentManager fragmentManager;
-    private SharedPreferences sharedPreferences;
-    private ModelUser mUser;
-    private List<DTOAppointment> mAppointments;
     private UserDetailsActivity activity;
+
+    private UserRepository userRepository;
+    private Interactor interactor;
+
     public UserDetailsActivityPresenter(UserDetailsActivity activity) {
         this.activity = activity;
-//        mView = view;
-//        this.sharedPreferences = sharedPreferences;
-//        this.fragmentManager = fragmentManager;
-//        this.customerManager = customerManager;
-//        this.appointmentManager = appointmentManager;
-//        init();
+        init();
     }
 
-//    public void init(){
-//        mUser = customerManager.getLocalUserFromPref(sharedPreferences);
-//        mAppointments = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
-//        if (mAppointments == null)
-//            mAppointments = new ArrayList<>();
-//    }
-//
-//    @Override
-//    public void navigateToMainActivity() {
-//        mView.navigateToMainActivity();
-//    }
-//
-//    @Override
-//    public void showDobDialogFragment() {
-//        DobFragment dobFragment = new DobFragment();
-//        dobFragment.show(fragmentManager, dobFragment.getClass().getName());
-//    }
-//
-//    @Override
-//    public void showGenderDialogFragment() {
-//        GenderFragment genderFragment = new GenderFragment();
-//        genderFragment.show(fragmentManager, genderFragment.getClass().getName());
-//    }
-//
-//    @Override
-//    public void resume() {
-//
-//    }
-//
-//    @Override
-//    public void setName(String name) {
-//        mUser.setName(name);
-//    }
-//
-//    @Override
-//    public void setAddress(String address) {
-//        mUser.setAddress(address);
-//    }
-//
-//    @Override
-//    public void setDob(String dob) {
-//        mUser.setDob(dob);
-//    }
-//
-//    @Override
-//    public void setGender(String gender) {
-//        mUser.setGender(gender);
-//    }
-//
-//    @Override
-//    public void setEmail(String email) {
-//        mUser.setEmail(email);
-//    }
-//
-//    @Override
-//    public void setPhone(String phone) {
-//        mUser.setPhone(phone);
-//    }
-//
-//    @Override
-//    public String getName() {
-//        return mUser.getName();
-//    }
-//
-//    @Override
-//    public String getAddress() {
-//        return mUser.getAddress();
-//    }
-//
-//    @Override
-//    public String getDob() {
-//        return ConverterForDisplay.convertStringDateFromDBToDisplay(mUser.getDOB());
-//    }
-//
-//    @Override
-//    public String getGender() {
-//        return ConverterForDisplay.convertStringGenderFromDBToDisplay(mUser.getGender(), mView.getStringResource(R.string.male), mView.getStringResource(R.string.female));
-//    }
-//
-//    @Override
-//    public String getEmail() {
-//        return mUser.getEmail();
-//    }
-//
-//    @Override
-//    public String getPhone() {
-//        return mUser.getPhone();
-//    }
-//
+    public void init(){
+        userRepository = new UserRepositoryImpl(this.activity);
+        interactor = new Interactor();
+    }
+
+    @Override
+    public void resume() {}
+
+    public void populateUserInformation(Function.Void<String> populateName, Function.Void<String> populateAddress,
+                                        Function.Void<String> populateDob, Function.Void<String> populateGender,
+                                        Function.Void<String> populateEmail, Function.Void<String> populatePhone) {
+        interactor.execute(
+            () -> userRepository.getUserInformation(),
+            user -> {
+                populateName.apply(user.getName());
+                populateAddress.apply(user.getAddress());
+                populateDob.apply(user.getDateOfBirth());
+                populateGender.apply(user.getGender());
+                populateEmail.apply(user.getEmail());
+                populatePhone.apply(user.getPhone());
+            },
+            error -> {}
+        );
+    }
+
+    public void updateCustomerInformation() {
+
+    }
+
+    @Override
+    public void destroy() {
+        interactor.dispose();
+    }
+
+    public void showDobDialogFragment() {
+        DobFragment dobFragment = new DobFragment();
+        dobFragment.show(this.activity.getSupportFragmentManager(), dobFragment.getClass().getName());
+    }
+
+    public void showGenderDialogFragment() {
+        GenderFragment genderFragment = new GenderFragment();
+        genderFragment.show(this.activity.getSupportFragmentManager(), genderFragment.getClass().getName());
+    }
+
 //    @Override
 //    public void updateCustomer() {
 ////        UpdateCustomerInteractor updateCustomerInteractor = new UpdateCustomerInteractorImpl(mExecutor, mMainThread, this, customerManager, mUser);
 ////        updateCustomerInteractor.execute();
 //    }
-//
-//    public void onUpdateCustomerFail() {
-//        try {
-//            onError("Update customer fail");
-//        }catch (Exception e){
-//            Log.w(TAG, e.toString());
-//        }
-//    }
-//
+
 //    public void onUpdateCustomerSuccess() {
 //        try {
 //            customerManager.saveLocalUserToPref(sharedPreferences, mUser);

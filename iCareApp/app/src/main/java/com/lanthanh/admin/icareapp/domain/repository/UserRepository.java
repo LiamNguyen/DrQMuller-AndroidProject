@@ -14,4 +14,7 @@ public interface UserRepository {
     Observable<Boolean> logout();
     Observable<RepositorySimpleStatus> checkUserInformationValidity();
     Observable<UserInfo> getUserInformation();
+    Observable<RepositorySimpleStatus> updateCustomerBasicInfo(String name, String address);
+    Observable<RepositorySimpleStatus> updateCustomerNecessaryInfo(String dob, String gender);
+    Observable<RepositorySimpleStatus> updateCustomerImportantInfo(String email, String phone);
 }

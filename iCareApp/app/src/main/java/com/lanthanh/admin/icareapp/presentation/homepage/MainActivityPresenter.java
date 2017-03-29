@@ -115,12 +115,6 @@ public class MainActivityPresenter extends BasePresenter {
         this.activity.finish();
     }
 
-//
-//    @Override
-//    public AppointmentChildView getAppointmentView() {
-//        return appointmentFragment;
-//    }
-
     public void populateUserTabOptions(Function.VoidParam notify, List<String> list) {
         interactor.execute(
             () -> userRepository.getUserInformation(),
@@ -149,11 +143,13 @@ public class MainActivityPresenter extends BasePresenter {
         );
     }
 
+    @Override
+    public void destroy() {
+        super.destroy();
+        interactor.dispose();
+    }
 
-
-
-
-//    @Override
+    //    @Override
 //    public void updateAppointmentList() {
 //        //Get local appointment list
 //        List<DTOAppointment> dtoAppointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
