@@ -2,30 +2,26 @@ package com.lanthanh.admin.icareapp.presentation.userdetailpage;
 
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 
-import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
-import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
-import com.lanthanh.admin.icareapp.presentation.presenter.UserDetailsActivityPresenter;
-import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by ADMIN on 11-Jan-17.
  */
 
-public class UserDetailsActivityPresenterImpl {
-    public static final String TAG = UserDetailsActivityPresenterImpl.class.getSimpleName();
-    private UserDetailsActivityPresenter.View mView;
+public class UserDetailsActivityPresenter {
+    public static final String TAG = UserDetailsActivityPresenter.class.getSimpleName();
+    private com.lanthanh.admin.icareapp.presentation.presenter.UserDetailsActivityPresenter.View mView;
     private FragmentManager fragmentManager;
     private SharedPreferences sharedPreferences;
     private ModelUser mUser;
     private List<DTOAppointment> mAppointments;
-    public UserDetailsActivityPresenterImpl() {
+    private UserDetailsActivity activity;
+    public UserDetailsActivityPresenter(UserDetailsActivity activity) {
+        this.activity = activity;
 //        mView = view;
 //        this.sharedPreferences = sharedPreferences;
 //        this.fragmentManager = fragmentManager;
