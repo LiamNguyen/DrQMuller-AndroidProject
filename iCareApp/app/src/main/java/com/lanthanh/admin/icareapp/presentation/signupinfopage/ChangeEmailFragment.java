@@ -25,7 +25,7 @@ import butterknife.Unbinder;
  * Created by ADMIN on 08-Nov-16.
  */
 
-public class ChangeEmailFragment extends BaseFragment<UserInfoActivityPresenterImpl>{
+public class ChangeEmailFragment extends BaseFragment<UserInfoActivityPresenter>{
     @BindView(R.id.ui_email_input) TextInputEditText editEmail;
     @BindView(R.id.ui_email_container) TextInputLayout editEmailContainer;
     @BindView(R.id.ui_change_button) AppCompatButton changeButton;
@@ -64,11 +64,11 @@ public class ChangeEmailFragment extends BaseFragment<UserInfoActivityPresenterI
                 String email = editEmail.getText().toString().trim();
                 if (!email.equals("")){
                     if (email.matches(ModelInputRequirement.EMAIL)){
-                        editEmail.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_post_office_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                        editEmail.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_post_office_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editEmailContainer.setErrorEnabled(false);
                         validEmail = true;
                     }else{
-                        editEmail.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_post_office_white_36dp, 0, R.drawable.ic_invalid_input, 0);
+                        editEmail.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_post_office_white_36dp, 0, R.drawable.ic_error_white_24dp, 0);
                         validEmail = false;
                     }
                 }else {
@@ -86,7 +86,7 @@ public class ChangeEmailFragment extends BaseFragment<UserInfoActivityPresenterI
     }
 
     @Override
-    public UserInfoActivityPresenterImpl getMainPresenter() {
+    public UserInfoActivityPresenter getMainPresenter() {
         return ((UserInfoActivity) getActivity()).getMainPresenter();
     }
 

@@ -26,7 +26,7 @@ import butterknife.Unbinder;
  * Created by ADMIN on 22-Oct-16.
  */
 
-public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenterImpl>{
+public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenter>{
     @BindView(R.id.ui_dob_txt) TextView dobStatus;
     @BindView(R.id.ui_gender_txt) TextView genderStatus;
     @BindView(R.id.datePicker) DatePicker datePicker;
@@ -104,7 +104,7 @@ public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenterI
     }
 
     @Override
-    public UserInfoActivityPresenterImpl getMainPresenter() {
+    public UserInfoActivityPresenter getMainPresenter() {
         return ((UserInfoActivity) getActivity()).getMainPresenter();
     }
     @Override

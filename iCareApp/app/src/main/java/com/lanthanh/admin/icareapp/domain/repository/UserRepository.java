@@ -1,5 +1,7 @@
 package com.lanthanh.admin.icareapp.domain.repository;
 
+import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
+
 import io.reactivex.Observable;
 
 /**
@@ -9,4 +11,7 @@ import io.reactivex.Observable;
 
 public interface UserRepository {
     Observable<Boolean> checkUserLoggedIn();
+    Observable<Boolean> logout();
+    Observable<RepositorySimpleStatus> checkUserInformationValidity();
+    Observable<UserInfo> getUserInformation();
 }

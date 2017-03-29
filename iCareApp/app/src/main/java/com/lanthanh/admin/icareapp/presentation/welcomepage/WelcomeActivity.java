@@ -165,13 +165,6 @@ public class WelcomeActivity extends BaseActivity {
         progressBar.setVisibility(View.GONE);
     }
 
-
-    public void showError(String message) {
-        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM, 0, 200);
-        toast.show();
-    }
-
     public void showAlertDialog(int id) {
         new AlertDialog.Builder(this)
                 .setMessage(getString(id))

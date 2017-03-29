@@ -72,11 +72,11 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> imple
                 String username = editUsername.getText().toString().trim();
                 if (!username.isEmpty()){
                     if (username.matches(ModelInputRequirement.USERNAME)) {
-                        editUsername.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                        editUsername.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editUsernameContainer.setErrorEnabled(false);
                         validUN = true;
                     } else {
-                        editUsername.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, R.drawable.ic_invalid_input, 0);
+                        editUsername.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, R.drawable.ic_error_white_24dp, 0);
                         validUN = false;
                     }
                 } else {
@@ -93,20 +93,20 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> imple
                 String password = editPassword.getText().toString();
                 if (!password.isEmpty()){
                     if (password.matches(ModelInputRequirement.PASSWORD)) {
-                        editPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                        editPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editPasswordContainer.setErrorEnabled(false);
                         validPW = true;
                     }
                     else{
-                        editPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0 , R.drawable.ic_invalid_input, 0);
+                        editPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0 , R.drawable.ic_error_white_24dp, 0);
                         validPW = false;
                     }
                     if (!editPasswordConfirm.getText().toString().isEmpty()) {
                         if (!password.equals(editPasswordConfirm.getText().toString())) {
-                            editPasswordConfirm.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_invalid_input, 0);
+                            editPasswordConfirm.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_error_white_24dp, 0);
                             validPWConf = false;
                         } else {
-                            editPasswordConfirm.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                            editPasswordConfirm.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                             validPWConf = true;
                         }
                     }
@@ -125,12 +125,12 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> imple
                 String passwordConfirm = editPasswordConfirm.getText().toString();
                 if (!passwordConfirm.isEmpty()){
                     if (passwordConfirm.equals(editPassword.getText().toString())) {
-                        editPasswordConfirm.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                        editPasswordConfirm.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editPasswordConfirmContainer.setErrorEnabled(false);
                         validPWConf = true;
                     }
                     else{
-                        editPasswordConfirm.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0 , R.drawable.ic_invalid_input, 0);
+                        editPasswordConfirm.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_security_white_36dp, 0 , R.drawable.ic_error_white_24dp, 0);
                         validPWConf = false;
                     }
                 } else{
@@ -149,9 +149,17 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> imple
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        ((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
+    }
+
+    @Override
     public void onHiddenChanged(boolean hidden) {
-        if (!hidden && isVisible())
+        if (!hidden && isVisible()) {
             ((WelcomeActivity) getActivity()).showToolbar(true);
+            ((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
+        }
         else
             resetViews();
     }

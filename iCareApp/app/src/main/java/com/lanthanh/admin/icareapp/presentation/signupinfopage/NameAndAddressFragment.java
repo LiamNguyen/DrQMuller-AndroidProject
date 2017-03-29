@@ -25,7 +25,7 @@ import butterknife.Unbinder;
  * Created by ADMIN on 22-Oct-16.
  */
 
-public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresenterImpl>{
+public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresenter>{
     @BindView(R.id.ui_name_input) TextInputEditText editName;
     @BindView(R.id.ui_address_input) TextInputEditText editAddress;
     @BindView(R.id.ui_name_container) TextInputLayout editNameContainer;
@@ -69,11 +69,11 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
                 String name = editName.getText().toString().trim();
                 if (!name.equals("")){
                     if (name.matches(ModelInputRequirement.NAME)){
-                        editName.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_pin_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                        editName.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_pin_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editNameContainer.setErrorEnabled(false);
                         validName = true;
                     }else{
-                        editName.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_pin_white_36dp, 0, R.drawable.ic_invalid_input, 0);
+                        editName.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_pin_white_36dp, 0, R.drawable.ic_error_white_24dp, 0);
                         validName = false;
                     }
                 }else {
@@ -92,11 +92,11 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
                 String address = editAddress.getText().toString().trim();
                 if (!address.equals("")){
                     if (address.matches(ModelInputRequirement.ADDRESS)){
-                        editAddress.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pin_drop_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                        editAddress.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pin_drop_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editAddressContainer.setErrorEnabled(false);
                         validAddress = true;
                     }else{
-                        editAddress.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pin_drop_white_36dp, 0, R.drawable.ic_invalid_input, 0);
+                        editAddress.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pin_drop_white_36dp, 0, R.drawable.ic_error_white_24dp, 0);
                         validAddress = false;
                     }
                 }else {
@@ -115,13 +115,22 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
     }
 
     @Override
-    public UserInfoActivityPresenterImpl getMainPresenter() {
+    public UserInfoActivityPresenter getMainPresenter() {
         return ((UserInfoActivity) getActivity()).getMainPresenter();
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        ((UserInfoActivity) getActivity()).showSoftKeyboard(editName);
+    }
+
+    @Override
     public void onHiddenChanged(boolean hidden) {
-        if (hidden || !isVisible())
+        if (!hidden && isVisible()) {
+            ((UserInfoActivity) getActivity()).showSoftKeyboard(editName);
+        }
+        else
             resetViews();
     }
 

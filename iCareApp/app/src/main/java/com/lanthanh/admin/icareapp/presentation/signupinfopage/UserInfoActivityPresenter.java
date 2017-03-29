@@ -7,10 +7,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.data.repository.UserRepositoryImpl;
 import com.lanthanh.admin.icareapp.data.repository.WelcomeRepositoryImpl;
+import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
+import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
+import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
+import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +25,7 @@ import java.util.List;
  * Created by ADMIN on 10-Jan-17.
  */
 
-public class UserInfoActivityPresenterImpl extends BasePresenter {
-    public static final String TAG = UserInfoActivityPresenterImpl.class.getSimpleName();
-
+public class UserInfoActivityPresenter extends BasePresenter {
     private NameAndAddressFragment nameLocationFragment;
     private DOBvsGenderFragment dobGenderFragment;
     private ContactFragment contactFragment;
@@ -31,8 +34,10 @@ public class UserInfoActivityPresenterImpl extends BasePresenter {
     private UserInfoActivity activity;
 
     private WelcomeRepository welcomeRepository;
+    private UserRepository userRepository;
+    private Interactor interactor;
 
-    public UserInfoActivityPresenterImpl(UserInfoActivity activity){
+    public UserInfoActivityPresenter(UserInfoActivity activity){
         this.activity = activity;
         init();
     }
@@ -46,6 +51,8 @@ public class UserInfoActivityPresenterImpl extends BasePresenter {
         changeEmailFragment = new ChangeEmailFragment();
 
         welcomeRepository = new WelcomeRepositoryImpl(this.activity);
+        userRepository = new UserRepositoryImpl(this.activity);
+        interactor = new Interactor();
     }
 
     public List<Fragment> getVisibleFragments() {
@@ -86,7 +93,7 @@ public class UserInfoActivityPresenterImpl extends BasePresenter {
         hideFragments(fragmentTransaction, getVisibleFragments());
 
         if (!f.isAdded()){
-            fragmentTransaction.add(R.id.wel_fragment_container, f, f.getClass().getName());
+            fragmentTransaction.add(R.id.ui_fragment_container, f, f.getClass().getName());
         }else{
             fragmentTransaction.show(f);
         }
@@ -107,84 +114,39 @@ public class UserInfoActivityPresenterImpl extends BasePresenter {
             showFragment(changeEmailFragment);
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (nameLocationFragment.isVisible() || validateFragment.isVisible())
-//            navigateToRegisterActivity();
-//        else if (dobGenderFragment.isVisible())
-//            navigateFragment(UserInfoActivity.NAME_LOCATION);
-//        else if (contactFragment.isVisible())
-//            navigateFragment(UserInfoActivity.DOB_GENDER);
-//        else if (changeEmailFragment.isVisible())
-//            navigateFragment(UserInfoActivity.VALIDATE);
-//
-//        mView.hideSoftKeyboard();
-//    }
-
-//    @Override
-//    public void navigateToMainActivity() {
-//        mView.navigateActivity(MainActivity.class);
-//    }
-//
-//    @Override
-//    public void navigateToRegisterActivity() {
-//        mView.navigateActivity(RegisterActivity.class);
-//    }
-
-    @Override
-    public void resume() {
-
+    public void onBackPressed() {
+        this.activity.hideSoftKeyboard();
+        if (nameLocationFragment.isVisible() || validateFragment.isVisible())
+            navigateActivity(WelcomeActivity.class);
+        else if (dobGenderFragment.isVisible())
+            navigateFragment(NameAndAddressFragment.class);
+        else if (contactFragment.isVisible())
+            navigateFragment(DOBvsGenderFragment.class);
+        else if (changeEmailFragment.isVisible())
+            navigateFragment(ValidateFragment.class);
     }
 
-//    @Override
-//    public void setUserId(int userId) {
-//        mUser.setId(userId);
-//    }
-//
-//    @Override
-//    public void setAddress(String address) {
-//        mUser.setAddress(address);
-//    }
-//
-//    @Override
-//    public void setName(String name) {
-//        mUser.setName(name);
-//    }
-//
-//    @Override
-//    public void setDob(String dob) {
-//        mUser.setDob(dob);
-//    }
-//
-//    @Override
-//    public void setGender(String gender) {
-//        mUser.setGender(gender);
-//    }
-//
-//    @Override
-//    public void setEmail(String email) {
-//        mUser.setEmail(email);
-//    }
-//
-//    @Override
-//    public void setPhone(String phone) {
-//        mUser.setPhone(phone);
-//    }
-//
-//    @Override
-//    public boolean isDobSet() {
-//        return mUser.getDOB() != null;
-//    }
-//
-//    @Override
-//    public boolean isGenderSet() {
-//        return mUser.getGender() != null;
-//    }
-//
-//    @Override
-//    public void onEmailChange(int string) {
-//        validateFragment.showEmailResult(string);
-//    }
+    @Override
+    public void resume() {}
+
+    public void checkUserInformationValidity(){
+        interactor.execute(
+            () -> userRepository.checkUserInformationValidity(),
+            success -> {
+                if (success == RepositorySimpleStatus.MISSING_NAME_AND_ADDRESS)
+                    navigateFragment(NameAndAddressFragment.class);
+                else if (success == RepositorySimpleStatus.MISSING_DOB_AND_GENDER)
+                    navigateFragment(DOBvsGenderFragment.class);
+                else if (success == RepositorySimpleStatus.MISSING_EMAIL_AND_PHONE)
+                    navigateFragment(ContactFragment.class);
+                else if (success == RepositorySimpleStatus.VALID_USER)
+                    navigateActivity(MainActivity.class);
+                else //Default
+                    navigateFragment(NameAndAddressFragment.class);
+            },
+            error -> {}
+        );
+    }
 
     public void navigateActivity(Class<? extends Activity> activityClass) {
         Intent intent = new Intent(this.activity, activityClass);
@@ -203,53 +165,44 @@ public class UserInfoActivityPresenterImpl extends BasePresenter {
 
     public void updateBasicInfo(String name, String address) {
         this.activity.showProgress();
-//        new UpdateCustomerBasicInfoInteractor(welcomeRepository).execute(
-//                success -> {
-//                    this.activity.hideProgress();
-//                    if (success == RepositorySimpleStatus.SUCCESS){
-//                        navigateFragment(DOBvsGenderFragment.class);
-//                    }
-//                },
-//                error -> {
-//                    this.activity.hideProgress();
-//                },
-//                () -> {},
-//                UpdateCustomerBasicInfoInteractor.Params.forUpdateCustomerBasicInfo(name, address)
-//        );
+        interactor.execute(
+            () -> welcomeRepository.updateCustomerBasicInfo(name, address),
+            success -> {
+                this.activity.hideProgress();
+                if (success == RepositorySimpleStatus.SUCCESS){
+                    checkUserInformationValidity();
+                }
+            },
+            error -> this.activity.hideProgress()
+        );
     }
 
     public void updateNecessaryInfo(String dob, String gender) {
         this.activity.showProgress();
-//        new UpdateCustomerNecessaryInfoInteractor(welcomeRepository).execute(
-//                success -> {
-//                    this.activity.hideProgress();
-//                    if (success == RepositorySimpleStatus.SUCCESS){
-//                        navigateFragment(ContactFragment.class);
-//                    }
-//                },
-//                error -> {
-//                    this.activity.hideProgress();
-//                },
-//                () -> {},
-//                UpdateCustomerNecessaryInfoInteractor.Params.forUpdateCustomerNecessaryInfo(dob, gender)
-//        );
+        interactor.execute(
+            () -> welcomeRepository.updateCustomerNecessaryInfo(dob, gender),
+            success -> {
+                this.activity.hideProgress();
+                if (success == RepositorySimpleStatus.SUCCESS){
+                    checkUserInformationValidity();
+                }
+            },
+            error -> this.activity.hideProgress()
+        );
     }
 
     public void updateImportantInfo(String email, String phone) {
         this.activity.showProgress();
-//        new UpdateCustomerImportantInfoInteractor(welcomeRepository).execute(
-//                success -> {
-//                    this.activity.hideProgress();
-//                    if (success == RepositorySimpleStatus.SUCCESS){
-//                        navigateFragment(ValidateFragment.class);
-//                    }
-//                },
-//                error -> {
-//                    this.activity.hideProgress();
-//                },
-//                () -> {},
-//                UpdateCustomerImportantInfoInteractor.Params.forUpdateCustomerImportantInfo(phone, email)
-//        );
+        interactor.execute(
+            () -> welcomeRepository.updateCustomerImportantInfo(email, phone),
+            success -> {
+                this.activity.hideProgress();
+                if (success == RepositorySimpleStatus.SUCCESS){
+                    checkUserInformationValidity();
+                }
+            },
+            error -> this.activity.hideProgress()
+        );
     }
 
 //    @Override

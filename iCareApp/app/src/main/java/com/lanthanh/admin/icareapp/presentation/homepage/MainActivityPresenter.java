@@ -7,13 +7,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
-import com.lanthanh.admin.icareapp.presentation.bookingpage.BookingActivity;
+import com.lanthanh.admin.icareapp.data.repository.UserRepositoryImpl;
+import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
+import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
+import com.lanthanh.admin.icareapp.presentation.Function;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentFragment;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.DefaultAppointmentFragment;
 import com.lanthanh.admin.icareapp.presentation.homepage.usertab.UserFragment;
-import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
+import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,17 +24,18 @@ import java.util.List;
  * Created by ADMIN on 31-Dec-16.
  */
 
-public class MainActivityPresenterImpl extends BasePresenter {
-    public static final String TAG = MainActivityPresenterImpl.class.getSimpleName();
-    private MainActivityPresenter.View mView;
-    private ModelUser mUser;
+public class MainActivityPresenter extends BasePresenter {
+    public static final String TAG = MainActivityPresenter.class.getSimpleName();
+
     private MainActivity activity;
-    //Fragments
     private AppointmentFragment appointmentFragment;
     private DefaultAppointmentFragment defaultAppointmentFragment;
     private UserFragment userFragment;
 
-    public MainActivityPresenterImpl(MainActivity activity){
+    private UserRepository userRepository;
+    private Interactor interactor;
+
+    public MainActivityPresenter(MainActivity activity){
         this.activity = activity;
         init();
     }
@@ -41,11 +44,14 @@ public class MainActivityPresenterImpl extends BasePresenter {
         defaultAppointmentFragment = new DefaultAppointmentFragment();
         appointmentFragment = new AppointmentFragment();
         userFragment = new UserFragment();
+
+        userRepository = new UserRepositoryImpl(this.activity);
+        interactor = new Interactor();
     }
 
     @Override
     public void resume() {
-//        mUser = customerManager.getLocalUserFromPref(sharedPreferences);
+
     }
 
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {
@@ -88,7 +94,7 @@ public class MainActivityPresenterImpl extends BasePresenter {
         hideFragments(fragmentTransaction, getVisibleFragments());
 
         if (!f.isAdded()){
-            fragmentTransaction.add(R.id.wel_fragment_container, f, f.getClass().getName());
+            fragmentTransaction.add(R.id.fragment_container, f, f.getClass().getName());
         }else{
             fragmentTransaction.show(f);
         }
@@ -115,40 +121,38 @@ public class MainActivityPresenterImpl extends BasePresenter {
 //        return appointmentFragment;
 //    }
 
+    public void populateUserTabOptions(Function.VoidParam notify, List<String> list) {
+        interactor.execute(
+            () -> userRepository.getUserInformation(),
+            user -> {
+                if (user != null && user.getName() != null) {
+                    list.add(user.getName());
+                } else {
+                    list.add(this.activity.getString(R.string.user_name));
+                }
+                list.add(this.activity.getString(R.string.user_option_logout));
+                notify.apply();
+            },
+            error -> {}
+        );
+    }
 
-    public boolean checkPrivilege() {
-        //mUser = customerManager.getLocalUserFromPref(sharedPreferences);
-        return mUser != null && mUser.getID() != 0 && mUser.getActive() != 0;
+    public void logout() {
+        interactor.execute(
+            () -> userRepository.logout(),
+            success -> {
+                if (success) {
+                    navigateActivity(WelcomeActivity.class);
+                }
+            },
+            error -> {}
+        );
     }
 
 
-    public void navigateToBookingActivity() {
-        mView.navigateActivity(BookingActivity.class);
-    }
 
-//    @Override
-//    public void navigateToRegisterActivity() {
-//        mView.navigateActivity(RegisterActivity.class);
-//    }
 
-//    @Override
-//    public void navigateToUserDetailsActivity() {
-//        mView.navigateActivity(UserDetailsActivity.class);
-//    }
-//
-//    @Override
-//    public void clearLocalStorage() {
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.remove("user");
-//        editor.apply();
-//        editor.commit();
-//    }
-//
-//    @Override
-//    public SharedPreferences getLocalStorage() {
-//        return sharedPreferences;
-//    }
-//
+
 //    @Override
 //    public void updateAppointmentList() {
 //        //Get local appointment list

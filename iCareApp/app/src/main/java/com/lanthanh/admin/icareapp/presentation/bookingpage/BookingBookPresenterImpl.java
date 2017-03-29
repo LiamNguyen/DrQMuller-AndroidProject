@@ -9,7 +9,7 @@ import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.presenter.BookingActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.presenter.BookingBookPresenter;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
-import com.lanthanh.admin.icareapp.threading.MainThread;
+
 
 import java.util.ArrayList;
 import java.util.Calendar;

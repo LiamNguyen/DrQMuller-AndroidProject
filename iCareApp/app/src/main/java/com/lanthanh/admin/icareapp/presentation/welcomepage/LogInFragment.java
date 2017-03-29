@@ -85,9 +85,17 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter>{
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        ((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
+    }
+
+    @Override
     public void onHiddenChanged(boolean hidden) {
-        if (!hidden && isVisible())
+        if (!hidden && isVisible()) {
             ((WelcomeActivity) getActivity()).showToolbar(true);
+            ((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
+        }
         else
             resetViews();
     }

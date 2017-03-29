@@ -1,6 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.base;
 
 import android.content.Context;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -33,9 +34,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method is used for showing soft keyboard when needed
+     */
+    public void showSoftKeyboard(View view) {
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        }
+    }
+
     public void showToast(String msg){
         toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+        //toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
         //In case the toast is showing, cancel it
         //toast.cancel();
         //Set new test to the toast and show

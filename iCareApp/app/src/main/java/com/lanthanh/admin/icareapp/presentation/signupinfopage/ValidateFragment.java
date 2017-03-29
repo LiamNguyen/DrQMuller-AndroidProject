@@ -22,7 +22,7 @@ import butterknife.Unbinder;
  * Created by ADMIN on 08-Nov-16.
  */
 
-public class ValidateFragment extends BaseFragment<UserInfoActivityPresenterImpl>{
+public class ValidateFragment extends BaseFragment<UserInfoActivityPresenter>{
     @BindView(R.id.ui_resend_email_button) AppCompatButton resendEmailButton;
     @BindView(R.id.ui_change_email_button) AppCompatButton changeEmailButton;
     @BindView(R.id.ui_back_to_register) AppCompatButton toRegisterButton;
@@ -59,7 +59,7 @@ public class ValidateFragment extends BaseFragment<UserInfoActivityPresenterImpl
     public void resetViews() {}
 
     @Override
-    public UserInfoActivityPresenterImpl getMainPresenter() {
+    public UserInfoActivityPresenter getMainPresenter() {
         return ((UserInfoActivity) getActivity()).getMainPresenter();
     }
 

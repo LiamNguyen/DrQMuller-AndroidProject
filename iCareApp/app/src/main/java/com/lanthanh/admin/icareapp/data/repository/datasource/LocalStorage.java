@@ -27,4 +27,11 @@ public class LocalStorage {
     public UserInfo getUserFromLocal() {
         return ConverterJson.convertJsonToObject(preferences.getString("user", ""), UserInfo.class);
     }
+
+    public void removeUserFromLocal() {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove("user");
+        editor.apply();
+        editor.commit();
+    }
 }

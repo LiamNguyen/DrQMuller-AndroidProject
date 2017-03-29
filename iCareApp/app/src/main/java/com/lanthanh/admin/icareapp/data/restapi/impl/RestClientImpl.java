@@ -110,9 +110,9 @@ public class RestClientImpl implements RestClient {
         return service.signup(createRequestBody(new String[]{"username", "password"}, new String[]{username, password}))
                 .map(
                     response -> {
-                        if (response.code() == 200) {
+                        if (response.code() == 201) {
                             if (response.body().has("Insert_NewCustomer")) {
-                                UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Select_ToAuthenticate").get(0), UserInfo.class);
+                                UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Insert_NewCustomer").get(0), UserInfo.class);
                                 if (user != null) {
                                     saveUser.apply(user);
                                     return RepositorySimpleStatus.SUCCESS;
@@ -141,13 +141,7 @@ public class RestClientImpl implements RestClient {
                                 UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Update_BasicInfo").get(0), UserInfo.class);
                                 if (user != null) {
                                     saveUser.apply(user);
-                                    if (user.getDateOfBirth() == null || user.getGender() == null) {
-                                        return RepositorySimpleStatus.MISSING_DOB_AND_GENDER;
-                                    } else if (user.getEmail() == null || user.getPhone() == null) {
-                                        return RepositorySimpleStatus.MISSING_EMAIL_AND_PHONE;
-                                    } else {
-                                        return RepositorySimpleStatus.SUCCESS;
-                                    }
+                                    return RepositorySimpleStatus.SUCCESS;
                                 }
                             }
                         }
@@ -167,13 +161,7 @@ public class RestClientImpl implements RestClient {
                                 UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Update_NecessaryInfo").get(0), UserInfo.class);
                                 if (user != null) {
                                     saveUser.apply(user);
-                                    if (user.getName() == null || user.getAddress() == null) {
-                                        return RepositorySimpleStatus.MISSING_NAME_AND_ADDRESS;
-                                    } else if (user.getEmail() == null || user.getPhone() == null) {
-                                        return RepositorySimpleStatus.MISSING_EMAIL_AND_PHONE;
-                                    } else {
-                                        return RepositorySimpleStatus.SUCCESS;
-                                    }
+                                    return RepositorySimpleStatus.SUCCESS;
                                 }
                             }
                         }
@@ -194,13 +182,7 @@ public class RestClientImpl implements RestClient {
                                 UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Update_ImportantInfo").get(0), UserInfo.class);
                                 if (user != null) {
                                     saveUser.apply(user);
-                                    if (user.getName() == null || user.getAddress() == null) {
-                                        return RepositorySimpleStatus.MISSING_NAME_AND_ADDRESS;
-                                    } else if (user.getDateOfBirth() == null || user.getGender() == null) {
-                                        return RepositorySimpleStatus.MISSING_DOB_AND_GENDER;
-                                    } else {
-                                        return RepositorySimpleStatus.SUCCESS;
-                                    }
+                                    return RepositorySimpleStatus.SUCCESS;
                                 }
                             }
                         }
@@ -498,7 +480,10 @@ public class RestClientImpl implements RestClient {
     private RepositorySimpleStatus resolveErrorReponse(int respCode, String error, String key) {
         JsonObject errorBody = ConverterJson.convertJsonToObject(error, JsonObject.class);
         if (respCode == 409) {
-            return RepositorySimpleStatus.TIME_HAS_BEEN_BOOKED;
+            if (key.equals("Insert_NewCustomer"))
+                return RepositorySimpleStatus.USERNAME_EXISTED;
+            else if (key.equals("BookingTransaction"))
+                return RepositorySimpleStatus.TIME_HAS_BEEN_BOOKED;
         } else if (respCode == 404) {
             return RepositorySimpleStatus.PAGE_NOT_FOUND;
         } else {

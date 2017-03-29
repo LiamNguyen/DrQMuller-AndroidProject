@@ -22,12 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
-import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserDetailsActivityPresenter;
-import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 /**

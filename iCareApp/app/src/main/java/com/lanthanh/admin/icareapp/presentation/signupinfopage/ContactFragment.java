@@ -26,7 +26,7 @@ import butterknife.Unbinder;
  * Created by ADMIN on 22-Oct-16.
  */
 
-public class ContactFragment extends BaseFragment<UserInfoActivityPresenterImpl>{
+public class ContactFragment extends BaseFragment<UserInfoActivityPresenter>{
     @BindView(R.id.ui_email_input) TextInputEditText editEmail;
     @BindView(R.id.ui_phone_input) TextInputEditText editPhone;
     @BindView(R.id.ui_email_container) TextInputLayout editEmailContainer;
@@ -73,11 +73,11 @@ public class ContactFragment extends BaseFragment<UserInfoActivityPresenterImpl>
                 get_email.trim();
                 if (!get_email.equals("")){
                     if (get_email.matches(ModelInputRequirement.EMAIL)){
-                        editEmail.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_post_office_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                        editEmail.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_post_office_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editEmailContainer.setErrorEnabled(false);
                         validEmail = true;
                     }else{
-                        editEmail.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_post_office_white_36dp, 0, R.drawable.ic_invalid_input, 0);
+                        editEmail.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_post_office_white_36dp, 0, R.drawable.ic_error_white_24dp, 0);
                         validEmail = false;
                     }
                 }else {
@@ -96,11 +96,11 @@ public class ContactFragment extends BaseFragment<UserInfoActivityPresenterImpl>
                 get_phone.trim();
                 if (!get_phone.equals("")){
                     if (get_phone.matches(ModelInputRequirement.PHONE)){
-                        editPhone.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_phone_white_36dp, 0, R.drawable.ic_valid_input, 0);
+                        editPhone.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_phone_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editPhoneContainer.setErrorEnabled(false);
                         validPhone = true;
                     }else{
-                        editPhone.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_phone_white_36dp, 0, R.drawable.ic_invalid_input, 0);
+                        editPhone.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_phone_white_36dp, 0, R.drawable.ic_error_white_24dp, 0);
                         validPhone = false;
                     }
                 }else {
@@ -113,8 +113,17 @@ public class ContactFragment extends BaseFragment<UserInfoActivityPresenterImpl>
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        ((UserInfoActivity) getActivity()).showSoftKeyboard(editEmail);
+    }
+
+    @Override
     public void onHiddenChanged(boolean hidden) {
-        if (hidden || !isVisible())
+        if (!hidden && isVisible()) {
+            ((UserInfoActivity) getActivity()).showSoftKeyboard(editEmail);
+        }
+        else
             resetViews();
     }
 
@@ -125,7 +134,7 @@ public class ContactFragment extends BaseFragment<UserInfoActivityPresenterImpl>
     }
 
     @Override
-    public UserInfoActivityPresenterImpl getMainPresenter() {
+    public UserInfoActivityPresenter getMainPresenter() {
         return ((UserInfoActivity) getActivity()).getMainPresenter();
     }
 

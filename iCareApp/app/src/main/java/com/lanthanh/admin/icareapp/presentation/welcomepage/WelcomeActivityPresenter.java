@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.data.repository.UserRepositoryImpl;
 import com.lanthanh.admin.icareapp.data.repository.WelcomeRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
+import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
@@ -30,6 +32,7 @@ public class WelcomeActivityPresenter extends BasePresenter {
     private WelcomeActivity activity;
 
     private WelcomeRepository welcomeRepository;
+    private UserRepository userRepository;
     private Interactor interactor;
 
     public WelcomeActivityPresenter(WelcomeActivity activity) {
@@ -44,10 +47,12 @@ public class WelcomeActivityPresenter extends BasePresenter {
         signUpFragment = new SignUpFragment();
 
         welcomeRepository = new WelcomeRepositoryImpl(this.activity);
+        userRepository = new UserRepositoryImpl(this.activity);
         interactor = new Interactor();
     }
 
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {
+        this.activity.hideSoftKeyboard();
         if (fragmentClass == ChooseFragment.class) {
             WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.CHOOSE_FRAGMENT;
             showFragment(chooseFragment);
@@ -102,21 +107,6 @@ public class WelcomeActivityPresenter extends BasePresenter {
         fragmentTransaction.addToBackStack(null).commit();
     }
 
-//
-//    public void navigateToMainActivity() {
-//        Bundle extras = new Bundle();
-//        extras.putInt(RegisterActivity.LOGIN_STATUS, RegisterActivity.LOGGED_IN);
-//        mView.navigateActivity(MainActivity.class, extras);
-//    }
-//
-//
-//    public void navigateToUserInfo(int id, String uiStep) {
-//        Bundle extras = new Bundle();
-//        extras.putInt(RegisterActivity.EXTRA_ID, id);
-//        extras.putString(RegisterActivity.EXTRA_UISTEP, uiStep);
-//        mView.navigateActivity(UserInfoActivity.class, extras);
-//    }
-
     public void login(String username, String password){
         this.activity.showProgress();
         interactor.execute(
@@ -124,7 +114,16 @@ public class WelcomeActivityPresenter extends BasePresenter {
             success -> {
                 this.activity.hideProgress();
                 if (success == RepositorySimpleStatus.SUCCESS){
-                    navigateActivity(MainActivity.class);
+                    interactor.execute(
+                            () -> userRepository.checkUserInformationValidity(),
+                            check -> {
+                                if (check == RepositorySimpleStatus.VALID_USER)
+                                    navigateActivity(MainActivity.class);
+                                else //Default
+                                    navigateActivity(UserInfoActivity.class);
+                            },
+                            error -> {}
+                    );
                 } else if (success == RepositorySimpleStatus.PATTERN_FAIL) {
                     this.activity.showToast(this.activity.getString(R.string.pattern_fail));
                 } else if (success == RepositorySimpleStatus.USERNAME_PASSWORD_NOT_MATCH) {

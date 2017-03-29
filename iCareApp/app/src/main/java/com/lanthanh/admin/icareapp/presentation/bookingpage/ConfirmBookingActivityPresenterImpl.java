@@ -8,7 +8,6 @@ import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 import com.lanthanh.admin.icareapp.presentation.presenter.ConfirmBookingActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
-import com.lanthanh.admin.icareapp.threading.MainThread;
 
 import java.util.List;
 

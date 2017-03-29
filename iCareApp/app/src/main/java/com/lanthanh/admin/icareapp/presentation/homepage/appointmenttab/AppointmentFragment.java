@@ -14,7 +14,7 @@ import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.presentation.bookingpage.BookingActivity;
-import com.lanthanh.admin.icareapp.presentation.homepage.MainActivityPresenterImpl;
+import com.lanthanh.admin.icareapp.presentation.homepage.MainActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.adapter.AppointmentCVAdapter;
 
@@ -29,7 +29,7 @@ import butterknife.Unbinder;
  * Created by ADMIN on 24-Jan-17.
  */
 
-public class AppointmentFragment extends BaseFragment<MainActivityPresenterImpl>{
+public class AppointmentFragment extends BaseFragment<MainActivityPresenter>{
     @BindView(R.id.recycler_view) RecyclerView appointmentView;
     @BindView(R.id.fab) FloatingActionButton bookButton;
     private Unbinder unbinder;
@@ -64,7 +64,7 @@ public class AppointmentFragment extends BaseFragment<MainActivityPresenterImpl>
     public void resetViews() {}
 
     @Override
-    public MainActivityPresenterImpl getMainPresenter() {
+    public MainActivityPresenter getMainPresenter() {
         return ((MainActivity) getActivity()).getMainPresenter();
     }
 

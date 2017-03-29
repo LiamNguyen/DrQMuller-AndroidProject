@@ -10,7 +10,6 @@ import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
 import com.lanthanh.admin.icareapp.presentation.presenter.UserDetailsActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
-import com.lanthanh.admin.icareapp.threading.MainThread;
 
 import java.util.ArrayList;
 import java.util.List;

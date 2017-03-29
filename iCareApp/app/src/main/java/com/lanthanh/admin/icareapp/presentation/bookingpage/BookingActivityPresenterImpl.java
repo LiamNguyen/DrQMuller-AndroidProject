@@ -102,7 +102,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         hideFragments(fragmentTransaction, getVisibleFragments());
 
         if (!f.isAdded()){
-            fragmentTransaction.add(R.id.wel_fragment_container, f, f.getClass().getName());
+            fragmentTransaction.add(R.id.fragment_container, f, f.getClass().getName());
         }else{
             fragmentTransaction.show(f);
         }

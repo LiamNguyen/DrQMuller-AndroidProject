@@ -2,28 +2,16 @@ package com.lanthanh.admin.icareapp.presentation.homepage;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.base.BaseActivity;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentFragment;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.DefaultAppointmentFragment;
 import com.lanthanh.admin.icareapp.presentation.homepage.usertab.UserFragment;
-import com.lanthanh.admin.icareapp.presentation.presenter.MainActivityPresenter;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,7 +28,7 @@ public class MainActivity extends BaseActivity{
     @BindView(R.id.bottom_navigation) BottomNavigationView bottomNavigationView;
     @BindView(R.id.progressbar) ProgressBar progressBar;
 
-    private MainActivityPresenterImpl mainActivityPresenter;
+    private MainActivityPresenter mainActivityPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +66,10 @@ public class MainActivity extends BaseActivity{
     }
 
     public void init(){
-        mainActivityPresenter = new MainActivityPresenterImpl(this);
+        mainActivityPresenter = new MainActivityPresenter(this);
     }
 
-    public MainActivityPresenterImpl getMainPresenter(){
+    public MainActivityPresenter getMainPresenter(){
         return mainActivityPresenter;
     }
 

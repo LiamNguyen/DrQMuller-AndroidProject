@@ -21,5 +21,6 @@ public enum RepositorySimpleStatus {
     MISSING_NAME_AND_ADDRESS,
     MISSING_DOB_AND_GENDER,
     MISSING_EMAIL_AND_PHONE,
-    NOT_LOGGED_IN_YET
+    MISSING_USER,
+    VALID_USER
 }

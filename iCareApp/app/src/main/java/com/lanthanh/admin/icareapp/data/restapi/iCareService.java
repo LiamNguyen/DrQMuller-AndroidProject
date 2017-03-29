@@ -50,7 +50,7 @@ public interface iCareService {
     @Headers({
         "Content-Type: application/json"
     })
-    @PUT("user/basicinformation")
+    @POST("user/basicinformation")
     Observable<Response<JsonObject>> updateBasicInfo(@Header("Authorization") String authToken, @Body RequestBody body);
 
     /**
@@ -62,7 +62,7 @@ public interface iCareService {
     @Headers({
         "Content-Type: application/json"
     })
-    @PUT("user/necessaryinformation")
+    @POST("user/necessaryinformation")
     Observable<Response<JsonObject>> updateNecessaryInfo(@Header("Authorization") String authToken, @Body RequestBody body);
 
     /**
@@ -74,7 +74,7 @@ public interface iCareService {
     @Headers({
         "Content-Type: application/json"
     })
-    @PUT("user/importantinfomation")
+    @POST("user/importantinformation")
     Observable<Response<JsonObject>> updateImportantInfo(@Header("Authorization") String authToken, @Body RequestBody body);
 
     /**
@@ -182,14 +182,14 @@ public interface iCareService {
     @Headers({
         "Content-Type: application/json"
     })
-    @PUT("time/release")
+    @POST("time/release")
     Observable<Response<JsonObject>> releaseTime(@Header("Authorization") String authToken, @Body RequestBody body);
 
     /**
      * This request method is used for validate all appointments
      * @return an Observable
      */
-    @PUT("appointment/validate")
+    @POST("appointment/validate")
     Observable<Response<JsonObject>> validateAppointment();
 
     /**
@@ -213,7 +213,7 @@ public interface iCareService {
     @Headers({
             "Content-Type: application/json"
     })
-    @PUT("appointment/confirm")
+    @POST("appointment/confirm")
     Observable<Response<JsonObject>> confirmAppointment(@Header("Authorization") String authToken, @Body RequestBody body);
 
     /**
@@ -225,6 +225,6 @@ public interface iCareService {
     @Headers({
             "Content-Type: application/json"
     })
-    @PUT("appointment/cancel")
+    @POST("appointment/cancel")
     Observable<Response<JsonObject>> cancelAppointment(@Header("Authorization") String authToken, @Body RequestBody body);
 }

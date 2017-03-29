@@ -18,10 +18,8 @@ import android.widget.ProgressBar;
 
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.api.impl.iCareApiImpl;
 import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
-import com.lanthanh.admin.icareapp.threading.impl.MainThreadImpl;
 
 import java.util.List;
 

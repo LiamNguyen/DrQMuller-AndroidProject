@@ -9,7 +9,6 @@ import android.util.Log;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
-import com.lanthanh.admin.icareapp.threading.MainThread;
 
 import java.util.ArrayList;
 import java.util.List;

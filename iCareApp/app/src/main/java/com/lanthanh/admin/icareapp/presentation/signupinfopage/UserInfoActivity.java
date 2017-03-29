@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 public class UserInfoActivity extends BaseActivity {
     @BindView(R.id.progressbar) ProgressBar progressBar;
     @BindView(R.id.toolbar) Toolbar toolBar;
-    private UserInfoActivityPresenterImpl userInfoActivityPresenter;
+    private UserInfoActivityPresenter userInfoActivityPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,38 +38,21 @@ public class UserInfoActivity extends BaseActivity {
 
         if (savedInstanceState == null){
             //ChooseFragment as default -> hide ToolBar
-            userInfoActivityPresenter.navigateFragment(NameAndAddressFragment.class);
+            userInfoActivityPresenter.checkUserInformationValidity();
+        } else {
+            //TODO implement save instance
         }
     }
 
     public void init(){
         //Init presenter
-        userInfoActivityPresenter = new UserInfoActivityPresenterImpl(this);
+        userInfoActivityPresenter = new UserInfoActivityPresenter(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        //networkController.registerNetworkReceiver();
-//        Intent i = getIntent();
-//        Bundle b = i.getExtras();
-//        if (b != null){
-//            if (b.containsKey(RegisterActivity.TAG)) {
-//                Bundle bundle = b.getBundle(RegisterActivity.TAG);
-//                if (bundle != null) {
-//                    userInfoActivityPresenter.setUserId(bundle.getInt(RegisterActivity.EXTRA_ID, 0));
-//                    if (bundle.getString(RegisterActivity.EXTRA_UISTEP).equals("none"))
-//                        userInfoActivityPresenter.navigateFragment(NAME_LOCATION);
-//                    else if (bundle.getString(RegisterActivity.EXTRA_UISTEP).equals("basic"))
-//                        userInfoActivityPresenter.navigateFragment(DOB_GENDER);
-//                    else if (bundle.getString(RegisterActivity.EXTRA_UISTEP).equals("necessary"))
-//                        userInfoActivityPresenter.navigateFragment(CONTACT);
-//                    else if (bundle.getString(RegisterActivity.EXTRA_UISTEP).equals("important"))
-//                        userInfoActivityPresenter.navigateFragment(VALIDATE);
-//
-//                }
-//            }
-//        }
+//      networkController.registerNetworkReceiver();
     }
 
     @Override
@@ -82,14 +65,14 @@ public class UserInfoActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                //userInfoActivityPresenter.onBackPressed();//TODO check this one
+                userInfoActivityPresenter.onBackPressed();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public UserInfoActivityPresenterImpl getMainPresenter() {
+    public UserInfoActivityPresenter getMainPresenter() {
         return userInfoActivityPresenter;
     }
 
@@ -108,8 +91,9 @@ public class UserInfoActivity extends BaseActivity {
         else
             toolBar.setVisibility(View.GONE);
     }
-//    @Override
-//    public void onBackPressed() {
-//        userInfoActivityPresenter.onBackPressed();
-//    }
+
+    @Override
+    public void onBackPressed() {
+        userInfoActivityPresenter.onBackPressed();
+    }
 }
