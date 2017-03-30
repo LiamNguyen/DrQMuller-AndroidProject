@@ -41,10 +41,10 @@ public class ConverterJson {
         return resultList;
     }
 
-    public static <T> List<T> convertGsonToObjectList(JsonArray jsonArray){
-        Type listType = new TypeToken<List<T>>(){}.getType();
-        return gson.fromJson(jsonArray, listType);
-    }
+//    public static <T> List<T> convertGsonToObjectList(JsonArray jsonArray, Class<T> classOfT){
+//        Type listType = new TypeToken<List<T>>(){}.getType();
+//        return gson.fromJson(jsonArray, listType);
+//    }
 
     public static <T> String convertObjectToJson(T objectOfT, Class<T> classOfT){
         return gson.toJson(objectOfT, classOfT);

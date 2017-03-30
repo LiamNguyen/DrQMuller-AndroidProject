@@ -16,7 +16,13 @@ import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
 import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOLocation;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTime;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOWeekDay;
 
 import java.util.ArrayList;
@@ -248,55 +254,73 @@ public class BookingActivityPresenterImpl extends BasePresenter{
      * These methods below are used for getting datasource
      */
 
-    public void getCountries(){
+    public void getCountries(Function.Void<List<DTOCountry>> callback){
+        this.activity.showProgress();
         interactor.execute(
             () -> appointmentRepository.getCountries(),
-            success -> this.activity.getProvider().setCountries(success),
+            success -> {
+                this.activity.hideProgress();
+                this.activity.getProvider().setCountries(success);
+                callback.apply(success);
+                this.bookingSelectFragment.setDefaultSelectionForCountry();
+            },
             error -> {}
         );
     }
 
-    public void getCitiesByCountryId(int countryId){
+    public void getCitiesByCountryId(Function.Void<List<DTOCity>> callback, int countryId){
         interactor.execute(
             () -> appointmentRepository.getCitiesByCountryId(countryId),
-            success -> this.activity.getProvider().setCities(success),
+            success -> {
+                this.activity.getProvider().setCities(success);
+                callback.apply(success);
+                this.bookingSelectFragment.setDefaultSelectionForCity();
+            },
             error -> {}
         );
     }
 
-    public void getDistrictsByCityId(int cityId){
+    public void getDistrictsByCityId(Function.Void<List<DTODistrict>> callback, int cityId){
         interactor.execute(
             () -> appointmentRepository.getDistrictsByCityId(cityId),
-            success -> this.activity.getProvider().setDistricts(success),
+            success -> {
+                this.activity.getProvider().setDistricts(success);
+                callback.apply(success);
+                this.bookingSelectFragment.setDefaultSelectionForDistrict();
+                this.bookingSelectFragment.enableLocationSelection();
+            },
             error -> {}
         );
     }
 
-    public void getLocationsByDistrictId(int districtId){
+    public void getLocationsByDistrictId(Function.Void<List<DTOLocation>> callback, int districtId){
         interactor.execute(
             () -> appointmentRepository.getLocationsByDistrictId(districtId),
             success -> {
                 this.activity.getProvider().setLocations(success);
+                callback.apply(success);
             },
             error -> {}
         );
     }
 
-    public void getVouchers() {
+    public void getVouchers(Function.Void<List<DTOVoucher>> callback) {
         interactor.execute(
             () -> appointmentRepository.getVouchers(),
             success -> {
                 this.activity.getProvider().setVouchers(success);
+                callback.apply(success);
             },
             error -> {}
         );
     }
 
-    public void getTypes() {
+    public void getTypes(Function.Void<List<DTOType>> callback) {
         interactor.execute(
             () -> appointmentRepository.getTypes(),
             success -> {
                 this.activity.getProvider().setTypes(success);
+                callback.apply(success);
             },
             error -> {}
         );

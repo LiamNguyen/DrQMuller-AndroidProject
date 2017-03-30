@@ -66,6 +66,6 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="@color/colorPrimary"
-            android:text="@string/finish_button"/>
+            android:text="@string/change_button"/>
     </LinearLayout>
 </LinearLayout>

@@ -199,7 +199,7 @@ public class RestClientImpl implements RestClient {
                         if (response.code() == 200) {
                             //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Countries")) {
-                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Countries"));
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Countries"), DTOCountry.class);
                             }
                         }
                         return null;
@@ -215,7 +215,7 @@ public class RestClientImpl implements RestClient {
                         if (response.code() == 200) {
                             if (response.body().has("Select_Cities")) {
                                 //TODO error handling needed in stead of null?
-                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Cities"));
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Cities"), DTOCity.class);
                             }
                         }
                         return null;
@@ -231,7 +231,7 @@ public class RestClientImpl implements RestClient {
                         if (response.code() == 200) {
                             //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Districts")) {
-                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Districts"));
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Districts"), DTODistrict.class);
                             }
                         }
                         return null;
@@ -247,7 +247,7 @@ public class RestClientImpl implements RestClient {
                         if (response.code() == 200) {
                             //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Locations")) {
-                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Locations"));
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Locations"), DTOLocation.class);
                             }
                         }
                         return null;
@@ -263,7 +263,7 @@ public class RestClientImpl implements RestClient {
                         if (response.code() == 200) {
                             //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Vouchers")) {
-                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Vouchers"));
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Vouchers"), DTOVoucher.class);
                             }
                         }
                         return null;
@@ -279,7 +279,7 @@ public class RestClientImpl implements RestClient {
                         if (response.code() == 200) {
                             //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Types")) {
-                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Types"));
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Types"), DTOType.class);
                             }
                         }
                         return null;
@@ -295,7 +295,7 @@ public class RestClientImpl implements RestClient {
                         //TODO error handling needed in stead of null?
                         if (response.code() == 200) {
                             if (response.body().has("Select_AllTime")) {
-                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_AllTime"));
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_AllTime"), DTOTime.class);
                             }
                         }
                         return null;
@@ -311,7 +311,7 @@ public class RestClientImpl implements RestClient {
                         if (response.code() == 200) {
                             //TODO error handling needed in stead of null?
                             if (response.body().has("Select_EcoTime")) {
-                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_EcoTime"));
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_EcoTime"), DTOTime.class);
                             }
                         }
                         return null;
@@ -327,7 +327,7 @@ public class RestClientImpl implements RestClient {
                         if (response.code() == 200) {
                             //TODO error handling needed in stead of null?
                             if (response.body().has("Select_SelectedTime")) {
-                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_SelectedTime"));
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_SelectedTime"), DTOTime.class);
                             }
                         }
                         return null;
@@ -343,7 +343,7 @@ public class RestClientImpl implements RestClient {
                         if (response.code() == 200) {
                             //TODO error handling needed in stead of null?
                             if (response.body().has("Select_DaysOfWeek")) {
-                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_DaysOfWeek"));
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_DaysOfWeek"), DTOWeekDay.class);
                             }
                         }
                         return null;
@@ -359,7 +359,7 @@ public class RestClientImpl implements RestClient {
                         if (response.code() == 200) {
                             //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Machines")) {
-                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Machines"));
+                                return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Machines"), DTOMachine.class);
                             }
                         }
                         return null;

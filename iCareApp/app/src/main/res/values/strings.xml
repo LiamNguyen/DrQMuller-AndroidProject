@@ -147,6 +147,7 @@
 
     <!-- USER DETAILS -->
     <string name="abort_button">Hủy Bỏ</string>
+    <string name="save_button">Lưu</string>
 
     <!-- ********************************FRAGMENT******************************** -->
     <!-- DEFAULT APPOINTMENT -->

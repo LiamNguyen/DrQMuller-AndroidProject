@@ -18,7 +18,6 @@ import java.util.List;
  */
 
 public class UserDetailsActivityPresenter extends BasePresenter {
-    public static final String TAG = UserDetailsActivityPresenter.class.getSimpleName();
     private UserDetailsActivity activity;
 
     private UserRepository userRepository;

@@ -10,17 +10,14 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.presentation.base.BaseActivity;
@@ -38,7 +35,6 @@ import butterknife.ButterKnife;
  */
 
 public class UserDetailsActivity extends BaseActivity {
-    public static final String TAG = UserDetailsActivity.class.getSimpleName();
     @BindView(R.id.ud_name_txt) TextView nameTitle;
     @BindView(R.id.ud_address_txt) TextView addressTitle;
     @BindView(R.id.ud_dob_txt) TextView dobTitle;
@@ -58,8 +54,9 @@ public class UserDetailsActivity extends BaseActivity {
     @BindView(R.id.toolbar) Toolbar toolBar;
     @BindView(R.id.appBar) AppBarLayout appBarLayout;
     @BindView(R.id.coorLayout) CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.ud_abort_button) AppCompatButton abortButton;
-    @BindView(R.id.ud_finish_button) AppCompatButton finishButton;
+    @BindView(R.id.ud_abort_button) TextView abortButton;
+    @BindView(R.id.ud_save_button) TextView saveButton;
+    @BindView(R.id.button_container) LinearLayout buttonContainer;
     @BindDrawable(R.drawable.ic_check_circle_white_24dp) Drawable validInputDrawable;
     @BindDrawable(R.drawable.ic_error_white_24dp) Drawable invalidInputDrawable;
     @BindDrawable(R.drawable.ic_chevron_left_white_48dp) Drawable backDrawable;
@@ -233,8 +230,8 @@ public class UserDetailsActivity extends BaseActivity {
                 refreshViews();
             }
         );
-        finishButton.setTypeface(fontNormal);
-        finishButton.setOnClickListener(
+        saveButton.setTypeface(fontNormal);
+        saveButton.setOnClickListener(
             view -> {
                 hideSoftKeyboard();
                 if (validName && validAddress && validEmail && validPhone) {
@@ -310,7 +307,7 @@ public class UserDetailsActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                //userDetailsActivityPresenter.navigateToMainActivity();
+                onBackPressed();
                 return true;
             case R.id.edit:
                 unlockViews();
@@ -321,15 +318,6 @@ public class UserDetailsActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public void navigateToMainActivity() {
-        //hideProgress();
-        Intent toMain = new Intent(this, MainActivity.class);
-        toMain.putExtra(TAG, true);
-        startActivity(toMain);
-        finish();
-    }
-
 
 //    public void showProgress() {
 //        progressBar.setVisibility(View.VISIBLE);
@@ -342,7 +330,7 @@ public class UserDetailsActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        //userDetailsActivityPresenter.navigateToMainActivity();
+        finish();
     }
 
     public void refreshViews() {
@@ -357,8 +345,7 @@ public class UserDetailsActivity extends BaseActivity {
 
         populateUserInfdormation();
 
-        abortButton.setVisibility(View.INVISIBLE);
-        finishButton.setVisibility(View.INVISIBLE);
+        buttonContainer.setVisibility(View.INVISIBLE);
 
         validName = true; validAddress = true; validEmail = true; validPhone = true;
 
@@ -375,8 +362,7 @@ public class UserDetailsActivity extends BaseActivity {
         editEmail.setEnabled(true);
         editPhone.setEnabled(true);
 
-        abortButton.setVisibility(View.VISIBLE);
-        finishButton.setVisibility(View.VISIBLE);
+        buttonContainer.setVisibility(View.VISIBLE);
 
         scrollToBottom();
     }

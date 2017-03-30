@@ -28,6 +28,10 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.adapter.CustomSpinnerAdapter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -59,9 +63,9 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
         unbinder = ButterKnife.bind(this, view);
         initViews();
 
-        getMainPresenter().getCountries();
-        getMainPresenter().getVouchers();
-        getMainPresenter().getTypes();
+        getMainPresenter().getCountries(list -> countryAdapter.update(list));
+        getMainPresenter().getVouchers(list -> voucherAdapter.update(list));
+        getMainPresenter().getTypes(list -> typeAdapter.update(list));
 
         return view;
     }
@@ -205,15 +209,15 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()){
             case R.id.spinner_countries:
-                getMainPresenter().getCitiesByCountryId(((DTOCountry) countrySp.getSelectedItem()).getCountryId());
+                getMainPresenter().getCitiesByCountryId(list -> cityAdapter.update(list), ((DTOCountry) countrySp.getSelectedItem()).getCountryId());
                 getProvider().getCurrentAppointment().setCountry((DTOCountry) countrySp.getSelectedItem());
                 break;
             case R.id.spinner_cities:
-                getMainPresenter().getDistrictsByCityId(((DTOCity) countrySp.getSelectedItem()).getCityId());
+                getMainPresenter().getDistrictsByCityId(list -> districtAdapter.update(list), ((DTOCity) citySp.getSelectedItem()).getCityId());
                 getProvider().getCurrentAppointment().setCity((DTOCity) citySp.getSelectedItem());
                 break;
             case R.id.spinner_districts:
-                getMainPresenter().getLocationsByDistrictId(((DTODistrict) countrySp.getSelectedItem()).getDistrictId());
+                getMainPresenter().getLocationsByDistrictId(list -> locationAdapter.update(list), ((DTODistrict) districtSp.getSelectedItem()).getDistrictId());
                 getProvider().getCurrentAppointment().setDistrict((DTODistrict) districtSp.getSelectedItem());
                 break;
             case R.id.spinner_locations:
