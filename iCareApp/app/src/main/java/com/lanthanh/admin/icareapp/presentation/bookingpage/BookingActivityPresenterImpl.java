@@ -487,7 +487,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
             return true;
     }
 
-    public void setUpDatePickerView(Function.Void<Integer> callback) {
+    public void setUpDatePickerView(Function.Void<Integer> resetViews) {
         if (this.activity.getProvider().getCurrentAppointment().getType().getTypeId() == typeId &&
             this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId() == voucherId)
             return;
@@ -495,7 +495,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         this.activity.getProvider().getCurrentAppointment().setStartDate(null);
         this.expireDate = null;
         this.activity.getProvider().getCurrentAppointment().setExpireDate(null);
-        callback.apply(this.activity.getProvider().getCurrentAppointment().getType().getTypeId());
+        resetViews.apply(this.activity.getProvider().getCurrentAppointment().getType().getTypeId());
     }
 
     /*
