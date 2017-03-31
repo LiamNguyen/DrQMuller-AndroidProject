@@ -52,7 +52,7 @@ public class ChooseFragment extends BaseFragment<WelcomeActivityPresenter>{
     }
 
     @Override
-    public void resetViews() {}
+    public void refreshViews() {}
 
     @Override
     public WelcomeActivityPresenter getMainPresenter(){

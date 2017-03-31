@@ -109,7 +109,7 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
     }
 
     @Override
-    public void resetViews() {
+    public void refreshViews() {
         editName.setText("");
         editAddress.setText("");
     }
@@ -131,7 +131,7 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
             ((UserInfoActivity) getActivity()).showSoftKeyboard(editName);
         }
         else
-            resetViews();
+            refreshViews();
     }
 
     @Override

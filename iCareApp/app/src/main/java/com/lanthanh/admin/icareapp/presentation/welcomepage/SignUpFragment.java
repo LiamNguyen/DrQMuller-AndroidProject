@@ -7,7 +7,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatButton;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -142,7 +141,7 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> imple
     }
 
     @Override
-    public void resetViews() {
+    public void refreshViews() {
         editUsername.setText("");
         editPassword.setText("");
         editPasswordConfirm.setText("");
@@ -161,7 +160,7 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> imple
             ((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
         }
         else
-            resetViews();
+            refreshViews();
     }
 
     @Override

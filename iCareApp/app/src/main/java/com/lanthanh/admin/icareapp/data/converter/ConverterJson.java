@@ -29,15 +29,15 @@ public class ConverterJson {
     }
 
     public static <T> List<T> convertGsonToObjectList(JsonArray jsonArray, Class<T> classOfT){
-        if (jsonArray == null || jsonArray.size() == 0)
-            return null;
-
         List<T> resultList = new ArrayList<>();
 
-        for (int i = 0; i < jsonArray.size(); i++){
-            T objectT = gson.fromJson(jsonArray.get(i), classOfT);
-            resultList.add(objectT);
+        if (jsonArray != null && jsonArray.size() != 0) {
+            for (int i = 0; i < jsonArray.size(); i++) {
+                T objectT = gson.fromJson(jsonArray.get(i), classOfT);
+                resultList.add(objectT);
+            }
         }
+
         return resultList;
     }
 

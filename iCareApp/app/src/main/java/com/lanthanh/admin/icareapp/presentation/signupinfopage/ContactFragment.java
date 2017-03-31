@@ -124,11 +124,11 @@ public class ContactFragment extends BaseFragment<UserInfoActivityPresenter>{
             ((UserInfoActivity) getActivity()).showSoftKeyboard(editEmail);
         }
         else
-            resetViews();
+            refreshViews();
     }
 
     @Override
-    public void resetViews() {
+    public void refreshViews() {
         editEmail.setText("");
         editPhone.setText("");
     }

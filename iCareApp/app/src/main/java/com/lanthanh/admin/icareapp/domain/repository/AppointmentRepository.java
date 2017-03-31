@@ -28,11 +28,10 @@ public interface AppointmentRepository {
     Observable<List<DTOVoucher>> getVouchers();
     Observable<List<DTOType>> getTypes();
     Observable<List<DTOMachine>> getMachinesByLocationId(int locationId);
-    Observable<List<DTOTime>> getAllTime();
-    Observable<List<DTOTime>> getSelectedTime(int dayId, int locationId, int machineId);
-    Observable<List<DTOTime>> getEcoTime();
+    Observable<List<DTOTime>> getTime();
+    Observable<List<DTOTime>> getAvailableTime(int dayId, int locationId, int machineId);
     Observable<List<DTOWeekDay>> getWeekDays();
-    Observable<RepositorySimpleStatus> bookTime(int locationdId, List<DTOAppointmentSchedule> appointmentScheduleList);
+    Observable<RepositorySimpleStatus> bookTime(int locationId, DTOAppointmentSchedule appointmentSchedule);
     Observable<RepositorySimpleStatus> releaseTime(int locationId, List<DTOAppointmentSchedule> appointmentScheduleList);
     Observable<RepositorySimpleStatus> validateAppointment();
     Observable<String> createAppointment(DTOAppointment appointment);

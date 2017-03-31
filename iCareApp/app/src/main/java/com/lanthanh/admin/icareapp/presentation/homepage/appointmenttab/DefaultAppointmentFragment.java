@@ -47,7 +47,7 @@ public class DefaultAppointmentFragment extends BaseFragment<MainActivityPresent
     }
 
     @Override
-    public void resetViews() {}
+    public void refreshViews() {}
 
     @Override
     public MainActivityPresenter getMainPresenter() {

@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputEditText;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +51,7 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
 
     @Override
     public void initViews() {
-        resetViews();
+        refreshViews();
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
         startDate.setTypeface(font);
         expireDate.setTypeface(font);
@@ -119,7 +118,7 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
     }
 
     @Override
-    public void resetViews() {
+    public void refreshViews() {
         getMainPresenter().setUpDatePickerView(this::resetDatePickerView);
     }
 
@@ -142,7 +141,7 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible()) {
-            resetViews();
+            refreshViews();
         }
     }
 

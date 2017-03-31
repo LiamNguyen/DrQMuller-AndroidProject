@@ -56,7 +56,7 @@ public class ValidateFragment extends BaseFragment<UserInfoActivityPresenter>{
     }
 
     @Override
-    public void resetViews() {}
+    public void refreshViews() {}
 
     @Override
     public UserInfoActivityPresenter getMainPresenter() {

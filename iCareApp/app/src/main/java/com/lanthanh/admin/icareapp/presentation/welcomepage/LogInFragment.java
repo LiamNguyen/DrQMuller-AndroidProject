@@ -74,7 +74,7 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter>{
     }
 
     @Override
-    public void resetViews() {
+    public void refreshViews() {
         editUsername.setText("");
         editPassword.setText("");
     }
@@ -97,7 +97,7 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter>{
             ((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
         }
         else
-            resetViews();
+            refreshViews();
     }
 
     @Override

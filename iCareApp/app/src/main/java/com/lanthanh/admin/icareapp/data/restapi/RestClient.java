@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.data.restapi;
 
+import com.lanthanh.admin.icareapp.data.model.BookedSchedule;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.presentation.Function;
 import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
@@ -42,8 +43,8 @@ public interface RestClient {
     Observable<List<DTOTime>> getSelectedTime(int dayId, int locationId, int machineId);
     Observable<List<DTOWeekDay>> getDaysOfWeek();
     Observable<List<DTOMachine>> getMachinesByLocationId(int locationId);
-    Observable<RepositorySimpleStatus> bookTime(String authToken, int locationdId, int dayId, int timeId, int machineId);
-    Observable<RepositorySimpleStatus> releaseTime(String authToken, int locationdId, int dayId, int timeId, int machineId);
+    Observable<RepositorySimpleStatus> bookTime(String authToken, BookedSchedule bookedSchedule);
+    Observable<RepositorySimpleStatus> releaseTime(String authToken, BookedSchedule bookedSchedules);
     Observable<RepositorySimpleStatus> validateAppointment();
     Observable<String> createAppointment(String authToken, DTOAppointment appointment);
     Observable<RepositorySimpleStatus> confirmAppointment(String authToken, String userId, String appointmentId);

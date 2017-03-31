@@ -65,7 +65,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/button_style"
-        android:textColor="@color/colorWhite"
+        android:textColor="@drawable/button_text_style"
         android:textSize="18sp"
         android:padding="12dp"
         android:text="@string/finish_button"/>

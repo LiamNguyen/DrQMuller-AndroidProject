@@ -3,8 +3,7 @@ package com.lanthanh.admin.icareapp.data.restapi.impl;
 import com.google.gson.JsonObject;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
-import com.lanthanh.admin.icareapp.data.model.BookedTime;
-import com.lanthanh.admin.icareapp.data.model.DataMapper;
+import com.lanthanh.admin.icareapp.data.model.BookedSchedule;
 import com.lanthanh.admin.icareapp.data.repository.datasource.LocalStorage;
 import com.lanthanh.admin.icareapp.data.restapi.RestClient;
 import com.lanthanh.admin.icareapp.data.restapi.iCareService;
@@ -23,6 +22,7 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOWeekDay;
 import com.lanthanh.admin.icareapp.utils.NetworkUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,7 +40,6 @@ public class RestClientImpl implements RestClient {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final iCareService service;
     private LocalStorage localStorage;
-    private DataMapper dataMapper;
     private List<RepositorySimpleStatus> validFailResponse;
 
     private RestClientImpl(){
@@ -50,7 +49,6 @@ public class RestClientImpl implements RestClient {
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
         service = retrofit.create(iCareService.class);
-        dataMapper = new DataMapper();
         validFailResponse = Arrays.asList(RepositorySimpleStatus.TIME_BOOKED_SUCCESSFULLY,
                                          RepositorySimpleStatus.TIME_HAS_BEEN_BOOKED,
                                          RepositorySimpleStatus.USERNAME_EXISTED,
@@ -202,7 +200,7 @@ public class RestClientImpl implements RestClient {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Countries"), DTOCountry.class);
                             }
                         }
-                        return null;
+                        return new ArrayList<>();
                     }
                 );
     }
@@ -218,7 +216,7 @@ public class RestClientImpl implements RestClient {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Cities"), DTOCity.class);
                             }
                         }
-                        return null;
+                        return new ArrayList<>();
                     }
                 );
     }
@@ -234,7 +232,7 @@ public class RestClientImpl implements RestClient {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Districts"), DTODistrict.class);
                             }
                         }
-                        return null;
+                        return new ArrayList<>();
                     }
                 );
     }
@@ -250,7 +248,7 @@ public class RestClientImpl implements RestClient {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Locations"), DTOLocation.class);
                             }
                         }
-                        return null;
+                        return new ArrayList<>();
                     }
                 );
     }
@@ -266,7 +264,7 @@ public class RestClientImpl implements RestClient {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Vouchers"), DTOVoucher.class);
                             }
                         }
-                        return null;
+                        return new ArrayList<>();
                     }
                 );
     }
@@ -282,7 +280,7 @@ public class RestClientImpl implements RestClient {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Types"), DTOType.class);
                             }
                         }
-                        return null;
+                        return new ArrayList<>();
                     }
                 );
     }
@@ -298,14 +296,14 @@ public class RestClientImpl implements RestClient {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_AllTime"), DTOTime.class);
                             }
                         }
-                        return null;
+                        return new ArrayList<>();
                     }
                 );
     }
 
     @Override
     public Observable<List<DTOTime>> getEcoTime() {
-        return service.getCountries()
+        return service.getEcoTime()
                 .map(
                     response -> {
                         if (response.code() == 200) {
@@ -314,7 +312,7 @@ public class RestClientImpl implements RestClient {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_EcoTime"), DTOTime.class);
                             }
                         }
-                        return null;
+                        return new ArrayList<>();
                     }
                 );
     }
@@ -330,14 +328,14 @@ public class RestClientImpl implements RestClient {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_SelectedTime"), DTOTime.class);
                             }
                         }
-                        return null;
+                        return new ArrayList<>();
                     }
                 );
     }
 
     @Override
     public Observable<List<DTOWeekDay>> getDaysOfWeek() {
-        return service.getCountries()
+        return service.getDaysOfWeek()
                 .map(
                     response -> {
                         if (response.code() == 200) {
@@ -346,7 +344,7 @@ public class RestClientImpl implements RestClient {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_DaysOfWeek"), DTOWeekDay.class);
                             }
                         }
-                        return null;
+                        return new ArrayList<>();
                     }
                 );
     }
@@ -362,15 +360,15 @@ public class RestClientImpl implements RestClient {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Machines"), DTOMachine.class);
                             }
                         }
-                        return null;
+                        return new ArrayList<>();
                     }
                 );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> bookTime(String authToken, int locationId, int dayId, int timeId, int machineId) {
-        String bookedTimeStr = ConverterJson.convertObjectToJson(new BookedTime[]{dataMapper.transform(dayId, timeId, machineId)});
-        return service.bookTime(authToken, createRequestBody(new String[]{"locationId", "time"}, new String[]{Integer.toString(locationId), bookedTimeStr}))
+    public Observable<RepositorySimpleStatus> bookTime(String authToken, BookedSchedule bookedSchedules) {
+        String json = ConverterJson.convertObjectToJson(bookedSchedules);
+        return service.bookTime(authToken, createRequestBody(json))
                 .map(
                     response -> {
                         if (response.code() == 200) {
@@ -387,9 +385,9 @@ public class RestClientImpl implements RestClient {
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> releaseTime(String authToken, int locationId, int dayId, int timeId, int machineId) {
-        String bookedTimeStr = ConverterJson.convertObjectToJson(new BookedTime[]{dataMapper.transform(dayId, timeId, machineId)});
-        return service.releaseTime(authToken, createRequestBody(new String[]{"locationId", "time"}, new String[]{Integer.toString(locationId), bookedTimeStr}))
+    public Observable<RepositorySimpleStatus> releaseTime(String authToken, BookedSchedule bookedSchedules) {
+        String json = ConverterJson.convertObjectToJson(bookedSchedules);
+        return service.releaseTime(authToken, createRequestBody(json))
                 .map(
                     response -> {
                         if (response.code() == 200) {
@@ -425,7 +423,7 @@ public class RestClientImpl implements RestClient {
 
     @Override
     public Observable<String> createAppointment(String authToken, DTOAppointment appointment) {
-        String json  = ConverterJson.convertObjectToJson(dataMapper.transform(appointment));
+        String json  = "";//ConverterJson.convertObjectToJson(dataMapper.transform(appointment));
         return service.createAppointment(authToken, createRequestBody(json))
                 .map(
                     response -> {

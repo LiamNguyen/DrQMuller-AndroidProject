@@ -18,9 +18,9 @@ public class BookedAppointment {
     @SerializedName("locationId") private int locationId;
     @SerializedName("voucherId") private int voucherId;
     @SerializedName("verificationCode") private String verificationCode;
-    @SerializedName("time") private List<BookedTime> bookedTimes;
+    @SerializedName("time") private List<BookedSchedule.BookedTime> bookedTimes;
 
-    public BookedAppointment(String userId, Date startDate, Date expireDate, int typeId, int locationId, int voucherId, String verificationCode, List<BookedTime> bookedTimes) {
+    public BookedAppointment(String userId, Date startDate, Date expireDate, int typeId, int locationId, int voucherId, String verificationCode, List<BookedSchedule.BookedTime> bookedTimes) {
         this.userId = userId;
         this.startDate = startDate;
         this.expireDate = expireDate;

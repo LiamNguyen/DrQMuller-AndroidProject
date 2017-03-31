@@ -90,7 +90,7 @@ public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenter>
     }
 
     @Override
-    public void resetViews() {
+    public void refreshViews() {
         radioGroup.clearCheck();
         dob = null; gender = null;
     }
@@ -100,7 +100,7 @@ public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenter>
         if (!hidden && isVisible())
             updateDatePicker();
         else
-            resetViews();
+            refreshViews();
     }
 
     @Override

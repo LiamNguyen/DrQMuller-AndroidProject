@@ -10,6 +10,7 @@ import android.util.Log;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.repository.AppointmentRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
+import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.presentation.Function;
 import com.lanthanh.admin.icareapp.presentation.model.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
@@ -20,6 +21,7 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOLocation;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOMachine;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTime;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
@@ -35,10 +37,8 @@ import java.util.List;
  */
 
 public class BookingActivityPresenterImpl extends BasePresenter{
-    public static final String TAG = BookingActivityPresenterImpl.class.getSimpleName();
     private BookingActivity activity;
     private Calendar startDate, expireDate;
-    private int typeId, voucherId;
 
     //Fragment
     private BookingSelectFragment bookingSelectFragment;
@@ -58,7 +58,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         bookingBookFragment = new BookingBookFragment();
         bookingSelectFragment = new BookingSelectFragment();
         bookingSelectDateFragment = new BookingSelectDateFragment();
-        appointmentRepository = new AppointmentRepositoryImpl();
+        appointmentRepository = new AppointmentRepositoryImpl(this.activity);
         interactor = new Interactor();
     }
 
@@ -116,37 +116,6 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         fragmentTransaction.addToBackStack(null).commit();
     }
 
-    public void releaseTime(String item, Function.Void<String> callback) {
-        //Set responsive color for item being removed
-        this.activity.onRemoveCartItemColor(false);
-        //Get appointment schedule
-        DTOAppointmentSchedule dtoAppointmentSchedule = getSpecificSchedule(item);
-        if (dtoAppointmentSchedule != null){
-            //Remove on DB
-            interactor.execute(
-                () -> appointmentRepository.releaseTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(), Arrays.asList(dtoAppointmentSchedule)),
-                success -> {
-                    callback.apply(item);
-                    bookingBookFragment.expandGroup(0, true);
-                    //Update DTO
-                    this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().remove(dtoAppointmentSchedule);
-                },
-                error -> {}
-            );
-        }else
-            Log.e(this.getClass().getName(), "Item to be removed doesn't exist");
-    }
-
-    
-    public DTOAppointmentSchedule getSpecificSchedule(String item) {
-        List<DTOAppointmentSchedule> dtoAppointmentScheduleList = this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList();
-        for (DTOAppointmentSchedule dtoAppointmentSchedule : dtoAppointmentScheduleList){
-            if (dtoAppointmentSchedule.toString().equals(item))
-                return dtoAppointmentSchedule;
-        }
-        return null;
-    }
-
     public void navigateActivity(Class<? extends Activity> activityClass) {
         Intent intent = new Intent(this.activity, activityClass);
         this.activity.startActivity(intent);
@@ -160,82 +129,6 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         this.activity.finish();
     }
 
-
-    public void emptyCart(Function.VoidParam callback) {
-        //Remove on DB
-        interactor.execute(
-                () -> appointmentRepository.releaseTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
-                                this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList()),
-                success -> {
-                    callback.apply();
-                    bookingBookFragment.expandGroup(0, true);
-                    //Update DTO
-                    this.activity.getProvider().getCurrentAppointment().setAppointmentScheduleList(null);
-                    this.activity.getProvider().getCurrentAppointment().setCurrentSchedule(null);
-                },
-                error -> {}
-        );
-    }
-
-    //TODO remember to impl validate appointment
-
-    public void insertAppointment() {
-        this.activity.showProgress();
-//        mUser = customerManager.getLocalUserFromPref(sharedPreferences);
-//        appointment.setCustomer(mUser);
-//        do{
-//            appointment.generateVerficationCode();
-//        }while (checkVerificationCodeExistence(appointment.getVerficationCode()));
-//        if (appointment.getStartDate() == null)
-//            appointment.setStartDate(ConverterForDisplay.convertStringToDate("11-11-1111"));
-//        InsertAppointmentInteractor insertAppointmentInteractor = new InsertAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointment);
-//        insertAppointmentInteractor.execute();
-    }
-
-    public boolean checkVerificationCodeExistence(String verificationCode) {
-//        //Get appointment from local shared pref
-//        List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
-//        if (appointmentsList == null)
-//            return false;
-//        else{
-//            for (DTOAppointment appointment: appointmentsList){
-//                if (appointment.getVerficationCode().equals(verificationCode))
-//                    return true;
-//            }
-//        }
-        return false;
-    }
-
-
-
-//    public void onInsertAppointmentSuccess(int appointmentId) {
-//        try {
-//            this.activity.hideProgress();
-//            //Send mail to staff
-////            SendEmailNotifyBookingInteractor sendEmailNotifyBookingInteractor = new SendEmailNotifyBookingInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, appointment);
-////            sendEmailNotifyBookingInteractor.execute();
-//
-//            //Get appointment from local shared pref
-//            List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
-//            if (appointmentsList == null)
-//                appointmentsList = new ArrayList<>();
-//            //Add appointment to a list of appointments
-//            appointment.setAppointmentId(appointmentId);
-//            appointmentsList.add(appointment);
-//            //Put to shared pref
-//            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList, mUser.getID());
-//            //reset appointment
-//            appointment = new DTOAppointment();
-//            //empty cart
-//            emptyCart();
-//            //move to confirm activity
-//            this.activity.navigateActivity(ConfirmBookingActivity.class);
-//        }catch (Exception e){
-//            Log.w(TAG, e.toString());
-//        }
-//    }
-
-
     public void onBackPressed() {
         if (bookingSelectFragment.isVisible())
             navigateActivity(MainActivity.class);
@@ -247,13 +140,12 @@ public class BookingActivityPresenterImpl extends BasePresenter{
 
     @Override
     public void destroy() {
-
+        interactor.dispose();
     }
 
     /*
      * These methods below are used for getting datasource
      */
-
     public void getCountries(Function.Void<List<DTOCountry>> updateCallback){
         this.activity.showProgress();
         interactor.execute(
@@ -263,7 +155,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
                 updateCallback.apply(success);
                 this.bookingSelectFragment.setDefaultSelectionForCountry();
             },
-            error -> {}
+            error -> this.activity.hideProgress()
         );
     }
 
@@ -274,7 +166,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
                 updateCallback.apply(success);
                 this.bookingSelectFragment.setDefaultSelectionForCity();
             },
-            error -> {}
+            error -> this.activity.hideProgress()
         );
     }
 
@@ -285,7 +177,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
                 updateCallback.apply(success);
                 this.bookingSelectFragment.setDefaultSelectionForDistrict();
             },
-            error -> {}
+            error -> this.activity.hideProgress()
         );
     }
 
@@ -293,80 +185,67 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         interactor.execute(
             () -> appointmentRepository.getLocationsByDistrictId(districtId),
             success -> {
+                this.activity.hideProgress();
                 updateCallback.apply(success);
                 this.bookingSelectFragment.enableLocationSelection();
             },
-            error -> {}
+            error -> this.activity.hideProgress()
         );
     }
 
     public void getVouchers(Function.Void<List<DTOVoucher>> updateCallback) {
         interactor.execute(
             () -> appointmentRepository.getVouchers(),
-            success -> {
-                updateCallback.apply(success);
-            },
-            error -> {}
+            updateCallback::apply,
+            error -> this.activity.hideProgress()
         );
     }
 
     public void getTypes(Function.Void<List<DTOType>> updateCallback) {
         interactor.execute(
             () -> appointmentRepository.getTypes(),
-            success -> {
-                updateCallback.apply(success);
-            },
-            error -> {}
+            updateCallback::apply,
+            error -> this.activity.hideProgress()
         );
     }
 
-    public void getMachinesByLocationId(int locationId) {
-        interactor.execute(
-            () -> appointmentRepository.getMachinesByLocationId(locationId),
-            success -> {
-
-            },
-            error -> {}
-        );
-    }
-
-    public void getWeekDays() {
-        interactor.execute(
-            () -> appointmentRepository.getWeekDays(),
-            success -> {
-                this.activity.getProvider().setWeekDays(success);
-            },
-            error -> {}
-        );
-    }
-
-    public void getAllTime() {
-        interactor.execute(
-            () -> appointmentRepository.getAllTime(),
-            success -> {
-                this.activity.getProvider().setAllTime(success);
-                getEcoTime();
-            },
-            error -> {}
-        );
-    }
-
-    public void getEcoTime() {
-        interactor.execute(
-            () -> appointmentRepository.getEcoTime(),
-            success -> {
-                this.activity.getProvider().setEcoTime(success);
-            },
-            error -> {}
-        );
-    }
-
-    public void getSelectedTime(int dayId, int locationId, int machineId) {
+    public void getMachines(Function.Void<List<DTOMachine>> updateCallback) {
         this.activity.showProgress();
         interactor.execute(
-            () -> appointmentRepository.getSelectedTime(dayId, locationId, machineId),
-            success -> this.activity.getProvider().setSelectedTime(success),
-            error -> {}
+            () -> appointmentRepository.getMachinesByLocationId(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId()),
+            updateCallback::apply,
+            error -> this.activity.showProgress()
+        );
+    }
+
+    public void getWeekDays(Function.Void<List<DTOWeekDay>> updateCallback) {
+        interactor.execute(
+            () -> appointmentRepository.getWeekDays(),
+            updateCallback::apply,
+            error -> this.activity.hideProgress()
+        );
+    }
+
+    public void getTime(Function.Void<List<DTOTime>> updateCallback) {
+        interactor.execute(
+            () -> appointmentRepository.getTime(),
+            success -> {
+                this.activity.hideProgress();
+                updateCallback.apply(success);
+            },
+            error -> this.activity.hideProgress()
+        );
+    }
+
+    public void getAvailableTime(Function.Void<List<DTOTime>> updateCallback, int dayId) {
+        this.activity.showProgress();
+        interactor.execute(
+            () -> appointmentRepository.getAvailableTime(dayId, this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(), this.activity.getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine().getMachineId()),
+            success -> {
+                this.activity.hideProgress();
+                updateCallback.apply(success);
+            },
+            error -> this.activity.hideProgress()
         );
     }
 
@@ -488,13 +367,11 @@ public class BookingActivityPresenterImpl extends BasePresenter{
     }
 
     public void setUpDatePickerView(Function.Void<Integer> resetViews) {
-        if (this.activity.getProvider().getCurrentAppointment().getType().getTypeId() == typeId &&
-            this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId() == voucherId)
+        if (this.activity.getProvider().getCurrentAppointment().getStartDate() != null ||
+            this.activity.getProvider().getCurrentAppointment().getExpireDate() != null)
             return;
         this.startDate = null;
-        this.activity.getProvider().getCurrentAppointment().setStartDate(null);
         this.expireDate = null;
-        this.activity.getProvider().getCurrentAppointment().setExpireDate(null);
         resetViews.apply(this.activity.getProvider().getCurrentAppointment().getType().getTypeId());
     }
 
@@ -506,15 +383,124 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         appointmentSchedule.setBookedDay(weekDay);
         appointmentSchedule.setBookedTime(time);
         interactor.execute(
-            () -> appointmentRepository.bookTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
-                    Arrays.asList(this.activity.getProvider().getCurrentAppointment().getCurrentSchedule())),
+            () -> appointmentRepository.bookTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(), this.activity.getProvider().getCurrentAppointment().getCurrentSchedule()),
             success -> {
-                int totalItems = this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size();
-                String latest = this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().get(totalItems - 1).toString();
-                this.activity.onAddCartItem(latest);
-                this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().add(appointmentSchedule);
+                if (success == RepositorySimpleStatus.SUCCESS) {
+                    this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().add(appointmentSchedule);
+                    int totalItems = this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size();
+                    String latest = this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().get(totalItems - 1).toString();
+                    this.activity.onAddCartItem(latest);
+                }
             },
             error -> {}
         );
     }
+
+    public void releaseTime(String item, Function.Void<String> callback) {
+        //Set responsive color for item being removed
+        this.activity.onRemoveCartItemColor(false);
+        //Get appointment schedule
+        DTOAppointmentSchedule dtoAppointmentSchedule = getSpecificSchedule(item);
+        if (dtoAppointmentSchedule != null){
+            //Remove on DB
+            interactor.execute(
+                    () -> appointmentRepository.releaseTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(), Arrays.asList(dtoAppointmentSchedule)),
+                    success -> {
+                        callback.apply(item);
+                        bookingBookFragment.expandGroup(0, true);
+                        //Update DTO
+                        this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().remove(dtoAppointmentSchedule);
+                    },
+                    error -> {}
+            );
+        }else
+            Log.e(this.getClass().getName(), "Item to be removed doesn't exist");
+    }
+
+
+    public DTOAppointmentSchedule getSpecificSchedule(String item) {
+        List<DTOAppointmentSchedule> dtoAppointmentScheduleList = this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList();
+        for (DTOAppointmentSchedule dtoAppointmentSchedule : dtoAppointmentScheduleList){
+            if (dtoAppointmentSchedule.toString().equals(item))
+                return dtoAppointmentSchedule;
+        }
+        return null;
+    }
+
+    public void emptyCart(Function.VoidParam callback) {
+        //Remove on DB
+        interactor.execute(
+                () -> appointmentRepository.releaseTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
+                        this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList()),
+                success -> {
+                    callback.apply();
+                    bookingBookFragment.expandGroup(0, true);
+                    //Update DTO
+                    this.activity.getProvider().getCurrentAppointment().setAppointmentScheduleList(null);
+                    this.activity.getProvider().getCurrentAppointment().setCurrentSchedule(null);
+                },
+                error -> {}
+        );
+    }
+
+    //TODO remember to impl validate appointment
+
+    public void insertAppointment() {
+        this.activity.showProgress();
+//        mUser = customerManager.getLocalUserFromPref(sharedPreferences);
+//        appointment.setCustomer(mUser);
+//        do{
+//            appointment.generateVerficationCode();
+//        }while (checkVerificationCodeExistence(appointment.getVerficationCode()));
+//        if (appointment.getStartDate() == null)
+//            appointment.setStartDate(ConverterForDisplay.convertStringToDate("11-11-1111"));
+//        InsertAppointmentInteractor insertAppointmentInteractor = new InsertAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointment);
+//        insertAppointmentInteractor.execute();
+    }
+
+    public boolean checkVerificationCodeExistence(String verificationCode) {
+//        //Get appointment from local shared pref
+//        List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
+//        if (appointmentsList == null)
+//            return false;
+//        else{
+//            for (DTOAppointment appointment: appointmentsList){
+//                if (appointment.getVerficationCode().equals(verificationCode))
+//                    return true;
+//            }
+//        }
+        return false;
+    }
+
+
+
+//    public void onInsertAppointmentSuccess(int appointmentId) {
+//        try {
+//            this.activity.hideProgress();
+//            //Send mail to staff
+////            SendEmailNotifyBookingInteractor sendEmailNotifyBookingInteractor = new SendEmailNotifyBookingInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, appointment);
+////            sendEmailNotifyBookingInteractor.execute();
+//
+//            //Get appointment from local shared pref
+//            List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
+//            if (appointmentsList == null)
+//                appointmentsList = new ArrayList<>();
+//            //Add appointment to a list of appointments
+//            appointment.setAppointmentId(appointmentId);
+//            appointmentsList.add(appointment);
+//            //Put to shared pref
+//            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList, mUser.getID());
+//            //reset appointment
+//            appointment = new DTOAppointment();
+//            //empty cart
+//            emptyCart();
+//            //move to confirm activity
+//            this.activity.navigateActivity(ConfirmBookingActivity.class);
+//        }catch (Exception e){
+//            Log.w(TAG, e.toString());
+//        }
+//    }
+
+
+
 }

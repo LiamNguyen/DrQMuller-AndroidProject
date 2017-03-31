@@ -33,7 +33,7 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenterIm
     @BindView(R.id.spinner_machine) Spinner machineSpinner;
     @BindView(R.id.expListView) ExpandableListView expandableListView;
 
-    private ExpandableListViewAdapter adapter;
+    private ExpandableListViewAdapter listAdapter;
     private TimeComparator timeComparator;
     private CustomSpinnerAdapter machineAdapter;
     private Unbinder unbinder;
@@ -43,12 +43,9 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenterIm
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_booking_book, container, false);
         unbinder = ButterKnife.bind(this, view);
-        initViews();
 
+        initViews();
         timeComparator = new TimeComparator();
-        getMainPresenter().getMachinesByLocationId(getProvider().getCurrentAppointment().getLocation().getLocationId());
-        getMainPresenter().getWeekDays();
-        getMainPresenter().getAllTime();
 
         return view;
     }
@@ -85,7 +82,7 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenterIm
                     return false;
                 }
 
-                getMainPresenter().bookTime(adapter.getGroup(groupPosition), adapter.getChild(groupPosition, childPosition));
+                getMainPresenter().bookTime(listAdapter.getGroup(groupPosition), listAdapter.getChild(groupPosition, childPosition));
 
                 expandableListView.collapseGroup(groupPosition);
 
@@ -119,13 +116,18 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenterIm
             }
         });
         //Initialize list adapter
-        adapter = new ExpandableListViewAdapter(getActivity(), getProvider().getWeekDays(), getProvider().getAllTime());
-        expandableListView.setAdapter(adapter);
+        listAdapter = new ExpandableListViewAdapter(getActivity(), getProvider().getWeekDays(), getProvider().getAllTime());
+        expandableListView.setAdapter(listAdapter);
 
+        refreshViews();
     }
 
     @Override
-    public void resetViews() {}
+    public void refreshViews() {
+        getMainPresenter().getMachines(machineAdapter::update);
+        getMainPresenter().getWeekDays(listAdapter::updateGroupList);
+        getMainPresenter().getTime(listAdapter::updateChildList);
+    }
 
     @Override
     public BookingActivityPresenterImpl getMainPresenter() {
@@ -137,15 +139,6 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenterIm
         return ((BookingActivity) getActivity()).getProvider();
     }
 
-//    public void setAvailableDay(List<String> list) {
-//        adapter.updateGroupList(list);
-//    }
-//
-//    public void setAvailableTime(List<String> list) {
-//        Collections.sort(list, timeComparator);
-//        adapter.updateChildList(list);
-//    }
-
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
         switch (adapterView.getId()) {
@@ -153,8 +146,6 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenterIm
                 getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine((DTOMachine) machineSpinner.getSelectedItem());
                 collapseAllGroups();
                 expandGroup(0, true);
-                break;
-            default:
                 break;
         }
     }
@@ -164,11 +155,9 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenterIm
     }
 
     public void expandGroup(int groupPosition, boolean isAuto) {
-        getMainPresenter().getSelectedTime(
-            adapter.getGroup(groupPosition).getDayId(),
-            getProvider().getCurrentAppointment().getLocation().getLocationId(),
-            getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine().getMachineId()
-        );
+        getMainPresenter().getAvailableTime(
+            listAdapter::updateChildList,
+            listAdapter.getGroup(groupPosition).getDayId());
         if (isAuto) {
             expandableListView.expandGroup(groupPosition);
         }
@@ -177,14 +166,14 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenterIm
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible()) {
-           //bookingBookPresenter.resume();
+            refreshViews();
         }
         else
             collapseAllGroups();
     }
 
     public void collapseAllGroups(){
-        int count =  adapter.getGroupCount();
+        int count =  listAdapter.getGroupCount();
         for (int i = 0; i <count ; i++)
             expandableListView.collapseGroup(i);
     }

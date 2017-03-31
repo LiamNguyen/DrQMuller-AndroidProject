@@ -143,7 +143,7 @@ public interface iCareService {
      * @param machineId id of machine which time was selected
      * @return an Observable
      */
-    @GET("time/selectedtime/{dayId}/{locationId}/{timeId}")
+    @GET("time/selectedtime/{dayId}/{locationId}/{machineId}")
     Observable<Response<JsonObject>> getSelectedTime(@Path("dayId") int dayId, @Path("locationId") int locationId, @Path("machineId") int machineId);
 
     /**

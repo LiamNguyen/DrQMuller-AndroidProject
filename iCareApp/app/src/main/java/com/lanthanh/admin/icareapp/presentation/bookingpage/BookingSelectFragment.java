@@ -63,9 +63,9 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
         unbinder = ButterKnife.bind(this, view);
         initViews();
 
-        getMainPresenter().getCountries(list -> countryAdapter.update(list));
-        getMainPresenter().getVouchers(list -> voucherAdapter.update(list));
-        getMainPresenter().getTypes(list -> typeAdapter.update(list));
+        getMainPresenter().getCountries(countryAdapter::update);
+        getMainPresenter().getVouchers(voucherAdapter::update);
+        getMainPresenter().getTypes(typeAdapter::update);
 
         return view;
     }
@@ -156,7 +156,7 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
     }
 
     @Override
-    public void resetViews() {}
+    public void refreshViews() {}
 
     @Override
     public BookingActivityPresenterImpl getMainPresenter() {
@@ -194,19 +194,20 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()){
             case R.id.spinner_countries:
-                getMainPresenter().getCitiesByCountryId(list -> cityAdapter.update(list), ((DTOCountry) countrySp.getSelectedItem()).getCountryId());
+                getMainPresenter().getCitiesByCountryId(cityAdapter::update, ((DTOCountry) countrySp.getSelectedItem()).getCountryId());
                 getProvider().getCurrentAppointment().setCountry((DTOCountry) countrySp.getSelectedItem());
                 break;
             case R.id.spinner_cities:
-                getMainPresenter().getDistrictsByCityId(list -> districtAdapter.update(list), ((DTOCity) citySp.getSelectedItem()).getCityId());
+                getMainPresenter().getDistrictsByCityId(districtAdapter::update, ((DTOCity) citySp.getSelectedItem()).getCityId());
                 getProvider().getCurrentAppointment().setCity((DTOCity) citySp.getSelectedItem());
                 break;
             case R.id.spinner_districts:
-                getMainPresenter().getLocationsByDistrictId(list -> locationAdapter.update(list), ((DTODistrict) districtSp.getSelectedItem()).getDistrictId());
+                getMainPresenter().getLocationsByDistrictId(locationAdapter::update, ((DTODistrict) districtSp.getSelectedItem()).getDistrictId());
                 getProvider().getCurrentAppointment().setDistrict((DTODistrict) districtSp.getSelectedItem());
                 break;
             case R.id.spinner_locations:
                 getProvider().getCurrentAppointment().setLocation((DTOLocation) locationSp.getSelectedItem());
+                //Enable voucher
                 voucherSp.setEnabled(true);
                 voucherIv.setEnabled(true);
                 setImageTint(voucherIv, true);
@@ -214,12 +215,19 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
             case R.id.spinner_vouchers:
                 getProvider().getCurrentAppointment().setVoucher((DTOVoucher) voucherSp.getSelectedItem());
                 setDefaultSelectionForType();
+                //Reset date on voucher change
+                getProvider().getCurrentAppointment().setStartDate(null);
+                getProvider().getCurrentAppointment().setExpireDate(null);
+                //Enable type
                 typeSp.setEnabled(true);
                 typeIv.setEnabled(true);
                 setImageTint(typeIv, true);
                 break;
             case R.id.spinner_type:
                 getProvider().getCurrentAppointment().setType((DTOType) typeSp.getSelectedItem());
+                //Reset date on type change
+                getProvider().getCurrentAppointment().setStartDate(null);
+                getProvider().getCurrentAppointment().setExpireDate(null);
             default:
                 break;
         }

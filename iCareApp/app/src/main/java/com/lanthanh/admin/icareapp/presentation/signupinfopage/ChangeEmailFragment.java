@@ -81,7 +81,7 @@ public class ChangeEmailFragment extends BaseFragment<UserInfoActivityPresenter>
     }
 
     @Override
-    public void resetViews() {
+    public void refreshViews() {
         editEmail.setText("");
     }
 

@@ -15,14 +15,27 @@ public class DataMapper {
 
     public DataMapper() {}
 
-    public BookedTime transform(int dayId, int timeId, int machineId) {
-        return new BookedTime(dayId, timeId, machineId);
+    public BookedSchedule transform(int locationId, DTOAppointmentSchedule appointmentSchedule) {
+        List<BookedSchedule.BookedTime> list =  new ArrayList<>();
+        list.add(new BookedSchedule.BookedTime(appointmentSchedule.getBookedDay().getDayId(), appointmentSchedule.getBookedTime().getTimeId(), appointmentSchedule.getBookedMachine().getMachineId()));
+        return new BookedSchedule(locationId, list);
+    }
+
+    public BookedSchedule transform(int locationId, List<DTOAppointmentSchedule> appointmentSchedules) {
+        List<BookedSchedule.BookedTime> list =  new ArrayList<>();
+
+        for (DTOAppointmentSchedule schedule: appointmentSchedules) {
+            list.add(new BookedSchedule.BookedTime(schedule.getBookedDay().getDayId(), schedule.getBookedTime().getTimeId(), schedule.getBookedMachine().getMachineId()));
+        }
+
+        return new BookedSchedule(locationId, list);
     }
 
     public BookedAppointment transform(DTOAppointment appointment) {
-        List<BookedTime> bookedTimes = new ArrayList<>();
+        List<BookedSchedule.BookedTime> list =  new ArrayList<>();
+
         for (DTOAppointmentSchedule appointmentSchedule: appointment.getAppointmentScheduleList()) {
-            bookedTimes.add(new BookedTime(appointmentSchedule.getBookedDay().getDayId(), appointmentSchedule.getBookedTime().getTimeId(), appointmentSchedule.getBookedMachine().getMachineId()));
+            list.add(new BookedSchedule.BookedTime(appointmentSchedule.getBookedDay().getDayId(), appointmentSchedule.getBookedTime().getTimeId(), appointmentSchedule.getBookedMachine().getMachineId()));
         }
         return new BookedAppointment(
                 appointment.getUser().getId(),
@@ -32,7 +45,7 @@ public class DataMapper {
                 appointment.getLocation().getLocationId(),
                 appointment.getVoucher().getVoucherId(),
                 appointment.getVerificationCode(),
-                bookedTimes
+                list
         );
     }
 }
