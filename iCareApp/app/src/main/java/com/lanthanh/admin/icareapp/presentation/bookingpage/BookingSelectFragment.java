@@ -120,32 +120,26 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
 
         //Set up adapter for spinner
         countryAdapter = new CustomSpinnerAdapter<>(getActivity(), R.layout.bookingselect_spinner_item, getProvider().getCountries(), getString(R.string.booking_country_hint));
-        countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         countrySp.setAdapter(countryAdapter);
         countrySp.setSelection(0, false);
 
         cityAdapter = new CustomSpinnerAdapter<>(getActivity(), R.layout.bookingselect_spinner_item, getProvider().getCities(), getString(R.string.booking_city_hint));
-        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         citySp.setAdapter(cityAdapter);
         citySp.setSelection(0, false);
 
         districtAdapter = new CustomSpinnerAdapter<>(getActivity(), R.layout.bookingselect_spinner_item, getProvider().getDistricts(), getString(R.string.booking_district_hint));
-        districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         districtSp.setAdapter(districtAdapter);
         districtSp.setSelection(0, false);
 
         locationAdapter = new CustomSpinnerAdapter<>(getActivity(), R.layout.bookingselect_spinner_item, getProvider().getLocations(), getString(R.string.booking_location_hint));
-        locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         locationSp.setAdapter(locationAdapter);
         locationSp.setSelection(0, false);
 
         voucherAdapter = new CustomSpinnerAdapter<>(getActivity(), R.layout.bookingselect_spinner_item, getProvider().getVouchers(), getString(R.string.booking_voucher_hint));
-        voucherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         voucherSp.setAdapter(voucherAdapter);
         voucherSp.setSelection(0, false);
 
         typeAdapter = new CustomSpinnerAdapter<>(getActivity(), R.layout.bookingselect_spinner_item, getProvider().getTypes(), getString(R.string.booking_type_hint));
-        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSp.setAdapter(typeAdapter);
         typeSp.setSelection(0, false);
 
@@ -162,9 +156,7 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
     }
 
     @Override
-    public void resetViews() {
-
-    }
+    public void resetViews() {}
 
     @Override
     public BookingActivityPresenterImpl getMainPresenter() {
@@ -174,13 +166,6 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
     @Override
     public ApplicationProvider getProvider() {
         return ((BookingActivity) getActivity()).getProvider();
-    }
-
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-//        if (!hidden && isVisible())
-//            aController.setRequestData(getActivity(), this, ModelURL.SELECT_COUNTRIES.getUrl(MainActivity.isUAT), "");
     }
 
     public void setDefaultSelectionForCountry() {
@@ -228,6 +213,7 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
                 break;
             case R.id.spinner_vouchers:
                 getProvider().getCurrentAppointment().setVoucher((DTOVoucher) voucherSp.getSelectedItem());
+                setDefaultSelectionForType();
                 typeSp.setEnabled(true);
                 typeIv.setEnabled(true);
                 setImageTint(typeIv, true);
@@ -239,8 +225,10 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
         }
         if (getProvider().getCurrentAppointment().isFirstSelectFilled()) {
             nextButton.setEnabled(true);
+            setFabTint(nextButton, true);
         } else {
             nextButton.setEnabled(false);
+            setFabTint(nextButton, false);
         }
 
     }
@@ -273,6 +261,22 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
                 imageView.setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
             else
                 imageView.setColorFilter(getResources().getColor(R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+        }
+    }
+
+    public void setFabTint(FloatingActionButton fab, boolean isEnabled) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            //for M and above (API >= 23)
+            if (isEnabled)
+                fab.setColorFilter(getResources().getColor(R.color.colorWhite, null), PorterDuff.Mode.SRC_ATOP);
+            else
+                fab.setColorFilter(getResources().getColor(R.color.colorPrimaryDark, null), PorterDuff.Mode.SRC_ATOP);
+        } else{
+            //below M (API <23)
+            if (isEnabled)
+                fab.setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+            else
+                fab.setColorFilter(getResources().getColor(R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
         }
     }
 }

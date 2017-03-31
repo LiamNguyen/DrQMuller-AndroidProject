@@ -70,7 +70,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {
         if (fragmentClass == BookingSelectFragment.class)
             showFragment(bookingSelectFragment);
-        else if (fragmentClass == BookingSelectFragment.class)
+        else if (fragmentClass == BookingSelectDateFragment.class)
             showFragment(bookingSelectDateFragment);
         else if (fragmentClass == BookingBookFragment.class)
             showFragment(bookingBookFragment);
@@ -254,73 +254,67 @@ public class BookingActivityPresenterImpl extends BasePresenter{
      * These methods below are used for getting datasource
      */
 
-    public void getCountries(Function.Void<List<DTOCountry>> callback){
+    public void getCountries(Function.Void<List<DTOCountry>> updateCallback){
         this.activity.showProgress();
         interactor.execute(
             () -> appointmentRepository.getCountries(),
             success -> {
                 this.activity.hideProgress();
-                this.activity.getProvider().setCountries(success);
-                callback.apply(success);
+                updateCallback.apply(success);
                 this.bookingSelectFragment.setDefaultSelectionForCountry();
             },
             error -> {}
         );
     }
 
-    public void getCitiesByCountryId(Function.Void<List<DTOCity>> callback, int countryId){
+    public void getCitiesByCountryId(Function.Void<List<DTOCity>> updateCallback, int countryId){
         interactor.execute(
             () -> appointmentRepository.getCitiesByCountryId(countryId),
             success -> {
-                this.activity.getProvider().setCities(success);
-                callback.apply(success);
+                updateCallback.apply(success);
                 this.bookingSelectFragment.setDefaultSelectionForCity();
             },
             error -> {}
         );
     }
 
-    public void getDistrictsByCityId(Function.Void<List<DTODistrict>> callback, int cityId){
+    public void getDistrictsByCityId(Function.Void<List<DTODistrict>> updateCallback, int cityId){
         interactor.execute(
             () -> appointmentRepository.getDistrictsByCityId(cityId),
             success -> {
-                this.activity.getProvider().setDistricts(success);
-                callback.apply(success);
+                updateCallback.apply(success);
                 this.bookingSelectFragment.setDefaultSelectionForDistrict();
+            },
+            error -> {}
+        );
+    }
+
+    public void getLocationsByDistrictId(Function.Void<List<DTOLocation>> updateCallback, int districtId){
+        interactor.execute(
+            () -> appointmentRepository.getLocationsByDistrictId(districtId),
+            success -> {
+                updateCallback.apply(success);
                 this.bookingSelectFragment.enableLocationSelection();
             },
             error -> {}
         );
     }
 
-    public void getLocationsByDistrictId(Function.Void<List<DTOLocation>> callback, int districtId){
-        interactor.execute(
-            () -> appointmentRepository.getLocationsByDistrictId(districtId),
-            success -> {
-                this.activity.getProvider().setLocations(success);
-                callback.apply(success);
-            },
-            error -> {}
-        );
-    }
-
-    public void getVouchers(Function.Void<List<DTOVoucher>> callback) {
+    public void getVouchers(Function.Void<List<DTOVoucher>> updateCallback) {
         interactor.execute(
             () -> appointmentRepository.getVouchers(),
             success -> {
-                this.activity.getProvider().setVouchers(success);
-                callback.apply(success);
+                updateCallback.apply(success);
             },
             error -> {}
         );
     }
 
-    public void getTypes(Function.Void<List<DTOType>> callback) {
+    public void getTypes(Function.Void<List<DTOType>> updateCallback) {
         interactor.execute(
             () -> appointmentRepository.getTypes(),
             success -> {
-                this.activity.getProvider().setTypes(success);
-                callback.apply(success);
+                updateCallback.apply(success);
             },
             error -> {}
         );
@@ -330,7 +324,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         interactor.execute(
             () -> appointmentRepository.getMachinesByLocationId(locationId),
             success -> {
-                this.activity.getProvider().setMachines(success);
+
             },
             error -> {}
         );
@@ -443,7 +437,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
     //Add expire date when expire date is selected from View
     public void onExpireDateSet(Calendar expireDate, Function.Void<String> success, Function.Void<String> fail) {
         if (this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId() == 1){
-            if (!ecoBookingDayCheck(startDate)){
+            if (!ecoBookingDayCheck(expireDate)){
                 fail.apply(this.activity.getString(R.string.booking_error_eco_date));
                 return;
             }

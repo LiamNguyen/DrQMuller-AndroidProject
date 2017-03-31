@@ -1,8 +1,11 @@
 package com.lanthanh.admin.icareapp.presentation.bookingpage;
 
 import android.app.DatePickerDialog;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import java.util.Calendar;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -34,7 +37,6 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
     @BindView(R.id.fab) FloatingActionButton nextButton;
 
     private DatePickerDialog startDatePickerDialog, expireDatePickerDialog;
-    private int type, voucher;
     private Unbinder unbinder;
 
     @Nullable
@@ -84,24 +86,36 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
                 (DatePicker datePicker, int year, int month, int day) -> {
                     Calendar calendar = Calendar.getInstance();
                     calendar.set(year, month, day);
-                    getMainPresenter().onStartDateSet(calendar, success -> { startDate.setText(success); expireDate.setEnabled(true);}, this::showToast);
-                    if (getProvider().getCurrentAppointment().isFirstSelectFilled()) {
+                    getMainPresenter().onStartDateSet(calendar, success -> { startDate.setText(success); expireDate.setEnabled(true);}, ((BookingActivity) getActivity())::showToast);
+                    if (getProvider().getCurrentAppointment().isDateSelectFilled()) {
                         nextButton.setEnabled(true);
+                        setFabTint(nextButton, true);
                     } else {
                         nextButton.setEnabled(false);
+                        setFabTint(nextButton, false);
                     }
                 },
-                Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+                Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        );
     }
 
     public void initExpireDatePickerDialog() {
-        expireDatePickerDialog = new DatePickerDialog(getActivity(),
+        expireDatePickerDialog = new DatePickerDialog(
+                getActivity(),
                 (DatePicker datePicker, int year, int month, int day) -> {
                     Calendar calendar = Calendar.getInstance();
                     calendar.set(year, month, day);
-                    getMainPresenter().onExpireDateSet(calendar, this.expireDate::setText, this::showToast);
+                    getMainPresenter().onExpireDateSet(calendar, this.expireDate::setText, ((BookingActivity) getActivity())::showToast);
+                    if (getProvider().getCurrentAppointment().isDateSelectFilled()) {
+                        nextButton.setEnabled(true);
+                        setFabTint(nextButton, true);
+                    } else {
+                        nextButton.setEnabled(false);
+                        setFabTint(nextButton, false);
+                    }
                 },
-                Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+                Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        );
     }
 
     @Override
@@ -134,6 +148,7 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
 
     public void resetDatePickerView(int typeId) {
         nextButton.setEnabled(false);
+        setFabTint(nextButton, false);
         if (typeId == 1) {
             //If type = Co dinh, show start date. Set expire date to Ngay Ket Thuc
             startDate.setVisibility(View.VISIBLE);
@@ -152,4 +167,19 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
         }
     }
 
+    public void setFabTint(FloatingActionButton fab, boolean isEnabled) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            //for M and above (API >= 23)
+            if (isEnabled)
+                fab.setColorFilter(getResources().getColor(R.color.colorWhite, null), PorterDuff.Mode.SRC_ATOP);
+            else
+                fab.setColorFilter(getResources().getColor(R.color.colorPrimaryDark, null), PorterDuff.Mode.SRC_ATOP);
+        } else{
+            //below M (API <23)
+            if (isEnabled)
+                fab.setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+            else
+                fab.setColorFilter(getResources().getColor(R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+        }
+    }
 }

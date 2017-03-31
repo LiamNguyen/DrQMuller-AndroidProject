@@ -63,36 +63,35 @@ public class CustomSpinnerAdapter<T> extends ArrayAdapter<T> {
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        View view = super.getDropDownView(position, convertView, parent);
-        TextView tv = (TextView) view;
-
-        if(position == 0)
+        if (convertView == null)
+            convertView = LayoutInflater.from(this.context).inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
+        TextView tv = ((TextView) convertView);
+        if(position == 0) {
+            tv.setText(defaultText);
             tv.setTextColor(context.getResources().getColor(R.color.colorLightGray));// Set the hint text color gray
-        else
+        }
+        else {
+            tv.setText(getItem(position).toString());
             tv.setTextColor(context.getResources().getColor(R.color.colorLightBlack));
+        }
         tv.setTypeface(font);
-        return view;
+        return convertView;
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = super.getView(position, convertView, parent);
-        TextView tv = ((TextView) view);
+        if (convertView == null)
+            convertView = LayoutInflater.from(this.context).inflate(layout, parent, false);
+        TextView tv = ((TextView) convertView);
         tv.setTypeface(font);
         if (position == 0) {
             tv.setText(defaultText);
         } else {
             tv.setText(getItem(position).toString());
         }
-//        TextView tv = (TextView) view;
-//
-//        if (parent.getId() == R.id.spinner_countries || parent.getId() == R.id.spinner_cities || parent.getId() == R.id.spinner_districts){
-//            if (!parent.isEnabled())
-//                tv.setTextColor(context.getResources().getColor(R.color.colorLightBlack));
-//        }
 
-        return view;
+        return convertView;
     }
 
     public void update(List<T> list){
