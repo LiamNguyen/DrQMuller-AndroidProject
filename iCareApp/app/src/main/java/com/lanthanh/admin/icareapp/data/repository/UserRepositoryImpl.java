@@ -68,24 +68,27 @@ public class UserRepositoryImpl implements UserRepository {
         return Observable.just(localStorage.getUserFromLocal());
     }
 
-    //TODO check 1st param
     @Override
     public Observable<RepositorySimpleStatus> updateCustomerBasicInfo(String name, String address) {
         UserInfo user = localStorage.getUserFromLocal();
         return restClient.updateBasicInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), name, address);
     }
 
-    //TODO check 1st param
     @Override
     public Observable<RepositorySimpleStatus> updateCustomerNecessaryInfo(String dob, String gender) {
         UserInfo user = localStorage.getUserFromLocal();
         return restClient.updateNecessaryInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), dob, gender);
     }
 
-    //TODO check 1st param
     @Override
     public Observable<RepositorySimpleStatus> updateCustomerImportantInfo(String email, String phone) {
         UserInfo user = localStorage.getUserFromLocal();
         return restClient.updateImportantInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), email, phone);
+    }
+
+    @Override
+    public Observable<RepositorySimpleStatus> updateCustomerInfo(String name, String address, String dob, String gender, String email, String phone) {
+        UserInfo user = localStorage.getUserFromLocal();
+        return restClient.updateCustomerInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), name, address, dob, gender, email, phone);
     }
 }

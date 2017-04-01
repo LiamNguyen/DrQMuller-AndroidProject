@@ -14,37 +14,45 @@ import java.util.List;
  */
 
 public class ConverterForDisplay {
-
-    public static List<String> convertToStringList(List l){
-        List<String> result = new ArrayList<>();
-        for (Object o: l){
-            result.add(o.toString());
-        }
-        return result;
-    }
-
     public static String convertDateForDb(Date date) {
         String myFormat = "yyyy/MM/dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
         return sdf.format(date);
     }
 
-    public static String convertDateToDisplay(Date date){
+    public static String convertDateForDisplay(Date date){
         String myFormat = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
         return sdf.format(date);
     }
 
-    public static String convertDateToDisplay(int year, int monthOfYear, int dayOfMonth){
+    public static String convertDateForDisplay(int year, int monthOfYear, int dayOfMonth){
         String date = ((Integer.toString(dayOfMonth).length() == 1)?("0" + Integer.toString(dayOfMonth)) : Integer.toString(dayOfMonth))
                 + "/" + ((Integer.toString(monthOfYear + 1).length() == 1)?("0" + Integer.toString(monthOfYear + 1)) : Integer.toString(monthOfYear + 1))
                 + "/" + Integer.toString(year);
         return date;
     }
 
-    public static String convertStringDateFromDBToDisplay(String date){
+    public static String convertDateForDb(String date){
         if (date == null)
-            return null;
+            return "";
+
+        String myFormat = "dd/MM/yyyy";
+        String dbFormat = "yyyy-MM-dd";
+        SimpleDateFormat dbSdf = new SimpleDateFormat(dbFormat);
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+        try {
+            Date dateForm = sdf.parse(date);
+            return dbSdf.format(dateForm);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public static String convertDateForDisplay(String date){
+        if (date == null)
+            return "";
 
         String myFormat = "dd/MM/yyyy";
         String dbFormat = "yyyy-MM-dd";
@@ -55,11 +63,11 @@ public class ConverterForDisplay {
             return sdf.format(dateForm);
         } catch (ParseException e) {
             e.printStackTrace();
-            return null;
+            return "";
         }
     }
 
-    public static String convertStringGenderFromDBToDisplay(String gender, String male, String female){
+    public static String convertGenderForDisplay(String gender, String male, String female){
         if (gender == null)
             return null;
 
@@ -67,6 +75,16 @@ public class ConverterForDisplay {
             return male;
         else
             return female;
+    }
+
+    public static String convertGenderForDb(String gender, String male, String female){
+        if (gender == null)
+            return null;
+
+        if (gender.equals(male))
+            return "Male";
+        else
+            return "Female";
     }
 
     public static Date convertStringToDate(String date){

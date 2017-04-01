@@ -16,7 +16,6 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointmentSchedule
 import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
 import com.lanthanh.admin.icareapp.utils.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
-import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
@@ -132,7 +131,7 @@ public class BookingActivityPresenter extends BasePresenter{
 
     public void onBackPressed() {
         if (bookingSelectFragment.isVisible())
-            navigateActivity(MainActivity.class);
+            this.activity.finish();
         else if (bookingSelectDateFragment.isVisible())
             navigateFragment(BookingSelectFragment.class);
         else if (bookingBookFragment.isVisible())
@@ -142,6 +141,7 @@ public class BookingActivityPresenter extends BasePresenter{
     @Override
     public void destroy() {
         interactor.dispose();
+        this.activity.getProvider().setCurrentAppointment(null);
     }
 
     /*
@@ -309,7 +309,7 @@ public class BookingActivityPresenter extends BasePresenter{
         }
 
         this.activity.getProvider().getCurrentAppointment().setStartDate(this.startDate.getTime());
-        String date = ConverterForDisplay.convertDateToDisplay(this.startDate.getTime());
+        String date = ConverterForDisplay.convertDateForDisplay(this.startDate.getTime());
         success.apply(date);
     }
 
@@ -355,7 +355,7 @@ public class BookingActivityPresenter extends BasePresenter{
         }
 
         this.activity.getProvider().getCurrentAppointment().setExpireDate(this.expireDate.getTime());
-        String date = ConverterForDisplay.convertDateToDisplay(this.expireDate.getTime());
+        String date = ConverterForDisplay.convertDateForDisplay(this.expireDate.getTime());
         success.apply(date);
     }
 
@@ -442,13 +442,7 @@ public class BookingActivityPresenter extends BasePresenter{
         interactor.execute(
                 () -> appointmentRepository.releaseTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
                         this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList()),
-                success -> {
-                    clearCart.apply();
-                    bookingBookFragment.expandGroup(0, true);
-                    //Update DTO
-                    this.activity.getProvider().getCurrentAppointment().setAppointmentScheduleList(null);
-                    this.activity.getProvider().getCurrentAppointment().setCurrentSchedule(null);
-                },
+                success -> clearCart.apply(),
                 error -> {}
         );
     }

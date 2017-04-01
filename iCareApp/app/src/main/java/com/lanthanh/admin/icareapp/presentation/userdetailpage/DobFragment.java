@@ -78,7 +78,7 @@ public class DobFragment extends DialogFragment {
         Calendar calendar = Calendar.getInstance();
         datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
             (_view, year, monthOfYear, dayOfMonth) -> {
-                date = ConverterForDisplay.convertDateToDisplay(year, monthOfYear, dayOfMonth);
+                date = ConverterForDisplay.convertDateForDisplay(year, monthOfYear, dayOfMonth);
             }
         );
 

@@ -128,8 +128,7 @@ public class BookingActivity extends BaseActivity {
                                 dialog.dismiss();
                                 bookingActivityPresenter.emptyCart(
                                     () -> {
-                                        cartList.clear();
-                                        invalidateOptionsMenu();
+                                        onEmptyCartItem();
                                         finish();
                                     }
                                 );
@@ -192,6 +191,11 @@ public class BookingActivity extends BaseActivity {
 
     public void onAddCartItem(String item) {
         cartList.add(item);
+        invalidateOptionsMenu();
+    }
+
+    public void onEmptyCartItem() {
+        cartList.clear();
         invalidateOptionsMenu();
     }
 

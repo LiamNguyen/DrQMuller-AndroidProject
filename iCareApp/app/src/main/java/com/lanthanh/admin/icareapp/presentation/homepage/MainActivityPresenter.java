@@ -58,6 +58,8 @@ public class MainActivityPresenter extends BasePresenter {
     public void resume() {
         if (!userFragment.isVisible()) {
             showBookingTab();
+        } else {
+            userFragment.refreshViews();
         }
     }
 
@@ -138,6 +140,7 @@ public class MainActivityPresenter extends BasePresenter {
         interactor.execute(
             () -> userRepository.getUserInformation(),
             user -> {
+                list.clear();
                 if (user != null && user.getName() != null) {
                     list.add(user.getName());
                 } else {

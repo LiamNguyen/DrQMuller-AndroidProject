@@ -17,4 +17,5 @@ public interface UserRepository {
     Observable<RepositorySimpleStatus> updateCustomerBasicInfo(String name, String address);
     Observable<RepositorySimpleStatus> updateCustomerNecessaryInfo(String dob, String gender);
     Observable<RepositorySimpleStatus> updateCustomerImportantInfo(String email, String phone);
+    Observable<RepositorySimpleStatus> updateCustomerInfo(String name, String address, String dob, String gender, String email, String phone);
 }

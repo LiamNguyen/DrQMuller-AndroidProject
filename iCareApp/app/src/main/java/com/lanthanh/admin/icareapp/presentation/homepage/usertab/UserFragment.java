@@ -29,6 +29,7 @@ import butterknife.Unbinder;
 public class UserFragment extends BaseFragment<MainActivityPresenter> {
     @BindView(R.id.user_recycler_view) RecyclerView recyclerView;
 
+    private UserTabAdapter adapter;
     private List<String> list;
     private Unbinder unbinder;
 
@@ -46,14 +47,15 @@ public class UserFragment extends BaseFragment<MainActivityPresenter> {
     @Override
     public void initViews() {
         list = new ArrayList<>();
-        UserTabAdapter adapter = new UserTabAdapter(getActivity(), list, getMainPresenter());
+        adapter = new UserTabAdapter(getActivity(), list, getMainPresenter());
         getMainPresenter().populateUserTabOptions(adapter::notifyDataSetChanged, list);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override
-    public void refreshViews() {}
+    public void refreshViews() { getMainPresenter().populateUserTabOptions(adapter::notifyDataSetChanged, list);}
+
 
     @Override
     public MainActivityPresenter getMainPresenter() {

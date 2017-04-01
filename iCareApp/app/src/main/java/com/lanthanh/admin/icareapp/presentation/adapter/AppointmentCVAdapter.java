@@ -78,8 +78,8 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
         }else {
             ((BodyViewHolder) holder).setName(list.get(position - 1).getUser().getName());
             ((BodyViewHolder) holder).setVoucher(list.get(position - 1).getVoucher().getVoucherName());
-            ((BodyViewHolder) holder).setStartDate(ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getStartDate()));
-            ((BodyViewHolder) holder).setEndDate(ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getExpireDate()));
+            ((BodyViewHolder) holder).setStartDate(ConverterForDisplay.convertDateForDisplay(list.get(position - 1).getStartDate()));
+            ((BodyViewHolder) holder).setEndDate(ConverterForDisplay.convertDateForDisplay(list.get(position - 1).getExpireDate()));
             ((BodyViewHolder) holder).setStatus(list.get(position - 1).getStatus());
             final TextView status = ((BodyViewHolder) holder).getStatusTextView();
             ((BodyViewHolder) holder).getDetailTextView().setOnClickListener(
@@ -99,8 +99,8 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
                                         list.get(position - 1).getCity().getCityName() + ", " + list.get(position - 1).getCountry().getCountryName());
                         args.putString("voucher", list.get(position - 1).getVoucher().getVoucherName());
                         args.putString("type", list.get(position - 1).getType().getTypeName());
-                        args.putString("start_date", ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getStartDate()));
-                        args.putString("end_date", ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getExpireDate()));
+                        args.putString("start_date", ConverterForDisplay.convertDateForDisplay(list.get(position - 1).getStartDate()));
+                        args.putString("end_date", ConverterForDisplay.convertDateForDisplay(list.get(position - 1).getExpireDate()));
                         args.putString("code", list.get(position - 1).getVerificationCode());
                         ArrayList<String> appointmentScheduleString = new ArrayList<>();
                         for (DTOAppointmentSchedule dtoAppointmentSchedule : list.get(position - 1).getAppointmentScheduleList()) {

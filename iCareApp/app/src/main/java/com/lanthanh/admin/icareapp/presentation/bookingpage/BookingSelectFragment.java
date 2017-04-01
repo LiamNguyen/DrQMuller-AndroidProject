@@ -211,6 +211,15 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
                 //Reset date on voucher change
                 getProvider().getCurrentAppointment().setStartDate(null);
                 getProvider().getCurrentAppointment().setExpireDate(null);
+                //Reset cart on voucher change
+                if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() != null) {
+                    getMainPresenter().emptyCart(
+                            () -> {
+                                ((BookingActivity) getActivity()).onEmptyCartItem();
+                                getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(null);
+                            }
+                    );
+                }
                 //Enable type
                 typeSp.setEnabled(true);
                 typeIv.setEnabled(true);
@@ -221,6 +230,16 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
                 //Reset date on type change
                 getProvider().getCurrentAppointment().setStartDate(null);
                 getProvider().getCurrentAppointment().setExpireDate(null);
+                //Reset cart on type change
+                if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() != null) {
+                    getMainPresenter().emptyCart(
+                            () -> {
+                                ((BookingActivity) getActivity()).onEmptyCartItem();
+                                getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(null);
+                            }
+                    );
+                }
+                break;
             default:
                 break;
         }
@@ -237,18 +256,6 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {}
 
-
-    //TODO check this one and remove it
-//    @Override
-//    public void onVoucherChange() {
-//        bookingActivityPresenter.emptyCart();
-//    }
-//
-//    @Override
-//    public void onTypeChange() {
-//        bookingActivityPresenter.emptyCart();
-//    }
-//
     public void setImageTint(AppCompatImageView imageView, boolean isEnabled) {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             //for M and above (API >= 23)

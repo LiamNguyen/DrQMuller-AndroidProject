@@ -32,6 +32,7 @@ public interface RestClient {
     Observable<RepositorySimpleStatus> updateBasicInfo(Function.Void<UserInfo> saveUser, String authToken, String userId, String name, String address);
     Observable<RepositorySimpleStatus> updateNecessaryInfo(Function.Void<UserInfo> saveUser, String authToken, String userId, String dob, String gender);
     Observable<RepositorySimpleStatus> updateImportantInfo(Function.Void<UserInfo> saveUser, String authToken, String userId, String email, String phone);
+    Observable<RepositorySimpleStatus> updateCustomerInfo(Function.Void<UserInfo> saveUser, String authToken, String userId, String name, String address, String dob, String gender, String email, String phone);
     Observable<List<DTOCountry>> getCountries();
     Observable<List<DTOCity>> getCitiesByCountryId(int countryId);
     Observable<List<DTODistrict>> getDistrictsByCityId(int cityId);

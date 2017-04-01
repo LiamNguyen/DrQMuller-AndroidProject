@@ -5,7 +5,6 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.lanthanh.admin.icareapp.utils.converter.ConverterJson;
 import com.lanthanh.admin.icareapp.data.model.BookedAppointment;
 import com.lanthanh.admin.icareapp.data.model.BookedSchedule;
-import com.lanthanh.admin.icareapp.data.repository.datasource.LocalStorage;
 import com.lanthanh.admin.icareapp.data.restapi.RestClient;
 import com.lanthanh.admin.icareapp.data.restapi.iCareService;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
@@ -52,10 +51,6 @@ public class RestClientImpl implements RestClient {
                                          RepositorySimpleStatus.TIME_HAS_BEEN_BOOKED,
                                          RepositorySimpleStatus.USERNAME_EXISTED,
                                          RepositorySimpleStatus.USERNAME_PASSWORD_NOT_MATCH);
-    }
-
-    private RestClientImpl(LocalStorage localStorage){
-        this();
     }
 
     public static RestClient createRestClient(){
@@ -165,6 +160,29 @@ public class RestClientImpl implements RestClient {
                             }
                         }
                         return resolveErrorReponse(response.code(), response.errorBody().string(), "Update_ImportantInfo");
+                    }
+                );
+    }
+
+    @Override
+    public Observable<RepositorySimpleStatus> updateCustomerInfo(Function.Void<UserInfo> saveUser, String authToken, String userId, String name, String address,
+                                                                 String dob, String gender, String email, String phone) {
+        return service.updateCustomerInfo(
+                authToken,
+                createRequestBody(new String[]{"userId", "userName", "userAddress", "userDob", "userGender", "userEmail", "userPhone"},
+                                  new String[]{userId, name, address, dob, gender, email, phone}))
+                .map(
+                    response -> {
+                        if (response.code() == 200) {
+                            if (response.body().has("Update_CustomerInformation")) {
+                                UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Update_CustomerInformation").get(0), UserInfo.class);
+                                if (user != null) {
+                                    saveUser.apply(user);
+                                    return RepositorySimpleStatus.SUCCESS;
+                                }
+                            }
+                        }
+                        return resolveErrorReponse(response.code(), response.errorBody().string(), "Update_CustomerInformation");
                     }
                 );
     }

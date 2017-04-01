@@ -230,7 +230,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     @Override
     public Observable<RepositorySimpleStatus> cancelAppointment() {
         UserInfo user = localStorage.getUserFromLocal();
-        return restClient.confirmAppointment(user.getToken(), user.getId(), this.provider.getCurrentAppointment().getAppointmentId()).map(
+        return restClient.cancelAppointment(user.getToken(), user.getId(), this.provider.getCurrentAppointment().getAppointmentId()).map(
                 resp -> {
                     if (resp == RepositorySimpleStatus.SUCCESS) {
                         List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();

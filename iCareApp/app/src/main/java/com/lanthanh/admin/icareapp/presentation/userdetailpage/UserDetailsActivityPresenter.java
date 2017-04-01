@@ -1,10 +1,12 @@
 package com.lanthanh.admin.icareapp.presentation.userdetailpage;
 
+import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.repository.UserRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.presentation.Function;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
+import com.lanthanh.admin.icareapp.utils.converter.ConverterForDisplay;
 
 /**
  * Created by ADMIN on 11-Jan-17.
@@ -37,8 +39,8 @@ public class UserDetailsActivityPresenter extends BasePresenter {
             user -> {
                 populateName.apply(user.getName());
                 populateAddress.apply(user.getAddress());
-                populateDob.apply(user.getDateOfBirth());
-                populateGender.apply(user.getGender());
+                populateDob.apply(ConverterForDisplay.convertDateForDisplay(user.getDateOfBirth()));
+                populateGender.apply(ConverterForDisplay.convertGenderForDisplay(user.getGender(), this.activity.getString(R.string.male), this.activity.getString(R.string.female)));
                 populateEmail.apply(user.getEmail());
                 populatePhone.apply(user.getPhone());
             },
@@ -46,8 +48,17 @@ public class UserDetailsActivityPresenter extends BasePresenter {
         );
     }
 
-    public void updateCustomerInformation() {
-
+    public void updateCustomerInformation(String name, String address, String dob, String gender, String email, String phone) {
+        this.activity.showProgress();
+        interactor.execute(
+            () -> userRepository.updateCustomerInfo(name, address, ConverterForDisplay.convertDateForDb(dob),
+                    ConverterForDisplay.convertGenderForDb(gender, this.activity.getString(R.string.male), this.activity.getString(R.string.female)), email, phone),
+            success -> {
+                this.activity.hideProgress();
+                this.activity.refreshViews();
+            },
+            error -> this.activity.hideProgress()
+        );
     }
 
     @Override
@@ -64,25 +75,4 @@ public class UserDetailsActivityPresenter extends BasePresenter {
         GenderFragment genderFragment = new GenderFragment();
         genderFragment.show(this.activity.getSupportFragmentManager(), genderFragment.getClass().getName());
     }
-
-//    @Override
-//    public void updateCustomer() {
-////        UpdateCustomerInteractor updateCustomerInteractor = new UpdateCustomerInteractorImpl(mExecutor, mMainThread, this, customerManager, mUser);
-////        updateCustomerInteractor.execute();
-//    }
-
-//    public void onUpdateCustomerSuccess() {
-//        try {
-//            customerManager.saveLocalUserToPref(sharedPreferences, mUser);
-//            if (mAppointments.size() != 0) {
-//                for (DTOAppointment dtoAppointment: mAppointments){
-//                    dtoAppointment.setCustomer(mUser);
-//                }
-//                appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, mAppointments, mUser.getID());
-//            }
-//            mView.refreshViews();
-//        }catch (Exception e){
-//            Log.w(TAG, e.toString());
-//        }
-//    }
 }

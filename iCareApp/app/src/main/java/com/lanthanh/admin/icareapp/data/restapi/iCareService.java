@@ -78,6 +78,18 @@ public interface iCareService {
     Observable<Response<JsonObject>> updateImportantInfo(@Header("Authorization") String authToken, @Body RequestBody body);
 
     /**
+     * This request method is used for updating user's important info
+     * @param body body for request
+     * @param authToken token for authorization
+     * @return an Observable
+     */
+    @Headers({
+        "Content-Type: application/json"
+    })
+    @POST("user")
+    Observable<Response<JsonObject>> updateCustomerInfo(@Header("Authorization") String authToken, @Body RequestBody body);
+
+    /**
      * This request method is used for getting list of countries
      * @return an Observable
      */

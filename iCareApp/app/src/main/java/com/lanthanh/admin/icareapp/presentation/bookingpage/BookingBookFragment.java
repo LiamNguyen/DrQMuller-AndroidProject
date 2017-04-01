@@ -126,6 +126,9 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
         getMainPresenter().getMachines(machineAdapter::update);
         getMainPresenter().getWeekDays(listAdapter::updateGroupList);
         getMainPresenter().getTime(listAdapter::updateChildList);
+        if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() == null) {
+            machineSpinner.setSelection(0);
+        }
     }
 
     @Override
@@ -150,9 +153,11 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
         switch (adapterView.getId()) {
             case R.id.spinner_machine:
-                getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine((DTOMachine) machineSpinner.getSelectedItem());
-                collapseAllGroups();
-                expandGroup(0, true);
+                if (position != 0) {
+                    getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine((DTOMachine) machineSpinner.getSelectedItem());
+                    collapseAllGroups();
+                    expandGroup(0, true);
+                }
                 break;
         }
     }

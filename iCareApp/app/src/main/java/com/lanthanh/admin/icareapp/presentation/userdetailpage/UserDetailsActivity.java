@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
@@ -50,6 +51,7 @@ public class UserDetailsActivity extends BaseActivity {
     @BindView(R.id.ud_email_container) TextInputLayout editEmailContainer;
     @BindView(R.id.ud_phone_container) TextInputLayout editPhoneContainer;
     @BindView(R.id.toolbar) Toolbar toolBar;
+    @BindView(R.id.progressbar) ProgressBar progressBar;
     @BindView(R.id.appBar) AppBarLayout appBarLayout;
     @BindView(R.id.coorLayout) CoordinatorLayout coordinatorLayout;
     @BindView(R.id.ud_abort_button) TextView abortButton;
@@ -97,20 +99,21 @@ public class UserDetailsActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validName = false;
-                String name = editName.getText().toString().trim();
-                if (!name.isEmpty() && isEditMode){
-                    if (name.matches(InputRequirement.NAME)){
-                        editName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle_white_24dp, 0);
-                        editNameContainer.setErrorEnabled(false);
-                        validName = true;
-                    }else{
-                        editName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error_white_24dp, 0);
+                String name = editName.getText().toString();
+                if (isEditMode) {
+                    if (!name.isEmpty()) {
+                        if (name.matches(InputRequirement.NAME)) {
+                            editName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle_white_24dp, 0);
+                            editNameContainer.setErrorEnabled(false);
+                            validName = true;
+                        } else {
+                            editName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error_white_24dp, 0);
+                            validName = false;
+                        }
+                    } else {
+                        editName.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                         validName = false;
                     }
-                }else {
-                    editName.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                    validName = false;
                 }
             }
         });
@@ -125,20 +128,21 @@ public class UserDetailsActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validAddress = false;
                 String address = editAddress.getText().toString().trim();
-                if (!address.isEmpty() && isEditMode){
-                    if (address.matches(InputRequirement.ADDRESS)){
-                        editAddress.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle_white_24dp, 0);
-                        editAddressContainer.setErrorEnabled(false);
-                        validAddress = true;
-                    }else{
-                        editAddress.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error_white_24dp, 0);
+                if (isEditMode) {
+                    if (!address.isEmpty()) {
+                        if (address.matches(InputRequirement.ADDRESS)) {
+                            editAddress.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle_white_24dp, 0);
+                            editAddressContainer.setErrorEnabled(false);
+                            validAddress = true;
+                        } else {
+                            editAddress.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error_white_24dp, 0);
+                            validAddress = false;
+                        }
+                    } else {
+                        editAddress.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                         validAddress = false;
                     }
-                }else {
-                    editAddress.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                    validAddress = false;
                 }
             }
         });
@@ -173,20 +177,21 @@ public class UserDetailsActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validEmail = false;
                 String email = editEmail.getText().toString().trim();
-                if (!email.isEmpty() && isEditMode){
-                    if (email.matches(InputRequirement.EMAIL)){
-                        editEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle_white_24dp, 0);
-                        editEmailContainer.setErrorEnabled(false);
-                        validEmail = true;
-                    }else{
-                        editEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error_white_24dp, 0);
+                if (isEditMode) {
+                    if (!email.isEmpty()) {
+                        if (email.matches(InputRequirement.EMAIL)) {
+                            editEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle_white_24dp, 0);
+                            editEmailContainer.setErrorEnabled(false);
+                            validEmail = true;
+                        } else {
+                            editEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error_white_24dp, 0);
+                            validEmail = false;
+                        }
+                    } else {
+                        editEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                         validEmail = false;
                     }
-                }else {
-                    editEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                    validEmail = false;
                 }
             }
         });
@@ -201,20 +206,21 @@ public class UserDetailsActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validPhone = false;
                 String phone = editPhone.getText().toString().trim();
-                if (!phone.isEmpty() && isEditMode){
-                    if (phone.matches(InputRequirement.PHONE)){
-                        editPhone.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle_white_24dp, 0);
-                        editPhoneContainer.setErrorEnabled(false);
-                        validPhone = true;
-                    }else{
-                        editPhone.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error_white_24dp, 0);
+                if (isEditMode) {
+                    if (!phone.isEmpty()) {
+                        if (phone.matches(InputRequirement.PHONE)) {
+                            editPhone.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle_white_24dp, 0);
+                            editPhoneContainer.setErrorEnabled(false);
+                            validPhone = true;
+                        } else {
+                            editPhone.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error_white_24dp, 0);
+                            validPhone = false;
+                        }
+                    } else {
+                        editPhone.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                         validPhone = false;
                     }
-                }else {
-                    editPhone.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                    validPhone = false;
                 }
             }
         });
@@ -233,7 +239,9 @@ public class UserDetailsActivity extends BaseActivity {
             view -> {
                 hideSoftKeyboard();
                 if (validName && validAddress && validEmail && validPhone) {
-                    userDetailsActivityPresenter.updateCustomerInformation();
+                    userDetailsActivityPresenter.updateCustomerInformation(editName.getText().toString().trim(), editAddress.getText().toString().trim(),
+                                                                           displayDob.getText().toString(), displayGender.getText().toString(),
+                                                                           editEmail.getText().toString(), editPhone.getText().toString());
                 }else{
                     if (!validName){
                         if (editName.getText().toString().isEmpty()){
@@ -323,13 +331,13 @@ public class UserDetailsActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    public void showProgress() {
-//        progressBar.setVisibility(View.VISIBLE);
-//    }
-//
-//    public void hideProgress() {
-//        progressBar.setVisibility(View.GONE);
-//    }
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
 
 
     @Override
@@ -348,6 +356,14 @@ public class UserDetailsActivity extends BaseActivity {
         editPhone.setEnabled(false);
 
         populateUserInfdormation();
+        editName.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        editAddress.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        editEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        editPhone.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        editNameContainer.setErrorEnabled(false);
+        editAddressContainer.setErrorEnabled(false);
+        editEmailContainer.setErrorEnabled(false);
+        editPhoneContainer.setErrorEnabled(false);
 
         buttonContainer.setVisibility(View.INVISIBLE);
 
