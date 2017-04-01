@@ -3,13 +3,14 @@ package com.lanthanh.admin.icareapp.presentation.application;
 import android.app.Application;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.support.multidex.MultiDexApplication;
 
 /**
  * @author longv
  *         Created on 23-Mar-17.
  */
 
-public class iCareApplication extends Application {
+public class iCareApplication extends MultiDexApplication{
     private ApplicationProvider provider;
 
     @Override
