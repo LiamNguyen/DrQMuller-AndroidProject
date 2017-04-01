@@ -42,11 +42,11 @@ public class UserRepositoryImpl implements UserRepository {
     public Observable<RepositorySimpleStatus> checkUserInformationValidity() {
         UserInfo user = localStorage.getUserFromLocal();
         if (user != null) {
-            if (!user.isBasicInfoValid())
+            if (user.getStep().equals("none"))
                 return Observable.just(RepositorySimpleStatus.MISSING_NAME_AND_ADDRESS);
-            else if (!user.isNecessaryInfoValid())
+            else if (user.getStep().equals("basic"))
                 return Observable.just(RepositorySimpleStatus.MISSING_DOB_AND_GENDER);
-            else if (!user.isImportantInfoValid())
+            else if (user.getStep().equals("necessary"))
                 return Observable.just(RepositorySimpleStatus.MISSING_EMAIL_AND_PHONE);
             else {
                 return Observable.just(RepositorySimpleStatus.VALID_USER);

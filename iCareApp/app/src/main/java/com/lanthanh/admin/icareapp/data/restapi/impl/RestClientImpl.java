@@ -23,8 +23,14 @@ import com.lanthanh.admin.icareapp.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SigningKeyResolver;
 import io.reactivex.Observable;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -74,10 +80,15 @@ public class RestClientImpl implements RestClient {
                   response -> {
                       if (response.code() == 200) {
                           if (response.body().has("Select_ToAuthenticate")) {
-                              UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Select_ToAuthenticate").get(0), UserInfo.class);
+                              String jwt = response.body().getAsJsonArray("Select_ToAuthenticate")
+                                                          .get(0).getAsJsonObject()
+                                                          .get("jwt").getAsString();
+                              UserInfo user = parseUserJwt(jwt);
                               if (user != null) {
                                   saveUser.apply(user);
                                   return RepositorySimpleStatus.SUCCESS;
+                              } else {
+                                  return RepositorySimpleStatus.PARSING_ERROR;
                               }
                           }
                           return RepositorySimpleStatus.UNKNOWN_ERROR;
@@ -94,13 +105,18 @@ public class RestClientImpl implements RestClient {
                     response -> {
                         if (response.code() == 201) {
                             if (response.body().has("Insert_NewCustomer")) {
-                                UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Insert_NewCustomer").get(0), UserInfo.class);
+                                String jwt = response.body().getAsJsonArray("Insert_NewCustomer")
+                                        .get(0).getAsJsonObject()
+                                        .get("jwt").getAsString();
+                                UserInfo user = parseUserJwt(jwt);
                                 if (user != null) {
                                     saveUser.apply(user);
                                     return RepositorySimpleStatus.SUCCESS;
+                                } else {
+                                    return RepositorySimpleStatus.PARSING_ERROR;
                                 }
                             }
-                            return RepositorySimpleStatus.UNKNOWN_ERROR;
+                            return RepositorySimpleStatus.API_ERROR;
                         }
                         return resolveErrorReponse(response.code(), response.errorBody().string(), "Insert_NewCustomer");
                     }
@@ -114,12 +130,18 @@ public class RestClientImpl implements RestClient {
                     response -> {
                         if (response.code() == 200) {
                             if (response.body().has("Update_BasicInfo")) {
-                                UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Update_BasicInfo").get(0), UserInfo.class);
+                                String jwt = response.body().getAsJsonArray("Update_BasicInfo")
+                                        .get(0).getAsJsonObject()
+                                        .get("jwt").getAsString();
+                                UserInfo user = parseUserJwt(jwt);
                                 if (user != null) {
                                     saveUser.apply(user);
                                     return RepositorySimpleStatus.SUCCESS;
+                                } else {
+                                    return RepositorySimpleStatus.PARSING_ERROR;
                                 }
                             }
+                            return RepositorySimpleStatus.API_ERROR;
                         }
                         return resolveErrorReponse(response.code(), response.errorBody().string(), "Update_BasicInfo");
                     }
@@ -133,12 +155,18 @@ public class RestClientImpl implements RestClient {
                     response -> {
                         if (response.code() == 200) {
                             if (response.body().has("Update_NecessaryInfo")) {
-                                UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Update_NecessaryInfo").get(0), UserInfo.class);
+                                String jwt = response.body().getAsJsonArray("Update_NecessaryInfo")
+                                        .get(0).getAsJsonObject()
+                                        .get("jwt").getAsString();
+                                UserInfo user = parseUserJwt(jwt);
                                 if (user != null) {
                                     saveUser.apply(user);
                                     return RepositorySimpleStatus.SUCCESS;
+                                } else {
+                                    return RepositorySimpleStatus.PARSING_ERROR;
                                 }
                             }
+                            return RepositorySimpleStatus.API_ERROR;
                         }
                         return resolveErrorReponse(response.code(), response.errorBody().string(), "Update_NecessaryInfo");
                     }
@@ -152,12 +180,18 @@ public class RestClientImpl implements RestClient {
                     response -> {
                         if (response.code() == 200) {
                             if (response.body().has("Update_ImportantInfo")) {
-                                UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Update_ImportantInfo").get(0), UserInfo.class);
+                                String jwt = response.body().getAsJsonArray("Update_ImportantInfo")
+                                        .get(0).getAsJsonObject()
+                                        .get("jwt").getAsString();
+                                UserInfo user = parseUserJwt(jwt);
                                 if (user != null) {
                                     saveUser.apply(user);
                                     return RepositorySimpleStatus.SUCCESS;
+                                } else {
+                                    return RepositorySimpleStatus.PARSING_ERROR;
                                 }
                             }
+                            return RepositorySimpleStatus.API_ERROR;
                         }
                         return resolveErrorReponse(response.code(), response.errorBody().string(), "Update_ImportantInfo");
                     }
@@ -175,12 +209,18 @@ public class RestClientImpl implements RestClient {
                     response -> {
                         if (response.code() == 200) {
                             if (response.body().has("Update_CustomerInformation")) {
-                                UserInfo user = ConverterJson.convertGsonToObject(response.body().getAsJsonArray("Update_CustomerInformation").get(0), UserInfo.class);
+                                String jwt = response.body().getAsJsonArray("Update_CustomerInformation")
+                                        .get(0).getAsJsonObject()
+                                        .get("jwt").getAsString();
+                                UserInfo user = parseUserJwt(jwt);
                                 if (user != null) {
                                     saveUser.apply(user);
                                     return RepositorySimpleStatus.SUCCESS;
+                                } else {
+                                    return RepositorySimpleStatus.PARSING_ERROR;
                                 }
                             }
+                            return RepositorySimpleStatus.API_ERROR;
                         }
                         return resolveErrorReponse(response.code(), response.errorBody().string(), "Update_CustomerInformation");
                     }
@@ -496,5 +536,28 @@ public class RestClientImpl implements RestClient {
             }
         }
         return RepositorySimpleStatus.UNKNOWN_ERROR;
+    }
+
+    public UserInfo parseUserJwt (String token) {
+        UserInfo user = null;
+        try {
+            Claims jwt = Jwts.parser().setSigningKey("drmuller".getBytes("UTF-8")).parseClaimsJws(token).getBody();
+            HashMap data = (HashMap) jwt.get("data");
+            user = new UserInfo(
+                (String) data.get("userId"),
+                (String)data.get("userName"),
+                (String)data.get("userDob"),
+                (String)data.get("userGender"),
+                (String)data.get("userPhone"),
+                (String)data.get("userAddress"),
+                (String)data.get("userEmail"),
+                (String)data.get("sessionToken"),
+                (String)data.get("step"),
+                (int) data.get("active")
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 }
