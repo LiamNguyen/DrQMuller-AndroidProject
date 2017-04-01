@@ -73,6 +73,14 @@ public class BookingActivity extends BaseActivity {
     /* ============================== LIFE CYCLE ==============================*/
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        if (this.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() > 0) {
+            bookingActivityPresenter.emptyCart(this::onEmptyCartItem);
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         bookingActivityPresenter.destroy();
