@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.model.InputRequirement;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
@@ -29,7 +28,7 @@ public class ResetPasswordFragment extends Fragment implements TextWatcher, View
     private TextInputLayout password_confirm_container;
     private boolean validPW, validPWConf;
     private String username;
-    private ResetPasswordActivityPresenter resetPasswordActivityPresenter;
+    //private ResetPasswordActivityPresenter resetPasswordActivityPresenter;
 
     @Nullable
     @Override
@@ -58,7 +57,7 @@ public class ResetPasswordFragment extends Fragment implements TextWatcher, View
     }
 
     public void init(){
-        resetPasswordActivityPresenter = ((ResetPasswordActivity) getActivity()).getMainPresenter();
+       // resetPasswordActivityPresenter = ((ResetPasswordActivity) getActivity()).getMainPresenter();
         validPW = false;
         validPWConf = false;
     }
@@ -71,10 +70,10 @@ public class ResetPasswordFragment extends Fragment implements TextWatcher, View
             if (!b.getString("login_id","").isEmpty()){
                 username = b.getString("login_id","");
             }else{
-                resetPasswordActivityPresenter.navigateTab(ResetPasswordActivity.USERNAME_FOR_RESET);
+           //     resetPasswordActivityPresenter.navigateTab(ResetPasswordActivity.USERNAME_FOR_RESET);
             }
         }else{
-            resetPasswordActivityPresenter.navigateTab(ResetPasswordActivity.USERNAME_FOR_RESET);
+         //   resetPasswordActivityPresenter.navigateTab(ResetPasswordActivity.USERNAME_FOR_RESET);
         }
     }
 
@@ -142,7 +141,7 @@ public class ResetPasswordFragment extends Fragment implements TextWatcher, View
         switch (view.getId()){
             case R.id.resetpw_reset_button:
                 if (validPW && validPWConf) {
-                    resetPasswordActivityPresenter.updateCustomerPassword(username, password.getText().toString().trim());
+                   // resetPasswordActivityPresenter.updateCustomerPassword(username, password.getText().toString().trim());
                 }
                 else {
                     if (!validPW){

@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ import java.util.List;
 
 public class ResetPasswordActivityPresenterImpl{
     public static final String TAG = ResetPasswordActivityPresenterImpl.class.getSimpleName();
-    private ResetPasswordActivityPresenter.View mView;
 
     private FragmentManager fragmentManager;
     private SharedPreferences sharedPreferences;

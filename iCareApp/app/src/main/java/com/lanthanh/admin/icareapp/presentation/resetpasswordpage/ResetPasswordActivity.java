@@ -18,7 +18,6 @@ import android.widget.ProgressBar;
 
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
 
 import java.util.List;
@@ -26,13 +25,13 @@ import java.util.List;
 /**
  * Created by ADMIN on 22-Nov-16.
  */
-public class ResetPasswordActivity extends AppCompatActivity implements ResetPasswordActivityPresenter.View {
+public class ResetPasswordActivity extends AppCompatActivity {
     public static final String TAG = ResetPasswordActivity.class.getSimpleName();
     public static final int SUCCESS = 1;
     public static final int FAIL = 0;
     public static final int USERNAME_FOR_RESET = 0;
     public static final int RESET_PW = 1;
-    private ResetPasswordActivityPresenter resetPasswordActivityPresenter;
+    //private ResetPasswordActivityPresenter resetPasswordActivityPresenter;
     private ProgressBar progressBar;
     private NetworkController networkController;
 
@@ -83,7 +82,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
 //                    }
 //                }
             }else{
-                resetPasswordActivityPresenter.navigateTab(USERNAME_FOR_RESET);
+                //resetPasswordActivityPresenter.navigateTab(USERNAME_FOR_RESET);
             }
         }
         setIntent(null);
@@ -99,14 +98,13 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                resetPasswordActivityPresenter.onBackPressed();
+                //resetPasswordActivityPresenter.onBackPressed();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
     public void showFragment(FragmentManager fm, Fragment f, List<Fragment> visibleFrags) {
         hideProgress();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -124,29 +122,20 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
         fragmentTransaction.addToBackStack(null).commit();
     }
 
-    @Override
     public void hideFragments(FragmentTransaction ft, List<Fragment> visibleFrags) {
         for (Fragment fragment : visibleFrags) {
             ft.hide(fragment);
         }
     }
 
-    @Override
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
     }
 
-    @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void showError(String message) {
-
-    }
-
-    @Override
     public void navigateToRegisterActivity(int result){
         hideProgress();
         Intent toRegister = new Intent(this, WelcomeActivity.class);
@@ -160,7 +149,6 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
         hideSoftKeyboard();
     }
 
-    @Override
     public void navigateToRegisterActivity() {
         hideProgress();
         Intent toRegister = new Intent(this, WelcomeActivity.class);
@@ -171,10 +159,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
         hideSoftKeyboard();
     }
 
-    @Override
-    public ResetPasswordActivityPresenter getMainPresenter() {
-        return resetPasswordActivityPresenter;
-    }
+
 
     //Hide SoftKeyBoard when needed
     public void hideSoftKeyboard(){
@@ -185,8 +170,8 @@ public class ResetPasswordActivity extends AppCompatActivity implements ResetPas
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        resetPasswordActivityPresenter.onBackPressed();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        resetPasswordActivityPresenter.onBackPressed();
+//    }
 }

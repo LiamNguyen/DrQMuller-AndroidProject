@@ -152,7 +152,6 @@ public class BookingActivityPresenter extends BasePresenter{
         interactor.execute(
             () -> appointmentRepository.getCountries(),
             success -> {
-                this.activity.hideProgress();
                 updateCallback.apply(success);
                 this.bookingSelectFragment.setDefaultSelectionForCountry();
             },

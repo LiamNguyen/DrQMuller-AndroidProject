@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.model.InputRequirement;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
@@ -23,7 +22,7 @@ import com.lanthanh.admin.icareapp.utils.GraphicUtils;
  */
 
 public class UsernameForResetFragment extends Fragment implements TextWatcher, View.OnClickListener {
-    private ResetPasswordActivityPresenter resetPasswordActivityPresenter;
+    //private ResetPasswordActivityPresenter resetPasswordActivityPresenter;
     private TextInputEditText username;
     private TextInputLayout username_container;
     private boolean validUN;
@@ -54,7 +53,7 @@ public class UsernameForResetFragment extends Fragment implements TextWatcher, V
     }
 
     public void init(){
-        resetPasswordActivityPresenter = ((ResetPasswordActivity) getActivity()).getMainPresenter();
+        //resetPasswordActivityPresenter = ((ResetPasswordActivity) getActivity()).getMainPresenter();
         validUN = false;
     }
 
@@ -63,7 +62,7 @@ public class UsernameForResetFragment extends Fragment implements TextWatcher, V
         switch (v.getId()){
             case R.id.resetpw_send_button:
                 if (validUN) {
-                    resetPasswordActivityPresenter.sendEmailToResetPassword(username.getText().toString().trim());
+                    //resetPasswordActivityPresenter.sendEmailToResetPassword(username.getText().toString().trim());
                 }else {
                     if (!validUN){
                         if (username.getText().toString().equals(""))
