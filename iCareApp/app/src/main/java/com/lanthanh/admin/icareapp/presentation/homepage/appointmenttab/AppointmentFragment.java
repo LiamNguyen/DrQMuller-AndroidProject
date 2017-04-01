@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
-import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.presentation.bookingpage.BookingActivity;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivityPresenter;
@@ -34,16 +33,14 @@ public class AppointmentFragment extends BaseFragment<MainActivityPresenter>{
     @BindView(R.id.fab) FloatingActionButton bookButton;
     private Unbinder unbinder;
     private AppointmentCVAdapter adapter;
-//    private MainActivityPresenter mainActivityPresenter;//TODO check this
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_appointment, container, false);
         unbinder = ButterKnife.bind(this, view);
+
         initViews();
-        //Init list
-//        mainActivityPresenter.updateAppointmentList();//TODO check this
 
         return view;
     }
@@ -51,17 +48,21 @@ public class AppointmentFragment extends BaseFragment<MainActivityPresenter>{
     @Override
     public void initViews() {
         //Set up adapter and layout manager for recycler view
-        adapter = new AppointmentCVAdapter(getActivity(), new ArrayList<DTOAppointment>());
+        adapter = new AppointmentCVAdapter(getActivity(), new ArrayList<>());
         appointmentView.setAdapter(adapter);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         appointmentView.setLayoutManager(llm);
 
         //Set up for floating action button
         bookButton.setOnClickListener(view -> getMainPresenter().navigateActivity(BookingActivity.class));
+
+        refreshViews();
     }
 
     @Override
-    public void refreshViews() {}
+    public void refreshViews() {
+        getMainPresenter().getAppointmentList(this.adapter::updateList);
+    }
 
     @Override
     public MainActivityPresenter getMainPresenter() {
@@ -71,7 +72,7 @@ public class AppointmentFragment extends BaseFragment<MainActivityPresenter>{
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible()) {
-//            mainActivityPresenter.updateAppointmentList();//TODO check this
+            refreshViews();
         }
     }
 
@@ -85,10 +86,6 @@ public class AppointmentFragment extends BaseFragment<MainActivityPresenter>{
     public ApplicationProvider getProvider() {
         return null;
     }
-
-    //    @Override
-//    public void updateList(List<DTOAppointment> list) {
-//        adapter.updateList(list);
-//    }
-
 }
+
+

@@ -5,9 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatImageView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
@@ -28,10 +25,6 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.adapter.CustomSpinnerAdapter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -40,7 +33,7 @@ import butterknife.Unbinder;
  * Created by ADMIN on 13-Nov-16.
  */
 
-public class BookingSelectFragment extends BaseFragment<BookingActivityPresenterImpl> implements AdapterView.OnItemSelectedListener{
+public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter> implements AdapterView.OnItemSelectedListener{
     @BindView(R.id.drop_down_icon_locations) AppCompatImageView locationIv;
     @BindView(R.id.drop_down_icon_vouchers) AppCompatImageView voucherIv;
     @BindView(R.id.drop_down_icon_types) AppCompatImageView typeIv;
@@ -159,7 +152,7 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
     public void refreshViews() {}
 
     @Override
-    public BookingActivityPresenterImpl getMainPresenter() {
+    public BookingActivityPresenter getMainPresenter() {
         return ((BookingActivity) getActivity()).getMainPresenter();
     }
 

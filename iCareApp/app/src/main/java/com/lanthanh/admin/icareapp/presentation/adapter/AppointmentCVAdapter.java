@@ -2,7 +2,6 @@ package com.lanthanh.admin.icareapp.presentation.adapter;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -15,9 +14,9 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
-import com.lanthanh.admin.icareapp.presentation.model.DTOAppointmentSchedule;
-import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointmentSchedule;
+import com.lanthanh.admin.icareapp.utils.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.bookingpage.ConfirmBookingActivity;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
@@ -77,34 +76,32 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (getItemViewType(position) == TYPE_HEADER){
             ((HeaderViewHolder) holder).setHeaderTextView(ctx.getString(R.string.appointment));
         }else {
-//            ((BodyViewHolder) holder).setName(list.get(position - 1).getCustomerName());
-//            ((BodyViewHolder) holder).setVoucher(list.get(position - 1).getVoucherName());
+            ((BodyViewHolder) holder).setName(list.get(position - 1).getUser().getName());
+            ((BodyViewHolder) holder).setVoucher(list.get(position - 1).getVoucher().getVoucherName());
             ((BodyViewHolder) holder).setStartDate(ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getStartDate()));
             ((BodyViewHolder) holder).setEndDate(ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getExpireDate()));
             ((BodyViewHolder) holder).setStatus(list.get(position - 1).getStatus());
             final TextView status = ((BodyViewHolder) holder).getStatusTextView();
-            ((BodyViewHolder) holder).getDetailTextView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (status.getText().toString().equals(ctx.getString(R.string.not_confirm_yet))) {
-                        Intent toConfirm = new Intent(ctx, ConfirmBookingActivity.class);
-                        ctx.startActivity(toConfirm);
-                        ctx.finish();
-                    } else if (status.getText().toString().equals(ctx.getString(R.string.confirmed))) {
+            ((BodyViewHolder) holder).getDetailTextView().setOnClickListener(
+                (View view) -> {
+                    ((MainActivity) ctx).getProvider().setCurrentAppointment(list.get(position - 1));
+                    if (!list.get(position - 1).getStatus()) {
+                        ((MainActivity) ctx).getMainPresenter().navigateActivity(ConfirmBookingActivity.class);
+                    } else  {
                         AppointmentDialogFragment frag = new AppointmentDialogFragment();
 
                         //Set information into bundle so that fragment can display
                         Bundle args = new Bundle();
 
-                        args.putInt("appointmentId", list.get(position - 1).getAppointmentId());
                         args.putString("title", ctx.getString(R.string.bill));
-//                        args.putString("name", list.get(position - 1).getCustomerName());
-//                        args.putString("address", list.get(position - 1).getLocationName() + ", " + list.get(position - 1).getDistrictName() + ", " + list.get(position - 1).getCityName() + ", " + list.get(position - 1).getCountryName());
-//                        args.putString("voucher", list.get(position - 1).getVoucherName());
-//                        args.putString("type", list.get(position - 1).getTypeName());
-//                        args.putString("start_date", ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getStartDate()));
-//                        args.putString("end_date", ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getExpireDate()));
-//                        args.putString("code", list.get(position - 1).getVerficationCode());
+                        args.putString("name", list.get(position - 1).getUser().getName());
+                        args.putString("address", list.get(position - 1).getLocation().getAddress() + ", " + list.get(position - 1).getDistrict().getDistrictName() + ", " +
+                                        list.get(position - 1).getCity().getCityName() + ", " + list.get(position - 1).getCountry().getCountryName());
+                        args.putString("voucher", list.get(position - 1).getVoucher().getVoucherName());
+                        args.putString("type", list.get(position - 1).getType().getTypeName());
+                        args.putString("start_date", ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getStartDate()));
+                        args.putString("end_date", ConverterForDisplay.convertDateToDisplay(list.get(position - 1).getExpireDate()));
+                        args.putString("code", list.get(position - 1).getVerificationCode());
                         ArrayList<String> appointmentScheduleString = new ArrayList<>();
                         for (DTOAppointmentSchedule dtoAppointmentSchedule : list.get(position - 1).getAppointmentScheduleList()) {
                             appointmentScheduleString.add(dtoAppointmentSchedule.toString());
@@ -118,28 +115,26 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
                         frag.show(fm, frag.getClass().getName());
                     }
                 }
-            });
-            ((BodyViewHolder) holder).getCancelAppointmentTextView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            );
+            ((BodyViewHolder) holder).getCancelAppointmentTextView().setOnClickListener(
+                    (View v) -> {
                     new AlertDialog.Builder(ctx)
                             .setMessage(ctx.getString(R.string.cancel_confirm))
-                            .setPositiveButton(ctx.getString(R.string.agree_button), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                            .setPositiveButton(
+                                ctx.getString(R.string.agree_button),
+                                (DialogInterface dialog, int which) -> {
                                     dialog.dismiss();
-                                    //((MainActivity) ctx).getMainPresenter().cancelAppointment(list.get(position - 1).getAppointmentId());
+                                    ((MainActivity) ctx).getProvider().setCurrentAppointment(list.get(position - 1));
+                                    ((MainActivity) ctx).getMainPresenter().cancelAppointment();
                                 }
-                            })
-                            .setNegativeButton(ctx.getString(R.string.abort_button), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
+                            )
+                            .setNegativeButton(
+                                ctx.getString(R.string.abort_button),
+                                (DialogInterface dialog, int which) -> dialog.dismiss()
+                            )
                             .setCancelable(true).show();
                 }
-            });
+            );
         }
     }
 

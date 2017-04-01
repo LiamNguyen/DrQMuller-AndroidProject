@@ -1,26 +1,21 @@
 package com.lanthanh.admin.icareapp.presentation.application;
 
-import android.app.Application;
-import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-
-import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
+import android.support.multidex.MultiDexApplication;
 
 /**
  * @author longv
  *         Created on 23-Mar-17.
  */
 
-public class iCareApplication extends Application {
+public class iCareApplication extends MultiDexApplication {
     private ApplicationProvider provider;
-    private UserInfo user;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        provider = new ApplicationProvider(getSharedPreferences("content", Context.MODE_PRIVATE));
+        provider = new ApplicationProvider();
     }
 
     public ApplicationProvider getProvider() {

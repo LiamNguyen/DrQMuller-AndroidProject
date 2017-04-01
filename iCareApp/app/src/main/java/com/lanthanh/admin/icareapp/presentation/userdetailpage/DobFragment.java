@@ -11,12 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
+import com.lanthanh.admin.icareapp.utils.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import java.util.Calendar;

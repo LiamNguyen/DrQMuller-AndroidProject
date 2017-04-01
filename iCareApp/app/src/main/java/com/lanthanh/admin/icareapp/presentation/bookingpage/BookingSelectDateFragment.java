@@ -28,7 +28,7 @@ import butterknife.Unbinder;
  * Created by ADMIN on 25-Jan-17.
  */
 
-public class BookingSelectDateFragment extends BaseFragment<BookingActivityPresenterImpl>{
+public class BookingSelectDateFragment extends BaseFragment<BookingActivityPresenter>{
     @BindView(R.id.booking_startdate) TextView startDate;
     @BindView(R.id.booking_expiredate) TextView expireDate;
     @BindView(R.id.booking_startdate_text) TextView startDateText;
@@ -75,7 +75,11 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
                 expireDatePickerDialog.show();
             }
         ));
-        nextButton.setOnClickListener(view -> getMainPresenter().navigateFragment(BookingBookFragment.class));
+        nextButton.setOnClickListener(view -> {
+                getMainPresenter().validateAppointment();
+                getMainPresenter().navigateFragment(BookingBookFragment.class);
+            }
+        );
         nextButton.setEnabled(false);
     }
 
@@ -123,7 +127,7 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
     }
 
     @Override
-    public BookingActivityPresenterImpl getMainPresenter() {
+    public BookingActivityPresenter getMainPresenter() {
         return ((BookingActivity) getActivity()).getMainPresenter();
     }
 

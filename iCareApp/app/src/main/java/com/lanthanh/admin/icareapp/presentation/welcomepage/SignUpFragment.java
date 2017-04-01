@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
-import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
+import com.lanthanh.admin.icareapp.presentation.model.InputRequirement;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
@@ -70,7 +70,7 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> imple
 
                 String username = editUsername.getText().toString().trim();
                 if (!username.isEmpty()){
-                    if (username.matches(ModelInputRequirement.USERNAME)) {
+                    if (username.matches(InputRequirement.USERNAME)) {
                         editUsername.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editUsernameContainer.setErrorEnabled(false);
                         validUN = true;
@@ -91,7 +91,7 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> imple
             @Override public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 String password = editPassword.getText().toString();
                 if (!password.isEmpty()){
-                    if (password.matches(ModelInputRequirement.PASSWORD)) {
+                    if (password.matches(InputRequirement.PASSWORD)) {
                         editPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editPasswordContainer.setErrorEnabled(false);
                         validPW = true;

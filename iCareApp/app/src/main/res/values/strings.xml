@@ -119,12 +119,12 @@
     <string name="not_confirm_yet">Chưa Xác Nhận</string>
     <string name="confirmed">Đã Xác Nhận</string>
     <string name="booking_success">Quí khách đã đặt lịch hẹn thành công</string>
-    <string name="booking_fail">Nhập mã xác nhận chưa hoàn tất\nQuí khách có thể bấm vào thông tin lịch hẹn để hoàn thành xác nhận</string>
+    <string name="booking_fail">Nhập mã xác nhận chưa hoàn tất\nQuí khách có thể bấm vào thông tin lịch hẹn trong trang chủ để hoàn thành xác nhận</string>
     <string name="close_dialog">Đóng</string>
     <string name="agree_button">Đồng Ý</string>
     <string name="temp_inform">Hiện tại Dr.Q-Muller chỉ có 1 trung tâm tại Quận 3, Việt Nam</string>
     <string name="already_booked">Giờ đã bị đặt</string>
-    <string name="abort_appointment_dialog">Quí khách có chắc chắn muốn hủy bỏ toàn bộ lịch hẹn?</string>
+    <string name="abort_appointment_dialog">Quí khách có chắc chắn muốn hủy bỏ toàn bộ lịch hẹn và thoát?</string>
     <string name="machine_alert">Quí khách vui lòng chọn máy</string>
 
     <!-- BOOKING DETAILS -->
@@ -148,6 +148,7 @@
     <!-- USER DETAILS -->
     <string name="abort_button">Hủy Bỏ</string>
     <string name="save_button">Lưu</string>
+    <string name="no_button">Không</string>
 
     <!-- ********************************FRAGMENT******************************** -->
     <!-- DEFAULT APPOINTMENT -->

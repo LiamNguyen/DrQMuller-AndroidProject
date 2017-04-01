@@ -31,11 +31,11 @@ import butterknife.ButterKnife;
  * Created by ADMIN on 24-Jan-17.
  */
 
-public class BookingActivity extends BaseActivity{
-    private BookingActivityPresenterImpl bookingActivityPresenter;
+public class BookingActivity extends BaseActivity {
     @BindDrawable(R.drawable.ic_shopping_cart_white_32dp) Drawable cartIcon;
     @BindView(R.id.toolbar) Toolbar toolBar;
     @BindView(R.id.progressbar) ProgressBar progressBar;
+    private BookingActivityPresenter bookingActivityPresenter;
     private ListPopupWindow popupWindow;
     private ListPopupWindowAdapter popupAdapter;
     private MenuItem cart;
@@ -61,12 +61,12 @@ public class BookingActivity extends BaseActivity{
     }
 
     public void init(){
-        bookingActivityPresenter = new BookingActivityPresenterImpl(this);
+        bookingActivityPresenter = new BookingActivityPresenter(this);
         //Init cart list for display
         cartList = new ArrayList<>();
     }
 
-    public BookingActivityPresenterImpl getMainPresenter() {
+    public BookingActivityPresenter getMainPresenter() {
         return bookingActivityPresenter;
     }
 
@@ -122,21 +122,22 @@ public class BookingActivity extends BaseActivity{
             case R.id.abort_booking:
                 new AlertDialog.Builder(this)
                         .setMessage(getString(R.string.abort_appointment_dialog))
-                        .setPositiveButton(getString(R.string.agree_button), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+                        .setPositiveButton(
+                            getString(R.string.agree_button),
+                            (DialogInterface dialog, int which) -> {
                                 dialog.dismiss();
                                 bookingActivityPresenter.emptyCart(
                                     () -> {
                                         cartList.clear();
                                         invalidateOptionsMenu();
+                                        finish();
                                     }
                                 );
                             }
-                        }).setNegativeButton(getString(R.string.abort_button), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
+                        ).setNegativeButton(
+                            getString(R.string.abort_button),
+                            (DialogInterface dialog, int which) -> dialog.dismiss()
+                        )
                         .setCancelable(false).show();
                 return true;
             default:

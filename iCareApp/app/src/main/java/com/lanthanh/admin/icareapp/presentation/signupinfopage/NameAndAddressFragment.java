@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
-import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
+import com.lanthanh.admin.icareapp.presentation.model.InputRequirement;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
@@ -68,7 +68,7 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String name = editName.getText().toString().trim();
                 if (!name.equals("")){
-                    if (name.matches(ModelInputRequirement.NAME)){
+                    if (name.matches(InputRequirement.NAME)){
                         editName.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_pin_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editNameContainer.setErrorEnabled(false);
                         validName = true;
@@ -91,7 +91,7 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String address = editAddress.getText().toString().trim();
                 if (!address.equals("")){
-                    if (address.matches(ModelInputRequirement.ADDRESS)){
+                    if (address.matches(InputRequirement.ADDRESS)){
                         editAddress.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pin_drop_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editAddressContainer.setErrorEnabled(false);
                         validAddress = true;

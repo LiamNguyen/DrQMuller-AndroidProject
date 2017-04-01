@@ -9,7 +9,8 @@ import java.util.Date;
  * Created on 20-Mar-17.
  */
 
-public class UserInfo {
+public class
+UserInfo {
     @SerializedName("customerId") private String id;
     @SerializedName("customerName") private String name;
     @SerializedName("address") private String address;

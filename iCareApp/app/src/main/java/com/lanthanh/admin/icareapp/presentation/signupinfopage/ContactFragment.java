@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
-import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
+import com.lanthanh.admin.icareapp.presentation.model.InputRequirement;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
@@ -72,7 +72,7 @@ public class ContactFragment extends BaseFragment<UserInfoActivityPresenter>{
                 String get_email = editEmail.getText().toString();
                 get_email.trim();
                 if (!get_email.equals("")){
-                    if (get_email.matches(ModelInputRequirement.EMAIL)){
+                    if (get_email.matches(InputRequirement.EMAIL)){
                         editEmail.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_post_office_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editEmailContainer.setErrorEnabled(false);
                         validEmail = true;
@@ -95,7 +95,7 @@ public class ContactFragment extends BaseFragment<UserInfoActivityPresenter>{
                 String get_phone = editPhone.getText().toString();
                 get_phone.trim();
                 if (!get_phone.equals("")){
-                    if (get_phone.matches(ModelInputRequirement.PHONE)){
+                    if (get_phone.matches(InputRequirement.PHONE)){
                         editPhone.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_phone_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editPhoneContainer.setErrorEnabled(false);
                         validPhone = true;

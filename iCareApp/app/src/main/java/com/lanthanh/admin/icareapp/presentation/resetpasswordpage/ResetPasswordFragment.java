@@ -14,8 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityPresenter;
-import com.lanthanh.admin.icareapp.presentation.resetpasswordpage.ResetPasswordActivity;
-import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
+import com.lanthanh.admin.icareapp.presentation.model.InputRequirement;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
@@ -90,7 +89,7 @@ public class ResetPasswordFragment extends Fragment implements TextWatcher, View
         if (password.getText().hashCode() == s.hashCode()){ //Check password
             String get_pw = s.toString();
             if (!get_pw.equals("")){
-                if (get_pw.matches(ModelInputRequirement.PASSWORD)) {
+                if (get_pw.matches(InputRequirement.PASSWORD)) {
                     password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock_white_36dp, 0, R.drawable.ic_valid_input, 0);
                     password_container.setErrorEnabled(false);
                     validPW = true;

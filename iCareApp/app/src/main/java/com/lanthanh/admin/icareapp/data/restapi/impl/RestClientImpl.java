@@ -2,14 +2,14 @@ package com.lanthanh.admin.icareapp.data.restapi.impl;
 
 import com.google.gson.JsonObject;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.lanthanh.admin.icareapp.data.converter.ConverterJson;
+import com.lanthanh.admin.icareapp.utils.converter.ConverterJson;
+import com.lanthanh.admin.icareapp.data.model.BookedAppointment;
 import com.lanthanh.admin.icareapp.data.model.BookedSchedule;
 import com.lanthanh.admin.icareapp.data.repository.datasource.LocalStorage;
 import com.lanthanh.admin.icareapp.data.restapi.RestClient;
 import com.lanthanh.admin.icareapp.data.restapi.iCareService;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.presentation.Function;
-import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
@@ -39,7 +39,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RestClientImpl implements RestClient {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final iCareService service;
-    private LocalStorage localStorage;
     private List<RepositorySimpleStatus> validFailResponse;
 
     private RestClientImpl(){
@@ -57,15 +56,10 @@ public class RestClientImpl implements RestClient {
 
     private RestClientImpl(LocalStorage localStorage){
         this();
-        this.localStorage = localStorage;
     }
 
     public static RestClient createRestClient(){
         return new RestClientImpl();
-    }
-
-    public static RestClient createRestClient(LocalStorage localStorage){
-        return new RestClientImpl(localStorage);
     }
 
     @Override
@@ -94,11 +88,6 @@ public class RestClientImpl implements RestClient {
                           return RepositorySimpleStatus.UNKNOWN_ERROR;
                       }
                       return resolveErrorReponse(response.code(), response.errorBody().string(), "Select_ToAuthenticate");
-//                          if (validFailResponse.contains(status)){
-//                              return status;
-//                          }
-
-                      //return RepositorySimpleStatus.UNKNOWN_ERROR;
                   }
                 );
     }
@@ -119,18 +108,12 @@ public class RestClientImpl implements RestClient {
                             return RepositorySimpleStatus.UNKNOWN_ERROR;
                         }
                         return resolveErrorReponse(response.code(), response.errorBody().string(), "Insert_NewCustomer");
-//                            if (validFailResponse.contains(status)){
-//                                return status;
-//                            }
-//                        }
-//                        return RepositorySimpleStatus.UNKNOWN_ERROR;
                     }
                 );
     }
 
     @Override
     public Observable<RepositorySimpleStatus> updateBasicInfo(Function.Void<UserInfo> saveUser, String authToken, String userId, String name, String address) {
-        //String userId=""; //TODO put user id here
         return service.updateBasicInfo(authToken, createRequestBody(new String[]{"userId", "userName", "userAddress"}, new String[]{userId, name, address}))
                 .map(
                     response -> {
@@ -150,7 +133,6 @@ public class RestClientImpl implements RestClient {
 
     @Override
     public Observable<RepositorySimpleStatus> updateNecessaryInfo(Function.Void<UserInfo> saveUser, String authToken, String userId, String dob, String gender) {
-        //String userId=""; //TODO put user id here
         return service.updateNecessaryInfo(authToken, createRequestBody(new String[]{"userId", "userDob", "userGender"}, new String[]{userId, dob, gender}))
                 .map(
                     response -> {
@@ -164,14 +146,12 @@ public class RestClientImpl implements RestClient {
                             }
                         }
                         return resolveErrorReponse(response.code(), response.errorBody().string(), "Update_NecessaryInfo");
-
                     }
                 );
     }
 
     @Override
     public Observable<RepositorySimpleStatus> updateImportantInfo(Function.Void<UserInfo> saveUser, String authToken, String userId, String email, String phone) {
-        //String userId=""; //TODO put user id here
         return service.updateImportantInfo(authToken, createRequestBody(new String[]{"userId", "userEmail", "userPhone"}, new String[]{userId, email, phone}))
                 .map(
                     response -> {
@@ -195,7 +175,6 @@ public class RestClientImpl implements RestClient {
                 .map(
                     response -> {
                         if (response.code() == 200) {
-                            //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Countries")) {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Countries"), DTOCountry.class);
                             }
@@ -212,7 +191,6 @@ public class RestClientImpl implements RestClient {
                     response -> {
                         if (response.code() == 200) {
                             if (response.body().has("Select_Cities")) {
-                                //TODO error handling needed in stead of null?
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Cities"), DTOCity.class);
                             }
                         }
@@ -227,7 +205,6 @@ public class RestClientImpl implements RestClient {
                 .map(
                     response -> {
                         if (response.code() == 200) {
-                            //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Districts")) {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Districts"), DTODistrict.class);
                             }
@@ -243,7 +220,6 @@ public class RestClientImpl implements RestClient {
                 .map(
                     response -> {
                         if (response.code() == 200) {
-                            //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Locations")) {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Locations"), DTOLocation.class);
                             }
@@ -259,7 +235,6 @@ public class RestClientImpl implements RestClient {
                 .map(
                     response -> {
                         if (response.code() == 200) {
-                            //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Vouchers")) {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Vouchers"), DTOVoucher.class);
                             }
@@ -339,7 +314,6 @@ public class RestClientImpl implements RestClient {
                 .map(
                     response -> {
                         if (response.code() == 200) {
-                            //TODO error handling needed in stead of null?
                             if (response.body().has("Select_DaysOfWeek")) {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_DaysOfWeek"), DTOWeekDay.class);
                             }
@@ -355,7 +329,6 @@ public class RestClientImpl implements RestClient {
                 .map(
                     response -> {
                         if (response.code() == 200) {
-                            //TODO error handling needed in stead of null?
                             if (response.body().has("Select_Machines")) {
                                 return ConverterJson.convertGsonToObjectList(response.body().getAsJsonArray("Select_Machines"), DTOMachine.class);
                             }
@@ -422,19 +395,20 @@ public class RestClientImpl implements RestClient {
     }
 
     @Override
-    public Observable<String> createAppointment(String authToken, DTOAppointment appointment) {
-        String json  = "";//ConverterJson.convertObjectToJson(dataMapper.transform(appointment));
+    public Observable<String> createAppointment(String authToken, BookedAppointment appointment) {
+        String json  = ConverterJson.convertObjectToJson(appointment);
         return service.createAppointment(authToken, createRequestBody(json))
                 .map(
                     response -> {
+                        System.out.println(json);
                         if (response.code() == 200) {
                             if (response.body().has("Insert_NewAppointment")) {
-                                return response.body().getAsJsonArray("Insert_Appointment")
+                                return response.body().getAsJsonArray("Insert_NewAppointment")
                                         .get(0).getAsJsonObject()
                                         .get("appointmentId").getAsString(); //TODO save user json to pref
                             }
                         }
-                        return null;
+                        return "";
                     }
                 );
     }

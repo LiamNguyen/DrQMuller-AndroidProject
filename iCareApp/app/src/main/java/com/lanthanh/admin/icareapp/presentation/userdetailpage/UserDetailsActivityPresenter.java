@@ -1,17 +1,10 @@
 package com.lanthanh.admin.icareapp.presentation.userdetailpage;
 
-import android.content.SharedPreferences;
-import android.support.v4.app.FragmentManager;
-
 import com.lanthanh.admin.icareapp.data.repository.UserRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.presentation.Function;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
-import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
-import com.lanthanh.admin.icareapp.presentation.model.ModelUser;
-
-import java.util.List;
 
 /**
  * Created by ADMIN on 11-Jan-17.

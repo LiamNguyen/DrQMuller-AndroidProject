@@ -1,4 +1,4 @@
-package com.lanthanh.admin.icareapp.presentation.converter;
+package com.lanthanh.admin.icareapp.utils.converter;
 
 import android.support.annotation.NonNull;
 
@@ -21,6 +21,12 @@ public class ConverterForDisplay {
             result.add(o.toString());
         }
         return result;
+    }
+
+    public static String convertDateForDb(Date date) {
+        String myFormat = "yyyy/MM/dd";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+        return sdf.format(date);
     }
 
     public static String convertDateToDisplay(Date date){

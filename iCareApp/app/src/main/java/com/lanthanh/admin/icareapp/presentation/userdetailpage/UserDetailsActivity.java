@@ -1,6 +1,5 @@
 package com.lanthanh.admin.icareapp.presentation.userdetailpage;
 
-import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -21,8 +20,7 @@ import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.Controller.NetworkController;
 import com.lanthanh.admin.icareapp.presentation.base.BaseActivity;
-import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
-import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
+import com.lanthanh.admin.icareapp.presentation.model.InputRequirement;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
@@ -102,7 +100,7 @@ public class UserDetailsActivity extends BaseActivity {
                 validName = false;
                 String name = editName.getText().toString().trim();
                 if (!name.isEmpty() && isEditMode){
-                    if (name.matches(ModelInputRequirement.NAME)){
+                    if (name.matches(InputRequirement.NAME)){
                         editName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editNameContainer.setErrorEnabled(false);
                         validName = true;
@@ -130,7 +128,7 @@ public class UserDetailsActivity extends BaseActivity {
                 validAddress = false;
                 String address = editAddress.getText().toString().trim();
                 if (!address.isEmpty() && isEditMode){
-                    if (address.matches(ModelInputRequirement.ADDRESS)){
+                    if (address.matches(InputRequirement.ADDRESS)){
                         editAddress.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editAddressContainer.setErrorEnabled(false);
                         validAddress = true;
@@ -178,7 +176,7 @@ public class UserDetailsActivity extends BaseActivity {
                 validEmail = false;
                 String email = editEmail.getText().toString().trim();
                 if (!email.isEmpty() && isEditMode){
-                    if (email.matches(ModelInputRequirement.EMAIL)){
+                    if (email.matches(InputRequirement.EMAIL)){
                         editEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editEmailContainer.setErrorEnabled(false);
                         validEmail = true;
@@ -206,7 +204,7 @@ public class UserDetailsActivity extends BaseActivity {
                 validPhone = false;
                 String phone = editPhone.getText().toString().trim();
                 if (!phone.isEmpty() && isEditMode){
-                    if (phone.matches(ModelInputRequirement.PHONE)){
+                    if (phone.matches(InputRequirement.PHONE)){
                         editPhone.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editPhoneContainer.setErrorEnabled(false);
                         validPhone = true;
@@ -294,6 +292,12 @@ public class UserDetailsActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         //networkController.unregisterNetworkReceiver();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        userDetailsActivityPresenter.destroy();
     }
 
     @Override

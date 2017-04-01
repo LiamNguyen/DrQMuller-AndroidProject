@@ -7,14 +7,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.data.repository.AppointmentRepositoryImpl;
 import com.lanthanh.admin.icareapp.data.repository.UserRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
+import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.presentation.Function;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentFragment;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.DefaultAppointmentFragment;
 import com.lanthanh.admin.icareapp.presentation.homepage.usertab.UserFragment;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
 
 import java.util.ArrayList;
@@ -33,6 +36,7 @@ public class MainActivityPresenter extends BasePresenter {
     private UserFragment userFragment;
 
     private UserRepository userRepository;
+    private AppointmentRepository appointmentRepository;
     private Interactor interactor;
 
     public MainActivityPresenter(MainActivity activity){
@@ -46,17 +50,34 @@ public class MainActivityPresenter extends BasePresenter {
         userFragment = new UserFragment();
 
         userRepository = new UserRepositoryImpl(this.activity);
+        appointmentRepository =  new AppointmentRepositoryImpl(this.activity);
         interactor = new Interactor();
     }
 
     @Override
     public void resume() {
+        if (!userFragment.isVisible()) {
+            showBookingTab();
+        }
+    }
 
+    public void showBookingTab() {
+        getAppointmentList(
+                list -> {
+                    if (list == null || list.size() == 0) {
+                        navigateFragment(DefaultAppointmentFragment.class);
+                    } else {
+                        navigateFragment(AppointmentFragment.class);
+                    }
+                }
+        );
     }
 
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {
-        if (fragmentClass == AppointmentFragment.class || fragmentClass == DefaultAppointmentFragment.class)
+        if (fragmentClass == DefaultAppointmentFragment.class)
             showFragment(defaultAppointmentFragment);
+        else if (fragmentClass == AppointmentFragment.class)
+            showFragment(appointmentFragment);
         else if (fragmentClass == UserFragment.class)
             showFragment(userFragment);
     }
@@ -141,63 +162,29 @@ public class MainActivityPresenter extends BasePresenter {
         );
     }
 
+    public void getAppointmentList(Function.Void<List<DTOAppointment>> callback) {
+        interactor.execute(
+            () -> appointmentRepository.getAppointments(),
+            callback::apply,
+            error -> {}
+        );
+    }
+
     @Override
     public void destroy() {
         super.destroy();
         interactor.dispose();
     }
 
-    //    @Override
-//    public void updateAppointmentList() {
-//        //Get local appointment list
-//        List<DTOAppointment> dtoAppointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
-//
-//        if ( dtoAppointmentsList != null) {
-//            appointmentFragment.updateList(dtoAppointmentsList);
-//        }else{
-//            mView.showFragment(fragmentManager, defaultAppointmentFragment, getVisibleFragments());
-//        }
-//    }
-//
-//    @Override
-//    public void cancelAppointment(int appointmentId) {
-//        mView.showProgress();
-//        CancelAppointmentInteractor cancelAppointmentInteractor = new CancelAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointmentId);
-//        cancelAppointmentInteractor.execute();
-
-//
-//    public void onCancelAppointmentFail() {
-//        try {
-//            mView.hideProgress();
-//            Log.e(TAG, "Cancel appointment fail");
-//        }catch (Exception e){
-//            Log.w(TAG, e.toString());
-//        }
-//    }
-//
-//    public void onCancelAppointmentSuccess(int appointmentId) {
-//        try {
-//            mView.hideProgress();
-//            //Get appointment from local shared pref
-//            List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
-//            if (appointmentsList == null)
-//                return;
-//            //Remove appointment
-//            int index = -1;
-//            for (int i = 0; i < appointmentsList.size(); i++){
-//                if (appointmentsList.get(i).getAppointmentId() == appointmentId){
-//                    index = i;
-//                    break;
-//                }
-//            }
-//            if (index != -1)
-//                appointmentsList.remove(index);
-//            //Put to shared pref
-//            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList, mUser.getID());
-//            //Update list
-//            //updateAppointmentList();
-//        }catch (Exception e){
-//            Log.w(TAG, e.toString());
-//        }
-//    }
+    public void cancelAppointment() {
+        this.activity.showProgress();
+        interactor.execute(
+            () -> appointmentRepository.cancelAppointment(),
+            success -> {
+                this.activity.hideProgress();
+                showBookingTab();
+            },
+            error -> this.activity.showProgress()
+        );
+    }
 }

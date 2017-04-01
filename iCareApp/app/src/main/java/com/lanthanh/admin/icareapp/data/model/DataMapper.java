@@ -1,7 +1,8 @@
 package com.lanthanh.admin.icareapp.data.model;
 
-import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
-import com.lanthanh.admin.icareapp.presentation.model.DTOAppointmentSchedule;
+import com.lanthanh.admin.icareapp.utils.converter.ConverterForDisplay;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointmentSchedule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +40,8 @@ public class DataMapper {
         }
         return new BookedAppointment(
                 appointment.getUser().getId(),
-                appointment.getStartDate(),
-                appointment.getExpireDate(),
+                ConverterForDisplay.convertDateForDb(appointment.getStartDate()),
+                ConverterForDisplay.convertDateForDb(appointment.getExpireDate()),
                 appointment.getType().getTypeId(),
                 appointment.getLocation().getLocationId(),
                 appointment.getVoucher().getVoucherId(),

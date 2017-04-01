@@ -12,9 +12,9 @@ import com.lanthanh.admin.icareapp.data.repository.AppointmentRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.presentation.Function;
-import com.lanthanh.admin.icareapp.presentation.model.DTOAppointmentSchedule;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
-import com.lanthanh.admin.icareapp.presentation.converter.ConverterForDisplay;
+import com.lanthanh.admin.icareapp.utils.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
@@ -26,6 +26,7 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTime;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOWeekDay;
+import com.lanthanh.admin.icareapp.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +37,7 @@ import java.util.List;
  * Created by ADMIN on 24-Jan-17.
  */
 
-public class BookingActivityPresenterImpl extends BasePresenter{
+public class BookingActivityPresenter extends BasePresenter{
     private BookingActivity activity;
     private Calendar startDate, expireDate;
 
@@ -48,7 +49,7 @@ public class BookingActivityPresenterImpl extends BasePresenter{
     private AppointmentRepository appointmentRepository;
     private Interactor interactor;
 
-    public BookingActivityPresenterImpl(BookingActivity activity) {
+    public BookingActivityPresenter(BookingActivity activity) {
         this.activity = activity;
         init();
     }
@@ -390,13 +391,17 @@ public class BookingActivityPresenterImpl extends BasePresenter{
                     int totalItems = this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size();
                     String latest = this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().get(totalItems - 1).toString();
                     this.activity.onAddCartItem(latest);
+                    if (this.activity.getProvider().getCurrentAppointment().isMachineFilled())
+                        bookingBookFragment.enableFinishButton(true);
+                    else
+                        bookingBookFragment.enableFinishButton(false);
                 }
             },
             error -> {}
         );
     }
 
-    public void releaseTime(String item, Function.Void<String> callback) {
+    public void releaseTime(String item, Function.Void<String> removeItem) {
         //Set responsive color for item being removed
         this.activity.onRemoveCartItemColor(false);
         //Get appointment schedule
@@ -406,10 +411,16 @@ public class BookingActivityPresenterImpl extends BasePresenter{
             interactor.execute(
                     () -> appointmentRepository.releaseTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(), Arrays.asList(dtoAppointmentSchedule)),
                     success -> {
-                        callback.apply(item);
-                        bookingBookFragment.expandGroup(0, true);
-                        //Update DTO
-                        this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().remove(dtoAppointmentSchedule);
+                        if (success == RepositorySimpleStatus.SUCCESS) {
+                            removeItem.apply(item);
+                            bookingBookFragment.expandGroup(0, true);
+                            //Update DTO
+                            this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().remove(dtoAppointmentSchedule);
+                            if (this.activity.getProvider().getCurrentAppointment().isMachineFilled())
+                                bookingBookFragment.enableFinishButton(true);
+                            else
+                                bookingBookFragment.enableFinishButton(false);
+                        }
                     },
                     error -> {}
             );
@@ -427,13 +438,13 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         return null;
     }
 
-    public void emptyCart(Function.VoidParam callback) {
+    public void emptyCart(Function.VoidParam clearCart) {
         //Remove on DB
         interactor.execute(
                 () -> appointmentRepository.releaseTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
                         this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList()),
                 success -> {
-                    callback.apply();
+                    clearCart.apply();
                     bookingBookFragment.expandGroup(0, true);
                     //Update DTO
                     this.activity.getProvider().getCurrentAppointment().setAppointmentScheduleList(null);
@@ -443,64 +454,32 @@ public class BookingActivityPresenterImpl extends BasePresenter{
         );
     }
 
-    //TODO remember to impl validate appointment
+    public void validateAppointment() {
+        interactor.execute(
+            () -> appointmentRepository.validateAppointment(),
+            success -> {
+                if (success == RepositorySimpleStatus.SUCCESS)
+                    Log.i(this.getClass().getName(), "Validate appointment successfully");
+            },
+            error -> {}
+        );
+    }
 
-    public void insertAppointment() {
+    public void createAppointment() {
         this.activity.showProgress();
-//        mUser = customerManager.getLocalUserFromPref(sharedPreferences);
-//        appointment.setCustomer(mUser);
-//        do{
-//            appointment.generateVerficationCode();
-//        }while (checkVerificationCodeExistence(appointment.getVerficationCode()));
-//        if (appointment.getStartDate() == null)
-//            appointment.setStartDate(ConverterForDisplay.convertStringToDate("11-11-1111"));
-//        InsertAppointmentInteractor insertAppointmentInteractor = new InsertAppointmentInteractorImpl(mExecutor, mMainThread, this, appointmentManager, appointment);
-//        insertAppointmentInteractor.execute();
+        this.activity.getProvider().getCurrentAppointment().setVerificationCode(NetworkUtils.generateVerificationCode());
+        if (this.activity.getProvider().getCurrentAppointment().getStartDate() == null) {
+            this.activity.getProvider().getCurrentAppointment().setStartDate(ConverterForDisplay.convertStringToDate("11-11-1111"));
+        }
+        interactor.execute(
+                () -> appointmentRepository.createAppointment(this.activity.getProvider().getCurrentAppointment()),
+                success -> {
+                    this.activity.hideProgress();
+                    if (success == RepositorySimpleStatus.SUCCESS) {
+                        navigateActivity(ConfirmBookingActivity.class);
+                    }
+                },
+                error -> this.activity.hideProgress()
+        );
     }
-
-    public boolean checkVerificationCodeExistence(String verificationCode) {
-//        //Get appointment from local shared pref
-//        List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
-//        if (appointmentsList == null)
-//            return false;
-//        else{
-//            for (DTOAppointment appointment: appointmentsList){
-//                if (appointment.getVerficationCode().equals(verificationCode))
-//                    return true;
-//            }
-//        }
-        return false;
-    }
-
-
-
-//    public void onInsertAppointmentSuccess(int appointmentId) {
-//        try {
-//            this.activity.hideProgress();
-//            //Send mail to staff
-////            SendEmailNotifyBookingInteractor sendEmailNotifyBookingInteractor = new SendEmailNotifyBookingInteractorImpl(mExecutor, mMainThread, this, sendEmailManager, appointment);
-////            sendEmailNotifyBookingInteractor.execute();
-//
-//            //Get appointment from local shared pref
-//            List<DTOAppointment> appointmentsList = appointmentManager.getLocalAppointmentsFromPref(sharedPreferences, mUser.getID());
-//            if (appointmentsList == null)
-//                appointmentsList = new ArrayList<>();
-//            //Add appointment to a list of appointments
-//            appointment.setAppointmentId(appointmentId);
-//            appointmentsList.add(appointment);
-//            //Put to shared pref
-//            appointmentManager.saveLocalAppointmentsToPref(sharedPreferences, appointmentsList, mUser.getID());
-//            //reset appointment
-//            appointment = new DTOAppointment();
-//            //empty cart
-//            emptyCart();
-//            //move to confirm activity
-//            this.activity.navigateActivity(ConfirmBookingActivity.class);
-//        }catch (Exception e){
-//            Log.w(TAG, e.toString());
-//        }
-//    }
-
-
-
 }

@@ -51,7 +51,7 @@
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/confirm_button"
                     android:text="@string/booking_confirm_button"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@drawable/button_text_style"
                     android:background="@drawable/button_style"
                     android:textSize="18sp"
                     android:layout_width="match_parent"

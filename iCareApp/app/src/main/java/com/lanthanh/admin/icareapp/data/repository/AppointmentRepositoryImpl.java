@@ -1,7 +1,6 @@
 package com.lanthanh.admin.icareapp.data.repository;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.lanthanh.admin.icareapp.data.model.DataMapper;
 import com.lanthanh.admin.icareapp.data.repository.datasource.LocalStorage;
@@ -11,8 +10,8 @@ import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.application.iCareApplication;
-import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
-import com.lanthanh.admin.icareapp.presentation.model.DTOAppointmentSchedule;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
@@ -185,21 +184,68 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public Observable<RepositorySimpleStatus> validateAppointment() {
-        return null;
+        return restClient.validateAppointment();
     }
 
     @Override
-    public Observable<String> createAppointment(DTOAppointment appointment) {
-        return null;
+    public Observable<RepositorySimpleStatus> createAppointment(DTOAppointment appointment) {
+        UserInfo user = localStorage.getUserFromLocal();
+        provider.getCurrentAppointment().setUser(user);
+        return restClient.createAppointment(user.getToken(), dataMapper.transform(appointment)).map(
+                resp -> {
+                    if (!resp.isEmpty()) {
+                        List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
+                        provider.getCurrentAppointment().setAppointmentId(resp);
+                        appointmentList.add(provider.getCurrentAppointment());
+                        localStorage.saveAppointmentsToLocal(appointmentList);
+                        return RepositorySimpleStatus.SUCCESS;
+                    }
+                    return RepositorySimpleStatus.UNKNOWN_ERROR;
+                }
+        );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> confirmAppointment(int appointmentId) {
-        return null;
+    public Observable<RepositorySimpleStatus> confirmAppointment() {
+        UserInfo user = localStorage.getUserFromLocal();
+        return restClient.confirmAppointment(user.getToken(), user.getId(), this.provider.getCurrentAppointment().getAppointmentId()).map(
+                resp -> {
+                    if (resp == RepositorySimpleStatus.SUCCESS) {
+                        List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
+                        for (DTOAppointment appointment: appointmentList) {
+                            if (appointment.getAppointmentId().equals(this.provider.getCurrentAppointment().getAppointmentId())) {
+                                appointment.setStatus(true);
+                                break;
+                            }
+                        }
+                        localStorage.saveAppointmentsToLocal(appointmentList);
+                        this.provider.setCurrentAppointment(null);
+                        return RepositorySimpleStatus.SUCCESS;
+                    }
+                    return RepositorySimpleStatus.UNKNOWN_ERROR;
+                }
+        );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> cancelAppointment(int appointmentId) {
-        return null;
+    public Observable<RepositorySimpleStatus> cancelAppointment() {
+        UserInfo user = localStorage.getUserFromLocal();
+        return restClient.confirmAppointment(user.getToken(), user.getId(), this.provider.getCurrentAppointment().getAppointmentId()).map(
+                resp -> {
+                    if (resp == RepositorySimpleStatus.SUCCESS) {
+                        List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
+                        appointmentList.removeIf(appointment -> appointment.getAppointmentId().equals(this.provider.getCurrentAppointment().getAppointmentId()));
+                        localStorage.saveAppointmentsToLocal(appointmentList);
+                        this.provider.setCurrentAppointment(null);
+                        return RepositorySimpleStatus.SUCCESS;
+                    }
+                    return RepositorySimpleStatus.UNKNOWN_ERROR;
+                }
+        );
+    }
+
+    @Override
+    public Observable<List<DTOAppointment>> getAppointments() {
+        return Observable.just(localStorage.getAppointmentsFromLocal());
     }
 }

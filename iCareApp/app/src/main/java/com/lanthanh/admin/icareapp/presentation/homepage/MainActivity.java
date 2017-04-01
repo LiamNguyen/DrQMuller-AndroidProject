@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity{
                     case R.id.action_booking:
                         bottomNavigationView.getMenu().getItem(USERTAB).setChecked(false);
                         bottomNavigationView.getMenu().getItem(APPOINTMENTTAB).setChecked(true);
-                        mainActivityPresenter.navigateFragment(AppointmentFragment.class);
+                        mainActivityPresenter.showBookingTab();
                         break;
                     case R.id.action_user:
                         bottomNavigationView.getMenu().getItem(APPOINTMENTTAB).setChecked(false);
@@ -62,7 +62,6 @@ public class MainActivity extends BaseActivity{
         );
         bottomNavigationView.getMenu().getItem(NEWSTAB).setChecked(false);
         bottomNavigationView.getMenu().getItem(APPOINTMENTTAB).setChecked(true);
-        mainActivityPresenter.navigateFragment(DefaultAppointmentFragment.class);//TODO this is only for testing, plz change for appropriate set up
     }
 
     public void init(){
@@ -76,63 +75,7 @@ public class MainActivity extends BaseActivity{
     @Override
     protected void onResume() {
         super.onResume();
-//        //networkController.registerNetworkReceiver();
-//        mMainPresenter.resume();
-//
-//        Intent i = getIntent();
-//        if (i != null) {
-//            Bundle b = i.getExtras();
-//
-//            if (b == null) {
-//                //Check user's privilege to use the app. If false (NOT log in or NOT activate account), return to register
-//                if (!mMainPresenter.checkPrivilege()) {
-//                    mMainPresenter.navigateToRegisterActivity();
-//                } else {
-//                    showCurrentTab();
-//                }
-//            } else {
-//                if (b.containsKey(RegisterActivity.TAG)) {
-//                    Bundle bundle = b.getBundle(RegisterActivity.TAG);
-//                    if (bundle != null) {
-//                        int n = bundle.getInt(RegisterActivity.LOGIN_STATUS);
-//                        if (n == RegisterActivity.LOGGED_IN) {
-//                            onNavigationItemSelected(bottomNavigationView.getMenu().getItem(APPOINTMENTTAB));
-//                        }
-//                    }
-//                } else if (b.containsKey(UserDetailsActivity.TAG)) {
-//                    if (b.getBoolean(UserDetailsActivity.TAG))
-//                        onNavigationItemSelected(bottomNavigationView.getMenu().getItem(USERTAB));
-//                } else if (b.containsKey(ConfirmBookingActivity.TAG)) {
-//                    int m = b.getInt(ConfirmBookingActivity.TAG, 0);
-//                    if (m == ConfirmBookingActivity.CONFIRMED) {
-//                        new AlertDialog.Builder(this)
-//                                .setMessage(getString(R.string.booking_success))
-//                                .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        dialog.dismiss();
-//                                    }
-//                                }).setCancelable(false).show();
-//                    } else {
-//                        new AlertDialog.Builder(this)
-//                                .setMessage(getString(R.string.booking_fail))
-//                                .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        dialog.dismiss();
-//                                    }
-//                                }).setCancelable(false).show();
-//                    }
-//                    onNavigationItemSelected(bottomNavigationView.getMenu().getItem(APPOINTMENTTAB));
-//                }else{
-//                    //Check user's privilege to use the app. If false (NOT log in or NOT activate account), return to register
-//                    if (!mMainPresenter.checkPrivilege()) {
-//                        mMainPresenter.navigateToRegisterActivity();
-//                    } else {
-//                        showCurrentTab();
-//                    }
-//                }
-//            }
-//        }
-//        setIntent(null);
+        mainActivityPresenter.resume();
     }
 
     @Override
@@ -157,22 +100,6 @@ public class MainActivity extends BaseActivity{
         startActivity(startMain);
         finish();
     }
-
-    public int getSelectedTab() {
-        Menu menu = bottomNavigationView.getMenu();
-        for (int i = 0; i < menu.size(); i++) {
-            if (menu.getItem(i).isChecked()) {
-                return i;
-            }
-        }
-        return 1;
-    }
-
-//    @Override
-//    public void showCurrentTab() {
-//        int selected = getSelectedTab();
-//        onNavigationItemSelected(bottomNavigationView.getMenu().getItem(selected));
-//    }
 
     //Call in case losing network and then connected again
     public void refreshAfterNetworkConnected(){

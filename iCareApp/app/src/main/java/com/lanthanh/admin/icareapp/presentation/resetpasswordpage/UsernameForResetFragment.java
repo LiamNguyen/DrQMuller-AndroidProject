@@ -14,8 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.presentation.presenter.ResetPasswordActivityPresenter;
-import com.lanthanh.admin.icareapp.presentation.resetpasswordpage.ResetPasswordActivity;
-import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
+import com.lanthanh.admin.icareapp.presentation.model.InputRequirement;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
@@ -90,7 +89,7 @@ public class UsernameForResetFragment extends Fragment implements TextWatcher, V
             String get_username = s.toString();
             get_username.trim();
             if (!get_username.equals("")) {
-                if (get_username.matches(ModelInputRequirement.USERNAME)) {
+                if (get_username.matches(InputRequirement.USERNAME)) {
                     username.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_white_36dp, 0, R.drawable.ic_valid_input, 0);
                     username_container.setErrorEnabled(false);
                     validUN = true;

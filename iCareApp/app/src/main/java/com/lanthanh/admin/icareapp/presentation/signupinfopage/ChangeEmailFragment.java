@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
-import com.lanthanh.admin.icareapp.presentation.model.ModelInputRequirement;
+import com.lanthanh.admin.icareapp.presentation.model.InputRequirement;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
@@ -63,7 +63,7 @@ public class ChangeEmailFragment extends BaseFragment<UserInfoActivityPresenter>
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String email = editEmail.getText().toString().trim();
                 if (!email.equals("")){
-                    if (email.matches(ModelInputRequirement.EMAIL)){
+                    if (email.matches(InputRequirement.EMAIL)){
                         editEmail.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_local_post_office_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
                         editEmailContainer.setErrorEnabled(false);
                         validEmail = true;

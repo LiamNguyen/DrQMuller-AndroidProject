@@ -136,43 +136,12 @@ public class WelcomeActivity extends BaseActivity {
         outState.putString(CURRENT_FRAGMENT_KEY, CURRENT_FRAGMENT);
     }
 
-    //    public void navigateActivity(Class activityClass) {
-//        hideProgress();
-//        Intent toActivity = new Intent(this, activityClass);
-//        hideSoftKeyboard();
-//        startActivity(toActivity);
-//        finish();
-//    }
-//
-//
-//    public void navigateActivity(Class activityClass, Bundle extras) {
-//        hideProgress();
-//        Intent toActivity = new Intent(this, activityClass);
-//        hideSoftKeyboard();
-//        if (activityClass == UserInfoActivity.class || activityClass == MainActivity.class) {
-//            toActivity.putExtra(TAG, extras);
-//        }
-//        startActivity(toActivity);
-//        finish();
-//    }
-
-
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
-    }
-
-    public void showAlertDialog(int id) {
-        new AlertDialog.Builder(this)
-                .setMessage(getString(id))
-                .setPositiveButton(getString(R.string.close_dialog), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).setCancelable(false).show();
     }
 
     //Hide/show tool bar

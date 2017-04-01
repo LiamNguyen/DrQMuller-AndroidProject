@@ -48,8 +48,7 @@ public class AppointmentDialogFragment extends DialogFragment {
     private Unbinder unbinder;
 
 
-    public AppointmentDialogFragment(){
-    }
+    public AppointmentDialogFragment(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,19 +90,17 @@ public class AppointmentDialogFragment extends DialogFragment {
                 clickedView -> {
                     new AlertDialog.Builder(getActivity())
                             .setMessage(getString(R.string.cancel_confirm))
-                            .setPositiveButton(getString(R.string.agree_button), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                            .setPositiveButton(
+                                getString(R.string.agree_button),
+                                (DialogInterface dialog, int which) -> {
                                     getDialog().dismiss();
-//                                    ((MainActivity) getActivity()).getMainPresenter().cancelAppointment(getArguments().getInt("appointmentId"));//TODO check this
+                                    ((MainActivity) getActivity()).getMainPresenter().cancelAppointment();
                                 }
-                            })
-                            .setNegativeButton(getString(R.string.abort_button), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
+                            )
+                            .setNegativeButton(
+                                    getString(R.string.no_button),
+                                    (DialogInterface dialog, int which) -> dialog.dismiss()
+                            )
                             .setCancelable(true).show();
                 }
         );
@@ -117,7 +114,7 @@ public class AppointmentDialogFragment extends DialogFragment {
 
         if (getArguments().getString("start_date") != null) {
             if (getArguments().getString("start_date").equals("11/11/1111")) {
-                startDate.setVisibility(View.GONE);
+                startDateTitle.setVisibility(View.GONE);
                 startDate.setVisibility(View.GONE);
                 //If start date = null => one day booking => while hiding start date, move expire date to the left
                 //rename to Ngay thuc hien

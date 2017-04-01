@@ -13,7 +13,7 @@ import android.widget.Spinner;
 
 import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
-import com.lanthanh.admin.icareapp.presentation.converter.TimeComparator;
+import com.lanthanh.admin.icareapp.utils.TimeComparator;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOMachine;
 import com.lanthanh.admin.icareapp.presentation.adapter.CustomSpinnerAdapter;
@@ -28,7 +28,7 @@ import butterknife.Unbinder;
  * Created by ADMIN on 13-Nov-16.
  */
 
-public class BookingBookFragment extends BaseFragment<BookingActivityPresenterImpl> implements AdapterView.OnItemSelectedListener{
+public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> implements AdapterView.OnItemSelectedListener{
     @BindView(R.id.booking_finish_button) AppCompatButton finishButton;
     @BindView(R.id.spinner_machine) Spinner machineSpinner;
     @BindView(R.id.expListView) ExpandableListView expandableListView;
@@ -60,8 +60,7 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenterIm
                 if (this.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() <= 0){
                     showToast(getString(R.string.min_item));
                 }else {
-                    //getMainPresenter()
-                    //bookingActivityPresenter.insertAppointment();
+                    getMainPresenter().createAppointment();
                 }
         });
         finishButton.setEnabled(false);
@@ -92,7 +91,7 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenterIm
         expandableListView.setOnGroupClickListener(
             (ExpandableListView expandableListView, View view, int groupPosition, long groupId) -> {
                 //Check whether machine has been selected. If not selected
-                if (!getProvider().getCurrentAppointment().isMachineFilled()){
+                if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() == null){
                     showToast(getString(R.string.machine_alert));
                     return true;
                 }
@@ -130,13 +129,21 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenterIm
     }
 
     @Override
-    public BookingActivityPresenterImpl getMainPresenter() {
+    public BookingActivityPresenter getMainPresenter() {
         return ((BookingActivity) getActivity()).getMainPresenter();
     }
 
     @Override
     public ApplicationProvider getProvider() {
         return ((BookingActivity) getActivity()).getProvider();
+    }
+
+    public void enableFinishButton(boolean shouldEnable) {
+        if (shouldEnable) {
+            finishButton.setEnabled(true);
+        } else {
+            finishButton.setEnabled(false);
+        }
     }
 
     @Override

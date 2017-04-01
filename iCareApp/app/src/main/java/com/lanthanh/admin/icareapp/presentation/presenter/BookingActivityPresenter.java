@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.lanthanh.admin.icareapp.presentation.model.DTOAppointment;
-import com.lanthanh.admin.icareapp.presentation.model.DTOAppointmentSchedule;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.presentation.base.Presenter;
 import com.lanthanh.admin.icareapp.presentation.base.BaseView;
 

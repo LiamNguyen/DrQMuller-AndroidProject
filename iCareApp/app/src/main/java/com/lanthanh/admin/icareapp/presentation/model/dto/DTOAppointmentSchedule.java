@@ -1,4 +1,4 @@
-package com.lanthanh.admin.icareapp.presentation.model;
+package com.lanthanh.admin.icareapp.presentation.model.dto;
 
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOMachine;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTime;

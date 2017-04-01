@@ -1,13 +1,6 @@
-package com.lanthanh.admin.icareapp.presentation.model;
+package com.lanthanh.admin.icareapp.presentation.model.dto;
 
-//import com.auth0.jwt.internal.org.apache.commons.lang3.RandomStringUtils;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOLocation;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOMachine;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
+import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
 
 
 import java.util.ArrayList;
@@ -20,7 +13,7 @@ import java.util.List;
 
 public class DTOAppointment {
     private UserInfo user;
-    private int appointmentId;
+    private String appointmentId;
     private DTOCountry country;
     private DTOCity city;
     private DTODistrict district;
@@ -46,11 +39,11 @@ public class DTOAppointment {
         this.user = user;
     }
 
-    public int getAppointmentId() {
+    public String getAppointmentId() {
         return appointmentId;
     }
 
-    public void setAppointmentId(int appointmentId) {
+    public void setAppointmentId(String appointmentId) {
         this.appointmentId = appointmentId;
     }
 
@@ -135,8 +128,8 @@ public class DTOAppointment {
         return verificationCode;
     }
 
-    public void setVerificationCode() {
-       // this.verificationCode = RandomStringUtils.randomAlphanumeric(10).toUpperCase();
+    public void setVerificationCode(String code) {
+        this.verificationCode = code;
     }
 
     public boolean getStatus() {
@@ -173,6 +166,6 @@ public class DTOAppointment {
     }
 
     public boolean isMachineFilled(){
-        return currentSchedule != null && currentSchedule.getBookedMachine() != null;
+        return appointmentScheduleList != null && appointmentScheduleList.size() > 0;
     }
 }
