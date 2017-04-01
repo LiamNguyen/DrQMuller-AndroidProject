@@ -10,6 +10,9 @@ import com.lanthanh.admin.icareapp.data.restapi.impl.RestClientImpl;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -89,6 +92,18 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Observable<RepositorySimpleStatus> updateCustomerInfo(String name, String address, String dob, String gender, String email, String phone) {
         UserInfo user = localStorage.getUserFromLocal();
-        return restClient.updateCustomerInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), name, address, dob, gender, email, phone);
+        return restClient.updateCustomerInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), name, address, dob, gender, email, phone).map(
+            resp -> {
+                if (resp == RepositorySimpleStatus.SUCCESS) {
+                    List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
+                    for (DTOAppointment appointment: appointmentList) {
+                        appointment.setUser(localStorage.getUserFromLocal());
+                    }
+                    localStorage.saveAppointmentsToLocal(appointmentList);
+                    return RepositorySimpleStatus.SUCCESS;
+                }
+                return RepositorySimpleStatus.UNKNOWN_ERROR;
+            }
+        );
     }
 }

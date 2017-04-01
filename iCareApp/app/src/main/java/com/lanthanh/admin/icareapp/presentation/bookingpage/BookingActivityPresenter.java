@@ -438,13 +438,18 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     public void emptyCart(Function.VoidParam clearCart) {
-        //Remove on DB
-        interactor.execute(
-                () -> appointmentRepository.releaseTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
-                        this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList()),
-                success -> clearCart.apply(),
-                error -> {}
-        );
+        if (this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() > 0) {
+            //Remove on DB
+            interactor.execute(
+                    () -> appointmentRepository.releaseTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
+                            this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList()),
+                    success -> clearCart.apply(),
+                    error -> {
+                    }
+            );
+        } else {
+            clearCart.apply();
+        }
     }
 
     public void validateAppointment() {

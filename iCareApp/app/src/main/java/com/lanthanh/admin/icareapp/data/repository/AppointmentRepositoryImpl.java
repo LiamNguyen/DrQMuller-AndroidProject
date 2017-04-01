@@ -141,7 +141,10 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                         available.addAll(provider.getAllTime());
                     }
                     for (DTOTime time : resp) {
-                        available.removeIf(_time -> _time.getTimeId() == time.getTimeId());
+                        for (DTOTime _time : new ArrayList<>(available)) {
+                            if (_time.getTimeId() == time.getTimeId())
+                                available.remove(_time);
+                        }
                     }
                     return available;
                 }
@@ -156,7 +159,10 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                     resp -> {
                         provider.setWeekDays(new ArrayList<>(resp));
                         if (provider.getCurrentAppointment().getVoucher().getVoucherId() == 1) {
-                            resp.removeIf(day -> day.getDayId() == 6 || day.getDayId() == 7);
+                            for (DTOWeekDay day : new ArrayList<>(resp)) {
+                                if (day.getDayId() == 6 || day.getDayId() == 7)
+                                    resp.remove(day);
+                            }
                         }
                         return resp;
                     }
@@ -164,7 +170,10 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
         } else {
             list.addAll(provider.getWeekDays());
             if (provider.getCurrentAppointment().getVoucher().getVoucherId() == 1) {
-                list.removeIf(day -> day.getDayId() == 6 || day.getDayId() == 7);
+                for (DTOWeekDay day : new ArrayList<>(list)) {
+                    if (day.getDayId() == 6 || day.getDayId() == 7)
+                        list.remove(day);
+                }
             }
             return Observable.just(list);
         }
@@ -234,7 +243,10 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                 resp -> {
                     if (resp == RepositorySimpleStatus.SUCCESS) {
                         List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
-                        appointmentList.removeIf(appointment -> appointment.getAppointmentId().equals(this.provider.getCurrentAppointment().getAppointmentId()));
+                        for (DTOAppointment appointment : new ArrayList<>(appointmentList)) {
+                            if (appointment.getAppointmentId().equals(this.provider.getCurrentAppointment().getAppointmentId()))
+                                appointmentList.remove(appointment);
+                        }
                         localStorage.saveAppointmentsToLocal(appointmentList);
                         this.provider.setCurrentAppointment(null);
                         return RepositorySimpleStatus.SUCCESS;
