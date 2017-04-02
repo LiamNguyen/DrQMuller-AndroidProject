@@ -83,7 +83,7 @@ public class UserDetailsActivity extends BaseActivity {
         setSupportActionBar(toolBar);
         toolBar.setBackgroundColor(getResources().getColor(R.color.colorWhite));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp);
+        getSupportActionBar().setHomeAsUpIndicator(backDrawable);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
