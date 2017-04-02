@@ -1,4 +1,4 @@
-package com.lanthanh.admin.icareapp.presentation;
+package com.lanthanh.admin.icareapp.utils;
 
 /**
  * @author longv
