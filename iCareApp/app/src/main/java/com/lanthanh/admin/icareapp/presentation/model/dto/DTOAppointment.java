@@ -26,9 +26,12 @@ public class DTOAppointment {
     private String verificationCode;
     private boolean status;
 
+    private boolean isEmailSent;
+
     public DTOAppointment(){
         appointmentScheduleList = new ArrayList<>();
         status = false;
+        isEmailSent = false;
     }
 
     public UserInfo getUser() {
@@ -111,6 +114,13 @@ public class DTOAppointment {
         this.expireDate = expireDate;
     }
 
+    public boolean isEmailSent() {
+        return isEmailSent;
+    }
+
+    public void setEmailSent(boolean emailSent) {
+        isEmailSent = emailSent;
+    }
 
     public DTOAppointmentSchedule getCurrentSchedule() {
         if (currentSchedule == null) {
