@@ -33,6 +33,7 @@ public class DobFragment extends DialogFragment {
     @BindView(R.id.ud_cancel_button) TextView cancelButton;
     @BindView(R.id.ud_confirm_button) TextView confirmButton;
     @BindView(R.id.datePicker) DatePicker datePicker;
+    @BindView(R.id.ud_dob_noti) TextView dobInvalid;
 
     private String date;
     private Unbinder unbinder;
@@ -44,7 +45,7 @@ public class DobFragment extends DialogFragment {
         super.onResume();
         //Set up dialog size and position
         if (GraphicUtils.getScreenSizeWidth(getActivity()) <= 720 && GraphicUtils.getScreenSizeHeight(getActivity()) <= 1200)
-            getDialog().getWindow().setLayout(650, 750);
+            getDialog().getWindow().setLayout(650, 800);
         else
             getDialog().getWindow().setLayout(850, 950);
         getDialog().getWindow().setGravity(Gravity.CENTER);
@@ -88,8 +89,12 @@ public class DobFragment extends DialogFragment {
         cancelButton.setOnClickListener(_view -> getDialog().dismiss());
         confirmButton.setOnClickListener(
             _view -> {
-                ((UserDetailsActivity) getActivity()).setDobValue(date);
-                getDialog().dismiss();
+                if (date == null || date.isEmpty()) {
+                    dobInvalid.setVisibility(View.VISIBLE);
+                } else {
+                    ((UserDetailsActivity) getActivity()).setDobValue(date);
+                    getDialog().dismiss();
+                }
             }
         );
     }

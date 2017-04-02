@@ -25,6 +25,16 @@
         android:spinnersShown="true"
         android:calendarViewShown="false"/>
 
+    <TextView
+        android:id="@+id/ud_dob_noti"
+        android:text="@string/dob_null"
+        android:textColor="@color/colorLightBlack"
+        android:textSize="15sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_gravity="end"

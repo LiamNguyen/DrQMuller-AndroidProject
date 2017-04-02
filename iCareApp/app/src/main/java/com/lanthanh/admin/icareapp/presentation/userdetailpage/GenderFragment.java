@@ -33,6 +33,7 @@ public class GenderFragment extends DialogFragment {
     @BindView(R.id.ud_female) RadioButton femaleButton;
     @BindView(R.id.ud_cancel_button) TextView cancelButton;
     @BindView(R.id.ud_confirm_button) TextView confirmButton;
+    @BindView(R.id.ud_gender_noti) TextView genderInvalid;
 
     private Unbinder unbinder;
 
@@ -83,12 +84,16 @@ public class GenderFragment extends DialogFragment {
         cancelButton.setOnClickListener(_view -> getDialog().dismiss());
         confirmButton.setOnClickListener(
             _view -> {
-                if (maleButton.isChecked()){
-                    ((UserDetailsActivity) getActivity()).setGenderValue(getActivity().getString(R.string.male));
-                }else{
-                    ((UserDetailsActivity) getActivity()).setGenderValue(getActivity().getString(R.string.female));
+                if (maleButton.isChecked() || femaleButton.isChecked()) {
+                    if (maleButton.isChecked()) {
+                        ((UserDetailsActivity) getActivity()).setGenderValue(getActivity().getString(R.string.male));
+                    } else {
+                        ((UserDetailsActivity) getActivity()).setGenderValue(getActivity().getString(R.string.female));
+                    }
+                    getDialog().dismiss();
+                } else {
+                    genderInvalid.setVisibility(View.VISIBLE);
                 }
-                getDialog().dismiss();
             }
         );
     }

@@ -45,6 +45,16 @@
             />
     </RadioGroup>
 
+    <TextView
+        android:id="@+id/ud_gender_noti"
+        android:text="@string/gender_null"
+        android:textSize="15sp"
+        android:textColor="@color/colorLightBlack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
