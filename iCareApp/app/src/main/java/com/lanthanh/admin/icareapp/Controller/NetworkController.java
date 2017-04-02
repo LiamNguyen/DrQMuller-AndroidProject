@@ -11,7 +11,7 @@ import android.net.NetworkInfo;
 import android.support.v7.app.AlertDialog;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.view.activity.MainActivity;
+import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 
 /**
  * Created by ADMIN on 18-Dec-16.

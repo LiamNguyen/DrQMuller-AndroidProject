@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:paddingTop="18dp"
+    android:paddingEnd="18dp"
+    android:paddingStart="18dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/ud_gender_txt"
@@ -18,7 +20,7 @@
         android:id="@+id/ud_radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:gravity="center">
         <RadioButton
             android:id="@+id/ud_male"
@@ -48,19 +50,32 @@
         android:text="@string/gender_null"
         android:textSize="15sp"
         android:textColor="@color/colorLightBlack"
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:visibility="gone"/>
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/button_close"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:textColor="@color/colorWhite"
-        android:background="@drawable/button_style"
-        android:textSize="18sp"
-        android:text="@string/close_dialog"/>
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/ud_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorLightBlack"
+            android:text="@string/abort_button"/>
+
+        <TextView
+            android:id="@+id/ud_confirm_button"
+            android:layout_marginStart="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/change_button"/>
+    </LinearLayout>
 </LinearLayout>

@@ -3,12 +3,13 @@ package com.lanthanh.admin.icareapp.utils;
 import android.net.Uri;
 import android.util.Log;
 
-import com.lanthanh.admin.icareapp.domain.model.DTOAppointmentSchedule;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointmentSchedule;
 
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,7 +68,7 @@ public class NetworkUtils {
     public static List<int[]> convertToBookingTimeArray(List<DTOAppointmentSchedule> appointmentSchedulesList){
         List<int[]> result = new ArrayList<>();
         for (DTOAppointmentSchedule schedule : appointmentSchedulesList){
-            int[] i = {schedule.getDayId(), schedule.getHourId()};
+            int[] i = {schedule.getBookedDay().getDayId(), schedule.getBookedTime().getTimeId(), schedule.getBookedMachine().getMachineId()};
             result.add(i);
         }
         return result;
@@ -93,5 +94,19 @@ public class NetworkUtils {
         Log.v(TAG, "Built URI " + url);
 
         return url;
+    }
+
+    public static String generateVerificationCode() {
+        return generateVerificationCode(8);
+    }
+
+    public static String generateVerificationCode(int length) {
+        String AB = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        SecureRandom rnd = new SecureRandom();
+
+        StringBuilder sb = new StringBuilder(length);
+        for( int i = 0; i < length; i++ )
+            sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+        return sb.toString();
     }
 }

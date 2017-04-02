@@ -67,6 +67,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/forget_password"
                     android:textSize="17sp"
+                    android:visibility="gone"
                     android:textColor="@color/colorWhite"/>
 
                 <android.support.v7.widget.AppCompatButton
