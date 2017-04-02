@@ -60,7 +60,10 @@ public class GenderFragment extends DialogFragment {
     public void onResume() {
         super.onResume();
         //Set dialog size and position
-        getDialog().getWindow().setLayout(600, 680);
+        if (GraphicUtils.getScreenSizeWidth(getActivity()) <= 720 && GraphicUtils.getScreenSizeHeight(getActivity()) <= 1200)
+            getDialog().getWindow().setLayout(600, 580);
+        else
+            getDialog().getWindow().setLayout(600, 680);
         getDialog().getWindow().setGravity(Gravity.CENTER);
     }
 

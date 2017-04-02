@@ -43,7 +43,10 @@ public class DobFragment extends DialogFragment {
     public void onResume() {
         super.onResume();
         //Set up dialog size and position
-        getDialog().getWindow().setLayout(850, 950);
+        if (GraphicUtils.getScreenSizeWidth(getActivity()) <= 720 && GraphicUtils.getScreenSizeHeight(getActivity()) <= 1200)
+            getDialog().getWindow().setLayout(650, 750);
+        else
+            getDialog().getWindow().setLayout(850, 950);
         getDialog().getWindow().setGravity(Gravity.CENTER);
     }
 
