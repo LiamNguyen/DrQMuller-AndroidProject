@@ -215,10 +215,10 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> createAppointment(DTOAppointment appointment) {
+    public Observable<RepositorySimpleStatus> createAppointment() {
         UserInfo user = localStorage.getUserFromLocal();
         provider.getCurrentAppointment().setUser(user);
-        return restClient.createAppointment(user.getToken(), dataMapper.transform(appointment)).map(
+        return restClient.createAppointment(user.getToken(), dataMapper.transform(provider.getCurrentAppointment())).map(
                 resp -> {
                     if (!resp.isEmpty()) {
                         List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();

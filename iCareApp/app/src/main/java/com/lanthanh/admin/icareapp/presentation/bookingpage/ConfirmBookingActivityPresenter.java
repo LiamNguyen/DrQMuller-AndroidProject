@@ -72,6 +72,7 @@ public class ConfirmBookingActivityPresenter extends BasePresenter {
             );
         } else {
             this.activity.hideProgress();
+            this.activity.showToast(this.activity.getString(R.string.wrong_code));
         }
     }
 
@@ -88,5 +89,6 @@ public class ConfirmBookingActivityPresenter extends BasePresenter {
     public void destroy() {
         super.destroy();
         interactor.dispose();
+        this.activity.getProvider().setCurrentAppointment(null);
     }
 }

@@ -141,7 +141,6 @@ public class BookingActivityPresenter extends BasePresenter{
     @Override
     public void destroy() {
         interactor.dispose();
-        this.activity.getProvider().setCurrentAppointment(null);
     }
 
     /*
@@ -378,7 +377,25 @@ public class BookingActivityPresenter extends BasePresenter{
     /*
      * These methods below are used for booking appointment
      */
+    public void onTimeSelected(Function.VoidParam success, Function.Void<String> fail) {
+        if (this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() == 3) {
+            fail.apply(this.activity.getString(R.string.max_item));
+        }
+    }
     public void bookTime(DTOWeekDay weekDay, DTOTime time) {
+        //Maximum 3 schedules for 1 appointment
+        if (this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() == 3) {
+            this.activity.showToast(this.activity.getString(R.string.max_item));
+            return;
+        }
+        //Maximum 1 schedule for 1 day
+        for (DTOAppointmentSchedule appointment: this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList()) {
+            if (appointment.getBookedDay().getDayId() == weekDay.getDayId()) {
+                this.activity.showToast(this.activity.getString(R.string.selected_day));
+                return;
+            }
+        }
+        //Else allow to book
         DTOAppointmentSchedule appointmentSchedule = this.activity.getProvider().getCurrentAppointment().getCurrentSchedule();
         appointmentSchedule.setBookedDay(weekDay);
         appointmentSchedule.setBookedTime(time);
@@ -473,7 +490,7 @@ public class BookingActivityPresenter extends BasePresenter{
             this.activity.getProvider().getCurrentAppointment().setStartDate(ConverterForDisplay.convertStringToDate("11-11-1111"));
         }
         interactor.execute(
-            () -> appointmentRepository.createAppointment(this.activity.getProvider().getCurrentAppointment()),
+            () -> appointmentRepository.createAppointment(),
             success -> {
                 this.activity.hideProgress();
                 if (success == RepositorySimpleStatus.SUCCESS) {
