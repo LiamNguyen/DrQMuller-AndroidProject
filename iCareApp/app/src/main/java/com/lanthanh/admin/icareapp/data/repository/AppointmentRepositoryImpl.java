@@ -22,8 +22,10 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTime;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOWeekDay;
+import com.lanthanh.admin.icareapp.utils.converter.ConverterForDisplay;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -146,6 +148,16 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                                 available.remove(_time);
                         }
                     }
+                    Calendar calendarNow = Calendar.getInstance();
+                    Calendar bookedDay = Calendar.getInstance();
+                    bookedDay.setTime(provider.getCurrentAppointment().getExpireDate());
+                    if (bookedDay.get(Calendar.DATE) == calendarNow.get(Calendar.DATE)) {
+                        int now = calendarNow.get(Calendar.HOUR_OF_DAY) * 60 + calendarNow.get(Calendar.MINUTE);
+                        for (DTOTime _time : new ArrayList<>(available)) {
+                            if (ConverterForDisplay.convertToTime(_time.getTime()) < now)
+                                available.remove(_time);
+                        }
+                    }
                     return available;
                 }
         );
@@ -164,6 +176,9 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                                     resp.remove(day);
                             }
                         }
+                        if (provider.getCurrentAppointment().getType().getTypeId() == 2) {
+                            resp = getDayOfWeekForTypeFree(resp);
+                        }
                         return resp;
                     }
             );
@@ -174,6 +189,9 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                     if (day.getDayId() == 6 || day.getDayId() == 7)
                         list.remove(day);
                 }
+            }
+            if (provider.getCurrentAppointment().getType().getTypeId() == 2) {
+                list = getDayOfWeekForTypeFree(list);
             }
             return Observable.just(list);
         }
@@ -264,5 +282,35 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     @Override
     public Observable<RepositorySimpleStatus> sendEmailNotifyBooking() {
         return restClient.sendEmailNotifyBooking(this.provider.getCurrentAppointment().getAppointmentId());
+    }
+
+    public List<DTOWeekDay> getDayOfWeekForTypeFree(List<DTOWeekDay> weekDaysList) {
+        List<DTOWeekDay> result = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(provider.getCurrentAppointment().getExpireDate());
+        switch (calendar.get(Calendar.DAY_OF_WEEK)){
+            case Calendar.MONDAY:
+                result.add(weekDaysList.get(0));
+                break;
+            case Calendar.TUESDAY:
+                result.add(weekDaysList.get(1));
+                break;
+            case Calendar.WEDNESDAY:
+                result.add(weekDaysList.get(2));
+                break;
+            case Calendar.THURSDAY:
+                result.add(weekDaysList.get(3));
+                break;
+            case Calendar.FRIDAY:
+                result.add(weekDaysList.get(4));
+                break;
+            case Calendar.SATURDAY:
+                result.add(weekDaysList.get(5));
+                break;
+            case Calendar.SUNDAY:
+                result.add(weekDaysList.get(6));
+                break;
+        }
+        return result;
     }
 }

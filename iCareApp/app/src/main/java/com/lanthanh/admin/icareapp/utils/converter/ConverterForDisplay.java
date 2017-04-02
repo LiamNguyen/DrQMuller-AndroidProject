@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -95,5 +96,18 @@ public class ConverterForDisplay {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static int convertToTime(String time) {
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+        try {
+            Date date = format.parse(time);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            return calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 }
