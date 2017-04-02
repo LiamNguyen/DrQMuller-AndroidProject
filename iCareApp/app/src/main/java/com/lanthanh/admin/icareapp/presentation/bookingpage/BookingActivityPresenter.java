@@ -394,6 +394,10 @@ public class BookingActivityPresenter extends BasePresenter{
                         bookingBookFragment.enableFinishButton(true);
                     else
                         bookingBookFragment.enableFinishButton(false);
+                } else if (success == RepositorySimpleStatus.TIME_HAS_BEEN_BOOKED) {
+                    this.activity.showToast(this.activity.getString(R.string.already_booked));
+                } else if (success == RepositorySimpleStatus.INVALID_TOKEN) {
+                    this.activity.showToast(this.activity.getString(R.string.invalid_token));
                 }
             },
             error -> {}

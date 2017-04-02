@@ -126,6 +126,7 @@
     <string name="already_booked">Giờ đã bị đặt</string>
     <string name="abort_appointment_dialog">Quí khách có chắc chắn muốn hủy bỏ toàn bộ lịch hẹn và thoát?</string>
     <string name="machine_alert">Quí khách vui lòng chọn máy</string>
+    <string name="invalid_token">Xác nhận tài khoản không thành công. Xin quí khách vui lòng đăng nhập lại</string>
 
     <!-- BOOKING DETAILS -->
     <string name="address">Địa Điểm</string>

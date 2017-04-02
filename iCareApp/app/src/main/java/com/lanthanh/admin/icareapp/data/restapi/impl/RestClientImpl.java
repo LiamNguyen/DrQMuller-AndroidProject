@@ -53,10 +53,12 @@ public class RestClientImpl implements RestClient {
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
         service = retrofit.create(iCareService.class);
-        validFailResponse = Arrays.asList(RepositorySimpleStatus.TIME_BOOKED_SUCCESSFULLY,
-                                         RepositorySimpleStatus.TIME_HAS_BEEN_BOOKED,
-                                         RepositorySimpleStatus.USERNAME_EXISTED,
-                                         RepositorySimpleStatus.USERNAME_PASSWORD_NOT_MATCH);
+        validFailResponse = Arrays.asList(
+            RepositorySimpleStatus.TIME_HAS_BEEN_BOOKED,
+            RepositorySimpleStatus.USERNAME_EXISTED,
+            RepositorySimpleStatus.INVALID_TOKEN,
+            RepositorySimpleStatus.USERNAME_PASSWORD_NOT_MATCH
+        );
     }
 
     public static RestClient createRestClient(){
