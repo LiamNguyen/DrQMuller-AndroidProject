@@ -37,4 +37,11 @@ public class iCareApplication extends Application{
         }
         return "";
     }
+
+    public int getVersionCode() {
+        if (getPackageInfo() != null) {
+            return getPackageInfo().versionCode;
+        }
+        return -1;
+    }
 }

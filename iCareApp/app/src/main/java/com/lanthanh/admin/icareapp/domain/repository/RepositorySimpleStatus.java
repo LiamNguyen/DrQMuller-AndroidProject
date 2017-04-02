@@ -22,5 +22,6 @@ public enum RepositorySimpleStatus {
     MISSING_EMAIL_AND_PHONE,
     MISSING_USER,
     VALID_USER,
-    PARSING_ERROR
+    PARSING_ERROR,
+    UPDATE_NEEDED
 }

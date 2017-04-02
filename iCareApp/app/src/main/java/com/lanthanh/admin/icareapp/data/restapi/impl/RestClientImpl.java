@@ -81,6 +81,29 @@ public class RestClientImpl implements RestClient {
         return RequestBody.create(JSON, json);
     }
 
+    @Override
+    public Observable<RepositorySimpleStatus> checkVersionCode(int versionCode) {
+        return service.checkVersionCode().map(
+                response -> {
+                    if (response.code() == 200) {
+                        if (response.body().has("Select_LatestBuild")) {
+                            int _versionCode = response.body().getAsJsonArray("Select_LatestBuild")
+                                    .get(0).getAsJsonObject()
+                                    .get("build").getAsInt();
+                            if (versionCode != _versionCode) {
+                                return RepositorySimpleStatus.UPDATE_NEEDED;
+                            } else {
+                                return RepositorySimpleStatus.SUCCESS;
+                            }
+                        }
+                        return RepositorySimpleStatus.API_ERROR;
+                    }
+                    return resolveErrorReponse(response.code(), response.errorBody().string(), "Select_LatestBuild");
+                }
+        );
+    }
+
+    @Override
     public Observable<RepositorySimpleStatus> login(Function.Void<UserInfo> saveUser, String username, String password){
         return service.login(createRequestBody(new String[]{"username", "password"}, new String[]{username, password}))
                 .map(
@@ -98,7 +121,7 @@ public class RestClientImpl implements RestClient {
                                   return RepositorySimpleStatus.PARSING_ERROR;
                               }
                           }
-                          return RepositorySimpleStatus.UNKNOWN_ERROR;
+                          return RepositorySimpleStatus.API_ERROR;
                       }
                       return resolveErrorReponse(response.code(), response.errorBody().string(), "Select_ToAuthenticate");
                   }

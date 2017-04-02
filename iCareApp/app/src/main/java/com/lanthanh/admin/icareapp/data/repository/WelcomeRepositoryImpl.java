@@ -35,4 +35,9 @@ public class WelcomeRepositoryImpl implements WelcomeRepository{
     public Observable<RepositorySimpleStatus> signup(String username, String password) {
         return restClient.signup(localStorage::saveUserToLocal, username, password);
     }
+
+    @Override
+    public Observable<RepositorySimpleStatus> checkVersionCode(int versionCode) {
+        return restClient.checkVersionCode(versionCode);
+    }
 }

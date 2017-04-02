@@ -2,7 +2,8 @@
 <resources>
     <string name="app_name">Dr.Q-Muller</string>
     <string name="welcome">Welcome to\nDr.Q-Muller</string>
-
+    <string name="update">Ứng dụng của quí khách cần được cập nhật để tiếp tục sử dụng</string>
+    <string name="update_button">Cập nhật</string>
     <!-- LOGIN -->
     <string name="login_fail">Tên đăng nhập hoặc mật khẩu không đúng</string><!-- TODO change to proper sentence -->
 

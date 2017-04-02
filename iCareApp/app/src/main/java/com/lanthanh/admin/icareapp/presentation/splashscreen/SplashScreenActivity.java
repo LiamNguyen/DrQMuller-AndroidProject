@@ -1,7 +1,6 @@
 package com.lanthanh.admin.icareapp.presentation.splashscreen;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
 
@@ -38,7 +37,8 @@ public class SplashScreenActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        new Handler().postDelayed(() -> splashScreenPresenter.checkLoggedIn(), 1000);
+        //new Handler().postDelayed(() -> splashScreenPresenter.checkLoggedIn(), 1000);
+        splashScreenPresenter.checkVersionCode();
     }
 
     @Override

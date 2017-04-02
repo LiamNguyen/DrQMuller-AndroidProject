@@ -20,6 +20,13 @@ import retrofit2.http.Path;
 
 public interface iCareService {
     /**
+     * This request method is used for checking version code of the app
+     * @return an Observable
+     */
+    @GET("version/android")
+    Observable<Response<JsonObject>> checkVersionCode();
+
+    /**
      * This request method is used for registering account
      * @param body body for request
      * @return an Observable
