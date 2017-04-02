@@ -83,6 +83,7 @@ public class ConfirmBookingActivity extends BaseActivity {
 
     public void init(){
         confirmBookingActivityPresenter = new ConfirmBookingActivityPresenter(this);
+        confirmBookingActivityPresenter.resume();
     }
 
     @Override

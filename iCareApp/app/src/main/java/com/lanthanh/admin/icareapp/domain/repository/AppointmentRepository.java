@@ -38,4 +38,5 @@ public interface AppointmentRepository {
     Observable<RepositorySimpleStatus> confirmAppointment();
     Observable<RepositorySimpleStatus> cancelAppointment();
     Observable<List<DTOAppointment>> getAppointments();
+    Observable<RepositorySimpleStatus> sendEmailNotifyBooking();
 }

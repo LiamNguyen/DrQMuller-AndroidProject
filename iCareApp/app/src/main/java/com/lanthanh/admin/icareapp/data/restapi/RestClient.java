@@ -50,4 +50,5 @@ public interface RestClient {
     Observable<String> createAppointment(String authToken, BookedAppointment appointment);
     Observable<RepositorySimpleStatus> confirmAppointment(String authToken, String userId, String appointmentId);
     Observable<RepositorySimpleStatus> cancelAppointment(String authToken, String userId, String appointmentId);
+    Observable<RepositorySimpleStatus> sendEmailNotifyBooking(String appointmentId);
 }

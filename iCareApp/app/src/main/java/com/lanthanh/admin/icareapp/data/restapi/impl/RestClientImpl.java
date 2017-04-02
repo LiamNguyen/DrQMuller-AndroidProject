@@ -2,6 +2,7 @@ package com.lanthanh.admin.icareapp.data.restapi.impl;
 
 import com.google.gson.JsonObject;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.lanthanh.admin.icareapp.data.restapi.iCareEmailService;
 import com.lanthanh.admin.icareapp.utils.converter.ConverterJson;
 import com.lanthanh.admin.icareapp.data.model.BookedAppointment;
 import com.lanthanh.admin.icareapp.data.model.BookedSchedule;
@@ -25,12 +26,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SigningKeyResolver;
 import io.reactivex.Observable;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -44,6 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RestClientImpl implements RestClient {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final iCareService service;
+    private final iCareEmailService emailService;
     private List<RepositorySimpleStatus> validFailResponse;
 
     private RestClientImpl(){
@@ -52,7 +51,13 @@ public class RestClientImpl implements RestClient {
                             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
+        final Retrofit emailRetrofit  = new Retrofit.Builder()
+                            .baseUrl("http://210.211.109.180/beta_drmuller/api/")
+                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
         service = retrofit.create(iCareService.class);
+        emailService = emailRetrofit.create(iCareEmailService.class);
         validFailResponse = Arrays.asList(
             RepositorySimpleStatus.TIME_HAS_BEEN_BOOKED,
             RepositorySimpleStatus.USERNAME_EXISTED,
@@ -460,7 +465,6 @@ public class RestClientImpl implements RestClient {
         return service.createAppointment(authToken, createRequestBody(json))
                 .map(
                     response -> {
-                        System.out.println(json);
                         if (response.code() == 200) {
                             if (response.body().has("Insert_NewAppointment")) {
                                 return response.body().getAsJsonArray("Insert_NewAppointment")
@@ -500,6 +504,24 @@ public class RestClientImpl implements RestClient {
                             return RepositorySimpleStatus.SUCCESS;
                         } else {
                             RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "BookingTransaction");
+                            if (validFailResponse.contains(status)){
+                                return status;
+                            }
+                        }
+                        return RepositorySimpleStatus.UNKNOWN_ERROR;
+                    }
+                );
+    }
+
+    @Override
+    public Observable<RepositorySimpleStatus> sendEmailNotifyBooking(String appointmentId) {
+        return emailService.sendEmailNotifyBooking(appointmentId)
+                .map(
+                    response -> {
+                        if (response.code() == 200) {
+                            return RepositorySimpleStatus.SUCCESS;
+                        } else {
+                            RepositorySimpleStatus status = resolveErrorReponse(response.code(), response.errorBody().string(), "SendMail_NotifyBooking");
                             if (validFailResponse.contains(status)){
                                 return status;
                             }

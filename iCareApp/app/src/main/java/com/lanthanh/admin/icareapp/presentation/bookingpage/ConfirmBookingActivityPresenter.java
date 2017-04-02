@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.repository.AppointmentRepositoryImpl;
@@ -76,7 +77,11 @@ public class ConfirmBookingActivityPresenter extends BasePresenter {
 
     @Override
     public void resume() {
-
+        interactor.execute(
+                () -> appointmentRepository.sendEmailNotifyBooking(),
+                _success -> Log.i(this.getClass().getName(), "Send email to notify booking successfully"),
+                error -> Log.e(this.getClass().getName(), "Send email to notify booking fail")
+        );
     }
 
     @Override

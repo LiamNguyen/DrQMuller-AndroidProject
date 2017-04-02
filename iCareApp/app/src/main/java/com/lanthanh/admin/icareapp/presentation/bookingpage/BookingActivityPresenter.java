@@ -473,14 +473,14 @@ public class BookingActivityPresenter extends BasePresenter{
             this.activity.getProvider().getCurrentAppointment().setStartDate(ConverterForDisplay.convertStringToDate("11-11-1111"));
         }
         interactor.execute(
-                () -> appointmentRepository.createAppointment(this.activity.getProvider().getCurrentAppointment()),
-                success -> {
-                    this.activity.hideProgress();
-                    if (success == RepositorySimpleStatus.SUCCESS) {
-                        navigateActivity(ConfirmBookingActivity.class);
-                    }
-                },
-                error -> this.activity.hideProgress()
+            () -> appointmentRepository.createAppointment(this.activity.getProvider().getCurrentAppointment()),
+            success -> {
+                this.activity.hideProgress();
+                if (success == RepositorySimpleStatus.SUCCESS) {
+                    navigateActivity(ConfirmBookingActivity.class);
+                }
+            },
+            error -> this.activity.hideProgress()
         );
     }
 }

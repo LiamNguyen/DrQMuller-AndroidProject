@@ -260,4 +260,9 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     public Observable<List<DTOAppointment>> getAppointments() {
         return Observable.just(localStorage.getAppointmentsFromLocal());
     }
+
+    @Override
+    public Observable<RepositorySimpleStatus> sendEmailNotifyBooking() {
+        return restClient.sendEmailNotifyBooking(this.provider.getCurrentAppointment().getAppointmentId());
+    }
 }
