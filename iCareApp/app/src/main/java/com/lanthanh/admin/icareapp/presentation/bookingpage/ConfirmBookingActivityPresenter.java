@@ -72,15 +72,21 @@ public class ConfirmBookingActivityPresenter extends BasePresenter {
             );
         } else {
             this.activity.hideProgress();
+            this.activity.showToast(this.activity.getString(R.string.wrong_code));
         }
     }
 
     @Override
     public void resume() {
         interactor.execute(
-                () -> appointmentRepository.sendEmailNotifyBooking(),
-                _success -> Log.i(this.getClass().getName(), "Send email to notify booking successfully"),
-                error -> Log.e(this.getClass().getName(), "Send email to notify booking fail")
+            () -> appointmentRepository.sendEmailNotifyBooking(),
+            _success -> {
+                if (_success == RepositorySimpleStatus.SUCCESS)
+                    Log.i(this.getClass().getName(), "Send email to notify booking successfully");
+                else
+                    Log.i(this.getClass().getName(), "Send email to notify booking has already been sent");
+            },
+            error -> Log.e(this.getClass().getName(), "Send email to notify booking fail")
         );
     }
 
@@ -88,5 +94,6 @@ public class ConfirmBookingActivityPresenter extends BasePresenter {
     public void destroy() {
         super.destroy();
         interactor.dispose();
+        this.activity.getProvider().setCurrentAppointment(null);
     }
 }

@@ -215,10 +215,10 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> createAppointment(DTOAppointment appointment) {
+    public Observable<RepositorySimpleStatus> createAppointment() {
         UserInfo user = localStorage.getUserFromLocal();
         provider.getCurrentAppointment().setUser(user);
-        return restClient.createAppointment(user.getToken(), dataMapper.transform(appointment)).map(
+        return restClient.createAppointment(user.getToken(), dataMapper.transform(provider.getCurrentAppointment())).map(
                 resp -> {
                     if (!resp.isEmpty()) {
                         List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
@@ -281,7 +281,25 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public Observable<RepositorySimpleStatus> sendEmailNotifyBooking() {
-        return restClient.sendEmailNotifyBooking(this.provider.getCurrentAppointment().getAppointmentId());
+        if (!this.provider.getCurrentAppointment().isEmailSent())
+            return restClient.sendEmailNotifyBooking(this.provider.getCurrentAppointment().getAppointmentId()).map(
+                resp -> {
+                    if (resp == RepositorySimpleStatus.SUCCESS) {
+                        List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
+                        for (DTOAppointment appointment: appointmentList) {
+                            if (appointment.getAppointmentId().equals(this.provider.getCurrentAppointment().getAppointmentId())) {
+                                appointment.setEmailSent(true);
+                                break;
+                            }
+                        }
+                        localStorage.saveAppointmentsToLocal(appointmentList);
+                        return RepositorySimpleStatus.SUCCESS;
+                    }
+                    return RepositorySimpleStatus.UNKNOWN_ERROR;
+                }
+            );
+        else
+            return Observable.just(RepositorySimpleStatus.EMAIL_ALREADY_SENT);
     }
 
     public List<DTOWeekDay> getDayOfWeekForTypeFree(List<DTOWeekDay> weekDaysList) {

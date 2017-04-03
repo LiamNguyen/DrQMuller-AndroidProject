@@ -34,7 +34,7 @@ public interface AppointmentRepository {
     Observable<RepositorySimpleStatus> bookTime(int locationId, DTOAppointmentSchedule appointmentSchedule);
     Observable<RepositorySimpleStatus> releaseTime(int locationId, List<DTOAppointmentSchedule> appointmentScheduleList);
     Observable<RepositorySimpleStatus> validateAppointment();
-    Observable<RepositorySimpleStatus> createAppointment(DTOAppointment appointment);
+    Observable<RepositorySimpleStatus> createAppointment();
     Observable<RepositorySimpleStatus> confirmAppointment();
     Observable<RepositorySimpleStatus> cancelAppointment();
     Observable<List<DTOAppointment>> getAppointments();

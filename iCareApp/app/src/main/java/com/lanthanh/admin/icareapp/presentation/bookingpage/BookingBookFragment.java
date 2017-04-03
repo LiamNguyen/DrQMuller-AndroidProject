@@ -76,15 +76,8 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
         expandableListView.setGroupIndicator(null);
         expandableListView.setOnChildClickListener(
                 (ExpandableListView expandableListView, View view,  int groupPosition, int childPosition, long childId) -> {
-                if (getProvider().getCurrentAppointment().getAppointmentScheduleList().size() == 3) {
-                    showToast(getString(R.string.max_item));
-                    return false;
-                }
-
                 getMainPresenter().bookTime(listAdapter.getGroup(groupPosition), listAdapter.getChild(groupPosition, childPosition));
-
                 expandableListView.collapseGroup(groupPosition);
-
                 return true;
             }
         );
