@@ -17,21 +17,25 @@ public class iCareContract {
     public static final class CityEntry implements BaseColumns {
         public static final String TABLE_NAME = "city";
         public static final String COLUMN_CITY_NAME = "cityName";
+        public static final String COLUMN_COUNTRY_ID = "countryId";
     }
 
     public static final class DistrictEntry implements BaseColumns {
         public static final String TABLE_NAME = "district";
         public static final String COLUMN_DISTRICT_NAME = "districtName";
+        public static final String COLUMN_CITY_ID = "cityId";
     }
 
     public static final class LocationEntry implements BaseColumns {
         public static final String TABLE_NAME = "location";
         public static final String COLUMN_LOCATION_NAME = "locationName";
+        public static final String COLUMN_DISTRICT_ID = "districtId";
     }
 
     public static final class VoucherEntry implements BaseColumns {
         public static final String TABLE_NAME = "voucher";
         public static final String COLUMN_VOUCHER_NAME = "voucherName";
+        public static final String COLUMN_VOUCHER_PRICE = "voucherPrice";
     }
 
     public static final class TypeEntry implements BaseColumns {
@@ -42,6 +46,7 @@ public class iCareContract {
     public static final class MachineEntry implements BaseColumns {
         public static final String TABLE_NAME = "machine";
         public static final String COLUMN_MACHINE_NAME = "machineName";
+        public static final String COLUMN_LOCATION_ID = "locationId";
     }
 
     public static final class TimeEntry implements BaseColumns {
