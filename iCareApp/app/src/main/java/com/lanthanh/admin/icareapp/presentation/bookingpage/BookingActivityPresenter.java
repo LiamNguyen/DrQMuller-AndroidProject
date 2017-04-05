@@ -430,7 +430,6 @@ public class BookingActivityPresenter extends BasePresenter{
     public boolean onDaySelected(Function.VoidParam success) {
         if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() == null){
             this.activity.showToast(this.activity.getString(R.string.machine_alert));
-            this.bookingBookFragment.collapseAllGroups();
             return true;
         }
         success.apply();
@@ -465,8 +464,10 @@ public class BookingActivityPresenter extends BasePresenter{
                         }
                     }
                     //Notify user if there is no appropriate schedule left today
-                    if (success.size() <= 0)
+                    if (success.size() <= 0) {
                         this.activity.showToast(this.activity.getString(R.string.out_of_schedule));
+                        this.bookingBookFragment.collapseAllGroups();
+                    }
 
                     updateCallback.apply(success);
                 },
