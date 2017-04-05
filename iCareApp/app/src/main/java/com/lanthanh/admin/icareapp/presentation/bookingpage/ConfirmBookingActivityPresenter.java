@@ -53,7 +53,7 @@ public class ConfirmBookingActivityPresenter extends BasePresenter {
         this.activity.showProgress();
         if (this.activity.getProvider().getCurrentAppointment().getVerificationCode().equals(verificationCode)) {
             interactor.execute(
-                () -> appointmentRepository.confirmAppointment(),
+                () -> appointmentRepository.confirmAppointment(this.activity.getProvider().getCurrentAppointment().getAppointmentId()),
                 success -> {
                     this.activity.hideProgress();
                     if (success == RepositorySimpleStatus.SUCCESS) {
@@ -78,16 +78,18 @@ public class ConfirmBookingActivityPresenter extends BasePresenter {
 
     @Override
     public void resume() {
-        interactor.execute(
-            () -> appointmentRepository.sendEmailNotifyBooking(),
-            _success -> {
-                if (_success == RepositorySimpleStatus.SUCCESS)
-                    Log.i(this.getClass().getName(), "Send email to notify booking successfully");
-                else
-                    Log.i(this.getClass().getName(), "Send email to notify booking has already been sent");
-            },
-            error -> Log.e(this.getClass().getName(), "Send email to notify booking fail")
-        );
+        if (!this.activity.getProvider().getCurrentAppointment().isEmailSent()) {
+            interactor.execute(
+                    () -> appointmentRepository.sendEmailNotifyBooking(this.activity.getProvider().getCurrentAppointment().getAppointmentId()),
+                    _success -> {
+                        if (_success == RepositorySimpleStatus.SUCCESS)
+                            Log.i(this.getClass().getName(), "Send email to notify booking successfully");
+                        else
+                            Log.i(this.getClass().getName(), "Send email to notify booking has already been sent");
+                    },
+                    error -> Log.e(this.getClass().getName(), "Send email to notify booking fail")
+            );
+        }
     }
 
     @Override

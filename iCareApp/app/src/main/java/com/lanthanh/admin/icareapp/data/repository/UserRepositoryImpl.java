@@ -9,6 +9,7 @@ import com.lanthanh.admin.icareapp.data.restapi.RestClient;
 import com.lanthanh.admin.icareapp.data.restapi.impl.RestClientImpl;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
+import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
 import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
 
@@ -74,25 +75,43 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Observable<RepositorySimpleStatus> updateCustomerBasicInfo(String name, String address) {
         UserInfo user = localStorage.getUserFromLocal();
-        return restClient.updateBasicInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), name, address);
+        return restClient.updateBasicInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), name, address).flatMap(
+                resp -> {
+                    if (resp == RepositorySimpleStatus.SUCCESS)
+                        return Observable.just(resp);
+                    return Observable.error(new UseCaseException(resp));
+                }
+        );
     }
 
     @Override
     public Observable<RepositorySimpleStatus> updateCustomerNecessaryInfo(String dob, String gender) {
         UserInfo user = localStorage.getUserFromLocal();
-        return restClient.updateNecessaryInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), dob, gender);
+        return restClient.updateNecessaryInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), dob, gender).flatMap(
+                resp -> {
+                    if (resp == RepositorySimpleStatus.SUCCESS)
+                        return Observable.just(resp);
+                    return Observable.error(new UseCaseException(resp));
+                }
+        );
     }
 
     @Override
     public Observable<RepositorySimpleStatus> updateCustomerImportantInfo(String email, String phone) {
         UserInfo user = localStorage.getUserFromLocal();
-        return restClient.updateImportantInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), email, phone);
+        return restClient.updateImportantInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), email, phone).flatMap(
+                resp -> {
+                    if (resp == RepositorySimpleStatus.SUCCESS)
+                        return Observable.just(resp);
+                    return Observable.error(new UseCaseException(resp));
+                }
+        );
     }
 
     @Override
     public Observable<RepositorySimpleStatus> updateCustomerInfo(String name, String address, String dob, String gender, String email, String phone) {
         UserInfo user = localStorage.getUserFromLocal();
-        return restClient.updateCustomerInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), name, address, dob, gender, email, phone).map(
+        return restClient.updateCustomerInfo(localStorage::saveUserToLocal, user.getToken(), user.getId(), name, address, dob, gender, email, phone).flatMap(
             resp -> {
                 if (resp == RepositorySimpleStatus.SUCCESS) {
                     List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
@@ -100,9 +119,9 @@ public class UserRepositoryImpl implements UserRepository {
                         appointment.setUser(localStorage.getUserFromLocal());
                     }
                     localStorage.saveAppointmentsToLocal(appointmentList);
-                    return RepositorySimpleStatus.SUCCESS;
+                    return Observable.just(resp);
                 }
-                return RepositorySimpleStatus.UNKNOWN_ERROR;
+                return Observable.error(new UseCaseException(resp));
             }
         );
     }

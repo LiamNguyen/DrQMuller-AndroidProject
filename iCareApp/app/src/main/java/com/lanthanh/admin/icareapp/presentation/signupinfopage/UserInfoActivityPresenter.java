@@ -174,9 +174,7 @@ public class UserInfoActivityPresenter extends BasePresenter {
             () -> userRepository.updateCustomerBasicInfo(name, address),
             success -> {
                 this.activity.hideProgress();
-                if (success == RepositorySimpleStatus.SUCCESS){
-                    checkUserInformationValidity();
-                }
+                checkUserInformationValidity();
             },
             error -> this.activity.hideProgress()
         );
@@ -188,9 +186,7 @@ public class UserInfoActivityPresenter extends BasePresenter {
             () -> userRepository.updateCustomerNecessaryInfo(dob, gender),
             success -> {
                 this.activity.hideProgress();
-                if (success == RepositorySimpleStatus.SUCCESS){
-                    checkUserInformationValidity();
-                }
+                checkUserInformationValidity();
             },
             error -> this.activity.hideProgress()
         );
@@ -202,9 +198,7 @@ public class UserInfoActivityPresenter extends BasePresenter {
             () -> userRepository.updateCustomerImportantInfo(email, phone),
             success -> {
                 this.activity.hideProgress();
-                if (success == RepositorySimpleStatus.SUCCESS){
-                    checkUserInformationValidity();
-                }
+                checkUserInformationValidity();
             },
             error -> this.activity.hideProgress()
         );

@@ -11,6 +11,7 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.repository.AppointmentRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
+import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
 import com.lanthanh.admin.icareapp.utils.Function;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
@@ -30,6 +31,7 @@ import com.lanthanh.admin.icareapp.utils.NetworkUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -219,15 +221,20 @@ public class BookingActivityPresenter extends BasePresenter{
 
     public void getWeekDays(Function.Void<List<DTOWeekDay>> updateCallback) {
         interactor.execute(
-            () -> appointmentRepository.getWeekDays(),
-            updateCallback::apply,
+            () -> appointmentRepository.getWeekDays(this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId()),
+            success -> {
+                if (this.activity.getProvider().getCurrentAppointment().getType().getTypeId() == 2) {
+                    getDayOfWeekForTypeFree(success, this.activity.getProvider().getCurrentAppointment().getExpireDate());
+                }
+                updateCallback.apply(success);
+            },
             error -> this.activity.hideProgress()
         );
     }
 
     public void getTime(Function.Void<List<DTOTime>> updateCallback) {
         interactor.execute(
-            () -> appointmentRepository.getTime(),
+            () -> appointmentRepository.getTime(this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId()),
             success -> {
                 this.activity.hideProgress();
                 updateCallback.apply(success);
@@ -239,9 +246,25 @@ public class BookingActivityPresenter extends BasePresenter{
     public void getAvailableTime(Function.Void<List<DTOTime>> updateCallback, int dayId) {
         this.activity.showProgress();
         interactor.execute(
-            () -> appointmentRepository.getAvailableTime(dayId, this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(), this.activity.getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine().getMachineId()),
+            () -> appointmentRepository.getAvailableTime(
+                    dayId,
+                    this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
+                    this.activity.getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine().getMachineId(),
+                    this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId()),
             success -> {
                 this.activity.hideProgress();
+                if (this.activity.getProvider().getCurrentAppointment().getType().getTypeId() == 2) {
+                    Calendar calendarNow = Calendar.getInstance();
+                    Calendar bookedDay = Calendar.getInstance();
+                    bookedDay.setTime(this.activity.getProvider().getCurrentAppointment().getExpireDate());
+                    if (bookedDay.get(Calendar.DATE) == calendarNow.get(Calendar.DATE)) {
+                        int now = calendarNow.get(Calendar.HOUR_OF_DAY) * 60 + calendarNow.get(Calendar.MINUTE);
+                        for (DTOTime time : new ArrayList<>(success)) {
+                            if (ConverterForDisplay.convertToTime(time.getTime()) < now)
+                                success.remove(time);
+                        }
+                    }
+                }
                 updateCallback.apply(success);
             },
             error -> this.activity.hideProgress()
@@ -377,11 +400,6 @@ public class BookingActivityPresenter extends BasePresenter{
     /*
      * These methods below are used for booking appointment
      */
-    public void onTimeSelected(Function.VoidParam success, Function.Void<String> fail) {
-        if (this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() == 3) {
-            fail.apply(this.activity.getString(R.string.max_item));
-        }
-    }
     public void bookTime(DTOWeekDay weekDay, DTOTime time) {
         //Maximum 3 schedules for 1 appointment
         if (this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() == 3) {
@@ -399,25 +417,31 @@ public class BookingActivityPresenter extends BasePresenter{
         DTOAppointmentSchedule appointmentSchedule = this.activity.getProvider().getCurrentAppointment().getCurrentSchedule();
         appointmentSchedule.setBookedDay(weekDay);
         appointmentSchedule.setBookedTime(time);
+        this.activity.showProgress();
         interactor.execute(
             () -> appointmentRepository.bookTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(), this.activity.getProvider().getCurrentAppointment().getCurrentSchedule()),
             success -> {
-                if (success == RepositorySimpleStatus.SUCCESS) {
-                    this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().add(appointmentSchedule);
-                    int totalItems = this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size();
-                    String latest = this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().get(totalItems - 1).toString();
-                    this.activity.onAddCartItem(latest);
-                    if (this.activity.getProvider().getCurrentAppointment().isMachineFilled())
-                        bookingBookFragment.enableFinishButton(true);
-                    else
-                        bookingBookFragment.enableFinishButton(false);
-                } else if (success == RepositorySimpleStatus.TIME_HAS_BEEN_BOOKED) {
-                    this.activity.showToast(this.activity.getString(R.string.already_booked));
-                } else if (success == RepositorySimpleStatus.INVALID_TOKEN) {
-                    this.activity.showToast(this.activity.getString(R.string.invalid_token));
-                }
+                this.activity.hideProgress();
+                this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().add(appointmentSchedule);
+                String newItem = appointmentSchedule.toString();
+                this.activity.onAddCartItem(newItem);
+                if (this.activity.getProvider().getCurrentAppointment().isMachineFilled())
+                    bookingBookFragment.enableFinishButton(true);
+                else
+                    bookingBookFragment.enableFinishButton(false);
             },
-            error -> {}
+            error -> {
+                if (error instanceof UseCaseException) {
+                    switch (((UseCaseException) error).getStatus()) {
+                        case TIME_HAS_BEEN_BOOKED:
+                            this.activity.showToast(this.activity.getString(R.string.already_booked));
+                            break;
+                        case INVALID_TOKEN:
+                            this.activity.showToast(this.activity.getString(R.string.invalid_token));
+                            break;
+                    }
+                }
+            }
         );
     }
 
@@ -431,18 +455,17 @@ public class BookingActivityPresenter extends BasePresenter{
             interactor.execute(
                     () -> appointmentRepository.releaseTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(), Arrays.asList(dtoAppointmentSchedule)),
                     success -> {
-                        if (success == RepositorySimpleStatus.SUCCESS) {
-                            removeItem.apply(item);
-                            bookingBookFragment.expandGroup(0, true);
-                            //Update DTO
-                            this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().remove(dtoAppointmentSchedule);
-                            if (this.activity.getProvider().getCurrentAppointment().isMachineFilled())
-                                bookingBookFragment.enableFinishButton(true);
-                            else
-                                bookingBookFragment.enableFinishButton(false);
-                        }
+                        this.activity.hideProgress();
+                        removeItem.apply(item);
+                        bookingBookFragment.expandGroup(0, true);
+                        //Update DTO
+                        this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().remove(dtoAppointmentSchedule);
+                        if (this.activity.getProvider().getCurrentAppointment().isMachineFilled())
+                            bookingBookFragment.enableFinishButton(true);
+                        else
+                            bookingBookFragment.enableFinishButton(false);
                     },
-                    error -> {}
+                    error -> this.activity.hideProgress()
             );
         }else
             Log.e(this.getClass().getName(), "Item to be removed doesn't exist");
@@ -460,12 +483,16 @@ public class BookingActivityPresenter extends BasePresenter{
 
     public void emptyCart(Function.VoidParam clearCart) {
         if (this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() > 0) {
+            this.activity.showProgress();
             //Remove on DB
             interactor.execute(
                 () -> appointmentRepository.releaseTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
                         this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList()),
-                success -> clearCart.apply(),
-                error -> {}
+                success -> {
+                    this.activity.hideProgress();
+                    clearCart.apply();
+                },
+                error -> this.activity.hideProgress()
             );
         } else {
             clearCart.apply();
@@ -490,7 +517,7 @@ public class BookingActivityPresenter extends BasePresenter{
             this.activity.getProvider().getCurrentAppointment().setStartDate(ConverterForDisplay.convertStringToDate("11-11-1111"));
         }
         interactor.execute(
-            () -> appointmentRepository.createAppointment(),
+            () -> appointmentRepository.createAppointment(this.activity.getProvider().getCurrentAppointment()),
             success -> {
                 this.activity.hideProgress();
                 if (success == RepositorySimpleStatus.SUCCESS) {
@@ -499,5 +526,35 @@ public class BookingActivityPresenter extends BasePresenter{
             },
             error -> this.activity.hideProgress()
         );
+    }
+
+    public List<DTOWeekDay> getDayOfWeekForTypeFree(List<DTOWeekDay> weekDaysList, Date doDate) {
+        List<DTOWeekDay> result = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(doDate);
+        switch (calendar.get(Calendar.DAY_OF_WEEK)){
+            case Calendar.MONDAY:
+                result.add(weekDaysList.get(0));
+                break;
+            case Calendar.TUESDAY:
+                result.add(weekDaysList.get(1));
+                break;
+            case Calendar.WEDNESDAY:
+                result.add(weekDaysList.get(2));
+                break;
+            case Calendar.THURSDAY:
+                result.add(weekDaysList.get(3));
+                break;
+            case Calendar.FRIDAY:
+                result.add(weekDaysList.get(4));
+                break;
+            case Calendar.SATURDAY:
+                result.add(weekDaysList.get(5));
+                break;
+            case Calendar.SUNDAY:
+                result.add(weekDaysList.get(6));
+                break;
+        }
+        return result;
     }
 }

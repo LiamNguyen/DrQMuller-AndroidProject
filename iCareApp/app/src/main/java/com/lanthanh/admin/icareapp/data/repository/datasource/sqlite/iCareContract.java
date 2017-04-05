@@ -58,4 +58,9 @@ public class iCareContract {
         public static final String TABLE_NAME = "ecotime";
         public static final String COLUMN_ECOTIME_NAME = "ecoTimeName";
     }
+
+    public static final class WeekDayEntry implements BaseColumns {
+        public static final String TABLE_NAME = "weekday";
+        public static final String COLUMN_DAY_NAME = "dayName";
+    }
 }

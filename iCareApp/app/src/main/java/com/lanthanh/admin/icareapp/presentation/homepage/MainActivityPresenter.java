@@ -182,7 +182,7 @@ public class MainActivityPresenter extends BasePresenter {
     public void cancelAppointment() {
         this.activity.showProgress();
         interactor.execute(
-            () -> appointmentRepository.cancelAppointment(),
+            () -> appointmentRepository.cancelAppointment(this.activity.getProvider().getCurrentAppointment().getAppointmentId()),
             success -> {
                 this.activity.hideProgress();
                 showBookingTab();

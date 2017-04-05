@@ -13,6 +13,7 @@ import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
+import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.signupinfopage.UserInfoActivity;
@@ -113,24 +114,30 @@ public class WelcomeActivityPresenter extends BasePresenter {
             () -> welcomeRepository.login(username, password),
             success -> {
                 this.activity.hideProgress();
-                if (success == RepositorySimpleStatus.SUCCESS){
-                    interactor.execute(
-                            () -> userRepository.checkUserInformationValidity(),
-                            check -> {
-                                if (check == RepositorySimpleStatus.VALID_USER)
-                                    navigateActivity(MainActivity.class);
-                                else //Default
-                                    navigateActivity(UserInfoActivity.class);
-                            },
-                            error -> {}
-                    );
-                } else if (success == RepositorySimpleStatus.PATTERN_FAIL) {
-                    this.activity.showToast(this.activity.getString(R.string.pattern_fail));
-                } else if (success == RepositorySimpleStatus.USERNAME_PASSWORD_NOT_MATCH) {
-                    this.activity.showToast(this.activity.getString(R.string.login_fail));
-                }
+                interactor.execute(
+                        () -> userRepository.checkUserInformationValidity(),
+                        check -> {
+                            if (check == RepositorySimpleStatus.VALID_USER)
+                                navigateActivity(MainActivity.class);
+                            else //Default
+                                navigateActivity(UserInfoActivity.class);
+                        },
+                        error -> {}
+                );
             },
-            error -> this.activity.hideProgress()
+            error -> {
+                this.activity.hideProgress();
+                if (error instanceof UseCaseException) {
+                    switch (((UseCaseException) error).getStatus()) {
+                        case PATTERN_FAIL:
+                            this.activity.showToast(this.activity.getString(R.string.pattern_fail));
+                            break;
+                        case USERNAME_PASSWORD_NOT_MATCH:
+                            this.activity.showToast(this.activity.getString(R.string.login_fail));
+                            break;
+                    }
+                }
+            }
         );
     }
 
@@ -148,15 +155,21 @@ public class WelcomeActivityPresenter extends BasePresenter {
             () -> welcomeRepository.signup(username, password),
             success -> {
                 this.activity.hideProgress();
-                if (success == RepositorySimpleStatus.SUCCESS){
-                    navigateActivity(UserInfoActivity.class);
-                } else if (success == RepositorySimpleStatus.PATTERN_FAIL) {
-                    this.activity.showToast(this.activity.getString(R.string.pattern_fail));
-                } else if (success == RepositorySimpleStatus.USERNAME_EXISTED) {
-                    this.activity.showToast(this.activity.getString(R.string.username_unavailable));
-                }
+                navigateActivity(UserInfoActivity.class);
             },
-            error -> this.activity.hideProgress()
+                error -> {
+                    this.activity.hideProgress();
+                    if (error instanceof UseCaseException) {
+                        switch (((UseCaseException) error).getStatus()) {
+                            case PATTERN_FAIL:
+                                this.activity.showToast(this.activity.getString(R.string.pattern_fail));
+                                break;
+                            case USERNAME_EXISTED:
+                                this.activity.showToast(this.activity.getString(R.string.username_unavailable));
+                                break;
+                        }
+                    }
+                }
         );
     }
 

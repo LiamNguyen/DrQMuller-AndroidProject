@@ -37,7 +37,7 @@ public class iCareDbHelper extends SQLiteOpenHelper {
                 "CREATE TABLE " + iCareContract.DistrictEntry.TABLE_NAME +
                 "(" +
                 iCareContract.DistrictEntry._ID +  " INTEGER PRIMARY KEY, " +
-                iCareContract.DistrictEntry.COLUMN_DISTRICT_NAME + " TEXT NOT NULL" +
+                iCareContract.DistrictEntry.COLUMN_DISTRICT_NAME + " TEXT NOT NULL, " +
                 iCareContract.DistrictEntry.COLUMN_CITY_ID + " INTEGER, " +
                 "FOREIGN KEY(" + iCareContract.DistrictEntry.COLUMN_CITY_ID + ") REFERENCES " + iCareContract.CityEntry.TABLE_NAME + "(" + iCareContract.CityEntry._ID+ ")" +
                 ");" +
@@ -45,7 +45,7 @@ public class iCareDbHelper extends SQLiteOpenHelper {
                 "CREATE TABLE " + iCareContract.LocationEntry.TABLE_NAME +
                 "(" +
                 iCareContract.LocationEntry._ID +  " INTEGER PRIMARY KEY, " +
-                iCareContract.LocationEntry.COLUMN_LOCATION_NAME + " TEXT NOT NULL" +
+                iCareContract.LocationEntry.COLUMN_LOCATION_NAME + " TEXT NOT NULL, " +
                 iCareContract.LocationEntry.COLUMN_DISTRICT_ID + " INTEGER, " +
                 "FOREIGN KEY(" + iCareContract.LocationEntry.COLUMN_DISTRICT_ID + ") REFERENCES " + iCareContract.DistrictEntry.TABLE_NAME + "(" + iCareContract.DistrictEntry._ID+ ")" +
                 ");" +
@@ -53,7 +53,7 @@ public class iCareDbHelper extends SQLiteOpenHelper {
                 "CREATE TABLE " + iCareContract.VoucherEntry.TABLE_NAME +
                 "(" +
                 iCareContract.VoucherEntry._ID +  " INTEGER PRIMARY KEY, " +
-                iCareContract.VoucherEntry.COLUMN_VOUCHER_NAME + " TEXT NOT NULL" +
+                iCareContract.VoucherEntry.COLUMN_VOUCHER_NAME + " TEXT NOT NULL, " +
                 iCareContract.VoucherEntry.COLUMN_VOUCHER_PRICE + " INTEGER NOT NULL" +
                 ");" +
                 //Type table
@@ -66,7 +66,7 @@ public class iCareDbHelper extends SQLiteOpenHelper {
                 "CREATE TABLE " + iCareContract.MachineEntry.TABLE_NAME +
                 "(" +
                 iCareContract.MachineEntry._ID +  " INTEGER PRIMARY KEY, " +
-                iCareContract.MachineEntry.COLUMN_MACHINE_NAME + " TEXT NOT NULL" +
+                iCareContract.MachineEntry.COLUMN_MACHINE_NAME + " TEXT NOT NULL, " +
                 iCareContract.MachineEntry.COLUMN_LOCATION_ID + " INTEGER, " +
                 "FOREIGN KEY(" + iCareContract.MachineEntry.COLUMN_LOCATION_ID + ") REFERENCES " + iCareContract.LocationEntry.TABLE_NAME + "(" + iCareContract.LocationEntry._ID+ ")" +
                 ");" +
@@ -81,6 +81,12 @@ public class iCareDbHelper extends SQLiteOpenHelper {
                 "(" +
                 iCareContract.EcoTimeEntry._ID +  " INTEGER PRIMARY KEY, " +
                 iCareContract.EcoTimeEntry.COLUMN_ECOTIME_NAME + " TEXT NOT NULL" +
+                ");" +
+                //Week day table
+                "CREATE TABLE " + iCareContract.WeekDayEntry.TABLE_NAME +
+                "(" +
+                iCareContract.WeekDayEntry._ID +  " INTEGER PRIMARY KEY, " +
+                iCareContract.WeekDayEntry.COLUMN_DAY_NAME + " TEXT NOT NULL" +
                 ");";
 
         db.execSQL(SQL_CREATE_TABLES);
@@ -98,7 +104,8 @@ public class iCareDbHelper extends SQLiteOpenHelper {
                 "DROP TABLE IF EXISTS " + iCareContract.TypeEntry.TABLE_NAME + ";" +
                 "DROP TABLE IF EXISTS " + iCareContract.MachineEntry.TABLE_NAME + ";" +
                 "DROP TABLE IF EXISTS " + iCareContract.TimeEntry.TABLE_NAME + ";" +
-                "DROP TABLE IF EXISTS " + iCareContract.EcoTimeEntry.TABLE_NAME + ";";
+                "DROP TABLE IF EXISTS " + iCareContract.EcoTimeEntry.TABLE_NAME + ";" +
+                        "DROP TABLE IF EXISTS " + iCareContract.WeekDayEntry.TABLE_NAME + ";";
         db.execSQL(SQL_DROP_TABLES);
         onCreate(db);
     }
