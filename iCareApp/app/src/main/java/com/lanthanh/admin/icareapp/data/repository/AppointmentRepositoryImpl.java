@@ -50,7 +50,8 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public Observable<List<DTOCountry>> getCountries() {
-        if (mDb.getCountries().isEmpty())
+        List<DTOCountry> result = mDb.getCountries();
+        if (result.isEmpty())
             return restClient.getCountries().map(
                     resp -> {
                         mDb.addCoutries(resp);
@@ -58,27 +59,55 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                     }
             );
         else
-            return Observable.just(mDb.getCountries());
+            return Observable.just(result);
     }
 
     @Override
     public Observable<List<DTOCity>> getCitiesByCountryId(int countryId) {
-        return restClient.getCitiesByCountryId(countryId);
+        List<DTOCity> result = mDb.getCitiesByCountryId(countryId);
+        if (result.isEmpty())
+            return restClient.getCitiesByCountryId(countryId).map(
+                    resp -> {
+                        mDb.addCities(resp, countryId);
+                        return resp;
+                    }
+            );
+        else
+            return Observable.just(result);
     }
 
     @Override
     public Observable<List<DTODistrict>> getDistrictsByCityId(int cityId) {
-        return restClient.getDistrictsByCityId(cityId);
+        List<DTODistrict> result = mDb.getDistrictsByCityId(cityId);
+        if (result.isEmpty())
+            return restClient.getDistrictsByCityId(cityId).map(
+                    resp -> {
+                        mDb.addDistricts(resp, cityId);
+                        return resp;
+                    }
+            );
+        else
+            return Observable.just(result);
     }
 
     @Override
     public Observable<List<DTOLocation>> getLocationsByDistrictId(int districtId) {
-        return restClient.getLocationsByDistrictId(districtId);
+        List<DTOLocation> result = mDb.getLocationsByDistrictId(districtId);
+        if (result.isEmpty())
+            return restClient.getLocationsByDistrictId(districtId).map(
+                    resp -> {
+                        mDb.addLocations(resp, districtId);
+                        return resp;
+                    }
+            );
+        else
+            return Observable.just(result);
     }
 
     @Override
     public Observable<List<DTOVoucher>> getVouchers() {
-        if (mDb.getVouchers().isEmpty())
+        List<DTOVoucher> result = mDb.getVouchers();
+        if (result.isEmpty())
             return restClient.getVouchers().map(
                     resp -> {
                         mDb.addVouchers(resp);
@@ -86,12 +115,13 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                     }
             );
         else
-            return Observable.just(mDb.getVouchers());
+            return Observable.just(result);
     }
 
     @Override
     public Observable<List<DTOType>> getTypes() {
-        if (mDb.getTypes().isEmpty())
+        List<DTOType> result = mDb.getTypes();
+        if (result.isEmpty())
             return restClient.getTypes().map(
                     resp -> {
                         mDb.addTypes(resp);
@@ -99,18 +129,29 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                     }
             );
         else
-            return Observable.just(mDb.getTypes());
+            return Observable.just(result);
     }
 
     @Override
     public Observable<List<DTOMachine>> getMachinesByLocationId(int locationId) {
-        return restClient.getMachinesByLocationId(locationId);
+        List<DTOMachine> result = mDb.getMachinesByLocationId(locationId);
+        if (result.isEmpty())
+            return restClient.getMachinesByLocationId(locationId).map(
+                    resp -> {
+                        mDb.addMachines(resp, locationId);
+                        return resp;
+                    }
+            );
+        else
+            return Observable.just(result);
     }
 
     @Override
     public Observable<List<DTOTime>> getTime(int voucherId) {
+        List<DTOTime> result;
         if (voucherId == 1) {
-            if (mDb.getEcoTime().isEmpty())
+            result = mDb.getEcoTime();
+            if (result.isEmpty())
                 return restClient.getEcoTime().map(
                             resp -> {
                                 mDb.addEcoTime(resp);
@@ -118,10 +159,11 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                             }
                         );
             else
-                return Observable.just(mDb.getEcoTime());
+                return Observable.just(result);
         }
         else {
-            if (mDb.getAllTime().isEmpty())
+            result = mDb.getAllTime();
+            if (result.isEmpty())
                 return restClient.getAllTime().map(
                             resp -> {
                                 mDb.addTime(resp);
@@ -129,7 +171,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                             }
                         );
             else
-                return Observable.just(mDb.getAllTime());
+                return Observable.just(result);
         }
     }
 
@@ -156,8 +198,8 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public Observable<List<DTOWeekDay>> getWeekDays(int voucherId) {
-        List<DTOWeekDay> list = new ArrayList<>();
-        if (mDb.getWeekDays().isEmpty()) {
+        List<DTOWeekDay> result = mDb.getWeekDays();
+        if (result.isEmpty()) {
             return restClient.getDaysOfWeek().map(
                     resp -> {
                         mDb.addWeekDays(resp);
@@ -171,14 +213,14 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                     }
             );
         } else {
-            list.addAll(mDb.getWeekDays());
+            result.addAll(mDb.getWeekDays());
             if (voucherId == 1) {
-                for (DTOWeekDay day : new ArrayList<>(list)) {
+                for (DTOWeekDay day : new ArrayList<>(result)) {
                     if (day.getDayId() == 6 || day.getDayId() == 7)
-                        list.remove(day);
+                        result.remove(day);
                 }
             }
-            return Observable.just(list);
+            return Observable.just(result);
         }
     }
 
