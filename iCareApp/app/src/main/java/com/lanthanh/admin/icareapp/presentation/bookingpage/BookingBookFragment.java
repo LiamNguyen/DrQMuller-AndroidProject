@@ -107,6 +107,7 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
         getMainPresenter().getMachines(machineAdapter::update);
         getMainPresenter().getWeekDays(listAdapter::updateGroupList);
         getMainPresenter().getTime(listAdapter::updateChildList);
+        getMainPresenter().resetMachine(() -> machineSpinner.setSelection(0));
     }
 
     @Override

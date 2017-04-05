@@ -63,9 +63,7 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {
         if (fragmentClass == BookingSelectFragment.class)
@@ -201,12 +199,10 @@ public class BookingActivityPresenter extends BasePresenter{
         if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() != null) {
             if (getProvider().getCurrentAppointment().isScheduleSelectFilled()) {
                 emptyCart(
-                        () -> {
-                            this.activity.onEmptyCartItem();
-                            getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(null);
-                        }
+                        () -> this.activity.onEmptyCartItem()
                 );
             }
+            getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(null);
         }
         if (getProvider().getCurrentAppointment().isBasicSelectFilled()) {
             bookingSelectFragment.enableNextButton(true);
@@ -225,12 +221,10 @@ public class BookingActivityPresenter extends BasePresenter{
         if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() != null) {
             if (getProvider().getCurrentAppointment().isScheduleSelectFilled()) {
                 emptyCart(
-                        () -> {
-                            this.activity.onEmptyCartItem();
-                            getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(null);
-                        }
+                        () -> this.activity.onEmptyCartItem()
                 );
             }
+            getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(null);
         }
         if (getProvider().getCurrentAppointment().isBasicSelectFilled()) {
             bookingSelectFragment.enableNextButton(true);
@@ -283,34 +277,6 @@ public class BookingActivityPresenter extends BasePresenter{
             () -> appointmentRepository.getTime(this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId()),
             success -> {
                 this.activity.hideProgress();
-                updateCallback.apply(success);
-            },
-            error -> this.activity.hideProgress()
-        );
-    }
-
-    public void getAvailableTime(Function.Void<List<DTOTime>> updateCallback, int dayId) {
-        this.activity.showProgress();
-        interactor.execute(
-            () -> appointmentRepository.getAvailableTime(
-                    dayId,
-                    this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
-                    this.activity.getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine().getMachineId(),
-                    this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId()),
-            success -> {
-                this.activity.hideProgress();
-                if (this.activity.getProvider().getCurrentAppointment().getType().getTypeId() == 2) {
-                    Calendar calendarNow = Calendar.getInstance();
-                    Calendar bookedDay = Calendar.getInstance();
-                    bookedDay.setTime(this.activity.getProvider().getCurrentAppointment().getExpireDate());
-                    if (bookedDay.get(Calendar.DATE) == calendarNow.get(Calendar.DATE)) {
-                        int now = calendarNow.get(Calendar.HOUR_OF_DAY) * 60 + calendarNow.get(Calendar.MINUTE);
-                        for (DTOTime time : new ArrayList<>(success)) {
-                            if (ConverterForDisplay.convertToTime(time.getTime()) < now)
-                                success.remove(time);
-                        }
-                    }
-                }
                 updateCallback.apply(success);
             },
             error -> this.activity.hideProgress()
@@ -464,10 +430,48 @@ public class BookingActivityPresenter extends BasePresenter{
     public boolean onDaySelected(Function.VoidParam success) {
         if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() == null){
             this.activity.showToast(this.activity.getString(R.string.machine_alert));
+            this.bookingBookFragment.collapseAllGroups();
             return true;
         }
         success.apply();
         return false;
+    }
+
+    public void resetMachine(Function.VoidParam resetView) {
+        if (this.getProvider().getCurrentAppointment().getCurrentSchedule().getBookedDay() == null)
+            resetView.apply();
+    }
+
+    public void getAvailableTime(Function.Void<List<DTOTime>> updateCallback, int dayId) {
+        this.activity.showProgress();
+        interactor.execute(
+                () -> appointmentRepository.getAvailableTime(
+                        dayId,
+                        this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
+                        this.activity.getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine().getMachineId(),
+                        this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId()),
+                success -> {
+                    this.activity.hideProgress();
+                    if (this.activity.getProvider().getCurrentAppointment().getType().getTypeId() == 2) {
+                        Calendar calendarNow = Calendar.getInstance();
+                        Calendar bookedDay = Calendar.getInstance();
+                        bookedDay.setTime(this.activity.getProvider().getCurrentAppointment().getExpireDate());
+                        if (bookedDay.get(Calendar.DATE) == calendarNow.get(Calendar.DATE)) {
+                            int now = calendarNow.get(Calendar.HOUR_OF_DAY) * 60 + calendarNow.get(Calendar.MINUTE);
+                            for (DTOTime time : new ArrayList<>(success)) {
+                                if (ConverterForDisplay.convertToTime(time.getTime()) < now)
+                                    success.remove(time);
+                            }
+                        }
+                    }
+                    //Notify user if there is no appropriate schedule left today
+                    if (success.size() <= 0)
+                        this.activity.showToast(this.activity.getString(R.string.out_of_schedule));
+
+                    updateCallback.apply(success);
+                },
+                error -> this.activity.hideProgress()
+        );
     }
 
     public void onTimeSelected(DTOWeekDay weekDay, DTOTime time) {
