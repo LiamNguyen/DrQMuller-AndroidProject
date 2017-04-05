@@ -224,7 +224,7 @@ public class BookingActivityPresenter extends BasePresenter{
             () -> appointmentRepository.getWeekDays(this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId()),
             success -> {
                 if (this.activity.getProvider().getCurrentAppointment().getType().getTypeId() == 2) {
-                    getDayOfWeekForTypeFree(success, this.activity.getProvider().getCurrentAppointment().getExpireDate());
+                    success = getDayOfWeekForTypeFree(success, this.activity.getProvider().getCurrentAppointment().getExpireDate());
                 }
                 updateCallback.apply(success);
             },
@@ -388,7 +388,7 @@ public class BookingActivityPresenter extends BasePresenter{
             return true;
     }
 
-    public void setUpDatePickerView(Function.Void<Integer> resetViews) {
+    public void resetPickerView(Function.Void<Integer> resetViews) {
         if (this.activity.getProvider().getCurrentAppointment().getStartDate() != null ||
             this.activity.getProvider().getCurrentAppointment().getExpireDate() != null)
             return;

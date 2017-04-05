@@ -123,7 +123,7 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
 
     @Override
     public void refreshViews() {
-        getMainPresenter().setUpDatePickerView(this::resetDatePickerView);
+        getMainPresenter().resetPickerView(this::resetDatePickerView);
     }
 
     @Override

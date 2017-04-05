@@ -214,10 +214,10 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
                 //Reset cart on voucher change
                 if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() != null) {
                     getMainPresenter().emptyCart(
-                            () -> {
-                                ((BookingActivity) getActivity()).onEmptyCartItem();
-                                getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(null);
-                            }
+                        () -> {
+                            ((BookingActivity) getActivity()).onEmptyCartItem();
+                            getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(null);
+                        }
                     );
                 }
                 //Enable type
@@ -233,10 +233,10 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
                 //Reset cart on type change
                 if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() != null) {
                     getMainPresenter().emptyCart(
-                            () -> {
-                                ((BookingActivity) getActivity()).onEmptyCartItem();
-                                getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(null);
-                            }
+                        () -> {
+                            ((BookingActivity) getActivity()).onEmptyCartItem();
+                            getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(null);
+                        }
                     );
                 }
                 break;

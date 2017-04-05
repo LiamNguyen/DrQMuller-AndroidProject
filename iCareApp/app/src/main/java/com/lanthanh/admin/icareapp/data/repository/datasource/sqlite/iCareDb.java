@@ -219,7 +219,7 @@ public class iCareDb {
             String SQL_INSERT = "INSERT INTO " + iCareContract.TimeEntry.TABLE_NAME + " (" + iCareContract.TimeEntry.COLUMN_DB_ID + ", " + iCareContract.TimeEntry.COLUMN_TIME_NAME + ") " +
                                 "VALUES ";
             for (DTOTime time: times) {
-                SQL_INSERT += "(" + time.getTimeId() + ", \"" + time.getTimeId() + "\")";
+                SQL_INSERT += "(" + time.getTimeId() + ", \"" + time.getTime() + "\")";
                 if (times.indexOf(time) + 1 < times.size())
                     SQL_INSERT += ",";
             }
@@ -242,7 +242,7 @@ public class iCareDb {
             String SQL_INSERT = "INSERT INTO " + iCareContract.EcoTimeEntry.TABLE_NAME + " (" + iCareContract.EcoTimeEntry.COLUMN_DB_ID + ", " + iCareContract.EcoTimeEntry.COLUMN_ECOTIME_NAME + ") " +
                                 "VALUES ";
             for (DTOTime time: times) {
-                SQL_INSERT += "(" + time.getTimeId() + ", \"" + time.getTimeId() + "\")";
+                SQL_INSERT += "(" + time.getTimeId() + ", \"" + time.getTime() + "\")";
                 if (times.indexOf(time) + 1 < times.size())
                     SQL_INSERT += ",";
             }

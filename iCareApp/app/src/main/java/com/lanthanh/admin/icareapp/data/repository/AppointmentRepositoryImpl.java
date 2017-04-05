@@ -213,7 +213,6 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                     }
             );
         } else {
-            result.addAll(mDb.getWeekDays());
             if (voucherId == 1) {
                 for (DTOWeekDay day : new ArrayList<>(result)) {
                     if (day.getDayId() == 6 || day.getDayId() == 7)
