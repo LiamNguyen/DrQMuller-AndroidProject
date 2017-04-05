@@ -361,7 +361,7 @@ public class BookingActivityPresenter extends BasePresenter{
         if (startDate.compareTo(currentDate) >= 0){
             this.startDate = startDate;
         }else{
-            fail.apply("Ngày được chọn không phù hợp");//TODO remove hard code
+            fail.apply(this.activity.getString(R.string.booking_date_invalid));
             return;
         }
 
@@ -371,6 +371,8 @@ public class BookingActivityPresenter extends BasePresenter{
         if (this.expireDate != null) {
             if (this.startDate.compareTo(this.expireDate) >= 0) {
                 this.expireDate = null;
+                this.activity.getProvider().getCurrentAppointment().setExpireDate(null);
+                this.bookingSelectDateFragment.resetExpireDateForFixedType();
             }
         }
 
@@ -413,14 +415,14 @@ public class BookingActivityPresenter extends BasePresenter{
             if (expireDate.compareTo(currentDate) >= 0) {
                 this.expireDate = expireDate;
             } else {
-                fail.apply("Ngày được chọn không phù hợp");//TODO remove hard code
+                fail.apply(this.activity.getString(R.string.booking_date_invalid));
                 return;
             }
         }else {
             if (expireDate.compareTo(this.startDate) > 0) {
                 this.expireDate = expireDate;
             } else {
-                fail.apply("Ngày được chọn không phù hợp");//TODO remove hard code
+                fail.apply(this.activity.getString(R.string.booking_date_invalid));
                 return;
             }
         }

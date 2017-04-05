@@ -135,6 +135,10 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
         }
     }
 
+    public void resetExpireDateForFixedType() {
+        expireDate.setText(getString(R.string.booking_date_hint));
+    }
+
     public void resetDatePickerView(int typeId) {
         nextButton.setEnabled(false);
         setFabTint(nextButton, false);
