@@ -169,11 +169,6 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> imple
     }
 
     @Override
-    public ApplicationProvider getProvider() {
-        return null;
-    }
-
-    @Override
     public void onClick(View v) {
         ((WelcomeActivity) getActivity()).hideSoftKeyboard();
         if (validUN && validPW && validPWConf) {

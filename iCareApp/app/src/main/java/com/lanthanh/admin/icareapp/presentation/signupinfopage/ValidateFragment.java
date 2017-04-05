@@ -79,9 +79,4 @@ public class ValidateFragment extends BaseFragment<UserInfoActivityPresenter>{
         validateMessage.setText(string);
         validateMessage.setVisibility(View.VISIBLE);
     }
-
-    @Override
-    public ApplicationProvider getProvider() {
-        return null;
-    }
 }

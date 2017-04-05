@@ -150,9 +150,4 @@ public class ContactFragment extends BaseFragment<UserInfoActivityPresenter>{
         else
             nextButton.setEnabled(false);
     }
-
-    @Override
-    public ApplicationProvider getProvider() {
-        return null;
-    }
 }

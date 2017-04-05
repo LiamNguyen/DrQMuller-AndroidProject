@@ -140,33 +140,6 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
         unbinder.unbind();
     }
 
-    @Override
-    public ApplicationProvider getProvider() {
-        return null;
-    }
-
-    //                if (validName && validAddress){
-//
-//                }
-//                else{
-//                    if (!validName){
-//                        if (editName.getText().toString().equals("")){
-//                            editNameContainer.setError(getString(R.string.name_null));
-//                        }else {
-//                            editNameContainer.setError(getString(R.string.name_requirement));
-//                        }
-//                        editNameContainer.setErrorEnabled(true);
-//                    }
-//                    if (!validAddress){
-//                        if (editAddress.getText().toString().equals("")){
-//                            editAddressContainer.setError(getString(R.string.address_null));
-//                        }else{
-//                            editAddressContainer.setError(getString(R.string.address_requirement));
-//                        }
-//                        editAddressContainer.setErrorEnabled(true);
-//                    }
-//                }
-
     private void toggleNextButton() {
         if (validName && validAddress)
             nextButton.setEnabled(true);

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
+import com.lanthanh.admin.icareapp.presentation.application.iCareApplication;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 
 /**
@@ -32,6 +34,10 @@ public abstract class BasePresenter implements Presenter {
     @Override
     public void destroy() {
 
+    }
+
+    public ApplicationProvider getProvider() {
+        return ((iCareApplication) this.activity.getApplication()).getProvider();
     }
 
     public void navigateActivity(Class<? extends Activity> activityClass) {

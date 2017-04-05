@@ -25,6 +25,8 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.adapter.CustomSpinnerAdapter;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -112,27 +114,27 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
         typeContainer.setVisibility(View.INVISIBLE);
 
         //Set up adapter for spinner
-        countryAdapter = new CustomSpinnerAdapter<>(getActivity(), R.layout.bookingselect_spinner_item, getProvider().getCountries(), getString(R.string.booking_country_hint));
+        countryAdapter = new CustomSpinnerAdapter<DTOCountry>(getActivity(), R.layout.bookingselect_spinner_item, new ArrayList<>(), getString(R.string.booking_country_hint));
         countrySp.setAdapter(countryAdapter);
         countrySp.setSelection(0, false);
 
-        cityAdapter = new CustomSpinnerAdapter<>(getActivity(), R.layout.bookingselect_spinner_item, getProvider().getCities(), getString(R.string.booking_city_hint));
+        cityAdapter = new CustomSpinnerAdapter<DTOCity>(getActivity(), R.layout.bookingselect_spinner_item, new ArrayList<>(), getString(R.string.booking_city_hint));
         citySp.setAdapter(cityAdapter);
         citySp.setSelection(0, false);
 
-        districtAdapter = new CustomSpinnerAdapter<>(getActivity(), R.layout.bookingselect_spinner_item, getProvider().getDistricts(), getString(R.string.booking_district_hint));
+        districtAdapter = new CustomSpinnerAdapter<DTODistrict>(getActivity(), R.layout.bookingselect_spinner_item, new ArrayList<>(), getString(R.string.booking_district_hint));
         districtSp.setAdapter(districtAdapter);
         districtSp.setSelection(0, false);
 
-        locationAdapter = new CustomSpinnerAdapter<>(getActivity(), R.layout.bookingselect_spinner_item, getProvider().getLocations(), getString(R.string.booking_location_hint));
+        locationAdapter = new CustomSpinnerAdapter<DTOLocation>(getActivity(), R.layout.bookingselect_spinner_item, new ArrayList<>(), getString(R.string.booking_location_hint));
         locationSp.setAdapter(locationAdapter);
         locationSp.setSelection(0, false);
 
-        voucherAdapter = new CustomSpinnerAdapter<>(getActivity(), R.layout.bookingselect_spinner_item, getProvider().getVouchers(), getString(R.string.booking_voucher_hint));
+        voucherAdapter = new CustomSpinnerAdapter<DTOVoucher>(getActivity(), R.layout.bookingselect_spinner_item, new ArrayList<>(), getString(R.string.booking_voucher_hint));
         voucherSp.setAdapter(voucherAdapter);
         voucherSp.setSelection(0, false);
 
-        typeAdapter = new CustomSpinnerAdapter<>(getActivity(), R.layout.bookingselect_spinner_item, getProvider().getTypes(), getString(R.string.booking_type_hint));
+        typeAdapter = new CustomSpinnerAdapter<DTOType>(getActivity(), R.layout.bookingselect_spinner_item, new ArrayList<>(), getString(R.string.booking_type_hint));
         typeSp.setAdapter(typeAdapter);
         typeSp.setSelection(0, false);
 
@@ -154,11 +156,6 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
     @Override
     public BookingActivityPresenter getMainPresenter() {
         return ((BookingActivity) getActivity()).getMainPresenter();
-    }
-
-    @Override
-    public ApplicationProvider getProvider() {
-        return ((BookingActivity) getActivity()).getProvider();
     }
 
     public void setDefaultSelectionForCountry() {
@@ -187,70 +184,44 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()){
             case R.id.spinner_countries:
-                getMainPresenter().getCitiesByCountryId(cityAdapter::update, ((DTOCountry) countrySp.getSelectedItem()).getCountryId());
-                getProvider().getCurrentAppointment().setCountry((DTOCountry) countrySp.getSelectedItem());
+                getMainPresenter().onCountrySelected(cityAdapter::update, (DTOCountry) countrySp.getSelectedItem());
                 break;
             case R.id.spinner_cities:
-                getMainPresenter().getDistrictsByCityId(districtAdapter::update, ((DTOCity) citySp.getSelectedItem()).getCityId());
-                getProvider().getCurrentAppointment().setCity((DTOCity) citySp.getSelectedItem());
+                getMainPresenter().onCitySelected(districtAdapter::update, (DTOCity) citySp.getSelectedItem());
                 break;
             case R.id.spinner_districts:
-                getMainPresenter().getLocationsByDistrictId(locationAdapter::update, ((DTODistrict) districtSp.getSelectedItem()).getDistrictId());
-                getProvider().getCurrentAppointment().setDistrict((DTODistrict) districtSp.getSelectedItem());
+                getMainPresenter().onDistrictSelected(locationAdapter::update, (DTODistrict) districtSp.getSelectedItem());
                 break;
             case R.id.spinner_locations:
-                getProvider().getCurrentAppointment().setLocation((DTOLocation) locationSp.getSelectedItem());
-                //Enable voucher
-                voucherSp.setEnabled(true);
-                voucherIv.setEnabled(true);
-                setImageTint(voucherIv, true);
+                getMainPresenter().onLocationSelected(
+                    () -> {
+                        //Enable voucher
+                        voucherSp.setEnabled(true);
+                        voucherIv.setEnabled(true);
+                        setImageTint(voucherIv, true);
+                    },
+                    (DTOLocation) locationSp.getSelectedItem());
                 break;
             case R.id.spinner_vouchers:
-                getProvider().getCurrentAppointment().setVoucher((DTOVoucher) voucherSp.getSelectedItem());
-                setDefaultSelectionForType();
-                //Reset date on voucher change
-                getProvider().getCurrentAppointment().setStartDate(null);
-                getProvider().getCurrentAppointment().setExpireDate(null);
-                //Reset cart on voucher change
-                if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() != null) {
-                    getMainPresenter().emptyCart(
-                        () -> {
-                            ((BookingActivity) getActivity()).onEmptyCartItem();
-                            getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(null);
-                        }
-                    );
-                }
-                //Enable type
-                typeSp.setEnabled(true);
-                typeIv.setEnabled(true);
-                setImageTint(typeIv, true);
+                getMainPresenter().onVoucherSelected(
+                    () -> {
+                        setDefaultSelectionForType();
+                        //Enable type
+                        typeSp.setEnabled(true);
+                        typeIv.setEnabled(true);
+                        setImageTint(typeIv, true);
+                    },
+                    (DTOVoucher) voucherSp.getSelectedItem());
                 break;
             case R.id.spinner_type:
-                getProvider().getCurrentAppointment().setType((DTOType) typeSp.getSelectedItem());
-                //Reset date on type change
-                getProvider().getCurrentAppointment().setStartDate(null);
-                getProvider().getCurrentAppointment().setExpireDate(null);
-                //Reset cart on type change
-                if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() != null) {
-                    getMainPresenter().emptyCart(
-                        () -> {
-                            ((BookingActivity) getActivity()).onEmptyCartItem();
-                            getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(null);
-                        }
-                    );
-                }
-                break;
-            default:
+                getMainPresenter().onTypeSelected((DTOType) typeSp.getSelectedItem());
                 break;
         }
-        if (getProvider().getCurrentAppointment().isFirstSelectFilled()) {
-            nextButton.setEnabled(true);
-            setFabTint(nextButton, true);
-        } else {
-            nextButton.setEnabled(false);
-            setFabTint(nextButton, false);
-        }
+    }
 
+    public void enableNextButton(boolean shouldEnable) {
+        nextButton.setEnabled(shouldEnable);
+        setFabTint(nextButton, shouldEnable);
     }
 
     @Override

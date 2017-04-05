@@ -101,11 +101,6 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter>{
     }
 
     @Override
-    public ApplicationProvider getProvider() {
-        return null;
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();

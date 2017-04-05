@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.Spinner;
 
-import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.TimeComparator;
 import com.lanthanh.admin.icareapp.R;
@@ -19,6 +18,8 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTOMachine;
 import com.lanthanh.admin.icareapp.presentation.adapter.CustomSpinnerAdapter;
 import com.lanthanh.admin.icareapp.presentation.adapter.ExpandableListViewAdapter;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,18 +56,11 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
         finishButton.setTypeface(font);
 
-        finishButton.setOnClickListener(
-            view ->{
-                if (this.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() <= 0){
-                    showToast(getString(R.string.min_item));
-                }else {
-                    getMainPresenter().createAppointment();
-                }
-        });
+        finishButton.setOnClickListener(view -> getMainPresenter().createAppointment());
         finishButton.setEnabled(false);
 
         /*========================= MACHINE SPINNER =========================*/
-        machineAdapter = new CustomSpinnerAdapter<>(getActivity(), R.layout.bookingselect_spinner_item, getProvider().getMachines(), getString(R.string.booking_machine_hint));
+        machineAdapter = new CustomSpinnerAdapter<DTOMachine>(getActivity(), R.layout.bookingselect_spinner_item, new ArrayList<>(), getString(R.string.booking_machine_hint));
         machineAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         machineSpinner.setAdapter(machineAdapter);
         machineSpinner.setSelection(0, false);
@@ -76,25 +70,19 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
         expandableListView.setGroupIndicator(null);
         expandableListView.setOnChildClickListener(
                 (ExpandableListView expandableListView, View view,  int groupPosition, int childPosition, long childId) -> {
-                getMainPresenter().bookTime(listAdapter.getGroup(groupPosition), listAdapter.getChild(groupPosition, childPosition));
+                getMainPresenter().onTimeSelected(listAdapter.getGroup(groupPosition), listAdapter.getChild(groupPosition, childPosition));
                 expandableListView.collapseGroup(groupPosition);
                 return true;
             }
         );
         expandableListView.setOnGroupClickListener(
-            (ExpandableListView expandableListView, View view, int groupPosition, long groupId) -> {
-                //Check whether machine has been selected. If not selected
-                if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() == null){
-                    showToast(getString(R.string.machine_alert));
-                    return true;
-                }
-                //If selected (currently the selected item of group is closing)
-                if (!expandableListView.isGroupExpanded(groupPosition)) {
-                    expandGroup(groupPosition, false);
-                }
-
-                return false;
-            }
+            (ExpandableListView expandableListView, View view, int groupPosition, long groupId) ->
+                getMainPresenter().onDaySelected(() -> {
+                    //If selected (currently the selected item of group is closing)
+                    if (!expandableListView.isGroupExpanded(groupPosition)) {
+                        expandGroup(groupPosition, false);
+                    }
+                })
         );
         expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousItem = -1;
@@ -108,7 +96,7 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
             }
         });
         //Initialize list adapter
-        listAdapter = new ExpandableListViewAdapter(getActivity(), getProvider().getWeekDays(), getProvider().getAllTime());
+        listAdapter = new ExpandableListViewAdapter(getActivity(), new ArrayList<>(), new ArrayList<>());
         expandableListView.setAdapter(listAdapter);
 
         refreshViews();
@@ -119,19 +107,11 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
         getMainPresenter().getMachines(machineAdapter::update);
         getMainPresenter().getWeekDays(listAdapter::updateGroupList);
         getMainPresenter().getTime(listAdapter::updateChildList);
-        if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() == null) {
-            machineSpinner.setSelection(0);
-        }
     }
 
     @Override
     public BookingActivityPresenter getMainPresenter() {
         return ((BookingActivity) getActivity()).getMainPresenter();
-    }
-
-    @Override
-    public ApplicationProvider getProvider() {
-        return ((BookingActivity) getActivity()).getProvider();
     }
 
     public void enableFinishButton(boolean shouldEnable) {
@@ -147,9 +127,12 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
         switch (adapterView.getId()) {
             case R.id.spinner_machine:
                 if (position != 0) {
-                    getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine((DTOMachine) machineSpinner.getSelectedItem());
-                    collapseAllGroups();
-                    expandGroup(0, true);
+                    getMainPresenter().onMachineSelected(
+                        () -> {
+                        collapseAllGroups();
+                        expandGroup(0, true);
+                    },
+                            (DTOMachine) machineSpinner.getSelectedItem());
                 }
                 break;
         }

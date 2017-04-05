@@ -124,9 +124,4 @@ public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenter>
         else
             nextButton.setEnabled(false);
     }
-
-    @Override
-    public ApplicationProvider getProvider() {
-        return null;
-    }
 }

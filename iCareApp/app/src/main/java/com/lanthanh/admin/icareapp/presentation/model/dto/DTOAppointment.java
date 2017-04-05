@@ -161,7 +161,7 @@ public class DTOAppointment {
         this.appointmentScheduleList = appointmentScheduleList;
     }
 
-    public boolean isFirstSelectFilled(){
+    public boolean isBasicSelectFilled(){
         return country != null && city != null && district != null && location != null && voucher != null && type != null;
     }
 
@@ -175,7 +175,7 @@ public class DTOAppointment {
             return false;
     }
 
-    public boolean isMachineFilled(){
+    public boolean isScheduleSelectFilled(){
         return appointmentScheduleList != null && appointmentScheduleList.size() > 0;
     }
 }

@@ -59,9 +59,4 @@ public class DefaultAppointmentFragment extends BaseFragment<MainActivityPresent
         super.onDestroy();
         unbinder.unbind();
     }
-
-    @Override
-    public ApplicationProvider getProvider() {
-        return null;
-    }
 }
