@@ -51,6 +51,7 @@ public class BookingActivityPresenter extends BasePresenter{
     private Interactor interactor;
 
     public BookingActivityPresenter(BookingActivity activity) {
+        super(activity);
         this.activity = activity;
         init();
     }
@@ -116,19 +117,6 @@ public class BookingActivityPresenter extends BasePresenter{
         }
 
         fragmentTransaction.addToBackStack(null).commit();
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass) {
-        Intent intent = new Intent(this.activity, activityClass);
-        this.activity.startActivity(intent);
-        this.activity.finish();
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass, Bundle b) {
-        Intent intent = new Intent(this.activity, activityClass);
-        intent.putExtra(this.getClass().getName(), b); //TODO check this put extra
-        this.activity.startActivity(intent);
-        this.activity.finish();
     }
 
     public void onBackPressed() {

@@ -9,5 +9,4 @@ public interface Presenter {
     void pause();
     void stop();
     void destroy();
-    void onError(String message);
 }

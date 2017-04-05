@@ -40,6 +40,7 @@ public class MainActivityPresenter extends BasePresenter {
     private Interactor interactor;
 
     public MainActivityPresenter(MainActivity activity){
+        super(activity);
         this.activity = activity;
         init();
     }
@@ -123,17 +124,6 @@ public class MainActivityPresenter extends BasePresenter {
         }
 
         fragmentTransaction.addToBackStack(null).commit();
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass) {
-        Intent intent = new Intent(this.activity, activityClass);
-        this.activity.startActivity(intent);
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass, Bundle b) {
-        Intent intent = new Intent(this.activity, activityClass);
-        intent.putExtra(this.getClass().getName(), b); //TODO check this put extra
-        this.activity.startActivity(intent);
     }
 
     public void populateUserTabOptions(Function.VoidParam notify, List<String> list) {

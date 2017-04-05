@@ -31,6 +31,7 @@ public class SplashScreenPresenter extends BasePresenter {
     private WelcomeRepository welcomeRepository;
 
     public SplashScreenPresenter(SplashScreenActivity activity) {
+        super(activity);
         this.activity = activity;
         init();
     }
@@ -81,19 +82,6 @@ public class SplashScreenPresenter extends BasePresenter {
             },
             error -> {}
         );
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass) {
-        Intent intent = new Intent(this.activity, activityClass);
-        this.activity.startActivity(intent);
-        this.activity.finish();
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass, Bundle b) {
-        Intent intent = new Intent(this.activity, activityClass);
-        intent.putExtra(this.getClass().getName(), b); //TODO check this put extra
-        this.activity.startActivity(intent);
-        this.activity.finish();
     }
 
     @Override

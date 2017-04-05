@@ -27,6 +27,7 @@ public class ConfirmBookingActivityPresenter extends BasePresenter {
     private Interactor interactor;
 
     public ConfirmBookingActivityPresenter(ConfirmBookingActivity activity){
+        super(activity);
         this.activity = activity;
         init();
     }
@@ -34,19 +35,6 @@ public class ConfirmBookingActivityPresenter extends BasePresenter {
     public void init(){
         appointmentRepository = new AppointmentRepositoryImpl(this.activity);
         interactor = new Interactor();
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass) {
-        Intent intent = new Intent(this.activity, activityClass);
-        this.activity.startActivity(intent);
-        this.activity.finish();
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass, Bundle b) {
-        Intent intent = new Intent(this.activity, activityClass);
-        intent.putExtra(this.getClass().getName(), b); //TODO check this put extra
-        this.activity.startActivity(intent);
-        this.activity.finish();
     }
 
     public void confirmAppointment(String verificationCode) {

@@ -38,6 +38,7 @@ public class UserInfoActivityPresenter extends BasePresenter {
     private Interactor interactor;
 
     public UserInfoActivityPresenter(UserInfoActivity activity){
+        super(activity);
         this.activity = activity;
         init();
     }
@@ -151,19 +152,6 @@ public class UserInfoActivityPresenter extends BasePresenter {
             },
             error -> {}
         );
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass) {
-        Intent intent = new Intent(this.activity, activityClass);
-        this.activity.startActivity(intent);
-        this.activity.finish();
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass, Bundle b) {
-        Intent intent = new Intent(this.activity, activityClass);
-        intent.putExtra(this.getClass().getName(), b); //TODO check this put extra
-        this.activity.startActivity(intent);
-        this.activity.finish();
     }
 
     /*=================== USE CASES ===================*/

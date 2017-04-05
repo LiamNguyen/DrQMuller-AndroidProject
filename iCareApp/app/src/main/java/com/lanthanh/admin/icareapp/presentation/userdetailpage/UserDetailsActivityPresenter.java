@@ -19,6 +19,7 @@ public class UserDetailsActivityPresenter extends BasePresenter {
     private Interactor interactor;
 
     public UserDetailsActivityPresenter(UserDetailsActivity activity) {
+        super(activity);
         this.activity = activity;
         init();
     }
