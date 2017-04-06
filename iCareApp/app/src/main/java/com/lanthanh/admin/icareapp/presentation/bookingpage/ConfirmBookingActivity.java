@@ -83,19 +83,19 @@ public class ConfirmBookingActivity extends BaseActivity {
 
     public void init(){
         confirmBookingActivityPresenter = new ConfirmBookingActivityPresenter(this);
-        confirmBookingActivityPresenter.resume();
+        confirmBookingActivityPresenter.sendEmailNotifyBooking();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //networkController.registerNetworkReceiver();
+        confirmBookingActivityPresenter.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //networkController.unregisterNetworkReceiver();
+        confirmBookingActivityPresenter.pause();
     }
 
     @Override

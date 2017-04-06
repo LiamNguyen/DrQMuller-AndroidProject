@@ -11,7 +11,6 @@ import android.net.NetworkInfo;
 import android.support.v7.app.AlertDialog;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 
 /**
  * Created by ADMIN on 18-Dec-16.
@@ -26,22 +25,15 @@ public class NetworkBroadcastReceiver {
     private final String CONNECTIVITY_CHANGE_FILTER = "android.net.conn.CONNECTIVITY_CHANGE";
 
     public NetworkBroadcastReceiver(final Activity activity){
-        //Assign current activity
         this.activity = activity;
-        //Init check connection variable
-        isConnected = false;
+        this.isConnected = true;
         //Init an alert dialog to show whenever there is no network connection
         alertDialog = new AlertDialog.Builder(activity)
                 .setMessage(activity.getString(R.string.no_network_connection))
-                .setPositiveButton(activity.getString(R.string.try_connect_again), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                }).setCancelable(false).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        checkNetworkConnection(activity);
-                    }
-                }).create();
+                .setPositiveButton(activity.getString(R.string.try_connect_again), (DialogInterface dialog, int which) -> dialog.dismiss())
+                .setCancelable(false)
+                .setOnDismissListener((DialogInterface dialogInterface) -> checkNetworkConnection(activity))
+                .create();
 
         //Init the broadcast receiver to listen to network's changes
         networkReceiver = new BroadcastReceiver() {
@@ -62,23 +54,18 @@ public class NetworkBroadcastReceiver {
         return networkInfo != null && networkInfo.isConnected();
     }
 
-//    //Check when activity starts
-//    public void checkNetworkConnection(){
-//        if (!haveNetworkConnection(activity)){
-
-
-//            if (!alertDialog.isShowing())
-//                noNetworkConnectionAlertShow();
-//        }
-//    }
-
     //Check when broadcast receiver receives CONNECTIVITY_CHANGE event
     private void checkNetworkConnection(Context ctx){
-        if (!haveNetworkConnection(ctx))
+        if (!haveNetworkConnection(ctx)) {
             alertDialog.show();
-        else{
-            if (activity instanceof MainActivity)
-                ((MainActivity) activity).refreshAfterNetworkConnected();
+            isConnected = false;
+        } else {
+            if (!isConnected) {
+                Intent intent = new Intent(this.activity, this.activity.getClass());
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                this.activity.finish();
+                this.activity.startActivity(intent);
+            }
         }
     }
 

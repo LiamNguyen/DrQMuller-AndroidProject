@@ -29,9 +29,6 @@ public class UserDetailsActivityPresenter extends BasePresenter {
         interactor = new Interactor();
     }
 
-    @Override
-    public void resume() {}
-
     public void populateUserInformation(Function.VoidParam<String> populateName, Function.VoidParam<String> populateAddress,
                                         Function.VoidParam<String> populateDob, Function.VoidParam<String> populateGender,
                                         Function.VoidParam<String> populateEmail, Function.VoidParam<String> populatePhone) {

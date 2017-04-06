@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.application.iCareApplication;
+import com.lanthanh.admin.icareapp.presentation.broadcastreceivers.NetworkBroadcastReceiver;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 
 /**
@@ -14,16 +15,21 @@ import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 
 public abstract class BasePresenter implements Presenter {
     private Activity activity;
+    private NetworkBroadcastReceiver networkBroadcastReceiver;
 
     public BasePresenter(Activity activity){
         this.activity = activity;
+        this.networkBroadcastReceiver = new NetworkBroadcastReceiver(this.activity);
     }
 
-    public abstract void resume();
+    @Override
+    public void resume() {
+        this.networkBroadcastReceiver.registerNetworkReceiver();
+    }
 
     @Override
     public void pause() {
-
+        this.networkBroadcastReceiver.unregisterNetworkReceiver();
     }
 
     @Override

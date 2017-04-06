@@ -79,6 +79,12 @@ public class MainActivity extends BaseActivity{
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        mainActivityPresenter.pause();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mainActivityPresenter.destroy();

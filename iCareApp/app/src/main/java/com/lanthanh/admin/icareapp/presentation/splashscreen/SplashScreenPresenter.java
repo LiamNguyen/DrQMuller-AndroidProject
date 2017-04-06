@@ -85,11 +85,6 @@ public class SplashScreenPresenter extends BasePresenter {
     }
 
     @Override
-    public void resume() {
-
-    }
-
-    @Override
     public void destroy() {
         interactor.dispose();
     }

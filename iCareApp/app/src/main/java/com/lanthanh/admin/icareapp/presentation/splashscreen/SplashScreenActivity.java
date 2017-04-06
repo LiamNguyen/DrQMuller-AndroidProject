@@ -38,8 +38,14 @@ public class SplashScreenActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //new Handler().postDelayed(() -> splashScreenPresenter.checkLoggedIn(), 1000);
+        splashScreenPresenter.resume();
         splashScreenPresenter.checkVersionCode();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        splashScreenPresenter.pause();
     }
 
     @Override

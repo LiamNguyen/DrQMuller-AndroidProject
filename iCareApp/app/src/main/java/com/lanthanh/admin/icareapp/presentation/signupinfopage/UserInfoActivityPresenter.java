@@ -132,9 +132,6 @@ public class UserInfoActivityPresenter extends BasePresenter {
             navigateFragment(ValidateFragment.class);
     }
 
-    @Override
-    public void resume() {}
-
     public void checkUserInformationValidity(){
         interactor.execute(
             () -> userRepository.checkUserInformationValidity(),

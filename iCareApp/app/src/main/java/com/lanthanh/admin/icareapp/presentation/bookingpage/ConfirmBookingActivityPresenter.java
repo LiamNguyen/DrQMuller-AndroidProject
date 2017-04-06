@@ -64,8 +64,7 @@ public class ConfirmBookingActivityPresenter extends BasePresenter {
         }
     }
 
-    @Override
-    public void resume() {
+    public void sendEmailNotifyBooking() {
         if (!this.activity.getProvider().getCurrentAppointment().isEmailSent()) {
             interactor.execute(
                     () -> appointmentRepository.sendEmailNotifyBooking(this.activity.getProvider().getCurrentAppointment().getAppointmentId()),

@@ -293,13 +293,13 @@ public class UserDetailsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //networkController.registerNetworkReceiver();
+        userDetailsActivityPresenter.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //networkController.unregisterNetworkReceiver();
+        userDetailsActivityPresenter.pause();
     }
 
     @Override

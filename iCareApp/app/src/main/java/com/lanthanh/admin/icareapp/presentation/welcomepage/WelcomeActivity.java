@@ -74,43 +74,13 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        //networkController.registerNetworkReceiver();
-//
-//        if (getIntent() != null) {
-//            Intent intent = getIntent();
-//            Bundle b = intent.getExtras();
-//            if (b != null) {
-//                if (b.containsKey(DeepLinkActivity.TAG)) {
-//                    Bundle bundle = b.getBundle(DeepLinkActivity.TAG);
-//                    if (bundle != null)
-//                        //registerActivityPresenter.verifyAccount(bundle.getString("cus_id"));
-//                        System.out.println("yaa");
-//                    else
-//                        Log.e(TAG, "No data received from DeepLinkActivity");
-//                }else if (b.containsKey(ResetPasswordActivity.TAG)){
-//                    Bundle bundle = b.getBundle(ResetPasswordActivity.TAG);
-//                    if (bundle != null){
-//                        int result = bundle.getInt("result");
-//
-//                        if (result == ResetPasswordActivity.SUCCESS)
-//                            showAlertDialog(R.string.reset_success);
-//                        else if (result == ResetPasswordActivity.FAIL)
-//                            showAlertDialog(R.string.reset_fail);
-//                    }else
-//                        Log.e(TAG, "No data received from ResetPasswordActivity");
-//                }
-//            }else{
-//                Log.i(TAG, "No data received from intent");
-//            }
-//        }
-//        setIntent(null);
+        registerActivityPresenter.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //networkController.unregisterNetworkReceiver();
+        registerActivityPresenter.pause();
     }
 
     @Override
@@ -155,7 +125,7 @@ public class WelcomeActivity extends BaseActivity {
     public void backToHomeScreen() {
         hideProgress();
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-        homeIntent.addCategory( Intent.CATEGORY_HOME );
+        homeIntent.addCategory(Intent.CATEGORY_HOME);
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(homeIntent);
     }

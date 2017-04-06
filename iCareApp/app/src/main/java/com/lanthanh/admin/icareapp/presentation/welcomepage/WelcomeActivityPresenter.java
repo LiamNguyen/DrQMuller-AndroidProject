@@ -178,9 +178,4 @@ public class WelcomeActivityPresenter extends BasePresenter {
     public void destroy() {
         interactor.dispose();
     }
-
-    @Override
-    public void resume() {
-
-    }
 }

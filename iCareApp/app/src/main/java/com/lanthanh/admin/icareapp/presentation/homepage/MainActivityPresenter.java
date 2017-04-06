@@ -52,11 +52,18 @@ public class MainActivityPresenter extends BasePresenter {
 
     @Override
     public void resume() {
+        super.resume();
         if (!userFragment.isVisible()) {
             showBookingTab();
         } else {
             userFragment.refreshViews();
         }
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        interactor.dispose();
     }
 
     public void showBookingTab() {
@@ -79,7 +86,6 @@ public class MainActivityPresenter extends BasePresenter {
         else if (fragmentClass == UserFragment.class)
             showFragment(userFragment);
     }
-
 
     public List<Fragment> getVisibleFragments() {
         // We have 3 fragments, so initialize the arrayList to 3 to optimize memory
@@ -156,12 +162,6 @@ public class MainActivityPresenter extends BasePresenter {
             callback::apply,
             error -> {}
         );
-    }
-
-    @Override
-    public void destroy() {
-        super.destroy();
-        interactor.dispose();
     }
 
     public void cancelAppointment() {

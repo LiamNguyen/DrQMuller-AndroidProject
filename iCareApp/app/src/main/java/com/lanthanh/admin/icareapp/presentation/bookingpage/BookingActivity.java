@@ -73,6 +73,18 @@ public class BookingActivity extends BaseActivity {
     /* ============================== LIFE CYCLE ==============================*/
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        bookingActivityPresenter.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        bookingActivityPresenter.pause();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         if (this.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() > 0) {

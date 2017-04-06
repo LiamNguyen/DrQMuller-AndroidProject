@@ -62,9 +62,6 @@ public class BookingActivityPresenter extends BasePresenter{
         interactor = new Interactor();
     }
 
-    @Override
-    public void resume() {}
-
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {
         if (fragmentClass == BookingSelectFragment.class)
             showFragment(bookingSelectFragment);
