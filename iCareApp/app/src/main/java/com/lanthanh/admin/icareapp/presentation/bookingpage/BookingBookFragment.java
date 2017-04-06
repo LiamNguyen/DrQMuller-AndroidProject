@@ -12,7 +12,6 @@ import android.widget.ExpandableListView;
 import android.widget.Spinner;
 
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
-import com.lanthanh.admin.icareapp.utils.TimeComparator;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOMachine;
 import com.lanthanh.admin.icareapp.presentation.adapter.CustomSpinnerAdapter;
@@ -35,7 +34,6 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
     @BindView(R.id.expListView) ExpandableListView expandableListView;
 
     private ExpandableListViewAdapter listAdapter;
-    private TimeComparator timeComparator;
     private CustomSpinnerAdapter machineAdapter;
     private Unbinder unbinder;
 
@@ -46,7 +44,6 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
         unbinder = ButterKnife.bind(this, view);
 
         initViews();
-        timeComparator = new TimeComparator();
 
         return view;
     }
@@ -132,8 +129,9 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
                         () -> {
                         collapseAllGroups();
                         expandGroup(0, true);
-                    },
-                            (DTOMachine) machineSpinner.getSelectedItem());
+                        },
+                        (DTOMachine) machineSpinner.getSelectedItem()
+                    );
                 }
                 break;
         }
@@ -157,14 +155,16 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
         if (!hidden && isVisible()) {
             refreshViews();
         }
-        else
+        else {
             collapseAllGroups();
+        }
     }
 
     public void collapseAllGroups(){
         int count =  listAdapter.getGroupCount();
-        for (int i = 0; i <count ; i++)
+        for (int i = 0; i <count ; i++) {
             expandableListView.collapseGroup(i);
+        }
     }
 
     @Override

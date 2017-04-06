@@ -28,8 +28,6 @@ import java.util.List;
  */
 
 public class MainActivityPresenter extends BasePresenter {
-    public static final String TAG = MainActivityPresenter.class.getSimpleName();
-
     private MainActivity activity;
     private AppointmentFragment appointmentFragment;
     private DefaultAppointmentFragment defaultAppointmentFragment;
@@ -177,7 +175,7 @@ public class MainActivityPresenter extends BasePresenter {
                 this.activity.hideProgress();
                 showBookingTab();
             },
-            error -> this.activity.showProgress()
+            error -> this.activity.hideProgress()
         );
     }
 }
