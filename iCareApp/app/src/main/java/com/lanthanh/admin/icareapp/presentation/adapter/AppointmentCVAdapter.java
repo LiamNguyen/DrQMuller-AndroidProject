@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointmentSchedule;
-import com.lanthanh.admin.icareapp.utils.converter.ConverterForDisplay;
+import com.lanthanh.admin.icareapp.utils.ConverterUtils;
 import com.lanthanh.admin.icareapp.presentation.bookingpage.ConfirmBookingActivity;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
@@ -78,8 +78,8 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
         }else {
             ((BodyViewHolder) holder).setName(list.get(position - 1).getUser().getName());
             ((BodyViewHolder) holder).setVoucher(list.get(position - 1).getVoucher().getVoucherName());
-            ((BodyViewHolder) holder).setStartDate(ConverterForDisplay.convertDateForDisplay(list.get(position - 1).getStartDate()));
-            ((BodyViewHolder) holder).setEndDate(ConverterForDisplay.convertDateForDisplay(list.get(position - 1).getExpireDate()));
+            ((BodyViewHolder) holder).setStartDate(ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getStartDate()));
+            ((BodyViewHolder) holder).setEndDate(ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getExpireDate()));
             ((BodyViewHolder) holder).setStatus(list.get(position - 1).getStatus());
             final TextView status = ((BodyViewHolder) holder).getStatusTextView();
             ((BodyViewHolder) holder).getDetailTextView().setOnClickListener(
@@ -99,8 +99,8 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
                                         list.get(position - 1).getCity().getCityName() + ", " + list.get(position - 1).getCountry().getCountryName());
                         args.putString("voucher", list.get(position - 1).getVoucher().getVoucherName());
                         args.putString("type", list.get(position - 1).getType().getTypeName());
-                        args.putString("start_date", ConverterForDisplay.convertDateForDisplay(list.get(position - 1).getStartDate()));
-                        args.putString("end_date", ConverterForDisplay.convertDateForDisplay(list.get(position - 1).getExpireDate()));
+                        args.putString("start_date", ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getStartDate()));
+                        args.putString("end_date", ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getExpireDate()));
                         args.putString("code", list.get(position - 1).getVerificationCode());
                         ArrayList<String> appointmentScheduleString = new ArrayList<>();
                         for (DTOAppointmentSchedule dtoAppointmentSchedule : list.get(position - 1).getAppointmentScheduleList()) {

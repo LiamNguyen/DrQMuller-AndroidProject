@@ -9,10 +9,10 @@ import com.lanthanh.admin.icareapp.data.repository.AppointmentRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
+import com.lanthanh.admin.icareapp.utils.ConverterUtils;
 import com.lanthanh.admin.icareapp.utils.Function;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
-import com.lanthanh.admin.icareapp.utils.converter.ConverterForDisplay;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
@@ -131,7 +131,7 @@ public class BookingActivityPresenter extends BasePresenter{
     /*
      * These methods below are used for getting datasource
      */
-    public void getCountries(Function.Void<List<DTOCountry>> updateCallback){
+    public void getCountries(Function.VoidParam<List<DTOCountry>> updateCallback){
         this.activity.showProgress();
         interactor.execute(
             () -> appointmentRepository.getCountries(),
@@ -143,7 +143,7 @@ public class BookingActivityPresenter extends BasePresenter{
         );
     }
 
-    public void onCountrySelected(Function.Void<List<DTOCity>> updateCallback, DTOCountry country){
+    public void onCountrySelected(Function.VoidParam<List<DTOCity>> updateCallback, DTOCountry country){
         getProvider().getCurrentAppointment().setCountry(country);
         interactor.execute(
             () -> appointmentRepository.getCitiesByCountryId(country.getCountryId()),
@@ -155,7 +155,7 @@ public class BookingActivityPresenter extends BasePresenter{
         );
     }
 
-    public void onCitySelected(Function.Void<List<DTODistrict>> updateCallback, DTOCity city){
+    public void onCitySelected(Function.VoidParam<List<DTODistrict>> updateCallback, DTOCity city){
         getProvider().getCurrentAppointment().setCity(city);
         interactor.execute(
             () -> appointmentRepository.getDistrictsByCityId(city.getCityId()),
@@ -167,7 +167,7 @@ public class BookingActivityPresenter extends BasePresenter{
         );
     }
 
-    public void onDistrictSelected(Function.Void<List<DTOLocation>> updateCallback, DTODistrict district){
+    public void onDistrictSelected(Function.VoidParam<List<DTOLocation>> updateCallback, DTODistrict district){
         getProvider().getCurrentAppointment().setDistrict(district);
         interactor.execute(
             () -> appointmentRepository.getLocationsByDistrictId(district.getDistrictId()),
@@ -180,7 +180,7 @@ public class BookingActivityPresenter extends BasePresenter{
         );
     }
 
-    public void onLocationSelected(Function.VoidParam updateCallback, DTOLocation location) {
+    public void onLocationSelected(Function.VoidEmpty updateCallback, DTOLocation location) {
         getProvider().getCurrentAppointment().setLocation(location);
         if (getProvider().getCurrentAppointment().isBasicSelectFilled()) {
             bookingSelectFragment.enableNextButton(true);
@@ -190,7 +190,7 @@ public class BookingActivityPresenter extends BasePresenter{
         updateCallback.apply();
     }
 
-    public void onVoucherSelected(Function.VoidParam updateCallback, DTOVoucher voucher) {
+    public void onVoucherSelected(Function.VoidEmpty updateCallback, DTOVoucher voucher) {
         getProvider().getCurrentAppointment().setVoucher(voucher);
         //Reset date on voucher change
         getProvider().getCurrentAppointment().setStartDate(null);
@@ -234,7 +234,7 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
 
-    public void getVouchers(Function.Void<List<DTOVoucher>> updateCallback) {
+    public void getVouchers(Function.VoidParam<List<DTOVoucher>> updateCallback) {
         interactor.execute(
             () -> appointmentRepository.getVouchers(),
             updateCallback::apply,
@@ -242,7 +242,7 @@ public class BookingActivityPresenter extends BasePresenter{
         );
     }
 
-    public void getTypes(Function.Void<List<DTOType>> updateCallback) {
+    public void getTypes(Function.VoidParam<List<DTOType>> updateCallback) {
         interactor.execute(
             () -> appointmentRepository.getTypes(),
             updateCallback::apply,
@@ -250,7 +250,7 @@ public class BookingActivityPresenter extends BasePresenter{
         );
     }
 
-    public void getMachines(Function.Void<List<DTOMachine>> updateCallback) {
+    public void getMachines(Function.VoidParam<List<DTOMachine>> updateCallback) {
         this.activity.showProgress();
         interactor.execute(
             () -> appointmentRepository.getMachinesByLocationId(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId()),
@@ -259,7 +259,7 @@ public class BookingActivityPresenter extends BasePresenter{
         );
     }
 
-    public void getWeekDays(Function.Void<List<DTOWeekDay>> updateCallback) {
+    public void getWeekDays(Function.VoidParam<List<DTOWeekDay>> updateCallback) {
         interactor.execute(
             () -> appointmentRepository.getWeekDays(this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId()),
             success -> {
@@ -272,7 +272,7 @@ public class BookingActivityPresenter extends BasePresenter{
         );
     }
 
-    public void getTime(Function.Void<List<DTOTime>> updateCallback) {
+    public void getTime(Function.VoidParam<List<DTOTime>> updateCallback) {
         interactor.execute(
             () -> appointmentRepository.getTime(this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId()),
             success -> {
@@ -286,11 +286,11 @@ public class BookingActivityPresenter extends BasePresenter{
     /*
      * These methods below contain logic for booking's date
      */
-    public void onStartDatePickerClick(Function.Void<Calendar> callback) {
+    public void onStartDatePickerClick(Function.VoidParam<Calendar> callback) {
         callback.apply(Calendar.getInstance());
     }
 
-    public void onExpireDatePickerClick(Function.Void<Calendar> callback) {
+    public void onExpireDatePickerClick(Function.VoidParam<Calendar> callback) {
         if (this.startDate == null)
             callback.apply(Calendar.getInstance());
         else {
@@ -302,7 +302,7 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     //Add start date when start date is selected from View
-    public void onStartDateSet(Calendar startDate, Function.Void<String> success, Function.Void<String> fail) {
+    public void onStartDateSet(Calendar startDate, Function.VoidParam<String> success, Function.VoidParam<String> fail) {
         if (this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId() == 1){
             if (!ecoBookingDayCheck(startDate)){
                 fail.apply(this.activity.getString(R.string.booking_error_eco_date));
@@ -348,12 +348,12 @@ public class BookingActivityPresenter extends BasePresenter{
         } else {
             bookingSelectDateFragment.enableNextButton(false);
         }
-        String date = ConverterForDisplay.convertDateForDisplay(this.startDate.getTime());
+        String date = ConverterUtils.date.convertDateForDisplay(this.startDate.getTime());
         success.apply(date);
     }
 
     //Add expire date when expire date is selected from View
-    public void onExpireDateSet(Calendar expireDate, Function.Void<String> success, Function.Void<String> fail) {
+    public void onExpireDateSet(Calendar expireDate, Function.VoidParam<String> success, Function.VoidParam<String> fail) {
         if (this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId() == 1){
             if (!ecoBookingDayCheck(expireDate)){
                 fail.apply(this.activity.getString(R.string.booking_error_eco_date));
@@ -399,7 +399,7 @@ public class BookingActivityPresenter extends BasePresenter{
         } else {
             bookingSelectDateFragment.enableNextButton(false);
         }
-        String date = ConverterForDisplay.convertDateForDisplay(this.expireDate.getTime());
+        String date = ConverterUtils.date.convertDateForDisplay(this.expireDate.getTime());
         success.apply(date);
     }
 
@@ -410,7 +410,7 @@ public class BookingActivityPresenter extends BasePresenter{
             return true;
     }
 
-    public void resetPickerView(Function.Void<Integer> resetViews) {
+    public void resetPickerView(Function.VoidParam<Integer> resetViews) {
         if (this.activity.getProvider().getCurrentAppointment().getStartDate() != null ||
             this.activity.getProvider().getCurrentAppointment().getExpireDate() != null)
             return;
@@ -422,12 +422,12 @@ public class BookingActivityPresenter extends BasePresenter{
     /*
      * These methods below are used for booking appointment
      */
-    public void onMachineSelected(Function.VoidParam callback, DTOMachine machine) {
+    public void onMachineSelected(Function.VoidEmpty callback, DTOMachine machine) {
         getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(machine);
         callback.apply();
     }
 
-    public boolean onDaySelected(Function.VoidParam success) {
+    public boolean onDaySelected(Function.VoidEmpty success) {
         if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() == null){
             this.activity.showToast(this.activity.getString(R.string.machine_alert));
             return true;
@@ -436,12 +436,12 @@ public class BookingActivityPresenter extends BasePresenter{
         return false;
     }
 
-    public void resetMachine(Function.VoidParam resetView) {
+    public void resetMachine(Function.VoidEmpty resetView) {
         if (this.getProvider().getCurrentAppointment().getCurrentSchedule().getBookedDay() == null)
             resetView.apply();
     }
 
-    public void getAvailableTime(Function.Void<List<DTOTime>> updateCallback, int dayId) {
+    public void getAvailableTime(Function.VoidParam<List<DTOTime>> updateCallback, int dayId) {
         this.activity.showProgress();
         interactor.execute(
                 () -> appointmentRepository.getAvailableTime(
@@ -458,7 +458,7 @@ public class BookingActivityPresenter extends BasePresenter{
                         if (bookedDay.get(Calendar.DATE) == calendarNow.get(Calendar.DATE)) {
                             int now = calendarNow.get(Calendar.HOUR_OF_DAY) * 60 + calendarNow.get(Calendar.MINUTE);
                             for (DTOTime time : new ArrayList<>(success)) {
-                                if (ConverterForDisplay.convertToTime(time.getTime()) < now)
+                                if (ConverterUtils.date.convertToHours(time.getTime()) < now)
                                     success.remove(time);
                             }
                         }
@@ -520,7 +520,7 @@ public class BookingActivityPresenter extends BasePresenter{
         );
     }
 
-    public void releaseTime(String item, Function.Void<String> removeItem) {
+    public void releaseTime(String item, Function.VoidParam<String> removeItem) {
         //Set responsive color for item being removed
         this.activity.onRemoveCartItemColor(false);
         //Get appointment schedule
@@ -556,7 +556,7 @@ public class BookingActivityPresenter extends BasePresenter{
         return null;
     }
 
-    public void emptyCart(Function.VoidParam clearCart) {
+    public void emptyCart(Function.VoidEmpty clearCart) {
         if (this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() > 0) {
             this.activity.showProgress();
             //Remove on DB
@@ -592,7 +592,7 @@ public class BookingActivityPresenter extends BasePresenter{
             this.activity.showProgress();
             this.activity.getProvider().getCurrentAppointment().setVerificationCode(NetworkUtils.generateVerificationCode());
             if (this.activity.getProvider().getCurrentAppointment().getStartDate() == null) {
-                this.activity.getProvider().getCurrentAppointment().setStartDate(ConverterForDisplay.convertStringToDate("11-11-1111"));
+                this.activity.getProvider().getCurrentAppointment().setStartDate(ConverterUtils.date.convertStringToDate("11-11-1111"));
             }
             interactor.execute(
                     () -> appointmentRepository.createAppointment(this.activity.getProvider().getCurrentAppointment()),

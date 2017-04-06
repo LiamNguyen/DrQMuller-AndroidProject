@@ -6,11 +6,11 @@ package com.lanthanh.admin.icareapp.utils;
  */
 
 public interface Function {
-    interface Void<T> {
+    interface VoidParam<T> {
         void apply(T t);
     }
 
-    interface VoidParam {
+    interface VoidEmpty {
         void apply();
     }
 }

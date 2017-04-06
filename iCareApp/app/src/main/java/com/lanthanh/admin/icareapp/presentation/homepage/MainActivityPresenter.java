@@ -1,8 +1,5 @@
 package com.lanthanh.admin.icareapp.presentation.homepage;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
@@ -124,7 +121,7 @@ public class MainActivityPresenter extends BasePresenter {
         fragmentTransaction.addToBackStack(null).commit();
     }
 
-    public void populateUserTabOptions(Function.VoidParam notify, List<String> list) {
+    public void populateUserTabOptions(Function.VoidEmpty notify, List<String> list) {
         interactor.execute(
             () -> userRepository.getUserInformation(),
             user -> {
@@ -153,7 +150,7 @@ public class MainActivityPresenter extends BasePresenter {
         );
     }
 
-    public void getAppointmentList(Function.Void<List<DTOAppointment>> callback) {
+    public void getAppointmentList(Function.VoidParam<List<DTOAppointment>> callback) {
         interactor.execute(
             () -> appointmentRepository.getAppointments(),
             callback::apply,
