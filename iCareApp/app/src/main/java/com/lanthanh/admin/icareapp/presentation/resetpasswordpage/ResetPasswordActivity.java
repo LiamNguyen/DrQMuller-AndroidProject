@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 
-import com.lanthanh.admin.icareapp.Controller.NetworkController;
+import com.lanthanh.admin.icareapp.presentation.broadcastreceivers.NetworkBroadcastReceiver;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
 
@@ -33,7 +33,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     public static final int RESET_PW = 1;
     //private ResetPasswordActivityPresenter resetPasswordActivityPresenter;
     private ProgressBar progressBar;
-    private NetworkController networkController;
+    private NetworkBroadcastReceiver networkBroadcastReceiver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 //        resetPasswordActivityPresenter = new ResetPasswordActivityPresenterImpl(getSharedPreferences("content", Context.MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(),
 //                this, getSupportFragmentManager(), new SendEmailManagerImpl(iCareApiImpl.getAPI()), new CustomerManagerImpl(iCareApiImpl.getAPI()));
         //Init controllers
-        networkController = new NetworkController(this);
+        networkBroadcastReceiver = new NetworkBroadcastReceiver(this);
     }
 
     @Override

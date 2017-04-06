@@ -1,4 +1,4 @@
-package com.lanthanh.admin.icareapp.Controller;
+package com.lanthanh.admin.icareapp.presentation.broadcastreceivers;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -17,7 +17,7 @@ import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
  * Created by ADMIN on 18-Dec-16.
  */
 
-public class NetworkController{
+public class NetworkBroadcastReceiver {
     private Activity activity;
     private BroadcastReceiver networkReceiver;
     private IntentFilter intentFilter;
@@ -25,7 +25,7 @@ public class NetworkController{
     private boolean isConnected;
     private final String CONNECTIVITY_CHANGE_FILTER = "android.net.conn.CONNECTIVITY_CHANGE";
 
-    public NetworkController(final Activity activity){
+    public NetworkBroadcastReceiver(final Activity activity){
         //Assign current activity
         this.activity = activity;
         //Init check connection variable
