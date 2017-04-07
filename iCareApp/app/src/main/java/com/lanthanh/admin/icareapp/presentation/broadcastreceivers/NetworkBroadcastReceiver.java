@@ -1,6 +1,5 @@
 package com.lanthanh.admin.icareapp.presentation.broadcastreceivers;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,20 +10,21 @@ import android.net.NetworkInfo;
 import android.support.v7.app.AlertDialog;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.base.BaseActivity;
 
 /**
  * Created by ADMIN on 18-Dec-16.
  */
 
 public class NetworkBroadcastReceiver {
-    private Activity activity;
+    private BaseActivity activity;
     private BroadcastReceiver networkReceiver;
     private IntentFilter intentFilter;
     private AlertDialog alertDialog;
     private boolean isConnected;
     private final String CONNECTIVITY_CHANGE_FILTER = "android.net.conn.CONNECTIVITY_CHANGE";
 
-    public NetworkBroadcastReceiver(final Activity activity){
+    public NetworkBroadcastReceiver(final BaseActivity activity){
         this.activity = activity;
         this.isConnected = true;
         //Init an alert dialog to show whenever there is no network connection
@@ -61,10 +61,7 @@ public class NetworkBroadcastReceiver {
             isConnected = false;
         } else {
             if (!isConnected) {
-                Intent intent = new Intent(this.activity, this.activity.getClass());
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                this.activity.finish();
-                this.activity.startActivity(intent);
+                this.activity.refreshAfterLosingNetwork();
             }
         }
     }

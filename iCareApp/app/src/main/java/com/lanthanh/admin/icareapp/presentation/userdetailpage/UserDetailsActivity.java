@@ -435,4 +435,7 @@ public class UserDetailsActivity extends BaseActivity {
             drawable.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
         }
     }
+
+    @Override
+    public void refreshAfterLosingNetwork() {}
 }

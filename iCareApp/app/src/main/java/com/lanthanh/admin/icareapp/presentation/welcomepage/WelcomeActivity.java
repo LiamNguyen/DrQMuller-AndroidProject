@@ -138,5 +138,8 @@ public class WelcomeActivity extends BaseActivity {
     public WelcomeActivityPresenter getMainPresenter() {
         return registerActivityPresenter;
     }
+
+    @Override
+    public void refreshAfterLosingNetwork() {}
 }
 

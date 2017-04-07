@@ -49,12 +49,14 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
     @BindView(R.id.type_container) RelativeLayout typeContainer;
 
     private CustomSpinnerAdapter countryAdapter, cityAdapter, districtAdapter, locationAdapter, voucherAdapter, typeAdapter;
-    Unbinder unbinder;
+    private View mView;
+    private Unbinder unbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_booking_select, container, false);
+        this.mView = view;
         unbinder = ButterKnife.bind(this, view);
         initViews();
 
@@ -151,7 +153,11 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
     }
 
     @Override
-    public void refreshViews() {}
+    public void refreshViews() {
+        getMainPresenter().getCountries(countryAdapter::update);
+        getMainPresenter().getVouchers(voucherAdapter::update);
+        getMainPresenter().getTypes(typeAdapter::update);
+    }
 
     @Override
     public BookingActivityPresenter getMainPresenter() {

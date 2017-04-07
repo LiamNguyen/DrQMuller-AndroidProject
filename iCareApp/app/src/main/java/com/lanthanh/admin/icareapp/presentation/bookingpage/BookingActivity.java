@@ -238,16 +238,19 @@ public class BookingActivity extends BaseActivity {
 
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     @Override
     public void onBackPressed() {
         bookingActivityPresenter.onBackPressed();
+    }
+
+    @Override
+    public void refreshAfterLosingNetwork() {
+        bookingActivityPresenter.refreshAfterLosingNetwork();
     }
 }

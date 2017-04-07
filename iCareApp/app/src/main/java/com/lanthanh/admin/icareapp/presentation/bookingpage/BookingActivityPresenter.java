@@ -38,6 +38,7 @@ import java.util.List;
 public class BookingActivityPresenter extends BasePresenter{
     private BookingActivity activity;
     private Calendar startDate, expireDate;
+    private int numberOfRequiredContents;
 
     //Fragment
     private BookingSelectFragment bookingSelectFragment;
@@ -50,6 +51,7 @@ public class BookingActivityPresenter extends BasePresenter{
     public BookingActivityPresenter(BookingActivity activity) {
         super(activity);
         this.activity = activity;
+        this.numberOfRequiredContents = 0;
         init();
     }
 
@@ -60,6 +62,16 @@ public class BookingActivityPresenter extends BasePresenter{
         bookingSelectDateFragment = new BookingSelectDateFragment();
         appointmentRepository = new AppointmentRepositoryImpl(this.activity);
         interactor = new Interactor();
+    }
+
+    @Override
+    public void destroy() {
+        interactor.dispose();
+    }
+
+    public void refreshAfterLosingNetwork() {
+        if (bookingSelectFragment.isVisible())
+            bookingSelectFragment.refreshViews();
     }
 
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {
@@ -120,11 +132,6 @@ public class BookingActivityPresenter extends BasePresenter{
             navigateFragment(BookingSelectDateFragment.class);
     }
 
-    @Override
-    public void destroy() {
-        interactor.dispose();
-    }
-
     /*
      * These methods below are used for getting datasource
      */
@@ -132,8 +139,9 @@ public class BookingActivityPresenter extends BasePresenter{
         this.activity.showProgress();
         interactor.execute(
             () -> appointmentRepository.getCountries(),
-            success -> {
-                updateCallback.apply(success);
+            countries -> {
+                checkNumberOfRequiredContentsForBasicSelect();
+                updateCallback.apply(countries);
                 this.bookingSelectFragment.setDefaultSelectionForCountry();
             },
             error -> this.activity.hideProgress()
@@ -144,8 +152,8 @@ public class BookingActivityPresenter extends BasePresenter{
         getProvider().getCurrentAppointment().setCountry(country);
         interactor.execute(
             () -> appointmentRepository.getCitiesByCountryId(country.getCountryId()),
-            success -> {
-                updateCallback.apply(success);
+            cities -> {
+                updateCallback.apply(cities);
                 this.bookingSelectFragment.setDefaultSelectionForCity();
             },
             error -> this.activity.hideProgress()
@@ -156,8 +164,8 @@ public class BookingActivityPresenter extends BasePresenter{
         getProvider().getCurrentAppointment().setCity(city);
         interactor.execute(
             () -> appointmentRepository.getDistrictsByCityId(city.getCityId()),
-            success -> {
-                updateCallback.apply(success);
+            districts -> {
+                updateCallback.apply(districts);
                 this.bookingSelectFragment.setDefaultSelectionForDistrict();
             },
             error -> this.activity.hideProgress()
@@ -168,9 +176,9 @@ public class BookingActivityPresenter extends BasePresenter{
         getProvider().getCurrentAppointment().setDistrict(district);
         interactor.execute(
             () -> appointmentRepository.getLocationsByDistrictId(district.getDistrictId()),
-            success -> {
-                this.activity.hideProgress();
-                updateCallback.apply(success);
+            locations -> {
+                checkNumberOfRequiredContentsForBasicSelect();
+                updateCallback.apply(locations);
                 this.bookingSelectFragment.enableLocationSelection();
             },
             error -> this.activity.hideProgress()
@@ -234,7 +242,10 @@ public class BookingActivityPresenter extends BasePresenter{
     public void getVouchers(Function.VoidParam<List<DTOVoucher>> updateCallback) {
         interactor.execute(
             () -> appointmentRepository.getVouchers(),
-            updateCallback::apply,
+            vouchers -> {
+                checkNumberOfRequiredContentsForBasicSelect();
+                updateCallback.apply(vouchers);
+            },
             error -> this.activity.hideProgress()
         );
     }
@@ -242,7 +253,10 @@ public class BookingActivityPresenter extends BasePresenter{
     public void getTypes(Function.VoidParam<List<DTOType>> updateCallback) {
         interactor.execute(
             () -> appointmentRepository.getTypes(),
-            updateCallback::apply,
+            types -> {
+                checkNumberOfRequiredContentsForBasicSelect();
+                updateCallback.apply(types);
+            },
             error -> this.activity.hideProgress()
         );
     }
@@ -434,12 +448,13 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     public void resetMachine(Function.VoidEmpty resetView) {
-        if (this.getProvider().getCurrentAppointment().getCurrentSchedule().getBookedDay() == null)
+        if (this.getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() == null)
             resetView.apply();
     }
 
     public void getAvailableTime(Function.VoidParam<List<DTOTime>> updateCallback, int dayId) {
         this.activity.showProgress();
+        this.bookingBookFragment.enableListView(false);
         interactor.execute(
                 () -> appointmentRepository.getAvailableTime(
                         dayId,
@@ -448,6 +463,7 @@ public class BookingActivityPresenter extends BasePresenter{
                         this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId()),
                 success -> {
                     this.activity.hideProgress();
+                    this.bookingBookFragment.enableListView(true);
                     if (this.activity.getProvider().getCurrentAppointment().getType().getTypeId() == 2) {
                         Calendar calendarNow = Calendar.getInstance();
                         Calendar bookedDay = Calendar.getInstance();
@@ -633,5 +649,12 @@ public class BookingActivityPresenter extends BasePresenter{
                 break;
         }
         return result;
+    }
+
+    public void checkNumberOfRequiredContentsForBasicSelect() {
+        this.numberOfRequiredContents++;
+        if (this.numberOfRequiredContents >= 4) {
+            this.activity.hideProgress();
+        }
     }
 }

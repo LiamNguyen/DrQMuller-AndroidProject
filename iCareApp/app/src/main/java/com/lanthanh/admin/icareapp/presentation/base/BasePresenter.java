@@ -14,10 +14,10 @@ import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
  */
 
 public abstract class BasePresenter implements Presenter {
-    private Activity activity;
+    private BaseActivity activity;
     private NetworkBroadcastReceiver networkBroadcastReceiver;
 
-    public BasePresenter(Activity activity){
+    public BasePresenter(BaseActivity activity){
         this.activity = activity;
         this.networkBroadcastReceiver = new NetworkBroadcastReceiver(this.activity);
     }
@@ -33,14 +33,10 @@ public abstract class BasePresenter implements Presenter {
     }
 
     @Override
-    public void stop() {
-
-    }
+    public void stop() {}
 
     @Override
-    public void destroy() {
-
-    }
+    public void destroy() {}
 
     public ApplicationProvider getProvider() {
         return ((iCareApplication) this.activity.getApplication()).getProvider();

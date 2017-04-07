@@ -113,11 +113,11 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
     }
 
     public void enableFinishButton(boolean shouldEnable) {
-        if (shouldEnable) {
-            finishButton.setEnabled(true);
-        } else {
-            finishButton.setEnabled(false);
-        }
+        finishButton.setEnabled(shouldEnable);
+    }
+
+    public void enableListView(boolean shouldEnable) {
+        expandableListView.setEnabled(shouldEnable);
     }
 
     @Override

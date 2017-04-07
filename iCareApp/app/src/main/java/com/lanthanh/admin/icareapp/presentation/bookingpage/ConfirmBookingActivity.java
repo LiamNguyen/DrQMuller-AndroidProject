@@ -145,4 +145,9 @@ public class ConfirmBookingActivity extends BaseActivity {
                 )
                 .setCancelable(false).show();
     }
+
+    @Override
+    public void refreshAfterLosingNetwork() {
+        confirmBookingActivityPresenter.sendEmailNotifyBooking();
+    }
 }

@@ -60,8 +60,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
     public void init(){
 //        resetPasswordActivityPresenter = new ResetPasswordActivityPresenterImpl(getSharedPreferences("content", Context.MODE_PRIVATE), ThreadExecutor.getInstance(), MainThreadImpl.getInstance(),
 //                this, getSupportFragmentManager(), new SendEmailManagerImpl(iCareApiImpl.getAPI()), new CustomerManagerImpl(iCareApiImpl.getAPI()));
-        //Init controllers
-        networkBroadcastReceiver = new NetworkBroadcastReceiver(this);
     }
 
     @Override

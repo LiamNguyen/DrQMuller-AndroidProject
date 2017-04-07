@@ -107,8 +107,6 @@ public class MainActivity extends BaseActivity{
         finish();
     }
 
-    //Call in case losing network and then connected again
-    public void refreshAfterNetworkConnected(){
-        this.onPostResume();
-    }
+    @Override
+    public void refreshAfterLosingNetwork() {}
 }

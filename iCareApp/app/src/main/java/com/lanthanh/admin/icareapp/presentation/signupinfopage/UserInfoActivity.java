@@ -102,4 +102,7 @@ public class UserInfoActivity extends BaseActivity {
     public void onBackPressed() {
         userInfoActivityPresenter.onBackPressed();
     }
+
+    @Override
+    public void refreshAfterLosingNetwork() {}
 }
