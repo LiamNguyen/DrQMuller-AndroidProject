@@ -562,6 +562,7 @@ public class BookingActivityPresenter extends BasePresenter{
                         this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList()),
                 success -> {
                     this.activity.hideProgress();
+                    this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().clear();
                     clearCart.apply();
                 },
                 error -> this.activity.hideProgress()

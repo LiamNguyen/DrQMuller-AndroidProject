@@ -143,6 +143,7 @@ public class WelcomeActivityPresenter extends BasePresenter {
     }
 
     public void onBackPressed() {
+        this.activity.hideProgress();
         if (logInFragment.isVisible() || signUpFragment.isVisible()) {
             navigateFragment(ChooseFragment.class);
         } else {

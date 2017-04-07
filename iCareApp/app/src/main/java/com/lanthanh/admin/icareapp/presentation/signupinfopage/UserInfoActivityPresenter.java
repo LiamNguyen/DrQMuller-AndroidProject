@@ -122,6 +122,7 @@ public class UserInfoActivityPresenter extends BasePresenter {
 
     public void onBackPressed() {
         this.activity.hideSoftKeyboard();
+        this.activity.hideProgress();
         if (nameLocationFragment.isVisible() || validateFragment.isVisible())
             navigateActivity(WelcomeActivity.class);
         else if (dobGenderFragment.isVisible())
@@ -188,99 +189,4 @@ public class UserInfoActivityPresenter extends BasePresenter {
             error -> this.activity.hideProgress()
         );
     }
-
-//    @Override
-//    public void updateEmail() {
-//        mView.showProgress();
-//        RequestBody body = restClient.createRequestBody(new String[]{"userId", "userEmail", "updatedAt"},
-//                                new String[]{Integer.toString(mUser.getID()), mUser.getEmail(), NetworkUtils.convertDateForDB(Calendar.getInstance().getTime())});
-//        compositeDisposable.add(
-//                registerService.updateEmail(body)
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribeWith(new DisposableObserver<JsonObject>(){
-//                            String result;
-//                            @Override
-//                            public void onComplete() {
-//                                UserInfoActivityPresenterImpl.this.mView.hideProgress();
-//                                if (result.equals(Service.Status.FAILED) || result.equals(Service.Status.INTERNAL_ERROR)) {
-//                                    if (result.equals(Service.Status.FAILED))
-//                                        Log.e(TAG, "Update email status: onComplete -> " + result);
-//                                }else{
-//                                    UserInfoActivityPresenterImpl.this.navigateFragment(UserInfoActivity.VALIDATE);
-//                                    Log.i(TAG, "Update email status: onComplete -> " + Service.Status.SUCCESS);
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onNext(JsonObject jsonObject) {
-//                                try {
-//                                    JsonArray array = jsonObject.getAsJsonArray("Update_CustomerEmail");
-//                                    if (array.get(0).getAsJsonObject().get("Status").getAsString().equals("1"))
-//                                        result = Service.Status.SUCCESS;
-//                                    else
-//                                        result = Service.Status.FAILED;
-//                                } catch (Exception e) {
-//                                    result = Service.Status.INTERNAL_ERROR;
-//                                    Log.e(TAG, "Update email status: onNext -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onError(Throwable e) {
-//                                Log.e(TAG, "Update email status: onError -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
-//                                e.printStackTrace();
-//                            }
-//                        })
-//        );
-//    }
-//
-//    @Override
-//    public void sendEmailVerifyAcc() {
-//        mView.showProgress();
-//        RequestBody body = restClient.createRequestBody(new String[]{"cus_id", "email"},
-//                                                        new String[]{Integer.toString(mUser.getID()), mUser.getEmail()});
-//        compositeDisposable.add(
-//                emailService.sendEmailVerifyAcc(body)
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribeWith(new DisposableObserver<JsonObject>(){
-//                            String result;
-//                            @Override
-//                            public void onComplete() {
-//                                UserInfoActivityPresenterImpl.this.mView.hideProgress();
-//                                if (result.equals(Service.Status.FAILED) || result.equals(Service.Status.INTERNAL_ERROR)) {
-//                                    UserInfoActivityPresenterImpl.this.validateFragment.showEmailResult(R.string.validate_noti_fail);
-//                                    if (result.equals(Service.Status.FAILED))
-//                                        Log.e(TAG, "Send verify email status: onComplete -> " + result);
-//                                }else{
-//                                    UserInfoActivityPresenterImpl.this.validateFragment.showEmailResult(R.string.validate_noti_success);
-//                                    Log.i(TAG, "Send verify email status: onComplete -> " + Service.Status.SUCCESS);
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onNext(JsonObject jsonObject) {
-//                                try {
-//                                    result = jsonObject.get("SendEmail_VerifyAcc").getAsString();
-//                                    if (result.equals("Message has been sent"))
-//                                        result = Service.Status.SUCCESS;
-//                                    else
-//                                        result = Service.Status.FAILED;
-//                                } catch (Exception e) {
-//                                    result = Service.Status.INTERNAL_ERROR;
-//                                    Log.e(TAG, "Send verify email status: onNext -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onError(Throwable e) {
-//                                Log.e(TAG, "Send verify email status: onError -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
-//                                e.printStackTrace();
-//                            }
-//                        })
-//        );
-//    }
 }
