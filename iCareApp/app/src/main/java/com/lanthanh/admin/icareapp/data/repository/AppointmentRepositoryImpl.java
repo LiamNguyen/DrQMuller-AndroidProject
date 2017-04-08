@@ -258,11 +258,11 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     @Override
     public Observable<RepositorySimpleStatus> createAppointment(DTOAppointment appointment) {
         UserInfo user = localStorage.getUserFromLocal();
+        appointment.setUser(user);
         return restClient.createAppointment(user.getToken(), dataMapper.transform(appointment)).flatMap(
                 resp -> {
                     if (!resp.isEmpty()) {
                         List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
-                        appointment.setUser(user);
                         appointment.setAppointmentId(resp);
                         appointmentList.add(appointment);
                         localStorage.saveAppointmentsToLocal(appointmentList);
