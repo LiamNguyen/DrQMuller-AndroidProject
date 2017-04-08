@@ -589,6 +589,8 @@ public class BookingActivityPresenter extends BasePresenter{
                     this.activity.hideProgress();
                     this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().clear();
                     clearCart.apply();
+                    if (bookingBookFragment.isVisible())
+                        bookingBookFragment.expandGroup(0, true);
                 },
                 error -> this.activity.hideProgress()
             );
