@@ -75,6 +75,7 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {
+        this.activity.hideProgress();
         if (fragmentClass == BookingSelectFragment.class)
             showFragment(bookingSelectFragment);
         else if (fragmentClass == BookingSelectDateFragment.class)
@@ -124,6 +125,7 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     public void onBackPressed() {
+        this.activity.hideProgress();
         if (bookingSelectFragment.isVisible())
             this.activity.finish();
         else if (bookingSelectDateFragment.isVisible())
@@ -226,7 +228,7 @@ public class BookingActivityPresenter extends BasePresenter{
         if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() != null) {
             if (getProvider().getCurrentAppointment().isScheduleSelectFilled()) {
                 emptyCart(
-                        () -> this.activity.onEmptyCartItem()
+                    () -> this.activity.onEmptyCartItem()
                 );
             }
             getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(null);
@@ -450,6 +452,12 @@ public class BookingActivityPresenter extends BasePresenter{
     public void resetMachine(Function.VoidEmpty resetView) {
         if (this.getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() == null)
             resetView.apply();
+        else {
+            if (this.getProvider().getCurrentAppointment().getType().getTypeId() == 2) {
+                this.activity.showProgress();
+                bookingBookFragment.expandGroup(0, true);
+            }
+        }
     }
 
     public void getAvailableTime(Function.VoidParam<List<DTOTime>> updateCallback, int dayId) {
@@ -488,7 +496,7 @@ public class BookingActivityPresenter extends BasePresenter{
         );
     }
 
-    public void onTimeSelected(DTOWeekDay weekDay, DTOTime time) {
+    public void onTimeSelected(Function.VoidEmpty refreshTime, DTOWeekDay weekDay, DTOTime time) {
         //Maximum 3 schedules for 1 appointment
         if (this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() == 3) {
             this.activity.showToast(this.activity.getString(R.string.max_item));
@@ -509,10 +517,10 @@ public class BookingActivityPresenter extends BasePresenter{
         interactor.execute(
             () -> appointmentRepository.bookTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(), this.activity.getProvider().getCurrentAppointment().getCurrentSchedule()),
             success -> {
-                this.activity.hideProgress();
                 this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().add(appointmentSchedule);
                 String newItem = appointmentSchedule.toString();
                 this.activity.onAddCartItem(newItem);
+                refreshTime.apply();
                 if (this.activity.getProvider().getCurrentAppointment().isScheduleSelectFilled())
                     bookingBookFragment.enableFinishButton(true);
                 else
@@ -545,7 +553,8 @@ public class BookingActivityPresenter extends BasePresenter{
                     success -> {
                         this.activity.hideProgress();
                         removeItem.apply(item);
-                        bookingBookFragment.expandGroup(0, true);
+                        if (bookingBookFragment.isVisible())
+                            bookingBookFragment.expandGroup(0, true);
                         //Update DTO
                         this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().remove(dtoAppointmentSchedule);
                         if (this.activity.getProvider().getCurrentAppointment().isScheduleSelectFilled())

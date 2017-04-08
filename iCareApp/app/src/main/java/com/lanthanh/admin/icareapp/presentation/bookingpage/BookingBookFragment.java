@@ -67,8 +67,10 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
         expandableListView.setGroupIndicator(null);
         expandableListView.setOnChildClickListener(
                 (ExpandableListView expandableListView, View view,  int groupPosition, int childPosition, long childId) -> {
-                getMainPresenter().onTimeSelected(listAdapter.getGroup(groupPosition), listAdapter.getChild(groupPosition, childPosition));
-                expandableListView.collapseGroup(groupPosition);
+                getMainPresenter().onTimeSelected(
+                        () -> expandGroup(groupPosition, false),
+                        listAdapter.getGroup(groupPosition),
+                        listAdapter.getChild(groupPosition, childPosition));
                 return true;
             }
         );
@@ -137,9 +139,7 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
         }
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-    }
+    @Override public void onNothingSelected(AdapterView<?> parent) {}
 
     public void expandGroup(int groupPosition, boolean isAuto) {
         getMainPresenter().getAvailableTime(
