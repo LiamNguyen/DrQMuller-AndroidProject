@@ -88,9 +88,7 @@ public class BookingActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (this.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() > 0) {
-            bookingActivityPresenter.emptyCart(this::onEmptyCartItem);
-        }
+        bookingActivityPresenter.emptyCart(this::onEmptyCartItem);
     }
 
     @Override
@@ -147,12 +145,7 @@ public class BookingActivity extends BaseActivity {
                             getString(R.string.agree_button),
                             (DialogInterface dialog, int which) -> {
                                 dialog.dismiss();
-                                bookingActivityPresenter.emptyCart(
-                                    () -> {
-                                        onEmptyCartItem();
-                                        finish();
-                                    }
-                                );
+                                bookingActivityPresenter.abortBooking();
                             }
                         ).setNegativeButton(
                             getString(R.string.abort_button),
@@ -226,10 +219,12 @@ public class BookingActivity extends BaseActivity {
                 ListPopupWindowAdapter.ViewHolder holder = (ListPopupWindowAdapter.ViewHolder) removedItem.getTag();
                 TextView currentView = holder.getTextView();
                 currentView.setTextColor(getResources().getColor(R.color.colorDarkGray));
+                currentView.setClickable(true);
             }else{
                 ListPopupWindowAdapter.ViewHolder holder = (ListPopupWindowAdapter.ViewHolder) removedItem.getTag();
                 TextView currentView = holder.getTextView();
                 currentView.setTextColor(getResources().getColor(R.color.colorLightGray));
+                currentView.setClickable(false);
             }
         }
     }

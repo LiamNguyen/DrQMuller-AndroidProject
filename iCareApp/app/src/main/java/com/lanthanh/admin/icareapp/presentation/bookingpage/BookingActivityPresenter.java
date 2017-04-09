@@ -67,6 +67,7 @@ public class BookingActivityPresenter extends BasePresenter{
     @Override
     public void destroy() {
         interactor.dispose();
+        this.activity.getProvider().setCurrentMachine(null);
     }
 
     public void refreshAfterLosingNetwork() {
@@ -126,8 +127,9 @@ public class BookingActivityPresenter extends BasePresenter{
 
     public void onBackPressed() {
         this.activity.hideProgress();
-        if (bookingSelectFragment.isVisible())
-            this.activity.finish();
+        if (bookingSelectFragment.isVisible()) {
+            abortBooking();
+        }
         else if (bookingSelectDateFragment.isVisible())
             navigateFragment(BookingSelectFragment.class);
         else if (bookingBookFragment.isVisible())
@@ -543,6 +545,7 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     public void releaseTime(String item, Function.VoidParam<String> removeItem) {
+        this.activity.showProgress();
         //Set responsive color for item being removed
         this.activity.onRemoveCartItemColor(false);
         //Get appointment schedule
@@ -598,6 +601,11 @@ public class BookingActivityPresenter extends BasePresenter{
         } else {
             clearCart.apply();
         }
+    }
+
+    public void abortBooking() {
+        this.activity.getProvider().setCurrentAppointment(null);
+        this.activity.finish();
     }
 
     public void validateAppointment() {
