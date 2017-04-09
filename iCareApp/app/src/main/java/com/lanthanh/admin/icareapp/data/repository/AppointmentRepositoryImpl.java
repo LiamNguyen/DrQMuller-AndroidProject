@@ -322,7 +322,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                         Calendar expireDate = Calendar.getInstance();
                         expireDate.setTime(app.getExpireDate());
                         Calendar calendarNow = Calendar.getInstance();
-                        if (expireDate.get(Calendar.DATE) <= calendarNow.get(Calendar.DATE)) {
+                        if (expireDate.get(Calendar.DATE) <1 calendarNow.get(Calendar.DATE)) {
                             appointments.remove(app);
                         }
                     }
