@@ -414,6 +414,13 @@ public class BookingActivityPresenter extends BasePresenter{
         } else {
             bookingSelectDateFragment.enableNextButton(false);
         }
+        if (getProvider().getCurrentAppointment().isScheduleSelectFilled()) {
+            emptyCart(
+                () -> this.activity.onEmptyCartItem()
+            );
+            getProvider().setCurrentMachine(null);
+        }
+        getProvider().setCurrentMachine(null);
         String date = ConverterUtils.date.convertDateForDisplay(this.expireDate.getTime());
         success.apply(date);
     }

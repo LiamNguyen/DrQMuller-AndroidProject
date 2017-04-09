@@ -150,7 +150,7 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
             expireDateText.setText(getString(R.string.booking_expire_date));
             expireDate.setEnabled(false);
             expireDate.setText(getString(R.string.booking_date_hint));
-        } else {
+        } else if (typeId == 2) {
             //If type = Tu do, hide start date. Set expire date to Ngay Thuc Hien
             startDate.setVisibility(View.GONE);
             startDateText.setVisibility(View.GONE);
