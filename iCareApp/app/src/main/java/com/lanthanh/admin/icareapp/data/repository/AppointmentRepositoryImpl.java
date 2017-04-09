@@ -24,6 +24,7 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOWeekDay;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -315,7 +316,20 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public Observable<List<DTOAppointment>> getAppointments() {
-        return Observable.just(localStorage.getAppointmentsFromLocal());
+        return Observable.just(localStorage.getAppointmentsFromLocal()).map(
+                appointments -> {
+                    for (DTOAppointment app: new ArrayList<>(appointments)) {
+                        Calendar expireDate = Calendar.getInstance();
+                        expireDate.setTime(app.getExpireDate());
+                        Calendar calendarNow = Calendar.getInstance();
+                        if (expireDate.get(Calendar.DATE) <= calendarNow.get(Calendar.DATE)) {
+                            appointments.remove(app);
+                        }
+                    }
+                    localStorage.saveAppointmentsToLocal(appointments);
+                    return appointments;
+                }
+        );
     }
 
     @Override

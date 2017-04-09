@@ -9,6 +9,7 @@ import com.lanthanh.admin.icareapp.data.repository.UserRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
+import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
 import com.lanthanh.admin.icareapp.utils.Function;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentFragment;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.DefaultAppointmentFragment;
@@ -156,10 +157,10 @@ public class MainActivityPresenter extends BasePresenter {
         );
     }
 
-    public void getAppointmentList(Function.VoidParam<List<DTOAppointment>> callback) {
+    public void getAppointmentList(Function.VoidParam<List<DTOAppointment>> updateAppointments) {
         interactor.execute(
             () -> appointmentRepository.getAppointments(),
-            callback::apply,
+            updateAppointments::apply,
             error -> {}
         );
     }
@@ -172,7 +173,16 @@ public class MainActivityPresenter extends BasePresenter {
                 this.activity.hideProgress();
                 showBookingTab();
             },
-            error -> this.activity.hideProgress()
+            error -> {
+                this.activity.hideProgress();
+                if (error instanceof UseCaseException) {
+                    switch (((UseCaseException) error).getStatus()) {
+                        case INVALID_TOKEN:
+                            this.activity.showToast(this.activity.getString(R.string.invalid_token));
+                            break;
+                    }
+                }
+            }
         );
     }
 }

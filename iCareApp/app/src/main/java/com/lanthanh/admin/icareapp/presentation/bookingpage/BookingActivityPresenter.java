@@ -203,13 +203,13 @@ public class BookingActivityPresenter extends BasePresenter{
         getProvider().getCurrentAppointment().setStartDate(null);
         getProvider().getCurrentAppointment().setExpireDate(null);
         //Reset cart on voucher change
-        if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() != null) {
+        if (getProvider().getCurrentMachine() != null) {
             if (getProvider().getCurrentAppointment().isScheduleSelectFilled()) {
                 emptyCart(
                         () -> this.activity.onEmptyCartItem()
                 );
             }
-            getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(null);
+            getProvider().setCurrentMachine(null);
         }
         if (getProvider().getCurrentAppointment().isBasicSelectFilled()) {
             bookingSelectFragment.enableNextButton(true);
@@ -225,13 +225,13 @@ public class BookingActivityPresenter extends BasePresenter{
         getProvider().getCurrentAppointment().setStartDate(null);
         getProvider().getCurrentAppointment().setExpireDate(null);
         //Reset cart on type change
-        if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() != null) {
+        if (getProvider().getCurrentMachine() != null) {
             if (getProvider().getCurrentAppointment().isScheduleSelectFilled()) {
                 emptyCart(
                     () -> this.activity.onEmptyCartItem()
                 );
             }
-            getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(null);
+            getProvider().setCurrentMachine(null);
         }
         if (getProvider().getCurrentAppointment().isBasicSelectFilled()) {
             bookingSelectFragment.enableNextButton(true);
@@ -436,12 +436,12 @@ public class BookingActivityPresenter extends BasePresenter{
      * These methods below are used for booking appointment
      */
     public void onMachineSelected(Function.VoidEmpty callback, DTOMachine machine) {
-        getProvider().getCurrentAppointment().getCurrentSchedule().setBookedMachine(machine);
+        getProvider().setCurrentMachine(machine);
         callback.apply();
     }
 
     public boolean onDaySelected(Function.VoidEmpty success) {
-        if (getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() == null){
+        if (getProvider().getCurrentMachine() == null){
             this.activity.showToast(this.activity.getString(R.string.machine_alert));
             return true;
         }
@@ -450,7 +450,7 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     public void resetMachine(Function.VoidEmpty resetView) {
-        if (this.getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine() == null)
+        if (this.getProvider().getCurrentMachine() == null)
             resetView.apply();
         else {
             if (this.getProvider().getCurrentAppointment().getType().getTypeId() == 2) {
@@ -467,7 +467,7 @@ public class BookingActivityPresenter extends BasePresenter{
                 () -> appointmentRepository.getAvailableTime(
                         dayId,
                         this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
-                        this.activity.getProvider().getCurrentAppointment().getCurrentSchedule().getBookedMachine().getMachineId(),
+                        this.activity.getProvider().getCurrentMachine().getMachineId(),
                         this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId()),
                 success -> {
                     this.activity.hideProgress();
@@ -510,12 +510,13 @@ public class BookingActivityPresenter extends BasePresenter{
             }
         }
         //Else allow to book
-        DTOAppointmentSchedule appointmentSchedule = this.activity.getProvider().getCurrentAppointment().getCurrentSchedule();
+        DTOAppointmentSchedule appointmentSchedule = new DTOAppointmentSchedule();
+        appointmentSchedule.setBookedMachine(this.activity.getProvider().getCurrentMachine());
         appointmentSchedule.setBookedDay(weekDay);
         appointmentSchedule.setBookedTime(time);
         this.activity.showProgress();
         interactor.execute(
-            () -> appointmentRepository.bookTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(), this.activity.getProvider().getCurrentAppointment().getCurrentSchedule()),
+            () -> appointmentRepository.bookTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(), appointmentSchedule),
             success -> {
                 this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().add(appointmentSchedule);
                 String newItem = appointmentSchedule.toString();

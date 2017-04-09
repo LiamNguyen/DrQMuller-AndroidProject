@@ -22,7 +22,6 @@ public class DTOAppointment {
     private DTOType type;
     private Date startDate, expireDate;
     private List<DTOAppointmentSchedule> appointmentScheduleList;
-    private DTOAppointmentSchedule currentSchedule;
     private String verificationCode;
     private boolean status;
 
@@ -121,18 +120,6 @@ public class DTOAppointment {
     public void setEmailSent(boolean emailSent) {
         isEmailSent = emailSent;
     }
-
-    public DTOAppointmentSchedule getCurrentSchedule() {
-        if (currentSchedule == null) {
-            currentSchedule = new DTOAppointmentSchedule();
-        }
-        return currentSchedule;
-    }
-
-    public void setCurrentSchedule(DTOAppointmentSchedule currentSchedule) {
-        this.currentSchedule = currentSchedule;
-    }
-
 
     public String getVerificationCode() {
         return verificationCode;
