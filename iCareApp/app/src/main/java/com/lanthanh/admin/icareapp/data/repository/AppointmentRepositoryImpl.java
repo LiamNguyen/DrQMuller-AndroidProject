@@ -147,7 +147,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     @Override
     public Observable<List<DTOTime>> getTime(int voucherId) {
         List<DTOTime> result;
-        if (voucherId == 1) {
+        if (voucherId == DTOVoucher.ECO) {
             result = mDb.getEcoTime();
             if (result.isEmpty())
                 return restClient.getEcoTime().map(
@@ -175,22 +175,19 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public Observable<List<DTOTime>> getAvailableTime(int dayId, int locationId, int machineId, int voucherId) {
-        return restClient.getSelectedTime(dayId, locationId, machineId).map(
-                resp -> {
-                    List<DTOTime> available = new ArrayList<>();
-                    if (voucherId == 1) {
-                        available.addAll(mDb.getEcoTime());
-                    } else {
-                        available.addAll(mDb.getAllTime());
-                    }
-                    for (DTOTime time : resp) {
-                        for (DTOTime _time : new ArrayList<>(available)) {
-                            if (_time.getTimeId() == time.getTimeId())
-                                available.remove(_time);
+        return getTime(voucherId).concatMap(
+                available ->
+                    restClient.getSelectedTime(dayId, locationId, machineId).map(
+                        selected -> {
+                            for (DTOTime time : selected) {
+                                for (DTOTime _time : new ArrayList<>(available)) {
+                                    if (_time.getTimeId() == time.getTimeId())
+                                        available.remove(_time);
+                                }
+                            }
+                            return available;
                         }
-                    }
-                    return available;
-                }
+                    )
         );
     }
 
@@ -201,9 +198,9 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
             return restClient.getDaysOfWeek().map(
                     resp -> {
                         mDb.addWeekDays(resp);
-                        if (voucherId == 1) {
+                        if (voucherId == DTOVoucher.ECO) {
                             for (DTOWeekDay day : new ArrayList<>(resp)) {
-                                if (day.getDayId() == 6 || day.getDayId() == 7)
+                                if (day.getDayId() == DTOWeekDay.SATURDAY || day.getDayId() == DTOWeekDay.SUNDAY)
                                     resp.remove(day);
                             }
                         }
@@ -211,9 +208,9 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                     }
             );
         } else {
-            if (voucherId == 1) {
+            if (voucherId == DTOVoucher.ECO) {
                 for (DTOWeekDay day : new ArrayList<>(result)) {
-                    if (day.getDayId() == 6 || day.getDayId() == 7)
+                    if (day.getDayId() == DTOWeekDay.SATURDAY || day.getDayId() == DTOWeekDay.SUNDAY)
                         result.remove(day);
                 }
             }

@@ -7,6 +7,9 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class DTOVoucher {
+    public static final int ECO = 1;
+    public static final int VIP = 2;
+
     @SerializedName("VOUCHER_ID") private int voucherId;
     @SerializedName("VOUCHER") private String voucherName;
     @SerializedName("PRICE") private int voucherPrice;
