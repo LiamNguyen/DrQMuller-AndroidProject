@@ -224,7 +224,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     @Override
     public Observable<RepositorySimpleStatus> bookTime(int locationId, DTOAppointmentSchedule appointmentSchedule) {
         UserInfo user = localStorage.getUserFromLocal();
-        return restClient.bookTime(user.getToken(), dataMapper.transform(locationId, appointmentSchedule)).flatMap(
+        return restClient.bookTime(user.getToken(), dataMapper.transform(locationId, appointmentSchedule)).concatMap(
                 resp -> {
                     if (resp == RepositorySimpleStatus.SUCCESS)
                         return Observable.just(resp);
@@ -236,7 +236,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     @Override
     public Observable<RepositorySimpleStatus> releaseTime(int locationId, List<DTOAppointmentSchedule> appointmentScheduleList) {
         UserInfo user = localStorage.getUserFromLocal();
-        return restClient.releaseTime(user.getToken(), dataMapper.transform(locationId, appointmentScheduleList)).flatMap(
+        return restClient.releaseTime(user.getToken(), dataMapper.transform(locationId, appointmentScheduleList)).concatMap(
                 resp -> {
                     if (resp == RepositorySimpleStatus.SUCCESS)
                         return Observable.just(resp);
@@ -247,7 +247,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public Observable<RepositorySimpleStatus> validateAppointment() {
-        return restClient.validateAppointment().flatMap(
+        return restClient.validateAppointment().concatMap(
                 resp -> {
                     if (resp == RepositorySimpleStatus.SUCCESS)
                         return Observable.just(resp);
@@ -260,7 +260,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     public Observable<RepositorySimpleStatus> createAppointment(DTOAppointment appointment) {
         UserInfo user = localStorage.getUserFromLocal();
         appointment.setUser(user);
-        return restClient.createAppointment(user.getToken(), dataMapper.transform(appointment)).flatMap(
+        return restClient.createAppointment(user.getToken(), dataMapper.transform(appointment)).concatMap(
                 resp -> {
                     if (!resp.isEmpty()) {
                         List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
@@ -277,7 +277,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     @Override
     public Observable<RepositorySimpleStatus> confirmAppointment(String appointmentId) {
         UserInfo user = localStorage.getUserFromLocal();
-        return restClient.confirmAppointment(user.getToken(), user.getId(), appointmentId).flatMap(
+        return restClient.confirmAppointment(user.getToken(), user.getId(), appointmentId).concatMap(
                 resp -> {
                     if (resp == RepositorySimpleStatus.SUCCESS) {
                         List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
@@ -298,7 +298,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
     @Override
     public Observable<RepositorySimpleStatus> cancelAppointment(String appointmentId) {
         UserInfo user = localStorage.getUserFromLocal();
-        return restClient.cancelAppointment(user.getToken(), user.getId(), appointmentId).flatMap(
+        return restClient.cancelAppointment(user.getToken(), user.getId(), appointmentId).concatMap(
                 resp -> {
                     if (resp == RepositorySimpleStatus.SUCCESS) {
                         List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
@@ -322,7 +322,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                         Calendar expireDate = Calendar.getInstance();
                         expireDate.setTime(app.getExpireDate());
                         Calendar calendarNow = Calendar.getInstance();
-                        if (expireDate.get(Calendar.DATE) <1 calendarNow.get(Calendar.DATE)) {
+                        if (expireDate.get(Calendar.DATE) < calendarNow.get(Calendar.DATE)) {
                             appointments.remove(app);
                         }
                     }
@@ -334,7 +334,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public Observable<RepositorySimpleStatus> sendEmailNotifyBooking(String appointmentId) {
-        return restClient.sendEmailNotifyBooking(appointmentId).flatMap(
+        return restClient.sendEmailNotifyBooking(appointmentId).concatMap(
             resp -> {
                 if (resp == RepositorySimpleStatus.SUCCESS) {
                     List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
