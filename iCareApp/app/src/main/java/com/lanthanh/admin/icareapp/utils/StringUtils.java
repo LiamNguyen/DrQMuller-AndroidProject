@@ -26,6 +26,10 @@ public class StringUtils {
         return true;
     }
 
+    public static <S extends CharSequence> boolean isNotNull(S s) {
+        return s != null;
+    }
+
     public static <S extends CharSequence> boolean validatePattern(S s, String pattern) {
         return s != null && s.toString().matches(pattern);
     }

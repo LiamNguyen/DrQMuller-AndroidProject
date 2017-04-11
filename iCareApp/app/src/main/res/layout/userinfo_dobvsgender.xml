@@ -28,19 +28,10 @@
             android:calendarViewShown="false"/>
 
         <TextView
-            android:id="@+id/ui_dob_noti"
-            android:text="@string/dob_null"
-            android:textColor="@color/colorWhite"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:visibility="invisible"
-            android:layout_marginBottom="15dp"/>
-
-        <TextView
             android:id="@+id/ui_gender_txt"
             android:text="@string/gender"
             android:textSize="20sp"
+            android:layout_marginBottom="10dp"
             android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,21 +68,11 @@
                 />
         </RadioGroup>
 
-        <TextView
-            android:id="@+id/ui_gender_noti"
-            android:text="@string/gender_null"
-            android:textColor="@color/colorWhite"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:visibility="invisible"/>
-
-
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/ui_next_button_p2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"

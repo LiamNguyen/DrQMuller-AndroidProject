@@ -18,6 +18,7 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
+import com.lanthanh.admin.icareapp.utils.StringUtils;
 
 import java.util.Calendar;
 
@@ -25,20 +26,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by ADMIN on 22-Oct-16.
  */
 
 public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenter>{
-    @BindView(R.id.ui_dob_txt) TextView dobStatus;
-    @BindView(R.id.ui_gender_txt) TextView genderStatus;
+    @BindView(R.id.ui_dob_txt) TextView dobTitle;
+    @BindView(R.id.ui_gender_txt) TextView genderTitle;
     @BindView(R.id.datePicker) DatePicker datePicker;
     @BindView(R.id.ui_radio_group) RadioGroup radioGroup;
     @BindView(R.id.ui_male) RadioButton maleButton;
     @BindView(R.id.ui_female) RadioButton femaleButton;
     @BindView(R.id.ui_next_button_p2) AppCompatButton nextButton;
 
+    private Disposable dobGenderDisposable;
     private Unbinder unbinder;
     private String dob, gender;
 
@@ -53,14 +58,19 @@ public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenter>
 
     @Override
     public void initViews() {
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
-        dobStatus.setTypeface(font);
-        genderStatus.setTypeface(font);
+        //Apply custom font for UI elements
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
+        dobTitle.setTypeface(font);
+        genderTitle.setTypeface(font);
         maleButton.setTypeface(font);
         femaleButton.setTypeface(font);
         nextButton.setTypeface(font);
-        dobStatus.setTypeface(font);
-        genderStatus.setTypeface(font);
+
+        //Set up listener for button
+        nextButton.setOnClickListener(view -> getMainPresenter().updateNecessaryInfo(dob, gender));
+        nextButton.setEnabled(false);
+
+        //Observe date picker and radio group button's value
         Observable<Boolean> genderObservable = RxRadioGroup.checkedChanges(radioGroup)
             .map(genderId -> {
                switch (genderId) {
@@ -74,36 +84,20 @@ public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenter>
                        return false;
                }
             });
-
-        //Date picker
-        Calendar calendar = Calendar.getInstance();
-        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                        (view, year, monthOfYear, dayOfMonth) -> {
-                            dobStatus.setVisibility(View.INVISIBLE);
-                            dob = Integer.toString(year) + "-" +
-                                    ((Integer.toString(monthOfYear + 1).length() == 1)?("0" + Integer.toString(monthOfYear + 1)) : Integer.toString(monthOfYear + 1)) + "-" +
-                                    ((Integer.toString(dayOfMonth).length() == 1)?("0" + Integer.toString(dayOfMonth)) : Integer.toString(dayOfMonth));
-                            toggleNextButton();
-                        });
-
-        //Gender group
-        radioGroup.setOnCheckedChangeListener(
-            (group, checkedId) -> {
-                genderStatus.setVisibility(View.INVISIBLE);
-                switch (checkedId){
-                    case R.id.ui_male:
-                        gender = "Male";
-                        break;
-                    case R.id.ui_female:
-                        gender = "Female";
-                        break;
-                    default:
-                        break;
-                }
-                toggleNextButton();
-        });
-        nextButton.setOnClickListener(view -> getMainPresenter().updateNecessaryInfo(dob, gender));
-        nextButton.setEnabled(false);
+        Observable<Boolean> datePickerObservable =
+                                    Observable.<String>create(emitter -> {
+                                        Calendar calendar = Calendar.getInstance();
+                                        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                                                (view, year, monthOfYear, dayOfMonth) -> {
+                                                    dob = Integer.toString(year) + "-" +
+                                                            ((Integer.toString(monthOfYear + 1).length() == 1)?("0" + Integer.toString(monthOfYear + 1)) : Integer.toString(monthOfYear + 1)) + "-" +
+                                                            ((Integer.toString(dayOfMonth).length() == 1)?("0" + Integer.toString(dayOfMonth)) : Integer.toString(dayOfMonth));
+                                                    emitter.onNext(dob);
+                                                });
+                                    }).map(StringUtils::isNotNull);
+        dobGenderDisposable = Observable.combineLatest(datePickerObservable, genderObservable, (validDob, validGender) -> validDob && validGender)
+                                        .distinctUntilChanged()
+                                        .subscribe(nextButton::setEnabled);
     }
 
     @Override
@@ -128,17 +122,11 @@ public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenter>
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        dobGenderDisposable.dispose();
     }
 
     private void updateDatePicker() {
         Calendar calendar = Calendar.getInstance();
         datePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-    }
-
-    private void toggleNextButton() {
-        if (dob != null && gender != null)
-            nextButton.setEnabled(true);
-        else
-            nextButton.setEnabled(false);
     }
 }

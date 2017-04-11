@@ -38,7 +38,6 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
 
     private Disposable editTextDisposable;
     private Unbinder unbinder;
-    private boolean validName, validAddress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,7 +82,7 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
                     return false;
                 }
             });
-        Observable<Boolean> addressObservable = RxTextView.textChanges(editName)
+        Observable<Boolean> addressObservable = RxTextView.textChanges(editAddress)
                 .map(address -> {
                     if (StringUtils.isNotEmpty(address)){
                         if (StringUtils.validatePattern(address, InputRequirement.ADDRESS)){
