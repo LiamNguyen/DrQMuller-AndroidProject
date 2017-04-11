@@ -36,6 +36,7 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
     private ExpandableListViewAdapter listAdapter;
     private CustomSpinnerAdapter machineAdapter;
     private Unbinder unbinder;
+    private boolean isActive;
 
     @Nullable
     @Override
@@ -44,6 +45,7 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
         unbinder = ButterKnife.bind(this, view);
 
         initViews();
+        isActive = true;
 
         return view;
     }
@@ -67,21 +69,33 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
         expandableListView.setGroupIndicator(null);
         expandableListView.setOnChildClickListener(
                 (ExpandableListView expandableListView, View view,  int groupPosition, int childPosition, long childId) -> {
-                getMainPresenter().onTimeSelected(
-                        () -> expandGroup(groupPosition, false),
-                        listAdapter.getGroup(groupPosition),
-                        listAdapter.getChild(groupPosition, childPosition));
-                return true;
-            }
+                    if (isActive) {
+                        isActive = false;
+                        machineSpinner.setEnabled(false);
+                        getMainPresenter().onTimeSelected(
+                                () -> {
+                                    isActive = true;
+                                    machineSpinner.setEnabled(true);
+                                },
+                                () -> expandGroup(groupPosition, false),
+                                listAdapter.getGroup(groupPosition),
+                                listAdapter.getChild(groupPosition, childPosition));
+                    }
+                    return true;
+                }
         );
         expandableListView.setOnGroupClickListener(
-            (ExpandableListView expandableListView, View view, int groupPosition, long groupId) ->
-                getMainPresenter().onDaySelected(() -> {
-                    //If selected (currently the selected item of group is closing)
-                    if (!expandableListView.isGroupExpanded(groupPosition)) {
-                        expandGroup(groupPosition, false);
-                    }
-                })
+            (ExpandableListView expandableListView, View view, int groupPosition, long groupId) -> {
+                if (isActive) {
+                    return getMainPresenter().onDaySelected(() -> {
+                        //If selected (currently the selected item of group is closing)
+                        if (!expandableListView.isGroupExpanded(groupPosition)) {
+                            expandGroup(groupPosition, false);
+                        }
+                    });
+                }
+                return false;
+            }
         );
         expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousItem = -1;

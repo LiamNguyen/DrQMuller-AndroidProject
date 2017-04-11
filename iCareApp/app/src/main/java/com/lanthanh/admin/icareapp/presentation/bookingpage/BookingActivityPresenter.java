@@ -38,6 +38,7 @@ import java.util.List;
 public class BookingActivityPresenter extends BasePresenter{
     private BookingActivity activity;
     private Calendar startDate, expireDate;
+    private DTOMachine currentMachine;
     private int numberOfRequiredContents;
 
     //Fragment
@@ -67,7 +68,6 @@ public class BookingActivityPresenter extends BasePresenter{
     @Override
     public void destroy() {
         interactor.dispose();
-        this.activity.getProvider().setCurrentMachine(null);
     }
 
     public void refreshAfterLosingNetwork() {
@@ -136,6 +136,18 @@ public class BookingActivityPresenter extends BasePresenter{
             navigateFragment(BookingSelectDateFragment.class);
     }
 
+    public boolean isBasicSelectionValid() {
+        return this.getProvider().getCurrentAppointment().isBasicSelectFilled();
+    }
+
+    public boolean isDateSelectionValid() {
+        return this.getProvider().getCurrentAppointment().isDateSelectFilled();
+    }
+
+    public boolean isScheduleValid() {
+        return this.getProvider().getCurrentAppointment().isScheduleSelectFilled();
+    }
+
     /*
      * These methods below are used for getting datasource
      */
@@ -191,11 +203,6 @@ public class BookingActivityPresenter extends BasePresenter{
 
     public void onLocationSelected(Function.VoidEmpty updateCallback, DTOLocation location) {
         getProvider().getCurrentAppointment().setLocation(location);
-        if (getProvider().getCurrentAppointment().isBasicSelectFilled()) {
-            bookingSelectFragment.enableNextButton(true);
-        } else {
-            bookingSelectFragment.enableNextButton(false);
-        }
         updateCallback.apply();
     }
 
@@ -205,18 +212,13 @@ public class BookingActivityPresenter extends BasePresenter{
         getProvider().getCurrentAppointment().setStartDate(null);
         getProvider().getCurrentAppointment().setExpireDate(null);
         //Reset cart on voucher change
-        if (getProvider().getCurrentMachine() != null) {
+        if (currentMachine != null) {
             if (getProvider().getCurrentAppointment().isScheduleSelectFilled()) {
                 emptyCart(
-                        () -> this.activity.onEmptyCartItem()
+                    () -> this.activity.onEmptyCartItem()
                 );
             }
-            getProvider().setCurrentMachine(null);
-        }
-        if (getProvider().getCurrentAppointment().isBasicSelectFilled()) {
-            bookingSelectFragment.enableNextButton(true);
-        } else {
-            bookingSelectFragment.enableNextButton(false);
+            currentMachine = null;
         }
         updateCallback.apply();
     }
@@ -227,18 +229,13 @@ public class BookingActivityPresenter extends BasePresenter{
         getProvider().getCurrentAppointment().setStartDate(null);
         getProvider().getCurrentAppointment().setExpireDate(null);
         //Reset cart on type change
-        if (getProvider().getCurrentMachine() != null) {
+        if (currentMachine != null) {
             if (getProvider().getCurrentAppointment().isScheduleSelectFilled()) {
                 emptyCart(
                     () -> this.activity.onEmptyCartItem()
                 );
             }
-            getProvider().setCurrentMachine(null);
-        }
-        if (getProvider().getCurrentAppointment().isBasicSelectFilled()) {
-            bookingSelectFragment.enableNextButton(true);
-        } else {
-            bookingSelectFragment.enableNextButton(false);
+            currentMachine = null;
         }
     }
 
@@ -418,9 +415,9 @@ public class BookingActivityPresenter extends BasePresenter{
             emptyCart(
                 () -> this.activity.onEmptyCartItem()
             );
-            getProvider().setCurrentMachine(null);
+            currentMachine = null;
         }
-        getProvider().setCurrentMachine(null);
+        currentMachine = null;
         String date = ConverterUtils.date.convertDateForDisplay(this.expireDate.getTime());
         success.apply(date);
     }
@@ -445,12 +442,12 @@ public class BookingActivityPresenter extends BasePresenter{
      * These methods below are used for booking appointment
      */
     public void onMachineSelected(Function.VoidEmpty callback, DTOMachine machine) {
-        getProvider().setCurrentMachine(machine);
+        currentMachine = machine;
         callback.apply();
     }
 
     public boolean onDaySelected(Function.VoidEmpty success) {
-        if (getProvider().getCurrentMachine() == null){
+        if (currentMachine == null){
             this.activity.showToast(this.activity.getString(R.string.machine_alert));
             return true;
         }
@@ -459,7 +456,7 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     public void resetMachine(Function.VoidEmpty resetView) {
-        if (this.getProvider().getCurrentMachine() == null)
+        if (currentMachine == null)
             resetView.apply();
         else {
             if (this.getProvider().getCurrentAppointment().getType().getTypeId() == 2) {
@@ -476,7 +473,7 @@ public class BookingActivityPresenter extends BasePresenter{
                 () -> appointmentRepository.getAvailableTime(
                         dayId,
                         this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
-                        this.activity.getProvider().getCurrentMachine().getMachineId(),
+                        this.currentMachine.getMachineId(),
                         this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId()),
                 success -> {
                     this.activity.hideProgress();
@@ -505,10 +502,11 @@ public class BookingActivityPresenter extends BasePresenter{
         );
     }
 
-    public void onTimeSelected(Function.VoidEmpty refreshTime, DTOWeekDay weekDay, DTOTime time) {
+    public void onTimeSelected(Function.VoidEmpty unlockViews, Function.VoidEmpty refreshTime, DTOWeekDay weekDay, DTOTime time) {
         //Maximum 3 schedules for 1 appointment
         if (this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() == 3) {
             this.activity.showToast(this.activity.getString(R.string.max_item));
+            unlockViews.apply();
             return;
         }
         //Maximum 1 schedule for 1 day
@@ -520,7 +518,7 @@ public class BookingActivityPresenter extends BasePresenter{
         }
         //Else allow to book
         DTOAppointmentSchedule appointmentSchedule = new DTOAppointmentSchedule();
-        appointmentSchedule.setBookedMachine(this.activity.getProvider().getCurrentMachine());
+        appointmentSchedule.setBookedMachine(currentMachine);
         appointmentSchedule.setBookedDay(weekDay);
         appointmentSchedule.setBookedTime(time);
         this.activity.showProgress();
@@ -535,6 +533,7 @@ public class BookingActivityPresenter extends BasePresenter{
                     bookingBookFragment.enableFinishButton(true);
                 else
                     bookingBookFragment.enableFinishButton(false);
+                unlockViews.apply();
             },
             error -> {
                 if (error instanceof UseCaseException) {
@@ -547,6 +546,7 @@ public class BookingActivityPresenter extends BasePresenter{
                             break;
                     }
                 }
+                unlockViews.apply();
             }
         );
     }

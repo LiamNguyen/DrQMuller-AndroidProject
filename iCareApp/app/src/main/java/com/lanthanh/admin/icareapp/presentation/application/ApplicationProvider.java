@@ -23,7 +23,6 @@ import java.util.List;
 
 public class ApplicationProvider {
     private DTOAppointment currentAppointment;
-    private DTOMachine currentMachine;
 
     public ApplicationProvider() {}
 
@@ -36,13 +35,5 @@ public class ApplicationProvider {
 
     public void setCurrentAppointment(DTOAppointment currentAppointment) {
         this.currentAppointment = currentAppointment;
-    }
-
-    public DTOMachine getCurrentMachine() {
-        return currentMachine;
-    }
-
-    public void setCurrentMachine(DTOMachine currentMachine) {
-        this.currentMachine = currentMachine;
     }
 }
