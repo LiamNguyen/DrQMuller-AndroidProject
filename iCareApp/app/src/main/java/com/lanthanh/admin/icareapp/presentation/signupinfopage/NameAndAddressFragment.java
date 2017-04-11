@@ -102,10 +102,7 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
     }
 
     @Override
-    public void refreshViews() {
-        editName.setText("");
-        editAddress.setText("");
-    }
+    public void refreshViews() {}
 
     @Override
     public UserInfoActivityPresenter getMainPresenter() {
@@ -123,8 +120,6 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
         if (!hidden && isVisible()) {
             ((UserInfoActivity) getActivity()).showSoftKeyboard(editName);
         }
-        else
-            refreshViews();
     }
 
     @Override

@@ -36,6 +36,7 @@ public class UserInfoActivityPresenter extends BasePresenter {
     private WelcomeRepository welcomeRepository;
     private UserRepository userRepository;
     private Interactor interactor;
+    private RepositorySimpleStatus currentStatus;
 
     public UserInfoActivityPresenter(UserInfoActivity activity){
         super(activity);
@@ -108,6 +109,8 @@ public class UserInfoActivityPresenter extends BasePresenter {
     }
 
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {
+        this.activity.hideSoftKeyboard();
+        this.activity.hideProgress();
         if (fragmentClass == NameAndAddressFragment.class)
             showFragment(nameLocationFragment);
         else if (fragmentClass == DOBvsGenderFragment.class)
@@ -121,30 +124,40 @@ public class UserInfoActivityPresenter extends BasePresenter {
     }
 
     public void onBackPressed() {
-        this.activity.hideSoftKeyboard();
-        this.activity.hideProgress();
-        if (nameLocationFragment.isVisible() || validateFragment.isVisible())
-            navigateActivity(WelcomeActivity.class);
-        else if (dobGenderFragment.isVisible())
-            navigateFragment(NameAndAddressFragment.class);
-        else if (contactFragment.isVisible())
-            navigateFragment(DOBvsGenderFragment.class);
-        else if (changeEmailFragment.isVisible())
-            navigateFragment(ValidateFragment.class);
+        if (currentStatus == null) currentStatus = RepositorySimpleStatus.MISSING_NAME_AND_ADDRESS;
+        switch (currentStatus) {
+            case MISSING_DOB_AND_GENDER:
+                if (dobGenderFragment.isVisible())
+                    navigateActivity(WelcomeActivity.class);
+                else if (contactFragment.isVisible())
+                    navigateFragment(DOBvsGenderFragment.class);
+                break;
+            case MISSING_EMAIL_AND_PHONE:
+                navigateActivity(WelcomeActivity.class);
+                break;
+            case MISSING_NAME_AND_ADDRESS:
+            default:
+                if (nameLocationFragment.isVisible())
+                    navigateActivity(WelcomeActivity.class);
+                else if (dobGenderFragment.isVisible())
+                    navigateFragment(NameAndAddressFragment.class);
+                else if (contactFragment.isVisible())
+                    navigateFragment(DOBvsGenderFragment.class);
+                break;
+        }
     }
 
     public void checkUserInformationValidity(){
         interactor.execute(
             () -> userRepository.checkUserInformationValidity(),
             success -> {
+                if (currentStatus == null) currentStatus = success;
                 if (success == RepositorySimpleStatus.MISSING_NAME_AND_ADDRESS)
                     navigateFragment(NameAndAddressFragment.class);
                 else if (success == RepositorySimpleStatus.MISSING_DOB_AND_GENDER)
                     navigateFragment(DOBvsGenderFragment.class);
                 else if (success == RepositorySimpleStatus.MISSING_EMAIL_AND_PHONE)
                     navigateFragment(ContactFragment.class);
-                else if (success == RepositorySimpleStatus.VALID_USER)
-                    navigateActivity(MainActivity.class);
                 else //Default
                     navigateFragment(NameAndAddressFragment.class);
             },
@@ -160,7 +173,7 @@ public class UserInfoActivityPresenter extends BasePresenter {
             () -> userRepository.updateCustomerBasicInfo(name, address),
             success -> {
                 this.activity.hideProgress();
-                checkUserInformationValidity();
+                navigateFragment(DOBvsGenderFragment.class);
             },
             error -> this.activity.hideProgress()
         );
@@ -172,7 +185,7 @@ public class UserInfoActivityPresenter extends BasePresenter {
             () -> userRepository.updateCustomerNecessaryInfo(dob, gender),
             success -> {
                 this.activity.hideProgress();
-                checkUserInformationValidity();
+                navigateFragment(ContactFragment.class);
             },
             error -> this.activity.hideProgress()
         );
@@ -184,7 +197,7 @@ public class UserInfoActivityPresenter extends BasePresenter {
             () -> userRepository.updateCustomerImportantInfo(email, phone),
             success -> {
                 this.activity.hideProgress();
-                checkUserInformationValidity();
+                navigateActivity(MainActivity.class);
             },
             error -> this.activity.hideProgress()
         );

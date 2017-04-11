@@ -51,6 +51,7 @@ public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenter>
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.userinfo_dobvsgender, container, false);
         unbinder = ButterKnife.bind(this, view);
+
         initViews();
 
         return view;
@@ -101,17 +102,12 @@ public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenter>
     }
 
     @Override
-    public void refreshViews() {
-        radioGroup.clearCheck();
-        dob = null; gender = null;
-    }
+    public void refreshViews() {}
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible())
             updateDatePicker();
-        else
-            refreshViews();
     }
 
     @Override

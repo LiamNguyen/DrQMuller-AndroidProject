@@ -115,15 +115,10 @@ public class ContactFragment extends BaseFragment<UserInfoActivityPresenter>{
         if (!hidden && isVisible()) {
             ((UserInfoActivity) getActivity()).showSoftKeyboard(editEmail);
         }
-        else
-            refreshViews();
     }
 
     @Override
-    public void refreshViews() {
-        editEmail.setText("");
-        editPhone.setText("");
-    }
+    public void refreshViews() {}
 
     @Override
     public UserInfoActivityPresenter getMainPresenter() {
