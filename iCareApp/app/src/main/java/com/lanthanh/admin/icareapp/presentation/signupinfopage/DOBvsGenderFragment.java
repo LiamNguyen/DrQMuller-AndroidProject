@@ -11,6 +11,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding2.view.ViewAttachAttachedEvent;
+import com.jakewharton.rxbinding2.widget.RxRadioGroup;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
@@ -21,6 +24,7 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.Observable;
 
 /**
  * Created by ADMIN on 22-Oct-16.
@@ -57,6 +61,19 @@ public class DOBvsGenderFragment extends BaseFragment<UserInfoActivityPresenter>
         nextButton.setTypeface(font);
         dobStatus.setTypeface(font);
         genderStatus.setTypeface(font);
+        Observable<Boolean> genderObservable = RxRadioGroup.checkedChanges(radioGroup)
+            .map(genderId -> {
+               switch (genderId) {
+                   case R.id.ui_male:
+                       this.gender = "Male";
+                       return true;
+                   case R.id.ui_female:
+                       this.gender = "Female";
+                       return true;
+                   default:
+                       return false;
+               }
+            });
 
         //Date picker
         Calendar calendar = Calendar.getInstance();

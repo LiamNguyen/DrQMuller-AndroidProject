@@ -74,7 +74,7 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter>{
         Observable<Boolean> usernameObservable = RxTextView.textChanges(editUsername).map(StringUtils::isNotEmpty);
         Observable<Boolean> passwordObservable = RxTextView.textChanges(editPassword).map(StringUtils::isNotEmpty);
         editTextDisposable =  Observable.combineLatest(usernameObservable, passwordObservable, (validUsername, validPassword) -> validUsername && validPassword)
-                                        .subscribe(valid -> logInButton.setEnabled(valid));
+                                        .subscribe(logInButton::setEnabled);
     }
 
     @Override

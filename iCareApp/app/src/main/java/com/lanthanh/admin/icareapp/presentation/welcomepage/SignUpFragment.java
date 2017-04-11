@@ -117,7 +117,7 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> {
         });
         editTextDisposable = Observable.combineLatest(passwordMatcherObservable, usernameObservable, (validPassword, validUsername) -> validPassword && validUsername)
                                         .distinctUntilChanged()
-                                        .subscribe(valid -> signUpButton.setEnabled(valid));
+                                        .subscribe(signUpButton::setEnabled);
     }
 
     @Override
