@@ -1,14 +1,18 @@
 package com.lanthanh.admin.icareapp.presentation.bookingpage;
 
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
@@ -31,6 +35,7 @@ import butterknife.Unbinder;
 public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> implements AdapterView.OnItemSelectedListener{
     @BindView(R.id.booking_finish_button) AppCompatButton finishButton;
     @BindView(R.id.spinner_machine) Spinner machineSpinner;
+    @BindView(R.id.drop_down_icon_machines) AppCompatImageView dropDownView;
     @BindView(R.id.expListView) ExpandableListView expandableListView;
 
     private ExpandableListViewAdapter listAdapter;
@@ -72,10 +77,12 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
                     if (isActive) {
                         isActive = false;
                         machineSpinner.setEnabled(false);
+                        setImageTint(dropDownView, false);
                         getMainPresenter().onTimeSelected(
                                 () -> {
                                     isActive = true;
                                     machineSpinner.setEnabled(true);
+                                    setImageTint(dropDownView, true);
                                 },
                                 () -> expandGroup(groupPosition, false),
                                 listAdapter.getGroup(groupPosition),
@@ -185,5 +192,21 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    public void setImageTint(AppCompatImageView imageView, boolean isEnabled) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            //for M and above (API >= 23)
+            if (isEnabled)
+                imageView.setColorFilter(getResources().getColor(R.color.colorWhite, null), PorterDuff.Mode.SRC_ATOP);
+            else
+                imageView.setColorFilter(getResources().getColor(R.color.colorPrimaryDark, null), PorterDuff.Mode.SRC_ATOP);
+        } else{
+            //below M (API <23)
+            if (isEnabled)
+                imageView.setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+            else
+                imageView.setColorFilter(getResources().getColor(R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+        }
     }
 }

@@ -513,6 +513,7 @@ public class BookingActivityPresenter extends BasePresenter{
         for (DTOAppointmentSchedule appointment: this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList()) {
             if (appointment.getBookedDay().getDayId() == weekDay.getDayId()) {
                 this.activity.showToast(this.activity.getString(R.string.selected_day));
+                unlockViews.apply();
                 return;
             }
         }
