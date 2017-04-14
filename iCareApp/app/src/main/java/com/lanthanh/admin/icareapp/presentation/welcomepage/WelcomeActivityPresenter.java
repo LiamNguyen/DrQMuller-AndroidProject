@@ -22,7 +22,7 @@ public class WelcomeActivityPresenter implements WelcomeContract.Presenter{
 
     private WelcomeContract.LogInView logInView;
     private WelcomeContract.SignUpView signUpView;
-    private WelcomeContract.OnViewChangeListener listener;
+    private WelcomeContract.Navigator navigator;
     private WelcomeRepository welcomeRepository;
     private UserRepository userRepository;
     private Interactor interactor;
@@ -38,31 +38,30 @@ public class WelcomeActivityPresenter implements WelcomeContract.Presenter{
         signUpView.setPresenter(this);
     }
 
-
     @Override
-    public void setOnViewChangeListener(WelcomeContract.OnViewChangeListener listener) {
-        this.listener = listener;
+    public void setNavigator(WelcomeContract.Navigator navigator) {
+        this.navigator = navigator;
     }
 
     public void login(String username, String password){
-        //this.activity.showProgress();
+        logInView.showLoadingIndicator(true);
         interactor.execute(
             () -> welcomeRepository.login(username, password),
             success -> {
-                //this.activity.hideProgress();
+                logInView.showLoadingIndicator(false);
                 interactor.execute(
-                        () -> userRepository.checkUserInformationValidity(),
-                        check -> {
-                            //if (check == RepositorySimpleStatus.VALID_USER)
-                                //navigateActivity(MainActivity.class);
-                            //else //Default
-                                ////navigateActivity(UserInfoActivity.class);
-                        },
-                        error -> {}
+                    () -> userRepository.checkUserInformationValidity(),
+                    check -> {
+                        if (check == RepositorySimpleStatus.VALID_USER)
+                            navigator.goToMainPage();
+                        else //Default
+                            navigator.goToUserInfoPage();
+                    },
+                    error -> {}
                 );
             },
             error -> {
-                //this.activity.hideProgress();
+                logInView.showLoadingIndicator(false);
                 if (error instanceof UseCaseException) {
                     switch (((UseCaseException) error).getStatus()) {
                         case PATTERN_FAIL:
@@ -78,15 +77,15 @@ public class WelcomeActivityPresenter implements WelcomeContract.Presenter{
     }
 
     public void signup(String username, String password){
-        //this.activity.showProgress();
+        signUpView.showLoadingIndicator(true);
         interactor.execute(
             () -> welcomeRepository.signup(username, password),
             success -> {
-                //this.activity.hideProgress();
-                //navigateActivity(UserInfoActivity.class);
+                signUpView.showLoadingIndicator(false);
+                navigator.goToUserInfoPage();
             },
             error -> {
-                //this.activity.hideProgress();
+                signUpView.showLoadingIndicator(false);
                 if (error instanceof UseCaseException) {
                     switch (((UseCaseException) error).getStatus()) {
                         case PATTERN_FAIL:

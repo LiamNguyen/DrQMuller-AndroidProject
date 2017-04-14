@@ -10,11 +10,13 @@ import com.lanthanh.admin.icareapp.presentation.base.BaseView;
 
 public interface WelcomeContract {
     interface LogInView extends BaseView<Presenter> {
+        void showLoadingIndicator(boolean shouldShow);
         void showUsernamePasswordNotMatchMessage();
         void showPatternFailMessage();
     }
 
     interface SignUpView extends BaseView<Presenter> {
+        void showLoadingIndicator(boolean shouldShow);
         void showUsernameAlreadyExistedMessage();
         void showPatternFailMessage();
     }
@@ -22,10 +24,12 @@ public interface WelcomeContract {
     interface Presenter extends BasePresenter {
         void login(String username, String password);
         void signup(String username, String password);
-        void setOnViewChangeListener(OnViewChangeListener listener);
+        void setNavigator(Navigator navigator);
     }
 
-    interface OnViewChangeListener {
-        void onViewChange(BaseView view);
+    interface Navigator {
+        void goToMainPage();
+        void goToUserInfoPage();
+        void swapViews(BaseView view);
     }
 }

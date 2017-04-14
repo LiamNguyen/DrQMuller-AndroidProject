@@ -45,14 +45,13 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implem
         unbinder = ButterKnife.bind(this, view);
 
         initViews();
+        setHasOptionsMenu(true);
 
         return view;
     }
 
     @Override
     public void initViews() {
-        ((WelcomeActivity) getActivity()).showToolbar(true);
-
         //Apply custom font for UI elements
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
         logInButton.setTypeface(font);
@@ -63,10 +62,10 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implem
 
         //Set up listener for button
         logInButton.setOnClickListener(
-                view ->  {
-                    ((WelcomeActivity) getActivity()).hideSoftKeyboard();
-                    getMainPresenter().login(editUsername.getText().toString().trim(), editPassword.getText().toString());
-                }
+            view ->  {
+                ((WelcomeActivity) getActivity()).hideSoftKeyboard();
+                mPresenter.login(editUsername.getText().toString().trim(), editPassword.getText().toString());
+            }
         );
 
         //Observe edit texts' value
@@ -74,11 +73,6 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implem
         Observable<Boolean> passwordObservable = RxTextView.textChanges(editPassword).map(StringUtils::isNotEmpty);
         editTextDisposable =  Observable.combineLatest(usernameObservable, passwordObservable, (validUsername, validPassword) -> validUsername && validPassword)
                                         .subscribe(logInButton::setEnabled);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -99,20 +93,19 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implem
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        if (!hidden && isVisible()) {
-            ((WelcomeActivity) getActivity()).showToolbar(true);
-            ((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
-        }
-        else
-            refreshViews();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
         editTextDisposable.dispose();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden && isVisible()) {
+            ((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
+        }
+        else
+            refreshViews();
     }
 
     @Override
@@ -128,6 +121,15 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implem
     @Override
     public void showPatternFailMessage() {
         showToast(getString(R.string.pattern_fail));
+    }
+
+    @Override
+    public void showLoadingIndicator(boolean shouldShow) {
+        if (shouldShow) {
+            ((WelcomeActivity) getActivity()).showProgress();
+        } else {
+            ((WelcomeActivity) getActivity()).hideProgress();
+        }
     }
 }
 

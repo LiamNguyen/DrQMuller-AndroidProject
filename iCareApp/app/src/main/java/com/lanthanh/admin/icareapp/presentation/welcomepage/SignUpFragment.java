@@ -37,6 +37,7 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> imple
 
     private Disposable editTextDisposable;
     private Unbinder unbinder;
+    private WelcomeContract.Presenter mPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -44,14 +45,13 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> imple
         unbinder = ButterKnife.bind(this, view);
 
         initViews();
+        setHasOptionsMenu(true);
 
         return view;
     }
 
     @Override
     public void initViews() {
-        ((WelcomeActivity) getActivity()).showToolbar(true);
-
         //Apply custom font for UI elements
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
         signUpButton.setTypeface(font);
@@ -69,7 +69,12 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> imple
         editPasswordContainer.setErrorEnabled(true);
 
         //Set up listener for button
-        signUpButton.setOnClickListener(view -> getMainPresenter().signup(editUsername.getText().toString().trim(), editPassword.getText().toString()));
+        signUpButton.setOnClickListener(
+            view -> {
+                ((WelcomeActivity) getActivity()).hideSoftKeyboard();
+                mPresenter.signup(editUsername.getText().toString().trim(), editPassword.getText().toString());
+            }
+        );
 
         //Observe edit texts' value
         Observable<Boolean> usernameObservable = RxTextView.textChanges(editUsername)
@@ -136,7 +141,6 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> imple
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible()) {
-            ((WelcomeActivity) getActivity()).showToolbar(true);
             ((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
         }
         else
@@ -157,17 +161,26 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> imple
 
     @Override
     public void setPresenter(WelcomeContract.Presenter presenter) {
-
+        mPresenter = presenter;
     }
 
     @Override
     public void showUsernameAlreadyExistedMessage() {
-
+        showToast(getString(R.string.username_unavailable));
     }
 
     @Override
     public void showPatternFailMessage() {
+        showToast(getString(R.string.pattern_fail));
+    }
 
+    @Override
+    public void showLoadingIndicator(boolean shouldShow) {
+        if (shouldShow) {
+            ((WelcomeActivity) getActivity()).showProgress();
+        } else {
+            ((WelcomeActivity) getActivity()).hideProgress();
+        }
     }
 }
 

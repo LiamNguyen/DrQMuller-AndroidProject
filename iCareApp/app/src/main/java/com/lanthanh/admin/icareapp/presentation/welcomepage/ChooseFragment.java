@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
@@ -22,11 +21,9 @@ import butterknife.Unbinder;
  */
 
 public class ChooseFragment extends BaseFragment<WelcomeActivityPresenter>{
-    @BindView(R.id.wel_log_in_button)
-    AppCompatButton logInButton;
+    @BindView(R.id.wel_log_in_button) AppCompatButton logInButton;
     @BindView(R.id.wel_sign_up_button) AppCompatButton signUpButton;
-    @BindView(R.id.wel_text)
-    TextView welcomeText;
+    @BindView(R.id.wel_text) TextView welcomeText;
     private Unbinder unbinder;
 
     @Override
@@ -35,13 +32,13 @@ public class ChooseFragment extends BaseFragment<WelcomeActivityPresenter>{
         unbinder = ButterKnife.bind(this, view);
 
         initViews();
+        setHasOptionsMenu(false);
 
         return view;
     }
 
     @Override
     public void initViews(){
-        ((WelcomeActivity) getActivity()).showToolbar(false);
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_WELCOME);
         Typeface font_light = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
         welcomeText.setTypeface(font);
@@ -57,12 +54,6 @@ public class ChooseFragment extends BaseFragment<WelcomeActivityPresenter>{
     @Override
     public WelcomeActivityPresenter getMainPresenter(){
         return ((WelcomeActivity) getActivity()).getMainPresenter();
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        if (!hidden && isVisible())
-            ((WelcomeActivity) getActivity()).showToolbar(false);
     }
 
     @Override

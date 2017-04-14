@@ -19,6 +19,9 @@ import com.lanthanh.admin.icareapp.data.repository.WelcomeRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.presentation.base.BaseActivity;
+import com.lanthanh.admin.icareapp.presentation.base.BaseView;
+import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
+import com.lanthanh.admin.icareapp.presentation.signupinfopage.UserInfoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +61,27 @@ public class WelcomeActivity extends BaseActivity {
         logInFragment = new LogInFragment();
         signUpFragment = new SignUpFragment();
         registerActivityPresenter = new WelcomeActivityPresenter(logInFragment, signUpFragment, new WelcomeRepositoryImpl(this), new UserRepositoryImpl(this), new Interactor());
+        registerActivityPresenter.setNavigator(new WelcomeContract.Navigator() {
+            @Override
+            public void goToMainPage() {
+                navigateActivity(MainActivity.class);
+            }
+
+            @Override
+            public void goToUserInfoPage() {
+                navigateActivity(UserInfoActivity.class);
+            }
+
+            @Override
+            public void swapViews(BaseView view) {
+                if (view instanceof WelcomeContract.LogInView)
+                    navigateFragment(LogInFragment.class);
+                else if (view instanceof WelcomeContract.SignUpView)
+                    navigateFragment(SignUpFragment.class);
+                else
+                    navigateFragment(ChooseFragment.class);
+            }
+        });
 
         //Set up for Toolbar
         setSupportActionBar(toolBar);
@@ -118,6 +142,14 @@ public class WelcomeActivity extends BaseActivity {
         outState.putString(CURRENT_FRAGMENT_KEY, CURRENT_FRAGMENT);
     }
 
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
+
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {
         hideSoftKeyboard();
         if (fragmentClass == ChooseFragment.class) {
@@ -134,6 +166,7 @@ public class WelcomeActivity extends BaseActivity {
         }
     }
 
+    @Override
     public List<Fragment> getVisibleFragments() {
         // We have 3 fragments, so initialize the arrayList to 3 to optimize memory
         List<Fragment> result = new ArrayList<>(3);
@@ -150,44 +183,6 @@ public class WelcomeActivity extends BaseActivity {
         }
 
         return result;
-    }
-
-    public void hideFragments(FragmentTransaction ft, List<Fragment> visibleFrags) {
-        for (Fragment fragment : visibleFrags) {
-            ft.hide(fragment);
-        }
-    }
-
-    public void showFragment(Fragment f) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                                                /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                                                        R.anim.slide_in_left, R.anim.slide_out_right);*/
-        //Hide all current visible fragment
-        hideFragments(fragmentTransaction, getVisibleFragments());
-
-        if (!f.isAdded()){
-            fragmentTransaction.add(R.id.wel_fragment_container, f, f.getClass().getName());
-        }else{
-            fragmentTransaction.show(f);
-        }
-
-        fragmentTransaction.addToBackStack(null).commit();
-    }
-
-    public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    public void hideProgress() {
-        progressBar.setVisibility(View.GONE);
-    }
-
-    //Hide/show tool bar
-    public void showToolbar(boolean shouldShow){
-        if (shouldShow)
-            toolBar.setVisibility(View.VISIBLE);
-        else
-            toolBar.setVisibility(View.GONE);
     }
 
     public void backToHomeScreen() {
