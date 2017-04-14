@@ -313,20 +313,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
     @Override
     public Observable<List<DTOAppointment>> getAppointments() {
-        return Observable.just(localStorage.getAppointmentsFromLocal()).map(
-                appointments -> {
-                    for (DTOAppointment app: new ArrayList<>(appointments)) {
-                        Calendar expireDate = Calendar.getInstance();
-                        expireDate.setTime(app.getExpireDate());
-                        Calendar calendarNow = Calendar.getInstance();
-                        if (expireDate.get(Calendar.DATE) < calendarNow.get(Calendar.DATE)) {
-                            appointments.remove(app);
-                        }
-                    }
-                    localStorage.saveAppointmentsToLocal(appointments);
-                    return appointments;
-                }
-        );
+        return Observable.just(localStorage.getAppointmentsFromLocal());
     }
 
     @Override
