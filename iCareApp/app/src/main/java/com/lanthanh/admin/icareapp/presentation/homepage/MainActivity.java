@@ -3,14 +3,11 @@ package com.lanthanh.admin.icareapp.presentation.homepage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.base.BaseActivity;
-import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentFragment;
-import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.DefaultAppointmentFragment;
 import com.lanthanh.admin.icareapp.presentation.homepage.usertab.UserFragment;
 
 import butterknife.BindView;

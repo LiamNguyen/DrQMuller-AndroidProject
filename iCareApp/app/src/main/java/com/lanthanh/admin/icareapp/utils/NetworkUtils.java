@@ -1,19 +1,6 @@
 package com.lanthanh.admin.icareapp.utils;
 
-import android.net.Uri;
-import android.util.Log;
-
-import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointmentSchedule;
-
-import org.json.JSONObject;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.security.SecureRandom;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by ADMIN on 06-Jan-17.
