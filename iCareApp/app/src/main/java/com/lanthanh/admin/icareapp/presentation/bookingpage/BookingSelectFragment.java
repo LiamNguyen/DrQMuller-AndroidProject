@@ -49,7 +49,6 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
     @BindView(R.id.spinner_vouchers) Spinner voucherSp;
     @BindView(R.id.spinner_type) Spinner typeSp;
     @BindView(R.id.fab) FloatingActionButton nextButton;
-    @BindView(R.id.type_container) RelativeLayout typeContainer;
 
     private CustomSpinnerAdapter<DTOCountry> countryAdapter;
     private CustomSpinnerAdapter<DTOCity> cityAdapter;
@@ -122,7 +121,6 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
         );
         locationSp.setEnabled(false);
         voucherSp.setEnabled(false);
-        typeContainer.setVisibility(View.INVISIBLE);
 
         //Set up adapter for spinner
         countryAdapter = new CustomSpinnerAdapter<>(getActivity(), R.layout.bookingselect_spinner_item, new ArrayList<>(), getString(R.string.booking_country_hint));
@@ -183,6 +181,7 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
                                                                 if (position != AdapterView.INVALID_POSITION) {
                                                                     getMainPresenter().onLocationSelected(
                                                                         () -> {
+                                                                            setDefaultSelectionForVoucher();
                                                                             //Enable voucher
                                                                             voucherSp.setEnabled(true);
                                                                             voucherIv.setEnabled(true);
@@ -222,10 +221,12 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
                                         (validCountry, validCity, validDistrict, validLocation, validVoucher, validType) ->
                                         validCountry && validCity && validDistrict && validLocation && validVoucher && validType && getMainPresenter().isBasicSelectionValid())
                                       .distinctUntilChanged()
-                                      .subscribe(valid -> {
-                                          nextButton.setEnabled(valid);
-                                          setFabTint(nextButton, valid);
-                                      }, error -> Log.e(this.getClass().getName(), error.getMessage())
+                                      .subscribe(
+                                          valid -> {
+                                              nextButton.setEnabled(valid);
+                                              setFabTint(nextButton, valid);
+                                          },
+                                          error -> Log.e(this.getClass().getName(), error.getMessage())
                                       );
     }
 
@@ -251,6 +252,10 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
 
     public void setDefaultSelectionForDistrict() {
         districtSp.setSelection(8);
+    }
+
+    public void setDefaultSelectionForVoucher() {
+        voucherSp.setSelection(2);
     }
 
     public void setDefaultSelectionForType() {
