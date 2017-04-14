@@ -45,6 +45,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void showToast(String msg){
+        if (toast != null)
+            toast.cancel();
         toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         toast.show();
     }

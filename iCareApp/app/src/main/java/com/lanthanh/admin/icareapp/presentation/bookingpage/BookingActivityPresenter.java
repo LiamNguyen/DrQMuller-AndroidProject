@@ -537,6 +537,7 @@ public class BookingActivityPresenter extends BasePresenter{
                 unlockViews.apply();
             },
             error -> {
+                this.activity.hideProgress();
                 if (error instanceof UseCaseException) {
                     switch (((UseCaseException) error).getStatus()) {
                         case TIME_HAS_BEEN_BOOKED:
