@@ -36,8 +36,10 @@ public class UserInfoActivityPresenter extends BasePresenter {
     private WelcomeRepository welcomeRepository;
     private UserRepository userRepository;
     private Interactor interactor;
+    private RepositorySimpleStatus currentStatus;
 
     public UserInfoActivityPresenter(UserInfoActivity activity){
+        super(activity);
         this.activity = activity;
         init();
     }
@@ -107,6 +109,8 @@ public class UserInfoActivityPresenter extends BasePresenter {
     }
 
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {
+        this.activity.hideSoftKeyboard();
+        this.activity.hideProgress();
         if (fragmentClass == NameAndAddressFragment.class)
             showFragment(nameLocationFragment);
         else if (fragmentClass == DOBvsGenderFragment.class)
@@ -120,50 +124,45 @@ public class UserInfoActivityPresenter extends BasePresenter {
     }
 
     public void onBackPressed() {
-        this.activity.hideSoftKeyboard();
-        if (nameLocationFragment.isVisible() || validateFragment.isVisible())
-            navigateActivity(WelcomeActivity.class);
-        else if (dobGenderFragment.isVisible())
-            navigateFragment(NameAndAddressFragment.class);
-        else if (contactFragment.isVisible())
-            navigateFragment(DOBvsGenderFragment.class);
-        else if (changeEmailFragment.isVisible())
-            navigateFragment(ValidateFragment.class);
+        if (currentStatus == null) currentStatus = RepositorySimpleStatus.MISSING_NAME_AND_ADDRESS;
+        switch (currentStatus) {
+            case MISSING_DOB_AND_GENDER:
+                if (dobGenderFragment.isVisible())
+                    navigateActivity(WelcomeActivity.class);
+                else if (contactFragment.isVisible())
+                    navigateFragment(DOBvsGenderFragment.class);
+                break;
+            case MISSING_EMAIL_AND_PHONE:
+                navigateActivity(WelcomeActivity.class);
+                break;
+            case MISSING_NAME_AND_ADDRESS:
+            default:
+                if (nameLocationFragment.isVisible())
+                    navigateActivity(WelcomeActivity.class);
+                else if (dobGenderFragment.isVisible())
+                    navigateFragment(NameAndAddressFragment.class);
+                else if (contactFragment.isVisible())
+                    navigateFragment(DOBvsGenderFragment.class);
+                break;
+        }
     }
-
-    @Override
-    public void resume() {}
 
     public void checkUserInformationValidity(){
         interactor.execute(
             () -> userRepository.checkUserInformationValidity(),
             success -> {
+                if (currentStatus == null) currentStatus = success;
                 if (success == RepositorySimpleStatus.MISSING_NAME_AND_ADDRESS)
                     navigateFragment(NameAndAddressFragment.class);
                 else if (success == RepositorySimpleStatus.MISSING_DOB_AND_GENDER)
                     navigateFragment(DOBvsGenderFragment.class);
                 else if (success == RepositorySimpleStatus.MISSING_EMAIL_AND_PHONE)
                     navigateFragment(ContactFragment.class);
-                else if (success == RepositorySimpleStatus.VALID_USER)
-                    navigateActivity(MainActivity.class);
                 else //Default
                     navigateFragment(NameAndAddressFragment.class);
             },
             error -> {}
         );
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass) {
-        Intent intent = new Intent(this.activity, activityClass);
-        this.activity.startActivity(intent);
-        this.activity.finish();
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass, Bundle b) {
-        Intent intent = new Intent(this.activity, activityClass);
-        intent.putExtra(this.getClass().getName(), b); //TODO check this put extra
-        this.activity.startActivity(intent);
-        this.activity.finish();
     }
 
     /*=================== USE CASES ===================*/
@@ -174,9 +173,7 @@ public class UserInfoActivityPresenter extends BasePresenter {
             () -> userRepository.updateCustomerBasicInfo(name, address),
             success -> {
                 this.activity.hideProgress();
-                if (success == RepositorySimpleStatus.SUCCESS){
-                    checkUserInformationValidity();
-                }
+                navigateFragment(DOBvsGenderFragment.class);
             },
             error -> this.activity.hideProgress()
         );
@@ -188,9 +185,7 @@ public class UserInfoActivityPresenter extends BasePresenter {
             () -> userRepository.updateCustomerNecessaryInfo(dob, gender),
             success -> {
                 this.activity.hideProgress();
-                if (success == RepositorySimpleStatus.SUCCESS){
-                    checkUserInformationValidity();
-                }
+                navigateFragment(ContactFragment.class);
             },
             error -> this.activity.hideProgress()
         );
@@ -202,106 +197,9 @@ public class UserInfoActivityPresenter extends BasePresenter {
             () -> userRepository.updateCustomerImportantInfo(email, phone),
             success -> {
                 this.activity.hideProgress();
-                if (success == RepositorySimpleStatus.SUCCESS){
-                    checkUserInformationValidity();
-                }
+                navigateActivity(MainActivity.class);
             },
             error -> this.activity.hideProgress()
         );
     }
-
-//    @Override
-//    public void updateEmail() {
-//        mView.showProgress();
-//        RequestBody body = restClient.createRequestBody(new String[]{"userId", "userEmail", "updatedAt"},
-//                                new String[]{Integer.toString(mUser.getID()), mUser.getEmail(), NetworkUtils.convertDateForDB(Calendar.getInstance().getTime())});
-//        compositeDisposable.add(
-//                registerService.updateEmail(body)
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribeWith(new DisposableObserver<JsonObject>(){
-//                            String result;
-//                            @Override
-//                            public void onComplete() {
-//                                UserInfoActivityPresenterImpl.this.mView.hideProgress();
-//                                if (result.equals(Service.Status.FAILED) || result.equals(Service.Status.INTERNAL_ERROR)) {
-//                                    if (result.equals(Service.Status.FAILED))
-//                                        Log.e(TAG, "Update email status: onComplete -> " + result);
-//                                }else{
-//                                    UserInfoActivityPresenterImpl.this.navigateFragment(UserInfoActivity.VALIDATE);
-//                                    Log.i(TAG, "Update email status: onComplete -> " + Service.Status.SUCCESS);
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onNext(JsonObject jsonObject) {
-//                                try {
-//                                    JsonArray array = jsonObject.getAsJsonArray("Update_CustomerEmail");
-//                                    if (array.get(0).getAsJsonObject().get("Status").getAsString().equals("1"))
-//                                        result = Service.Status.SUCCESS;
-//                                    else
-//                                        result = Service.Status.FAILED;
-//                                } catch (Exception e) {
-//                                    result = Service.Status.INTERNAL_ERROR;
-//                                    Log.e(TAG, "Update email status: onNext -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onError(Throwable e) {
-//                                Log.e(TAG, "Update email status: onError -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
-//                                e.printStackTrace();
-//                            }
-//                        })
-//        );
-//    }
-//
-//    @Override
-//    public void sendEmailVerifyAcc() {
-//        mView.showProgress();
-//        RequestBody body = restClient.createRequestBody(new String[]{"cus_id", "email"},
-//                                                        new String[]{Integer.toString(mUser.getID()), mUser.getEmail()});
-//        compositeDisposable.add(
-//                emailService.sendEmailVerifyAcc(body)
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribeWith(new DisposableObserver<JsonObject>(){
-//                            String result;
-//                            @Override
-//                            public void onComplete() {
-//                                UserInfoActivityPresenterImpl.this.mView.hideProgress();
-//                                if (result.equals(Service.Status.FAILED) || result.equals(Service.Status.INTERNAL_ERROR)) {
-//                                    UserInfoActivityPresenterImpl.this.validateFragment.showEmailResult(R.string.validate_noti_fail);
-//                                    if (result.equals(Service.Status.FAILED))
-//                                        Log.e(TAG, "Send verify email status: onComplete -> " + result);
-//                                }else{
-//                                    UserInfoActivityPresenterImpl.this.validateFragment.showEmailResult(R.string.validate_noti_success);
-//                                    Log.i(TAG, "Send verify email status: onComplete -> " + Service.Status.SUCCESS);
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onNext(JsonObject jsonObject) {
-//                                try {
-//                                    result = jsonObject.get("SendEmail_VerifyAcc").getAsString();
-//                                    if (result.equals("Message has been sent"))
-//                                        result = Service.Status.SUCCESS;
-//                                    else
-//                                        result = Service.Status.FAILED;
-//                                } catch (Exception e) {
-//                                    result = Service.Status.INTERNAL_ERROR;
-//                                    Log.e(TAG, "Send verify email status: onNext -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onError(Throwable e) {
-//                                Log.e(TAG, "Send verify email status: onError -> " + Service.Status.INTERNAL_ERROR + "\n" + e.toString());
-//                                e.printStackTrace();
-//                            }
-//                        })
-//        );
-//    }
 }

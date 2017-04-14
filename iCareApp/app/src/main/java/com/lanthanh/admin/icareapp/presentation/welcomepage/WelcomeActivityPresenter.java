@@ -13,6 +13,7 @@ import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
+import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.signupinfopage.UserInfoActivity;
@@ -36,6 +37,7 @@ public class WelcomeActivityPresenter extends BasePresenter {
     private Interactor interactor;
 
     public WelcomeActivityPresenter(WelcomeActivity activity) {
+        super(activity);
         this.activity = activity;
         init();
     }
@@ -113,28 +115,35 @@ public class WelcomeActivityPresenter extends BasePresenter {
             () -> welcomeRepository.login(username, password),
             success -> {
                 this.activity.hideProgress();
-                if (success == RepositorySimpleStatus.SUCCESS){
-                    interactor.execute(
-                            () -> userRepository.checkUserInformationValidity(),
-                            check -> {
-                                if (check == RepositorySimpleStatus.VALID_USER)
-                                    navigateActivity(MainActivity.class);
-                                else //Default
-                                    navigateActivity(UserInfoActivity.class);
-                            },
-                            error -> {}
-                    );
-                } else if (success == RepositorySimpleStatus.PATTERN_FAIL) {
-                    this.activity.showToast(this.activity.getString(R.string.pattern_fail));
-                } else if (success == RepositorySimpleStatus.USERNAME_PASSWORD_NOT_MATCH) {
-                    this.activity.showToast(this.activity.getString(R.string.login_fail));
-                }
+                interactor.execute(
+                        () -> userRepository.checkUserInformationValidity(),
+                        check -> {
+                            if (check == RepositorySimpleStatus.VALID_USER)
+                                navigateActivity(MainActivity.class);
+                            else //Default
+                                navigateActivity(UserInfoActivity.class);
+                        },
+                        error -> {}
+                );
             },
-            error -> this.activity.hideProgress()
+            error -> {
+                this.activity.hideProgress();
+                if (error instanceof UseCaseException) {
+                    switch (((UseCaseException) error).getStatus()) {
+                        case PATTERN_FAIL:
+                            this.activity.showToast(this.activity.getString(R.string.pattern_fail));
+                            break;
+                        case USERNAME_PASSWORD_NOT_MATCH:
+                            this.activity.showToast(this.activity.getString(R.string.login_fail));
+                            break;
+                    }
+                }
+            }
         );
     }
 
     public void onBackPressed() {
+        this.activity.hideProgress();
         if (logInFragment.isVisible() || signUpFragment.isVisible()) {
             navigateFragment(ChooseFragment.class);
         } else {
@@ -148,38 +157,26 @@ public class WelcomeActivityPresenter extends BasePresenter {
             () -> welcomeRepository.signup(username, password),
             success -> {
                 this.activity.hideProgress();
-                if (success == RepositorySimpleStatus.SUCCESS){
-                    navigateActivity(UserInfoActivity.class);
-                } else if (success == RepositorySimpleStatus.PATTERN_FAIL) {
-                    this.activity.showToast(this.activity.getString(R.string.pattern_fail));
-                } else if (success == RepositorySimpleStatus.USERNAME_EXISTED) {
-                    this.activity.showToast(this.activity.getString(R.string.username_unavailable));
-                }
+                navigateActivity(UserInfoActivity.class);
             },
-            error -> this.activity.hideProgress()
+                error -> {
+                    this.activity.hideProgress();
+                    if (error instanceof UseCaseException) {
+                        switch (((UseCaseException) error).getStatus()) {
+                            case PATTERN_FAIL:
+                                this.activity.showToast(this.activity.getString(R.string.pattern_fail));
+                                break;
+                            case USERNAME_EXISTED:
+                                this.activity.showToast(this.activity.getString(R.string.username_unavailable));
+                                break;
+                        }
+                    }
+                }
         );
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass) {
-        Intent intent = new Intent(this.activity, activityClass);
-        this.activity.startActivity(intent);
-        this.activity.finish();
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass, Bundle b) {
-        Intent intent = new Intent(this.activity, activityClass);
-        intent.putExtra(this.getClass().getName(), b); //TODO check this put extra
-        this.activity.startActivity(intent);
-        this.activity.finish();
     }
 
     @Override
     public void destroy() {
         interactor.dispose();
-    }
-
-    @Override
-    public void resume() {
-
     }
 }

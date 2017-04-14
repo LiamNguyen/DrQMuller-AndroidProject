@@ -90,13 +90,6 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
                     Calendar calendar = Calendar.getInstance();
                     calendar.set(year, month, day);
                     getMainPresenter().onStartDateSet(calendar, success -> { startDate.setText(success); expireDate.setEnabled(true);}, ((BookingActivity) getActivity())::showToast);
-                    if (getProvider().getCurrentAppointment().isDateSelectFilled()) {
-                        nextButton.setEnabled(true);
-                        setFabTint(nextButton, true);
-                    } else {
-                        nextButton.setEnabled(false);
-                        setFabTint(nextButton, false);
-                    }
                 },
                 Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         );
@@ -109,31 +102,24 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
                     Calendar calendar = Calendar.getInstance();
                     calendar.set(year, month, day);
                     getMainPresenter().onExpireDateSet(calendar, this.expireDate::setText, ((BookingActivity) getActivity())::showToast);
-                    if (getProvider().getCurrentAppointment().isDateSelectFilled()) {
-                        nextButton.setEnabled(true);
-                        setFabTint(nextButton, true);
-                    } else {
-                        nextButton.setEnabled(false);
-                        setFabTint(nextButton, false);
-                    }
                 },
                 Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         );
     }
 
+    public void enableNextButton(boolean shouldEnable) {
+        nextButton.setEnabled(shouldEnable);
+        setFabTint(nextButton, shouldEnable);
+    }
+
     @Override
     public void refreshViews() {
-        getMainPresenter().setUpDatePickerView(this::resetDatePickerView);
+        getMainPresenter().resetPickerView(this::resetDatePickerView);
     }
 
     @Override
     public BookingActivityPresenter getMainPresenter() {
         return ((BookingActivity) getActivity()).getMainPresenter();
-    }
-
-    @Override
-    public ApplicationProvider getProvider() {
-        return ((BookingActivity) getActivity()).getProvider();
     }
 
     @Override
@@ -149,6 +135,10 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
         }
     }
 
+    public void resetExpireDateForFixedType() {
+        expireDate.setText(getString(R.string.booking_date_hint));
+    }
+
     public void resetDatePickerView(int typeId) {
         nextButton.setEnabled(false);
         setFabTint(nextButton, false);
@@ -160,7 +150,7 @@ public class BookingSelectDateFragment extends BaseFragment<BookingActivityPrese
             expireDateText.setText(getString(R.string.booking_expire_date));
             expireDate.setEnabled(false);
             expireDate.setText(getString(R.string.booking_date_hint));
-        } else {
+        } else if (typeId == 2) {
             //If type = Tu do, hide start date. Set expire date to Ngay Thuc Hien
             startDate.setVisibility(View.GONE);
             startDateText.setVisibility(View.GONE);

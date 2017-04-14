@@ -22,7 +22,6 @@ public class DTOAppointment {
     private DTOType type;
     private Date startDate, expireDate;
     private List<DTOAppointmentSchedule> appointmentScheduleList;
-    private DTOAppointmentSchedule currentSchedule;
     private String verificationCode;
     private boolean status;
 
@@ -122,18 +121,6 @@ public class DTOAppointment {
         isEmailSent = emailSent;
     }
 
-    public DTOAppointmentSchedule getCurrentSchedule() {
-        if (currentSchedule == null) {
-            currentSchedule = new DTOAppointmentSchedule();
-        }
-        return currentSchedule;
-    }
-
-    public void setCurrentSchedule(DTOAppointmentSchedule currentSchedule) {
-        this.currentSchedule = currentSchedule;
-    }
-
-
     public String getVerificationCode() {
         return verificationCode;
     }
@@ -161,7 +148,7 @@ public class DTOAppointment {
         this.appointmentScheduleList = appointmentScheduleList;
     }
 
-    public boolean isFirstSelectFilled(){
+    public boolean isBasicSelectFilled(){
         return country != null && city != null && district != null && location != null && voucher != null && type != null;
     }
 
@@ -175,7 +162,7 @@ public class DTOAppointment {
             return false;
     }
 
-    public boolean isMachineFilled(){
+    public boolean isScheduleSelectFilled(){
         return appointmentScheduleList != null && appointmentScheduleList.size() > 0;
     }
 }

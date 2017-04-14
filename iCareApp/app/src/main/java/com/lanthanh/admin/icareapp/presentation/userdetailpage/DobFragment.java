@@ -15,7 +15,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.utils.converter.ConverterForDisplay;
+import com.lanthanh.admin.icareapp.utils.ConverterUtils;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import java.util.Calendar;
@@ -82,7 +82,7 @@ public class DobFragment extends DialogFragment {
         Calendar calendar = Calendar.getInstance();
         datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
             (_view, year, monthOfYear, dayOfMonth) -> {
-                date = ConverterForDisplay.convertDateForDisplay(year, monthOfYear, dayOfMonth);
+                date = ConverterUtils.date.convertDateForDisplay(year, monthOfYear, dayOfMonth);
             }
         );
 

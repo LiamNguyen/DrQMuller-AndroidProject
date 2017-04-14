@@ -63,11 +63,6 @@ public class UserFragment extends BaseFragment<MainActivityPresenter> {
     }
 
     @Override
-    public ApplicationProvider getProvider() {
-        return null;
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();

@@ -1,8 +1,5 @@
 package com.lanthanh.admin.icareapp.presentation.homepage;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
@@ -12,6 +9,7 @@ import com.lanthanh.admin.icareapp.data.repository.UserRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
+import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
 import com.lanthanh.admin.icareapp.utils.Function;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentFragment;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.DefaultAppointmentFragment;
@@ -28,8 +26,6 @@ import java.util.List;
  */
 
 public class MainActivityPresenter extends BasePresenter {
-    public static final String TAG = MainActivityPresenter.class.getSimpleName();
-
     private MainActivity activity;
     private AppointmentFragment appointmentFragment;
     private DefaultAppointmentFragment defaultAppointmentFragment;
@@ -40,6 +36,7 @@ public class MainActivityPresenter extends BasePresenter {
     private Interactor interactor;
 
     public MainActivityPresenter(MainActivity activity){
+        super(activity);
         this.activity = activity;
         init();
     }
@@ -56,11 +53,18 @@ public class MainActivityPresenter extends BasePresenter {
 
     @Override
     public void resume() {
+        super.resume();
         if (!userFragment.isVisible()) {
             showBookingTab();
         } else {
             userFragment.refreshViews();
         }
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        interactor.dispose();
     }
 
     public void showBookingTab() {
@@ -83,7 +87,6 @@ public class MainActivityPresenter extends BasePresenter {
         else if (fragmentClass == UserFragment.class)
             showFragment(userFragment);
     }
-
 
     public List<Fragment> getVisibleFragments() {
         // We have 3 fragments, so initialize the arrayList to 3 to optimize memory
@@ -125,18 +128,7 @@ public class MainActivityPresenter extends BasePresenter {
         fragmentTransaction.addToBackStack(null).commit();
     }
 
-    public void navigateActivity(Class<? extends Activity> activityClass) {
-        Intent intent = new Intent(this.activity, activityClass);
-        this.activity.startActivity(intent);
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass, Bundle b) {
-        Intent intent = new Intent(this.activity, activityClass);
-        intent.putExtra(this.getClass().getName(), b); //TODO check this put extra
-        this.activity.startActivity(intent);
-    }
-
-    public void populateUserTabOptions(Function.VoidParam notify, List<String> list) {
+    public void populateUserTabOptions(Function.VoidEmpty notify, List<String> list) {
         interactor.execute(
             () -> userRepository.getUserInformation(),
             user -> {
@@ -165,29 +157,32 @@ public class MainActivityPresenter extends BasePresenter {
         );
     }
 
-    public void getAppointmentList(Function.Void<List<DTOAppointment>> callback) {
+    public void getAppointmentList(Function.VoidParam<List<DTOAppointment>> updateAppointments) {
         interactor.execute(
             () -> appointmentRepository.getAppointments(),
-            callback::apply,
+            updateAppointments::apply,
             error -> {}
         );
-    }
-
-    @Override
-    public void destroy() {
-        super.destroy();
-        interactor.dispose();
     }
 
     public void cancelAppointment() {
         this.activity.showProgress();
         interactor.execute(
-            () -> appointmentRepository.cancelAppointment(),
+            () -> appointmentRepository.cancelAppointment(this.activity.getProvider().getCurrentAppointment().getAppointmentId()),
             success -> {
                 this.activity.hideProgress();
                 showBookingTab();
             },
-            error -> this.activity.showProgress()
+            error -> {
+                this.activity.hideProgress();
+                if (error instanceof UseCaseException) {
+                    switch (((UseCaseException) error).getStatus()) {
+                        case INVALID_TOKEN:
+                            this.activity.showToast(this.activity.getString(R.string.invalid_token));
+                            break;
+                    }
+                }
+            }
         );
     }
 }

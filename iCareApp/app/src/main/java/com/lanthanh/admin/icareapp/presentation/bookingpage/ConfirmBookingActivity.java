@@ -13,6 +13,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -83,19 +84,19 @@ public class ConfirmBookingActivity extends BaseActivity {
 
     public void init(){
         confirmBookingActivityPresenter = new ConfirmBookingActivityPresenter(this);
-        confirmBookingActivityPresenter.resume();
+        confirmBookingActivityPresenter.sendEmailNotifyBooking();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //networkController.registerNetworkReceiver();
+        confirmBookingActivityPresenter.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //networkController.unregisterNetworkReceiver();
+        confirmBookingActivityPresenter.pause();
     }
 
     @Override
@@ -117,14 +118,17 @@ public class ConfirmBookingActivity extends BaseActivity {
 
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     @Override
     public void onBackPressed() {
+        hideProgress();
         new AlertDialog.Builder(this)
                 .setMessage(getString(R.string.booking_fail))
                 .setPositiveButton(
@@ -140,5 +144,10 @@ public class ConfirmBookingActivity extends BaseActivity {
                     (DialogInterface dialog, int which) -> dialog.dismiss()
                 )
                 .setCancelable(false).show();
+    }
+
+    @Override
+    public void refreshAfterLosingNetwork() {
+        confirmBookingActivityPresenter.sendEmailNotifyBooking();
     }
 }

@@ -11,15 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.model.InputRequirement;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
+import com.lanthanh.admin.icareapp.utils.StringUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by ADMIN on 22-Oct-16.
@@ -32,21 +36,22 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
     @BindView(R.id.ui_address_container) TextInputLayout editAddressContainer;
     @BindView(R.id.ui_next_button_p1) AppCompatButton nextButton;
 
+    private Disposable editTextDisposable;
     private Unbinder unbinder;
-    private boolean validName, validAddress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.userinfo_namevsaddress, container, false);
         unbinder = ButterKnife.bind(this, view);
+
         initViews();
-        validName = false; validAddress = false;
 
         return view;
     }
 
     @Override
     public void initViews() {
+        //Apply custom font for UI elements
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
         editName.setTypeface(font);
         editAddress.setTypeface(font);
@@ -54,65 +59,50 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
         editAddressContainer.setTypeface(font);
         nextButton.setTypeface(font);
 
+        //Set up listener for button
         nextButton.setOnClickListener(
             view -> {
                 ((UserInfoActivity) getActivity()).hideSoftKeyboard();
                 getMainPresenter().updateBasicInfo(editName.getText().toString().trim(), editAddress.getText().toString().trim());
-            });
-        nextButton.setEnabled(false);
+        });
 
-        editName.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void afterTextChanged(Editable s) {}
-
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String name = editName.getText().toString().trim();
-                if (!name.equals("")){
-                    if (name.matches(InputRequirement.NAME)){
+        //Observe edit texts' value
+        Observable<Boolean> nameObservable = RxTextView.textChanges(editName)
+            .map(name -> {
+                if (StringUtils.isNotEmpty(name)){
+                    if (StringUtils.validatePattern(name, InputRequirement.NAME)){
                         editName.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_pin_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
-                        editNameContainer.setErrorEnabled(false);
-                        validName = true;
+                        return true;
                     }else{
                         editName.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_pin_white_36dp, 0, R.drawable.ic_error_white_24dp, 0);
-                        validName = false;
+                        return false;
                     }
                 }else {
                     editName.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_person_pin_white_36dp, 0, 0, 0);
-                    validName = false;
+                    return false;
                 }
-                toggleNextButton();
-            }
-        });
-        editAddress.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void afterTextChanged(Editable s) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String address = editAddress.getText().toString().trim();
-                if (!address.equals("")){
-                    if (address.matches(InputRequirement.ADDRESS)){
-                        editAddress.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pin_drop_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
-                        editAddressContainer.setErrorEnabled(false);
-                        validAddress = true;
-                    }else{
-                        editAddress.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pin_drop_white_36dp, 0, R.drawable.ic_error_white_24dp, 0);
-                        validAddress = false;
+            });
+        Observable<Boolean> addressObservable = RxTextView.textChanges(editAddress)
+                .map(address -> {
+                    if (StringUtils.isNotEmpty(address)){
+                        if (StringUtils.validatePattern(address, InputRequirement.ADDRESS)){
+                            editAddress.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pin_drop_white_36dp, 0, R.drawable.ic_check_circle_white_24dp, 0);
+                            return true;
+                        }else{
+                            editAddress.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pin_drop_white_36dp, 0, R.drawable.ic_error_white_24dp, 0);
+                            return false;
+                        }
+                    }else {
+                        editAddress.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pin_drop_white_36dp, 0, 0, 0);
+                        return false;
                     }
-                }else {
-                    editAddress.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_pin_drop_white_36dp, 0, 0, 0);
-                    validAddress = false;
-                }
-                toggleNextButton();
-            }
-        });
+                });
+        editTextDisposable = Observable.combineLatest(nameObservable, addressObservable, (validName, validAddress) -> validName && validAddress)
+                                        .subscribe(nextButton::setEnabled);
     }
 
     @Override
-    public void refreshViews() {
-        editName.setText("");
-        editAddress.setText("");
-    }
+    public void refreshViews() {}
 
     @Override
     public UserInfoActivityPresenter getMainPresenter() {
@@ -130,47 +120,12 @@ public class NameAndAddressFragment extends BaseFragment<UserInfoActivityPresent
         if (!hidden && isVisible()) {
             ((UserInfoActivity) getActivity()).showSoftKeyboard(editName);
         }
-        else
-            refreshViews();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
-    }
-
-    @Override
-    public ApplicationProvider getProvider() {
-        return null;
-    }
-
-    //                if (validName && validAddress){
-//
-//                }
-//                else{
-//                    if (!validName){
-//                        if (editName.getText().toString().equals("")){
-//                            editNameContainer.setError(getString(R.string.name_null));
-//                        }else {
-//                            editNameContainer.setError(getString(R.string.name_requirement));
-//                        }
-//                        editNameContainer.setErrorEnabled(true);
-//                    }
-//                    if (!validAddress){
-//                        if (editAddress.getText().toString().equals("")){
-//                            editAddressContainer.setError(getString(R.string.address_null));
-//                        }else{
-//                            editAddressContainer.setError(getString(R.string.address_requirement));
-//                        }
-//                        editAddressContainer.setErrorEnabled(true);
-//                    }
-//                }
-
-    private void toggleNextButton() {
-        if (validName && validAddress)
-            nextButton.setEnabled(true);
-        else
-            nextButton.setEnabled(false);
+        editTextDisposable.dispose();
     }
 }

@@ -19,6 +19,8 @@ import com.lanthanh.admin.icareapp.presentation.application.iCareApplication;
 public abstract class BaseActivity extends AppCompatActivity {
     private Toast toast;
 
+    public abstract void refreshAfterLosingNetwork();
+
     public ApplicationProvider getProvider() {
         return ((iCareApplication) getApplication()).getProvider();
     }
@@ -46,11 +48,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void showToast(String msg){
         toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
-        //toast.setGravity(Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-        //In case the toast is showing, cancel it
-        //toast.cancel();
-        //Set new test to the toast and show
-        //toast.setText(msg);
         toast.show();
     }
 }

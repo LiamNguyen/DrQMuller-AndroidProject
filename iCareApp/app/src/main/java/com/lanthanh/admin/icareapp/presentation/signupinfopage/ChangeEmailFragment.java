@@ -108,9 +108,4 @@ public class ChangeEmailFragment extends BaseFragment<UserInfoActivityPresenter>
         else
             changeButton.setEnabled(false);
     }
-
-    @Override
-    public ApplicationProvider getProvider() {
-        return null;
-    }
 }

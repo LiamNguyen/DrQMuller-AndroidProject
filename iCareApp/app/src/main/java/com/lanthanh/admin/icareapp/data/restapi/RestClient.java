@@ -27,12 +27,12 @@ import okhttp3.RequestBody;
 public interface RestClient {
     RequestBody createRequestBody(String[] keys, String[] values);
     RequestBody createRequestBody(String json);
-    Observable<RepositorySimpleStatus> login(Function.Void<UserInfo> saveUser, String username, String password);
-    Observable<RepositorySimpleStatus> signup(Function.Void<UserInfo> saveUser, String username, String password);
-    Observable<RepositorySimpleStatus> updateBasicInfo(Function.Void<UserInfo> saveUser, String authToken, String userId, String name, String address);
-    Observable<RepositorySimpleStatus> updateNecessaryInfo(Function.Void<UserInfo> saveUser, String authToken, String userId, String dob, String gender);
-    Observable<RepositorySimpleStatus> updateImportantInfo(Function.Void<UserInfo> saveUser, String authToken, String userId, String email, String phone);
-    Observable<RepositorySimpleStatus> updateCustomerInfo(Function.Void<UserInfo> saveUser, String authToken, String userId, String name, String address, String dob, String gender, String email, String phone);
+    Observable<RepositorySimpleStatus> login(Function.VoidParam<UserInfo> saveUser, String username, String password);
+    Observable<RepositorySimpleStatus> signup(Function.VoidParam<UserInfo> saveUser, String username, String password);
+    Observable<RepositorySimpleStatus> updateBasicInfo(Function.VoidParam<UserInfo> saveUser, String authToken, String userId, String name, String address);
+    Observable<RepositorySimpleStatus> updateNecessaryInfo(Function.VoidParam<UserInfo> saveUser, String authToken, String userId, String dob, String gender);
+    Observable<RepositorySimpleStatus> updateImportantInfo(Function.VoidParam<UserInfo> saveUser, String authToken, String userId, String email, String phone);
+    Observable<RepositorySimpleStatus> updateCustomerInfo(Function.VoidParam<UserInfo> saveUser, String authToken, String userId, String name, String address, String dob, String gender, String email, String phone);
     Observable<List<DTOCountry>> getCountries();
     Observable<List<DTOCity>> getCitiesByCountryId(int countryId);
     Observable<List<DTODistrict>> getDistrictsByCityId(int cityId);

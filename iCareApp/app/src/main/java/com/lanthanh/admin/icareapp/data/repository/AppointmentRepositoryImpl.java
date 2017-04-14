@@ -4,12 +4,12 @@ import android.content.Context;
 
 import com.lanthanh.admin.icareapp.data.model.DataMapper;
 import com.lanthanh.admin.icareapp.data.repository.datasource.LocalStorage;
+import com.lanthanh.admin.icareapp.data.repository.datasource.sqlite.iCareDb;
 import com.lanthanh.admin.icareapp.data.restapi.RestClient;
 import com.lanthanh.admin.icareapp.data.restapi.impl.RestClientImpl;
 import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
-import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
-import com.lanthanh.admin.icareapp.presentation.application.iCareApplication;
+import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
@@ -22,7 +22,6 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTOTime;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOWeekDay;
-import com.lanthanh.admin.icareapp.utils.converter.ConverterForDisplay;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,299 +35,319 @@ import io.reactivex.Observable;
 
 public class AppointmentRepositoryImpl implements AppointmentRepository {
     private RestClient restClient;
-    private ApplicationProvider provider;
     private LocalStorage localStorage;
     private DataMapper dataMapper;
+    private iCareDb mDb;
 
     public AppointmentRepositoryImpl(Context context){
         restClient = RestClientImpl.createRestClient();
         localStorage =  new LocalStorage(context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE));
-        provider = ((iCareApplication) context.getApplicationContext()).getProvider();
         dataMapper = new DataMapper();
+        mDb = iCareDb.getDatabase(context);
     }
 
     @Override
     public Observable<List<DTOCountry>> getCountries() {
-        if (provider.getCountries().isEmpty())
+        List<DTOCountry> result = mDb.getCountries();
+        if (result.isEmpty())
             return restClient.getCountries().map(
                     resp -> {
-                        provider.setCountries(resp);
+                        mDb.addCoutries(resp);
                         return resp;
                     }
             );
         else
-            return Observable.just(provider.getCountries());
+            return Observable.just(result);
     }
 
     @Override
     public Observable<List<DTOCity>> getCitiesByCountryId(int countryId) {
-        return restClient.getCitiesByCountryId(countryId);
+        List<DTOCity> result = mDb.getCitiesByCountryId(countryId);
+        if (result.isEmpty())
+            return restClient.getCitiesByCountryId(countryId).map(
+                    resp -> {
+                        mDb.addCities(resp, countryId);
+                        return resp;
+                    }
+            );
+        else
+            return Observable.just(result);
     }
 
     @Override
     public Observable<List<DTODistrict>> getDistrictsByCityId(int cityId) {
-        return restClient.getDistrictsByCityId(cityId);
+        List<DTODistrict> result = mDb.getDistrictsByCityId(cityId);
+        if (result.isEmpty())
+            return restClient.getDistrictsByCityId(cityId).map(
+                    resp -> {
+                        mDb.addDistricts(resp, cityId);
+                        return resp;
+                    }
+            );
+        else
+            return Observable.just(result);
     }
 
     @Override
     public Observable<List<DTOLocation>> getLocationsByDistrictId(int districtId) {
-        return restClient.getLocationsByDistrictId(districtId);
+        List<DTOLocation> result = mDb.getLocationsByDistrictId(districtId);
+        if (result.isEmpty())
+            return restClient.getLocationsByDistrictId(districtId).map(
+                    resp -> {
+                        mDb.addLocations(resp, districtId);
+                        return resp;
+                    }
+            );
+        else
+            return Observable.just(result);
     }
 
     @Override
     public Observable<List<DTOVoucher>> getVouchers() {
-        if (provider.getVouchers().isEmpty())
+        List<DTOVoucher> result = mDb.getVouchers();
+        if (result.isEmpty())
             return restClient.getVouchers().map(
                     resp -> {
-                        provider.setVouchers(resp);
+                        mDb.addVouchers(resp);
                         return resp;
                     }
             );
         else
-            return Observable.just(provider.getVouchers());
+            return Observable.just(result);
     }
 
     @Override
     public Observable<List<DTOType>> getTypes() {
-        if (provider.getTypes().isEmpty())
+        List<DTOType> result = mDb.getTypes();
+        if (result.isEmpty())
             return restClient.getTypes().map(
                     resp -> {
-                        provider.setTypes(resp);
+                        mDb.addTypes(resp);
                         return resp;
                     }
             );
         else
-            return Observable.just(provider.getTypes());
+            return Observable.just(result);
     }
 
     @Override
     public Observable<List<DTOMachine>> getMachinesByLocationId(int locationId) {
-        return restClient.getMachinesByLocationId(locationId);
+        List<DTOMachine> result = mDb.getMachinesByLocationId(locationId);
+        if (result.isEmpty())
+            return restClient.getMachinesByLocationId(locationId).map(
+                    resp -> {
+                        mDb.addMachines(resp, locationId);
+                        return resp;
+                    }
+            );
+        else
+            return Observable.just(result);
     }
 
     @Override
-    public Observable<List<DTOTime>> getTime() {
-        if (provider.getCurrentAppointment().getVoucher().getVoucherId() == 1) {
-            if (provider.getEcoTime().isEmpty())
+    public Observable<List<DTOTime>> getTime(int voucherId) {
+        List<DTOTime> result;
+        if (voucherId == DTOVoucher.ECO) {
+            result = mDb.getEcoTime();
+            if (result.isEmpty())
                 return restClient.getEcoTime().map(
                             resp -> {
-                                provider.setEcoTime(resp);
+                                mDb.addEcoTime(resp);
                                 return resp;
                             }
                         );
             else
-                return Observable.just(provider.getEcoTime());
+                return Observable.just(result);
         }
         else {
-            if (provider.getAllTime().isEmpty())
+            result = mDb.getAllTime();
+            if (result.isEmpty())
                 return restClient.getAllTime().map(
                             resp -> {
-                                provider.setAllTime(resp);
+                                mDb.addTime(resp);
                                 return resp;
                             }
                         );
             else
-                return Observable.just(provider.getAllTime());
+                return Observable.just(result);
         }
     }
 
     @Override
-    public Observable<List<DTOTime>> getAvailableTime(int dayId, int locationId, int machineId) {
-        return restClient.getSelectedTime(dayId, locationId, machineId).map(
-                resp -> {
-                    List<DTOTime> available = new ArrayList<>();
-                    if (provider.getCurrentAppointment().getVoucher().getVoucherId() == 1) {
-                        available.addAll(provider.getEcoTime());
-                    } else {
-                        available.addAll(provider.getAllTime());
-                    }
-                    for (DTOTime time : resp) {
-                        for (DTOTime _time : new ArrayList<>(available)) {
-                            if (_time.getTimeId() == time.getTimeId())
-                                available.remove(_time);
+    public Observable<List<DTOTime>> getAvailableTime(int dayId, int locationId, int machineId, int voucherId) {
+        return getTime(voucherId).concatMap(
+                available ->
+                    restClient.getSelectedTime(dayId, locationId, machineId).map(
+                        selected -> {
+                            for (DTOTime time : selected) {
+                                for (DTOTime _time : new ArrayList<>(available)) {
+                                    if (_time.getTimeId() == time.getTimeId())
+                                        available.remove(_time);
+                                }
+                            }
+                            return available;
                         }
-                    }
-                    Calendar calendarNow = Calendar.getInstance();
-                    Calendar bookedDay = Calendar.getInstance();
-                    bookedDay.setTime(provider.getCurrentAppointment().getExpireDate());
-                    if (bookedDay.get(Calendar.DATE) == calendarNow.get(Calendar.DATE)) {
-                        int now = calendarNow.get(Calendar.HOUR_OF_DAY) * 60 + calendarNow.get(Calendar.MINUTE);
-                        for (DTOTime _time : new ArrayList<>(available)) {
-                            if (ConverterForDisplay.convertToTime(_time.getTime()) < now)
-                                available.remove(_time);
-                        }
-                    }
-                    return available;
-                }
+                    )
         );
     }
 
     @Override
-    public Observable<List<DTOWeekDay>> getWeekDays() {
-        List<DTOWeekDay> list = new ArrayList<>();
-        if (provider.getWeekDays().isEmpty()) {
+    public Observable<List<DTOWeekDay>> getWeekDays(int voucherId) {
+        List<DTOWeekDay> result = mDb.getWeekDays();
+        if (result.isEmpty()) {
             return restClient.getDaysOfWeek().map(
                     resp -> {
-                        provider.setWeekDays(new ArrayList<>(resp));
-                        if (provider.getCurrentAppointment().getVoucher().getVoucherId() == 1) {
+                        mDb.addWeekDays(resp);
+                        if (voucherId == DTOVoucher.ECO) {
                             for (DTOWeekDay day : new ArrayList<>(resp)) {
-                                if (day.getDayId() == 6 || day.getDayId() == 7)
+                                if (day.getDayId() == DTOWeekDay.SATURDAY || day.getDayId() == DTOWeekDay.SUNDAY)
                                     resp.remove(day);
                             }
-                        }
-                        if (provider.getCurrentAppointment().getType().getTypeId() == 2) {
-                            resp = getDayOfWeekForTypeFree(resp);
                         }
                         return resp;
                     }
             );
         } else {
-            list.addAll(provider.getWeekDays());
-            if (provider.getCurrentAppointment().getVoucher().getVoucherId() == 1) {
-                for (DTOWeekDay day : new ArrayList<>(list)) {
-                    if (day.getDayId() == 6 || day.getDayId() == 7)
-                        list.remove(day);
+            if (voucherId == DTOVoucher.ECO) {
+                for (DTOWeekDay day : new ArrayList<>(result)) {
+                    if (day.getDayId() == DTOWeekDay.SATURDAY || day.getDayId() == DTOWeekDay.SUNDAY)
+                        result.remove(day);
                 }
             }
-            if (provider.getCurrentAppointment().getType().getTypeId() == 2) {
-                list = getDayOfWeekForTypeFree(list);
-            }
-            return Observable.just(list);
+            return Observable.just(result);
         }
     }
 
     @Override
     public Observable<RepositorySimpleStatus> bookTime(int locationId, DTOAppointmentSchedule appointmentSchedule) {
         UserInfo user = localStorage.getUserFromLocal();
-        return restClient.bookTime(user.getToken(), dataMapper.transform(locationId, appointmentSchedule));
+        return restClient.bookTime(user.getToken(), dataMapper.transform(locationId, appointmentSchedule)).concatMap(
+                resp -> {
+                    if (resp == RepositorySimpleStatus.SUCCESS)
+                        return Observable.just(resp);
+                    return Observable.error(new UseCaseException(resp));
+                }
+        );
     }
 
     @Override
     public Observable<RepositorySimpleStatus> releaseTime(int locationId, List<DTOAppointmentSchedule> appointmentScheduleList) {
         UserInfo user = localStorage.getUserFromLocal();
-        return restClient.releaseTime(user.getToken(), dataMapper.transform(locationId, appointmentScheduleList));
-    }
-
-    @Override
-    public Observable<RepositorySimpleStatus> validateAppointment() {
-        return restClient.validateAppointment();
-    }
-
-    @Override
-    public Observable<RepositorySimpleStatus> createAppointment() {
-        UserInfo user = localStorage.getUserFromLocal();
-        provider.getCurrentAppointment().setUser(user);
-        return restClient.createAppointment(user.getToken(), dataMapper.transform(provider.getCurrentAppointment())).map(
+        return restClient.releaseTime(user.getToken(), dataMapper.transform(locationId, appointmentScheduleList)).concatMap(
                 resp -> {
-                    if (!resp.isEmpty()) {
-                        List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
-                        provider.getCurrentAppointment().setAppointmentId(resp);
-                        appointmentList.add(provider.getCurrentAppointment());
-                        localStorage.saveAppointmentsToLocal(appointmentList);
-                        return RepositorySimpleStatus.SUCCESS;
-                    }
-                    return RepositorySimpleStatus.UNKNOWN_ERROR;
+                    if (resp == RepositorySimpleStatus.SUCCESS)
+                        return Observable.just(resp);
+                    return Observable.error(new UseCaseException(resp));
                 }
         );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> confirmAppointment() {
+    public Observable<RepositorySimpleStatus> validateAppointment() {
+        return restClient.validateAppointment().concatMap(
+                resp -> {
+                    if (resp == RepositorySimpleStatus.SUCCESS)
+                        return Observable.just(resp);
+                    return Observable.error(new UseCaseException(resp));
+                }
+        );
+    }
+
+    @Override
+    public Observable<RepositorySimpleStatus> createAppointment(DTOAppointment appointment) {
         UserInfo user = localStorage.getUserFromLocal();
-        return restClient.confirmAppointment(user.getToken(), user.getId(), this.provider.getCurrentAppointment().getAppointmentId()).map(
+        appointment.setUser(user);
+        return restClient.createAppointment(user.getToken(), dataMapper.transform(appointment)).concatMap(
+                resp -> {
+                    if (!resp.isEmpty()) {
+                        List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
+                        appointment.setAppointmentId(resp);
+                        appointmentList.add(appointment);
+                        localStorage.saveAppointmentsToLocal(appointmentList);
+                        return Observable.just(RepositorySimpleStatus.SUCCESS);
+                    }
+                    return Observable.error(new UseCaseException(RepositorySimpleStatus.UNKNOWN_ERROR));
+                }
+        );
+    }
+
+    @Override
+    public Observable<RepositorySimpleStatus> confirmAppointment(String appointmentId) {
+        UserInfo user = localStorage.getUserFromLocal();
+        return restClient.confirmAppointment(user.getToken(), user.getId(), appointmentId).concatMap(
                 resp -> {
                     if (resp == RepositorySimpleStatus.SUCCESS) {
                         List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
                         for (DTOAppointment appointment: appointmentList) {
-                            if (appointment.getAppointmentId().equals(this.provider.getCurrentAppointment().getAppointmentId())) {
+                            if (appointment.getAppointmentId().equals(appointmentId)) {
                                 appointment.setStatus(true);
                                 break;
                             }
                         }
                         localStorage.saveAppointmentsToLocal(appointmentList);
-                        this.provider.setCurrentAppointment(null);
-                        return RepositorySimpleStatus.SUCCESS;
+                        return Observable.just(RepositorySimpleStatus.SUCCESS);
                     }
-                    return RepositorySimpleStatus.UNKNOWN_ERROR;
+                    return Observable.error(new UseCaseException(resp));
                 }
         );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> cancelAppointment() {
+    public Observable<RepositorySimpleStatus> cancelAppointment(String appointmentId) {
         UserInfo user = localStorage.getUserFromLocal();
-        return restClient.cancelAppointment(user.getToken(), user.getId(), this.provider.getCurrentAppointment().getAppointmentId()).map(
+        return restClient.cancelAppointment(user.getToken(), user.getId(), appointmentId).concatMap(
                 resp -> {
                     if (resp == RepositorySimpleStatus.SUCCESS) {
                         List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
                         for (DTOAppointment appointment : new ArrayList<>(appointmentList)) {
-                            if (appointment.getAppointmentId().equals(this.provider.getCurrentAppointment().getAppointmentId()))
+                            if (appointment.getAppointmentId().equals(appointmentId))
                                 appointmentList.remove(appointment);
                         }
                         localStorage.saveAppointmentsToLocal(appointmentList);
-                        this.provider.setCurrentAppointment(null);
-                        return RepositorySimpleStatus.SUCCESS;
+                        return Observable.just(RepositorySimpleStatus.SUCCESS);
                     }
-                    return RepositorySimpleStatus.UNKNOWN_ERROR;
+                    return Observable.error(new UseCaseException(resp));
                 }
         );
     }
 
     @Override
     public Observable<List<DTOAppointment>> getAppointments() {
-        return Observable.just(localStorage.getAppointmentsFromLocal());
+        return Observable.just(localStorage.getAppointmentsFromLocal()).map(
+                appointments -> {
+                    for (DTOAppointment app: new ArrayList<>(appointments)) {
+                        Calendar expireDate = Calendar.getInstance();
+                        expireDate.setTime(app.getExpireDate());
+                        Calendar calendarNow = Calendar.getInstance();
+                        if (expireDate.get(Calendar.DATE) < calendarNow.get(Calendar.DATE)) {
+                            appointments.remove(app);
+                        }
+                    }
+                    localStorage.saveAppointmentsToLocal(appointments);
+                    return appointments;
+                }
+        );
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> sendEmailNotifyBooking() {
-        if (!this.provider.getCurrentAppointment().isEmailSent())
-            return restClient.sendEmailNotifyBooking(this.provider.getCurrentAppointment().getAppointmentId()).map(
-                resp -> {
-                    if (resp == RepositorySimpleStatus.SUCCESS) {
-                        List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
-                        for (DTOAppointment appointment: appointmentList) {
-                            if (appointment.getAppointmentId().equals(this.provider.getCurrentAppointment().getAppointmentId())) {
-                                appointment.setEmailSent(true);
-                                break;
-                            }
+    public Observable<RepositorySimpleStatus> sendEmailNotifyBooking(String appointmentId) {
+        return restClient.sendEmailNotifyBooking(appointmentId).concatMap(
+            resp -> {
+                if (resp == RepositorySimpleStatus.SUCCESS) {
+                    List<DTOAppointment> appointmentList = localStorage.getAppointmentsFromLocal();
+                    for (DTOAppointment appointment: appointmentList) {
+                        if (appointment.getAppointmentId().equals(appointmentId)) {
+                            appointment.setEmailSent(true);
+                            break;
                         }
-                        localStorage.saveAppointmentsToLocal(appointmentList);
-                        return RepositorySimpleStatus.SUCCESS;
                     }
-                    return RepositorySimpleStatus.UNKNOWN_ERROR;
+                    localStorage.saveAppointmentsToLocal(appointmentList);
+                    return Observable.just(RepositorySimpleStatus.SUCCESS);
                 }
-            );
-        else
-            return Observable.just(RepositorySimpleStatus.EMAIL_ALREADY_SENT);
+                return Observable.error(new UseCaseException(resp));
+            }
+        );
     }
 
-    public List<DTOWeekDay> getDayOfWeekForTypeFree(List<DTOWeekDay> weekDaysList) {
-        List<DTOWeekDay> result = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(provider.getCurrentAppointment().getExpireDate());
-        switch (calendar.get(Calendar.DAY_OF_WEEK)){
-            case Calendar.MONDAY:
-                result.add(weekDaysList.get(0));
-                break;
-            case Calendar.TUESDAY:
-                result.add(weekDaysList.get(1));
-                break;
-            case Calendar.WEDNESDAY:
-                result.add(weekDaysList.get(2));
-                break;
-            case Calendar.THURSDAY:
-                result.add(weekDaysList.get(3));
-                break;
-            case Calendar.FRIDAY:
-                result.add(weekDaysList.get(4));
-                break;
-            case Calendar.SATURDAY:
-                result.add(weekDaysList.get(5));
-                break;
-            case Calendar.SUNDAY:
-                result.add(weekDaysList.get(6));
-                break;
-        }
-        return result;
-    }
+
 }

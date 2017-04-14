@@ -8,6 +8,7 @@ import com.lanthanh.admin.icareapp.data.restapi.impl.RestClientImpl;
 import com.lanthanh.admin.icareapp.data.restapi.iCareService;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
+import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
 import com.lanthanh.admin.icareapp.presentation.model.UserInfo;
 
 import io.reactivex.Observable;
@@ -28,16 +29,34 @@ public class WelcomeRepositoryImpl implements WelcomeRepository{
 
     @Override
     public Observable<RepositorySimpleStatus> login(String username, String password) {
-        return restClient.login(localStorage::saveUserToLocal, username, password);
+        return restClient.login(localStorage::saveUserToLocal, username, password).flatMap(
+                resp -> {
+                    if (resp == RepositorySimpleStatus.SUCCESS)
+                        return Observable.just(resp);
+                    return Observable.error(new UseCaseException(resp));
+                }
+        );
     }
 
     @Override
     public Observable<RepositorySimpleStatus> signup(String username, String password) {
-        return restClient.signup(localStorage::saveUserToLocal, username, password);
+        return restClient.signup(localStorage::saveUserToLocal, username, password).flatMap(
+                resp -> {
+                    if (resp == RepositorySimpleStatus.SUCCESS)
+                        return Observable.just(resp);
+                    return Observable.error(new UseCaseException(resp));
+                }
+        );
     }
 
     @Override
     public Observable<RepositorySimpleStatus> checkVersionCode(int versionCode) {
-        return restClient.checkVersionCode(versionCode);
+        return restClient.checkVersionCode(versionCode).flatMap(
+                resp -> {
+                    if (resp == RepositorySimpleStatus.SUCCESS || resp == RepositorySimpleStatus.UPDATE_NEEDED)
+                        return Observable.just(resp);
+                    return Observable.error(new UseCaseException(resp));
+                }
+        );
     }
 }

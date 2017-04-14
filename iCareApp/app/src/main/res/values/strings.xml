@@ -11,10 +11,10 @@
     <string name="username_unavailable">Tên đăng nhập đã được sử dụng</string>
     <string name="pattern_fail">Tên đăng nhập hoặc mật khẩu không hợp lệ</string><!-- TODO change to proper sentence -->
     <string name="username_null">Xin vui lòng nhập tên đăng nhập</string>
-    <string name="username_requirement">Cần ít nhất 8 kí tự gồm bao gồm chữ , số, dấu - và _</string>
+    <string name="username_requirement">Tên đăng nhập bao gồm chữ, sô, dấu - và _ (ít nhất 8 kí tự)</string>
 
     <string name="password_input_hint">Mật Khẩu</string>
-    <string name="password_requirement">Cần ít nhất 8 kí tự bao gồm chữ và số</string>
+    <string name="password_requirement">Mật khẩu gồm chữ và số (ít nhất 8 kí tự)</string>
     <string name="password_null">Xin vui lòng nhập mật khẩu</string>
 
     <string name="password_confirm_hint">Xác Nhận Mật Khẩu</string>
@@ -100,6 +100,8 @@
     <string name="booking_expire_date">Ngày Kết Thúc</string>
     <string name="booking_do_date">Ngày Thực Hiện</string>
     <string name="booking_date_hint">Chọn Ngày</string>
+    <string name="booking_date_invalid">Ngày được chọn không phù hợp</string>
+    <string name="out_of_schedule">Hôm nay không còn giờ phù hợp</string>
     <string name="booking_error_date">Ngày không hợp lệ. Xin vui lòng chọn lại</string>
     <string name="booking_error_eco_date">Hiện tại voucher Eco không thể đặt lịch Thứ 7 và Chủ Nhật</string>
     <string name="missing_detail">Vui lòng điền đầy đủ thông tin</string>

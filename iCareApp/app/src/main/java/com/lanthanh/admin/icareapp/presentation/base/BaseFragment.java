@@ -14,7 +14,6 @@ public abstract class BaseFragment<T extends Presenter> extends Fragment{
     public abstract void initViews();
     public abstract void refreshViews();
     public abstract T getMainPresenter();
-    public abstract ApplicationProvider getProvider();
     public void showToast(String msg){
         Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
         toast.show();

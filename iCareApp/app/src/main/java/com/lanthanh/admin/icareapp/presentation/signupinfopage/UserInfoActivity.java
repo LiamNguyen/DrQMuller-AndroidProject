@@ -52,13 +52,13 @@ public class UserInfoActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//      networkController.registerNetworkReceiver();
+        userInfoActivityPresenter.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //networkController.unregisterNetworkReceiver();
+        userInfoActivityPresenter.pause();
     }
 
     @Override
@@ -102,4 +102,7 @@ public class UserInfoActivity extends BaseActivity {
     public void onBackPressed() {
         userInfoActivityPresenter.onBackPressed();
     }
+
+    @Override
+    public void refreshAfterLosingNetwork() {}
 }

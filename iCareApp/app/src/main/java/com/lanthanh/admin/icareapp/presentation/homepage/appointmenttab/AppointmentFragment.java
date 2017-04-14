@@ -81,11 +81,6 @@ public class AppointmentFragment extends BaseFragment<MainActivityPresenter>{
         super.onDestroy();
         unbinder.unbind();
     }
-
-    @Override
-    public ApplicationProvider getProvider() {
-        return null;
-    }
 }
 
 

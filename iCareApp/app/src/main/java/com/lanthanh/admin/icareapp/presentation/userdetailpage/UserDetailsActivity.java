@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.lanthanh.admin.icareapp.Controller.NetworkController;
+import com.lanthanh.admin.icareapp.presentation.broadcastreceivers.NetworkBroadcastReceiver;
 import com.lanthanh.admin.icareapp.presentation.base.BaseActivity;
 import com.lanthanh.admin.icareapp.presentation.model.InputRequirement;
 import com.lanthanh.admin.icareapp.R;
@@ -65,7 +65,7 @@ public class UserDetailsActivity extends BaseActivity {
     private boolean validName, validAddress, validEmail, validPhone;
     private UserDetailsActivityPresenter userDetailsActivityPresenter;
     private boolean isEditMode;
-    private NetworkController networkController;
+    private NetworkBroadcastReceiver networkBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -293,13 +293,13 @@ public class UserDetailsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //networkController.registerNetworkReceiver();
+        userDetailsActivityPresenter.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //networkController.unregisterNetworkReceiver();
+        userDetailsActivityPresenter.pause();
     }
 
     @Override
@@ -435,4 +435,7 @@ public class UserDetailsActivity extends BaseActivity {
             drawable.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
         }
     }
+
+    @Override
+    public void refreshAfterLosingNetwork() {}
 }

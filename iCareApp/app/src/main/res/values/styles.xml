@@ -44,8 +44,8 @@
     </style>
 
     <style name="ErrorAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/colorWhite</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorVeryLightGray</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">

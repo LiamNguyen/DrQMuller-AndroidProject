@@ -27,6 +27,7 @@ public class ConfirmBookingActivityPresenter extends BasePresenter {
     private Interactor interactor;
 
     public ConfirmBookingActivityPresenter(ConfirmBookingActivity activity){
+        super(activity);
         this.activity = activity;
         init();
     }
@@ -36,24 +37,11 @@ public class ConfirmBookingActivityPresenter extends BasePresenter {
         interactor = new Interactor();
     }
 
-    public void navigateActivity(Class<? extends Activity> activityClass) {
-        Intent intent = new Intent(this.activity, activityClass);
-        this.activity.startActivity(intent);
-        this.activity.finish();
-    }
-
-    public void navigateActivity(Class<? extends Activity> activityClass, Bundle b) {
-        Intent intent = new Intent(this.activity, activityClass);
-        intent.putExtra(this.getClass().getName(), b); //TODO check this put extra
-        this.activity.startActivity(intent);
-        this.activity.finish();
-    }
-
     public void confirmAppointment(String verificationCode) {
         this.activity.showProgress();
         if (this.activity.getProvider().getCurrentAppointment().getVerificationCode().equals(verificationCode)) {
             interactor.execute(
-                () -> appointmentRepository.confirmAppointment(),
+                () -> appointmentRepository.confirmAppointment(this.activity.getProvider().getCurrentAppointment().getAppointmentId()),
                 success -> {
                     this.activity.hideProgress();
                     if (success == RepositorySimpleStatus.SUCCESS) {
@@ -76,18 +64,19 @@ public class ConfirmBookingActivityPresenter extends BasePresenter {
         }
     }
 
-    @Override
-    public void resume() {
-        interactor.execute(
-            () -> appointmentRepository.sendEmailNotifyBooking(),
-            _success -> {
-                if (_success == RepositorySimpleStatus.SUCCESS)
-                    Log.i(this.getClass().getName(), "Send email to notify booking successfully");
-                else
-                    Log.i(this.getClass().getName(), "Send email to notify booking has already been sent");
-            },
-            error -> Log.e(this.getClass().getName(), "Send email to notify booking fail")
-        );
+    public void sendEmailNotifyBooking() {
+        if (!this.activity.getProvider().getCurrentAppointment().isEmailSent()) {
+            interactor.execute(
+                    () -> appointmentRepository.sendEmailNotifyBooking(this.activity.getProvider().getCurrentAppointment().getAppointmentId()),
+                    _success -> {
+                        if (_success == RepositorySimpleStatus.SUCCESS)
+                            Log.i(this.getClass().getName(), "Send email to notify booking successfully");
+                        else
+                            Log.i(this.getClass().getName(), "Send email to notify booking has already been sent");
+                    },
+                    error -> Log.e(this.getClass().getName(), "Send email to notify booking fail")
+            );
+        }
     }
 
     @Override

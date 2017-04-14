@@ -79,6 +79,12 @@ public class MainActivity extends BaseActivity{
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        mainActivityPresenter.pause();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mainActivityPresenter.destroy();
@@ -101,8 +107,6 @@ public class MainActivity extends BaseActivity{
         finish();
     }
 
-    //Call in case losing network and then connected again
-    public void refreshAfterNetworkConnected(){
-        this.onPostResume();
-    }
+    @Override
+    public void refreshAfterLosingNetwork() {}
 }
