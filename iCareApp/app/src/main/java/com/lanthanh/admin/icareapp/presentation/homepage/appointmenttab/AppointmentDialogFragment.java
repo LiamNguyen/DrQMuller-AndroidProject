@@ -94,7 +94,7 @@ public class AppointmentDialogFragment extends DialogFragment {
                                 getString(R.string.agree_button),
                                 (DialogInterface dialog, int which) -> {
                                     getDialog().dismiss();
-                                    ((MainActivity) getActivity()).getMainPresenter().cancelAppointment();
+                                    ((MainActivity) getActivity()).getMainPresenter().cancelAppointment(getArguments().getString("appointmentId", ""));
                                 }
                             )
                             .setNegativeButton(

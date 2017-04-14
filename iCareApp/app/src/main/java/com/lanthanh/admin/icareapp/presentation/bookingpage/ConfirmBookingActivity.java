@@ -1,6 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.bookingpage;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,7 +20,10 @@ import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.base.BaseActivity;
+import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
+import com.lanthanh.admin.icareapp.utils.ConverterUtils;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import butterknife.BindView;
@@ -84,6 +88,10 @@ public class ConfirmBookingActivity extends BaseActivity {
 
     public void init(){
         confirmBookingActivityPresenter = new ConfirmBookingActivityPresenter(this);
+        Intent intent = getIntent();
+        Bundle data = intent.getBundleExtra("intentkey");
+        DTOAppointment appointment = ConverterUtils.json.convertJsonToObject(data.getString("appointment", ""), DTOAppointment.class);
+        confirmBookingActivityPresenter.setCurrentAppointment(appointment);
         confirmBookingActivityPresenter.sendEmailNotifyBooking();
     }
 
@@ -136,7 +144,6 @@ public class ConfirmBookingActivity extends BaseActivity {
                     (DialogInterface dialog, int which) -> {
                         dialog.dismiss();
                         confirmBookingActivityPresenter.navigateActivity(MainActivity.class);
-                        this.getProvider().setCurrentAppointment(null);
                     }
                 )
                 .setNegativeButton(

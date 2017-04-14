@@ -84,15 +84,16 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
             final TextView status = ((BodyViewHolder) holder).getStatusTextView();
             ((BodyViewHolder) holder).getDetailTextView().setOnClickListener(
                 (View view) -> {
-                    ((MainActivity) ctx).getProvider().setCurrentAppointment(list.get(position - 1));
                     if (!list.get(position - 1).getStatus()) {
-                        ((MainActivity) ctx).getMainPresenter().navigateActivity(ConfirmBookingActivity.class);
+                        Bundle data = new Bundle();
+                        data.putString("appointment", ConverterUtils.json.convertObjectToJson(list.get(position - 1)));
+                        ((MainActivity) ctx).getMainPresenter().navigateActivity(ConfirmBookingActivity.class, data);
                     } else  {
                         AppointmentDialogFragment frag = new AppointmentDialogFragment();
-
+                        //TODO put Serialized Variable instead of field by field
                         //Set information into bundle so that fragment can display
                         Bundle args = new Bundle();
-
+                        args.putString("appointmentId", list.get(position - 1).getAppointmentId());
                         args.putString("title", ctx.getString(R.string.bill));
                         args.putString("name", list.get(position - 1).getUser().getName());
                         args.putString("address", list.get(position - 1).getLocation().getAddress() + ", " + list.get(position - 1).getDistrict().getDistrictName() + ", " +
@@ -124,8 +125,7 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 ctx.getString(R.string.agree_button),
                                 (DialogInterface dialog, int which) -> {
                                     dialog.dismiss();
-                                    ((MainActivity) ctx).getProvider().setCurrentAppointment(list.get(position - 1));
-                                    ((MainActivity) ctx).getMainPresenter().cancelAppointment();
+                                    ((MainActivity) ctx).getMainPresenter().cancelAppointment(list.get(position - 1).getAppointmentId());
                                 }
                             )
                             .setNegativeButton(

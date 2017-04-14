@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
-import com.lanthanh.admin.icareapp.presentation.application.iCareApplication;
 import com.lanthanh.admin.icareapp.presentation.broadcastreceivers.NetworkBroadcastReceiver;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 
@@ -38,10 +36,6 @@ public abstract class BasePresenter implements Presenter {
     @Override
     public void destroy() {}
 
-    public ApplicationProvider getProvider() {
-        return ((iCareApplication) this.activity.getApplication()).getProvider();
-    }
-
     public void navigateActivity(Class<? extends Activity> activityClass) {
         Intent intent = new Intent(this.activity, activityClass);
         this.activity.startActivity(intent);
@@ -51,7 +45,7 @@ public abstract class BasePresenter implements Presenter {
 
     public void navigateActivity(Class<? extends Activity> activityClass, Bundle b) {
         Intent intent = new Intent(this.activity, activityClass);
-        intent.putExtra(this.getClass().getName(), b); //TODO check this put extra
+        intent.putExtra("intentkey", b); //TODO check this put extra, replace hard code value
         this.activity.startActivity(intent);
         if (!(this.activity instanceof MainActivity))
             this.activity.finish();
