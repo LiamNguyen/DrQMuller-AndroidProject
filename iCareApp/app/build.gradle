@@ -29,6 +29,18 @@ android {
     packagingOptions {
         pickFirst 'META-INF/LICENSE'
     }
+
+    productFlavors {
+        beta {
+            buildConfigField 'String', "APPLICATION_BASE_URL",  'http://210.211.109.180/beta_drmuller/api/index.php/'
+            buildConfigField 'String', "APPLICATION_EMAIL_BASE_URL",  'http://210.211.109.180/beta_drmuller/api/'
+        }
+
+        production {
+            buildConfigField 'String', "APPLICATION_BASE_URL",  'http://210.211.109.180/drmuller/api/index.php/'
+            buildConfigField 'String', "APPLICATION_EMAIL_BASE_URL",  'http://210.211.109.180/drmuller/api/'
+        }
+    }
 }
 
 configurations.all {

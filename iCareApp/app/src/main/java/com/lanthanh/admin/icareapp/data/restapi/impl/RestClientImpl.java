@@ -2,6 +2,7 @@ package com.lanthanh.admin.icareapp.data.restapi.impl;
 
 import com.google.gson.JsonObject;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.lanthanh.admin.icareapp.BuildConfig;
 import com.lanthanh.admin.icareapp.data.restapi.iCareEmailService;
 import com.lanthanh.admin.icareapp.utils.ConverterUtils;
 import com.lanthanh.admin.icareapp.data.model.BookedAppointment;
@@ -46,12 +47,12 @@ public class RestClientImpl implements RestClient {
 
     private RestClientImpl(){
         final Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("http://210.211.109.180/beta_drmuller/api/index.php/")
+                            .baseUrl(BuildConfig.APPLICATION_BASE_URL)
                             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
         final Retrofit emailRetrofit  = new Retrofit.Builder()
-                            .baseUrl("http://210.211.109.180/beta_drmuller/api/")
+                            .baseUrl(BuildConfig.APPLICATION_EMAIL_BASE_URL)
                             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
