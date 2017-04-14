@@ -87,7 +87,7 @@ public class BookingActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        bookingActivityPresenter.emptyCart(this::onEmptyCartItem, true);
+        bookingActivityPresenter.emptyCart(this::onEmptyCartItem);
     }
 
     @Override

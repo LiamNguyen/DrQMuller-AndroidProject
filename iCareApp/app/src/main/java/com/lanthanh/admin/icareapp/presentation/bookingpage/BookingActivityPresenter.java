@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.presentation.bookingpage;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -9,6 +10,7 @@ import com.lanthanh.admin.icareapp.data.repository.AppointmentRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
 import com.lanthanh.admin.icareapp.utils.ConverterUtils;
 import com.lanthanh.admin.icareapp.utils.Function;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointmentSchedule;
@@ -39,6 +41,7 @@ public class BookingActivityPresenter extends BasePresenter{
     private BookingActivity activity;
     private Calendar startDate, expireDate;
     private DTOMachine currentMachine;
+    private DTOAppointment currentAppointment;
     private int numberOfRequiredContents;
 
     //Fragment
@@ -63,6 +66,7 @@ public class BookingActivityPresenter extends BasePresenter{
         bookingSelectDateFragment = new BookingSelectDateFragment();
         appointmentRepository = new AppointmentRepositoryImpl(this.activity);
         interactor = new Interactor();
+        currentAppointment = new DTOAppointment();
     }
 
     @Override
@@ -137,15 +141,15 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     public boolean isBasicSelectionValid() {
-        return this.getProvider().getCurrentAppointment().isBasicSelectFilled();
+        return this.currentAppointment.isBasicSelectFilled();
     }
 
     public boolean isDateSelectionValid() {
-        return this.getProvider().getCurrentAppointment().isDateSelectFilled();
+        return this.currentAppointment.isDateSelectFilled();
     }
 
     public boolean isScheduleValid() {
-        return this.getProvider().getCurrentAppointment().isScheduleSelectFilled();
+        return this.currentAppointment.isScheduleSelectFilled();
     }
 
     /*
@@ -165,7 +169,7 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     public void onCountrySelected(Function.VoidParam<List<DTOCity>> updateCallback, DTOCountry country){
-        getProvider().getCurrentAppointment().setCountry(country);
+        currentAppointment.setCountry(country);
         interactor.execute(
             () -> appointmentRepository.getCitiesByCountryId(country.getCountryId()),
             cities -> {
@@ -177,7 +181,7 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     public void onCitySelected(Function.VoidParam<List<DTODistrict>> updateCallback, DTOCity city){
-        getProvider().getCurrentAppointment().setCity(city);
+        currentAppointment.setCity(city);
         interactor.execute(
             () -> appointmentRepository.getDistrictsByCityId(city.getCityId()),
             districts -> {
@@ -189,7 +193,7 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     public void onDistrictSelected(Function.VoidParam<List<DTOLocation>> updateCallback, DTODistrict district){
-        getProvider().getCurrentAppointment().setDistrict(district);
+        currentAppointment.setDistrict(district);
         interactor.execute(
             () -> appointmentRepository.getLocationsByDistrictId(district.getDistrictId()),
             locations -> {
@@ -202,19 +206,19 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     public void onLocationSelected(Function.VoidEmpty updateCallback, DTOLocation location) {
-        getProvider().getCurrentAppointment().setLocation(location);
+        currentAppointment.setLocation(location);
         updateCallback.apply();
     }
 
     public void onVoucherSelected(Function.VoidEmpty updateCallback, DTOVoucher voucher) {
-        getProvider().getCurrentAppointment().setVoucher(voucher);
+        currentAppointment.setVoucher(voucher);
         //Reset date on voucher change
-        getProvider().getCurrentAppointment().setStartDate(null);
-        getProvider().getCurrentAppointment().setExpireDate(null);
+        currentAppointment.setStartDate(null);
+        currentAppointment.setExpireDate(null);
         //Reset cart on voucher change
         if (currentMachine != null) {
-            if (getProvider().getCurrentAppointment().isScheduleSelectFilled()) {
-                emptyCart(() -> this.activity.onEmptyCartItem(), false);
+            if (currentAppointment.isScheduleSelectFilled()) {
+                emptyCart(() -> this.activity.onEmptyCartItem());
             }
             currentMachine = null;
         }
@@ -222,14 +226,14 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     public void onTypeSelected(DTOType type) {
-        getProvider().getCurrentAppointment().setType(type);
+        currentAppointment.setType(type);
         //Reset date on type change
-        getProvider().getCurrentAppointment().setStartDate(null);
-        getProvider().getCurrentAppointment().setExpireDate(null);
+        currentAppointment.setStartDate(null);
+        currentAppointment.setExpireDate(null);
         //Reset cart on type change
         if (currentMachine != null) {
-            if (getProvider().getCurrentAppointment().isScheduleSelectFilled()) {
-                emptyCart(() -> this.activity.onEmptyCartItem(), false);
+            if (currentAppointment.isScheduleSelectFilled()) {
+                emptyCart(() -> this.activity.onEmptyCartItem());
             }
             currentMachine = null;
         }
@@ -261,7 +265,7 @@ public class BookingActivityPresenter extends BasePresenter{
     public void getMachines(Function.VoidParam<List<DTOMachine>> updateCallback) {
         this.activity.showProgress();
         interactor.execute(
-            () -> appointmentRepository.getMachinesByLocationId(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId()),
+            () -> appointmentRepository.getMachinesByLocationId(currentAppointment.getLocation().getLocationId()),
             updateCallback::apply,
             error -> this.activity.showProgress()
         );
@@ -269,10 +273,10 @@ public class BookingActivityPresenter extends BasePresenter{
 
     public void getWeekDays(Function.VoidParam<List<DTOWeekDay>> updateCallback) {
         interactor.execute(
-            () -> appointmentRepository.getWeekDays(this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId()),
+            () -> appointmentRepository.getWeekDays(currentAppointment.getVoucher().getVoucherId()),
             success -> {
-                if (this.activity.getProvider().getCurrentAppointment().getType().getTypeId() == 2) {
-                    success = getDayOfWeekForTypeFree(success, this.activity.getProvider().getCurrentAppointment().getExpireDate());
+                if (currentAppointment.getType().getTypeId() == 2) {
+                    success = getDayOfWeekForTypeFree(success, currentAppointment.getExpireDate());
                 }
                 updateCallback.apply(success);
             },
@@ -282,7 +286,7 @@ public class BookingActivityPresenter extends BasePresenter{
 
     public void getTime(Function.VoidParam<List<DTOTime>> updateCallback) {
         interactor.execute(
-            () -> appointmentRepository.getTime(this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId()),
+            () -> appointmentRepository.getTime(currentAppointment.getVoucher().getVoucherId()),
             success -> {
                 this.activity.hideProgress();
                 updateCallback.apply(success);
@@ -311,7 +315,7 @@ public class BookingActivityPresenter extends BasePresenter{
 
     //Add start date when start date is selected from View
     public void onStartDateSet(Calendar startDate, Function.VoidParam<String> success, Function.VoidParam<String> fail) {
-        if (this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId() == 1){
+        if (currentAppointment.getVoucher().getVoucherId() == 1){
             if (!ecoBookingDayCheck(startDate)){
                 fail.apply(this.activity.getString(R.string.booking_error_eco_date));
                 return;
@@ -345,13 +349,13 @@ public class BookingActivityPresenter extends BasePresenter{
         if (this.expireDate != null) {
             if (this.startDate.compareTo(this.expireDate) >= 0) {
                 this.expireDate = null;
-                this.activity.getProvider().getCurrentAppointment().setExpireDate(null);
+                currentAppointment.setExpireDate(null);
                 this.bookingSelectDateFragment.resetExpireDateForFixedType();
             }
         }
 
-        this.activity.getProvider().getCurrentAppointment().setStartDate(this.startDate.getTime());
-        if (getProvider().getCurrentAppointment().isDateSelectFilled()) {
+        currentAppointment.setStartDate(this.startDate.getTime());
+        if (currentAppointment.isDateSelectFilled()) {
             bookingSelectDateFragment.enableNextButton(true);
         } else {
             bookingSelectDateFragment.enableNextButton(false);
@@ -362,7 +366,7 @@ public class BookingActivityPresenter extends BasePresenter{
 
     //Add expire date when expire date is selected from View
     public void onExpireDateSet(Calendar expireDate, Function.VoidParam<String> success, Function.VoidParam<String> fail) {
-        if (this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId() == 1){
+        if (currentAppointment.getVoucher().getVoucherId() == 1){
             if (!ecoBookingDayCheck(expireDate)){
                 fail.apply(this.activity.getString(R.string.booking_error_eco_date));
                 return;
@@ -401,14 +405,14 @@ public class BookingActivityPresenter extends BasePresenter{
             }
         }
 
-        this.activity.getProvider().getCurrentAppointment().setExpireDate(this.expireDate.getTime());
-        if (getProvider().getCurrentAppointment().isDateSelectFilled()) {
+        currentAppointment.setExpireDate(this.expireDate.getTime());
+        if (currentAppointment.isDateSelectFilled()) {
             bookingSelectDateFragment.enableNextButton(true);
         } else {
             bookingSelectDateFragment.enableNextButton(false);
         }
-        if (getProvider().getCurrentAppointment().isScheduleSelectFilled()) {
-            emptyCart(() -> this.activity.onEmptyCartItem(), false);
+        if (currentAppointment.isScheduleSelectFilled()) {
+            emptyCart(() -> this.activity.onEmptyCartItem());
             currentMachine = null;
         }
         currentMachine = null;
@@ -424,12 +428,12 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     public void resetPickerView(Function.VoidParam<Integer> resetViews) {
-        if (this.activity.getProvider().getCurrentAppointment().getStartDate() != null ||
-            this.activity.getProvider().getCurrentAppointment().getExpireDate() != null)
+        if (currentAppointment.getStartDate() != null ||
+            currentAppointment.getExpireDate() != null)
             return;
         this.startDate = null;
         this.expireDate = null;
-        resetViews.apply(this.activity.getProvider().getCurrentAppointment().getType().getTypeId());
+        resetViews.apply(currentAppointment.getType().getTypeId());
     }
 
     /*
@@ -453,7 +457,7 @@ public class BookingActivityPresenter extends BasePresenter{
         if (currentMachine == null)
             resetView.apply();
         else {
-            if (this.getProvider().getCurrentAppointment().getType().getTypeId() == 2) {
+            if (this.currentAppointment.getType().getTypeId() == 2) {
                 this.activity.showProgress();
                 bookingBookFragment.expandGroup(0, true);
             }
@@ -466,16 +470,16 @@ public class BookingActivityPresenter extends BasePresenter{
         interactor.execute(
                 () -> appointmentRepository.getAvailableTime(
                         dayId,
-                        this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
+                        currentAppointment.getLocation().getLocationId(),
                         this.currentMachine.getMachineId(),
-                        this.activity.getProvider().getCurrentAppointment().getVoucher().getVoucherId()),
+                        currentAppointment.getVoucher().getVoucherId()),
                 success -> {
                     this.activity.hideProgress();
                     this.bookingBookFragment.enableListView(true);
-                    if (this.activity.getProvider().getCurrentAppointment().getType().getTypeId() == 2) {
+                    if (currentAppointment.getType().getTypeId() == 2) {
                         Calendar calendarNow = Calendar.getInstance();
                         Calendar bookedDay = Calendar.getInstance();
-                        bookedDay.setTime(this.activity.getProvider().getCurrentAppointment().getExpireDate());
+                        bookedDay.setTime(currentAppointment.getExpireDate());
                         if (bookedDay.get(Calendar.DATE) == calendarNow.get(Calendar.DATE)) {
                             int now = calendarNow.get(Calendar.HOUR_OF_DAY) * 60 + calendarNow.get(Calendar.MINUTE);
                             for (DTOTime time : new ArrayList<>(success)) {
@@ -498,13 +502,13 @@ public class BookingActivityPresenter extends BasePresenter{
 
     public void onTimeSelected(Function.VoidEmpty unlockViews, Function.VoidEmpty refreshTime, DTOWeekDay weekDay, DTOTime time) {
         //Maximum 3 schedules for 1 appointment
-        if (this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() == 3) {
+        if (currentAppointment.getAppointmentScheduleList().size() == 3) {
             this.activity.showToast(this.activity.getString(R.string.max_item));
             unlockViews.apply();
             return;
         }
         //Maximum 1 schedule for 1 day
-        for (DTOAppointmentSchedule appointment: this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList()) {
+        for (DTOAppointmentSchedule appointment: currentAppointment.getAppointmentScheduleList()) {
             if (appointment.getBookedDay().getDayId() == weekDay.getDayId()) {
                 this.activity.showToast(this.activity.getString(R.string.selected_day));
                 unlockViews.apply();
@@ -518,13 +522,13 @@ public class BookingActivityPresenter extends BasePresenter{
         appointmentSchedule.setBookedTime(time);
         this.activity.showProgress();
         interactor.execute(
-            () -> appointmentRepository.bookTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(), appointmentSchedule),
+            () -> appointmentRepository.bookTime(currentAppointment.getLocation().getLocationId(), appointmentSchedule),
             success -> {
-                this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().add(appointmentSchedule);
+                currentAppointment.getAppointmentScheduleList().add(appointmentSchedule);
                 String newItem = appointmentSchedule.toString();
                 this.activity.onAddCartItem(newItem);
                 refreshTime.apply();
-                if (this.activity.getProvider().getCurrentAppointment().isScheduleSelectFilled())
+                if (currentAppointment.isScheduleSelectFilled())
                     bookingBookFragment.enableFinishButton(true);
                 else
                     bookingBookFragment.enableFinishButton(false);
@@ -556,15 +560,15 @@ public class BookingActivityPresenter extends BasePresenter{
         if (dtoAppointmentSchedule != null){
             //Remove on DB
             interactor.execute(
-                    () -> appointmentRepository.releaseTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(), Arrays.asList(dtoAppointmentSchedule)),
+                    () -> appointmentRepository.releaseTime(currentAppointment.getLocation().getLocationId(), Arrays.asList(dtoAppointmentSchedule)),
                     success -> {
                         this.activity.hideProgress();
                         removeItem.apply(item);
                         if (bookingBookFragment.isVisible())
                             bookingBookFragment.expandGroup(0, true);
                         //Update DTO
-                        this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().remove(dtoAppointmentSchedule);
-                        if (this.activity.getProvider().getCurrentAppointment().isScheduleSelectFilled())
+                        currentAppointment.getAppointmentScheduleList().remove(dtoAppointmentSchedule);
+                        if (currentAppointment.isScheduleSelectFilled())
                             bookingBookFragment.enableFinishButton(true);
                         else
                             bookingBookFragment.enableFinishButton(false);
@@ -577,7 +581,7 @@ public class BookingActivityPresenter extends BasePresenter{
 
 
     public DTOAppointmentSchedule getSpecificSchedule(String item) {
-        List<DTOAppointmentSchedule> dtoAppointmentScheduleList = this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList();
+        List<DTOAppointmentSchedule> dtoAppointmentScheduleList = currentAppointment.getAppointmentScheduleList();
         for (DTOAppointmentSchedule dtoAppointmentSchedule : dtoAppointmentScheduleList){
             if (dtoAppointmentSchedule.toString().equals(item))
                 return dtoAppointmentSchedule;
@@ -585,23 +589,19 @@ public class BookingActivityPresenter extends BasePresenter{
         return null;
     }
 
-    public void emptyCart(Function.VoidEmpty clearCart, boolean isFinish) {
-        if (this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() > 0) {
+    public void emptyCart(Function.VoidEmpty clearCart) {
+        if (currentAppointment.getAppointmentScheduleList().size() > 0) {
             this.activity.showProgress();
             //Remove on DB
             interactor.execute(
-                () -> appointmentRepository.releaseTime(this.activity.getProvider().getCurrentAppointment().getLocation().getLocationId(),
-                        this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList()),
+                () -> appointmentRepository.releaseTime(currentAppointment.getLocation().getLocationId(),
+                        currentAppointment.getAppointmentScheduleList()),
                 success -> {
                     this.activity.hideProgress();
-                    if (isFinish) {
-                        this.activity.getProvider().setCurrentAppointment(null);
-                    } else {
-                        this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().clear();
-                        clearCart.apply();
-                        if (bookingBookFragment.isVisible())
-                            bookingBookFragment.expandGroup(0, true);
-                    }
+                    currentAppointment.getAppointmentScheduleList().clear();
+                    clearCart.apply();
+                    if (bookingBookFragment.isVisible())
+                        bookingBookFragment.expandGroup(0, true);
                 },
                 error -> this.activity.hideProgress()
             );
@@ -620,20 +620,22 @@ public class BookingActivityPresenter extends BasePresenter{
     }
 
     public void createAppointment() {
-        if (this.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() <= 0){
+        if (this.currentAppointment.getAppointmentScheduleList().size() <= 0){
             this.activity.showToast(this.activity.getString(R.string.min_item));
         } else {
             this.activity.showProgress();
-            this.activity.getProvider().getCurrentAppointment().setVerificationCode(NetworkUtils.generateVerificationCode());
-            if (this.activity.getProvider().getCurrentAppointment().getStartDate() == null) {
-                this.activity.getProvider().getCurrentAppointment().setStartDate(ConverterUtils.date.convertStringToDate("11-11-1111"));
+            currentAppointment.setVerificationCode(NetworkUtils.generateVerificationCode());
+            if (currentAppointment.getStartDate() == null) {
+                currentAppointment.setStartDate(ConverterUtils.date.convertStringToDate("11-11-1111"));
             }
             interactor.execute(
-                    () -> appointmentRepository.createAppointment(this.activity.getProvider().getCurrentAppointment()),
+                    () -> appointmentRepository.createAppointment(currentAppointment),
                     success -> {
                         this.activity.hideProgress();
                         if (success == RepositorySimpleStatus.SUCCESS) {
-                            navigateActivity(ConfirmBookingActivity.class);
+                            Bundle data = new Bundle();
+                            data.putString("appointment", ConverterUtils.json.convertObjectToJson(currentAppointment));
+                            navigateActivity(ConfirmBookingActivity.class, data);
                         }
                     },
                     error -> this.activity.hideProgress()
