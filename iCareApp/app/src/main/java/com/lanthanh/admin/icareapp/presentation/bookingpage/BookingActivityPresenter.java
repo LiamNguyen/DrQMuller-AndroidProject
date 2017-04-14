@@ -128,7 +128,7 @@ public class BookingActivityPresenter extends BasePresenter{
     public void onBackPressed() {
         this.activity.hideProgress();
         if (bookingSelectFragment.isVisible()) {
-            abortBooking();
+            this.activity.finish();
         }
         else if (bookingSelectDateFragment.isVisible())
             navigateFragment(BookingSelectFragment.class);
@@ -214,9 +214,7 @@ public class BookingActivityPresenter extends BasePresenter{
         //Reset cart on voucher change
         if (currentMachine != null) {
             if (getProvider().getCurrentAppointment().isScheduleSelectFilled()) {
-                emptyCart(
-                    () -> this.activity.onEmptyCartItem()
-                );
+                emptyCart(() -> this.activity.onEmptyCartItem(), false);
             }
             currentMachine = null;
         }
@@ -231,9 +229,7 @@ public class BookingActivityPresenter extends BasePresenter{
         //Reset cart on type change
         if (currentMachine != null) {
             if (getProvider().getCurrentAppointment().isScheduleSelectFilled()) {
-                emptyCart(
-                    () -> this.activity.onEmptyCartItem()
-                );
+                emptyCart(() -> this.activity.onEmptyCartItem(), false);
             }
             currentMachine = null;
         }
@@ -412,9 +408,7 @@ public class BookingActivityPresenter extends BasePresenter{
             bookingSelectDateFragment.enableNextButton(false);
         }
         if (getProvider().getCurrentAppointment().isScheduleSelectFilled()) {
-            emptyCart(
-                () -> this.activity.onEmptyCartItem()
-            );
+            emptyCart(() -> this.activity.onEmptyCartItem(), false);
             currentMachine = null;
         }
         currentMachine = null;
@@ -591,7 +585,7 @@ public class BookingActivityPresenter extends BasePresenter{
         return null;
     }
 
-    public void emptyCart(Function.VoidEmpty clearCart) {
+    public void emptyCart(Function.VoidEmpty clearCart, boolean isFinish) {
         if (this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().size() > 0) {
             this.activity.showProgress();
             //Remove on DB
@@ -600,21 +594,18 @@ public class BookingActivityPresenter extends BasePresenter{
                         this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList()),
                 success -> {
                     this.activity.hideProgress();
-                    this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().clear();
-                    clearCart.apply();
-                    if (bookingBookFragment.isVisible())
-                        bookingBookFragment.expandGroup(0, true);
+                    if (isFinish) {
+                        this.activity.getProvider().setCurrentAppointment(null);
+                    } else {
+                        this.activity.getProvider().getCurrentAppointment().getAppointmentScheduleList().clear();
+                        clearCart.apply();
+                        if (bookingBookFragment.isVisible())
+                            bookingBookFragment.expandGroup(0, true);
+                    }
                 },
                 error -> this.activity.hideProgress()
             );
-        } else {
-            clearCart.apply();
         }
-    }
-
-    public void abortBooking() {
-        this.activity.getProvider().setCurrentAppointment(null);
-        this.activity.finish();
     }
 
     public void validateAppointment() {

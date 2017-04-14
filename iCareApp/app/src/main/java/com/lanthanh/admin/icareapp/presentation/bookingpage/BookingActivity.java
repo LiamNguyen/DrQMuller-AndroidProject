@@ -87,7 +87,7 @@ public class BookingActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        bookingActivityPresenter.emptyCart(this::onEmptyCartItem);
+        bookingActivityPresenter.emptyCart(this::onEmptyCartItem, true);
     }
 
     @Override
@@ -144,7 +144,7 @@ public class BookingActivity extends BaseActivity {
                             getString(R.string.agree_button),
                             (DialogInterface dialog, int which) -> {
                                 dialog.dismiss();
-                                bookingActivityPresenter.abortBooking();
+                                finish();
                             }
                         ).setNegativeButton(
                             getString(R.string.abort_button),
