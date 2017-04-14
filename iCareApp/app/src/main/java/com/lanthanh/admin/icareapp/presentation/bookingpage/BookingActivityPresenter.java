@@ -71,7 +71,7 @@ public class BookingActivityPresenter extends BasePresenter{
 
     @Override
     public void destroy() {
-        interactor.dispose();
+        //interactor.dispose(); //TODO check this one
     }
 
     public void refreshAfterLosingNetwork() {
