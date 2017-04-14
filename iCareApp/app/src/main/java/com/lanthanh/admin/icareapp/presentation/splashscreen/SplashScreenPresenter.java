@@ -1,10 +1,8 @@
 package com.lanthanh.admin.icareapp.presentation.splashscreen;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
 import com.lanthanh.admin.icareapp.R;
@@ -15,7 +13,7 @@ import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 import com.lanthanh.admin.icareapp.presentation.application.iCareApplication;
-import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
+import com.lanthanh.admin.icareapp.presentation.base.AbstractPresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
 
@@ -24,7 +22,7 @@ import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
  *         Created on 28-Mar-17.
  */
 
-public class SplashScreenPresenter extends BasePresenter {
+public class SplashScreenPresenter extends AbstractPresenter {
     private SplashScreenActivity activity;
     private Interactor interactor;
     private UserRepository userRepository;

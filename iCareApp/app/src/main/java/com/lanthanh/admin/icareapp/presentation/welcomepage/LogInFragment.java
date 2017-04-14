@@ -10,11 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeContract.Presenter;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
-import com.lanthanh.admin.icareapp.presentation.model.InputRequirement;
-import com.lanthanh.admin.icareapp.presentation.resetpasswordpage.ResetPasswordActivity;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 import com.lanthanh.admin.icareapp.utils.StringUtils;
@@ -29,7 +27,7 @@ import io.reactivex.disposables.Disposable;
  * Created by ADMIN on 17-Oct-16.
  */
 
-public class LogInFragment extends BaseFragment<WelcomeActivityPresenter>{
+public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implements WelcomeContract.LogInView{
     @BindView(R.id.si_username_input) TextInputEditText editUsername;
     @BindView(R.id.si_password_input) TextInputEditText editPassword;
     @BindView(R.id.si_sign_in_button) AppCompatButton logInButton;
@@ -37,6 +35,7 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter>{
     @BindView(R.id.si_username_container) TextInputLayout editUsernameContainer;
     @BindView(R.id.si_password_container) TextInputLayout editPasswordContainer;
 
+    private Presenter mPresenter;
     private Disposable editTextDisposable;
     private Unbinder unbinder;
 
@@ -78,6 +77,11 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter>{
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void refreshViews() {
         editUsername.setText("");
         editPassword.setText("");
@@ -109,6 +113,21 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter>{
         super.onDestroy();
         unbinder.unbind();
         editTextDisposable.dispose();
+    }
+
+    @Override
+    public void setPresenter(Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void showUsernamePasswordNotMatchMessage() {
+        showToast(getString(R.string.login_fail));
+    }
+
+    @Override
+    public void showPatternFailMessage() {
+        showToast(getString(R.string.pattern_fail));
     }
 }
 

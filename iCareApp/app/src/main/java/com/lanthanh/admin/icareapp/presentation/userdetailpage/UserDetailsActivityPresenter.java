@@ -6,13 +6,13 @@ import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.utils.ConverterUtils;
 import com.lanthanh.admin.icareapp.utils.Function;
-import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
+import com.lanthanh.admin.icareapp.presentation.base.AbstractPresenter;
 
 /**
  * Created by ADMIN on 11-Jan-17.
  */
 
-public class UserDetailsActivityPresenter extends BasePresenter {
+public class UserDetailsActivityPresenter extends AbstractPresenter {
     private UserDetailsActivity activity;
 
     private UserRepository userRepository;

@@ -26,7 +26,7 @@ import io.reactivex.disposables.Disposable;
  * Created by ADMIN on 19-Oct-16.
  */
 
-public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> {
+public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> implements WelcomeContract.SignUpView{
     @BindView(R.id.su_username_input) TextInputEditText editUsername;
     @BindView(R.id.su_password_input) TextInputEditText editPassword;
     @BindView(R.id.su_password_confirm_input) TextInputEditText editPasswordConfirm;
@@ -153,6 +153,21 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> {
         super.onDestroy();
         unbinder.unbind();
         editTextDisposable.dispose();
+    }
+
+    @Override
+    public void setPresenter(WelcomeContract.Presenter presenter) {
+
+    }
+
+    @Override
+    public void showUsernameAlreadyExistedMessage() {
+
+    }
+
+    @Override
+    public void showPatternFailMessage() {
+
     }
 }
 

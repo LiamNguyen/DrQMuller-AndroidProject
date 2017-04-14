@@ -14,7 +14,7 @@ import com.lanthanh.admin.icareapp.utils.Function;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentFragment;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.DefaultAppointmentFragment;
 import com.lanthanh.admin.icareapp.presentation.homepage.usertab.UserFragment;
-import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
+import com.lanthanh.admin.icareapp.presentation.base.AbstractPresenter;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
 
@@ -25,7 +25,7 @@ import java.util.List;
  * Created by ADMIN on 31-Dec-16.
  */
 
-public class MainActivityPresenter extends BasePresenter {
+public class MainActivityPresenter extends AbstractPresenter {
     private MainActivity activity;
     private AppointmentFragment appointmentFragment;
     private DefaultAppointmentFragment defaultAppointmentFragment;

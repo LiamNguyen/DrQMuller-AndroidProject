@@ -1,16 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.resetpasswordpage;
 
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
-
-import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ADMIN on 12-Jan-17.

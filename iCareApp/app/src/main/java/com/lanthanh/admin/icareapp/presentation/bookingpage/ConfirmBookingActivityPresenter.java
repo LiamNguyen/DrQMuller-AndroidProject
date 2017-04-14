@@ -1,10 +1,6 @@
 package com.lanthanh.admin.icareapp.presentation.bookingpage;
 
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
@@ -13,14 +9,14 @@ import com.lanthanh.admin.icareapp.data.repository.AppointmentRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
-import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
+import com.lanthanh.admin.icareapp.presentation.base.AbstractPresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 
 /**
  * Created by ADMIN on 11-Jan-17.
  */
 
-public class ConfirmBookingActivityPresenter extends BasePresenter {
+public class ConfirmBookingActivityPresenter extends AbstractPresenter {
     private ConfirmBookingActivity activity;
 
     private AppointmentRepository appointmentRepository;

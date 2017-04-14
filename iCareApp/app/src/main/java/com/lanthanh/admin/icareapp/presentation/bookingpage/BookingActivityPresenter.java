@@ -13,7 +13,7 @@ import com.lanthanh.admin.icareapp.utils.ConverterUtils;
 import com.lanthanh.admin.icareapp.utils.Function;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
-import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
+import com.lanthanh.admin.icareapp.presentation.base.AbstractPresenter;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOCountry;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTODistrict;
@@ -35,7 +35,7 @@ import java.util.List;
  * Created by ADMIN on 24-Jan-17.
  */
 
-public class BookingActivityPresenter extends BasePresenter{
+public class BookingActivityPresenter extends AbstractPresenter {
     private BookingActivity activity;
     private Calendar startDate, expireDate;
     private DTOMachine currentMachine;
