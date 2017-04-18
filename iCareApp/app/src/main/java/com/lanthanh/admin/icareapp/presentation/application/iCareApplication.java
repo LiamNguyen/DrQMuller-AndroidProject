@@ -13,12 +13,9 @@ import android.os.Bundle;
  */
 
 public class iCareApplication extends Application{
-    private ApplicationProvider provider;
-
     @Override
     public void onCreate() {
         super.onCreate();
-        provider = new ApplicationProvider();
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -32,10 +29,6 @@ public class iCareApplication extends Application{
             @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {}
             @Override public void onActivityDestroyed(Activity activity) {}
         });
-    }
-
-    public ApplicationProvider getProvider() {
-        return provider;
     }
 
     public PackageInfo getPackageInfo() {

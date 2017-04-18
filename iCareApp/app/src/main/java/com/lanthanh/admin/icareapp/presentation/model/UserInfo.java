@@ -1,14 +1,11 @@
 package com.lanthanh.admin.icareapp.presentation.model;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * @author longv
  * Created on 20-Mar-17.
  */
 
-public class
-UserInfo {
+public class UserInfo {
     private String id;
     private String name;
     private String address;

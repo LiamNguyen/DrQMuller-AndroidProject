@@ -1,7 +1,5 @@
 package com.lanthanh.admin.icareapp.domain.repository;
 
-import com.google.gson.JsonObject;
-
 import io.reactivex.Observable;
 
 /**

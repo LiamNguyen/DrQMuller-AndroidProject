@@ -3,7 +3,6 @@ package com.lanthanh.admin.icareapp.presentation.welcomepage;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;

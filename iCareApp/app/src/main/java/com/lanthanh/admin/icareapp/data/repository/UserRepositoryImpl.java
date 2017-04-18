@@ -1,7 +1,6 @@
 package com.lanthanh.admin.icareapp.data.repository;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.lanthanh.admin.icareapp.data.repository.datasource.LocalStorage;

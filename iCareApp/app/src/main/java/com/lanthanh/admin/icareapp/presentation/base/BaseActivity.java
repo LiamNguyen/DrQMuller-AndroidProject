@@ -4,17 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.presentation.application.ApplicationProvider;
 import com.lanthanh.admin.icareapp.presentation.application.iCareApplication;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 
@@ -30,10 +27,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Toast toast;
 
     public abstract void refreshAfterLosingNetwork();
-
-    public ApplicationProvider getProvider() {
-        return ((iCareApplication) getApplication()).getProvider();
-    }
 
     public List<Fragment> getVisibleFragments() {
         return new ArrayList<>();
@@ -74,6 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (!(this instanceof MainActivity))
             this.finish();
     }
+
     /**
      * This method is used for hiding soft keyboard if it is visible
      */
@@ -96,6 +90,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void showToast(String msg){
+        if (toast != null)
+            toast.cancel();
         toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         toast.show();
     }

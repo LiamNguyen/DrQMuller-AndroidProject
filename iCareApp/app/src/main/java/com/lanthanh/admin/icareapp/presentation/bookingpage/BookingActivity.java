@@ -11,7 +11,6 @@ import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -145,7 +144,7 @@ public class BookingActivity extends BaseActivity {
                             getString(R.string.agree_button),
                             (DialogInterface dialog, int which) -> {
                                 dialog.dismiss();
-                                bookingActivityPresenter.abortBooking();
+                                finish();
                             }
                         ).setNegativeButton(
                             getString(R.string.abort_button),

@@ -1,9 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.splashscreen;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
