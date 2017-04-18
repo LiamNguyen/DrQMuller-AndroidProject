@@ -24,6 +24,7 @@ public class ChooseFragment extends BaseFragment<WelcomeActivityPresenter>{
     @BindView(R.id.wel_log_in_button) AppCompatButton logInButton;
     @BindView(R.id.wel_sign_up_button) AppCompatButton signUpButton;
     @BindView(R.id.wel_text) TextView welcomeText;
+
     private Unbinder unbinder;
 
     @Override
@@ -32,29 +33,32 @@ public class ChooseFragment extends BaseFragment<WelcomeActivityPresenter>{
         unbinder = ButterKnife.bind(this, view);
 
         initViews();
-        setHasOptionsMenu(false);
 
         return view;
     }
 
     @Override
     public void initViews(){
+        ((WelcomeActivity) getActivity()).showToolbar(false);
+
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_WELCOME);
         Typeface font_light = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
         welcomeText.setTypeface(font);
         signUpButton.setTypeface(font_light);
         logInButton.setTypeface(font_light);
-        logInButton.setOnClickListener(view ->  ((WelcomeActivity) getActivity()).navigateFragment(LogInFragment.class));
-        signUpButton.setOnClickListener(view -> ((WelcomeActivity) getActivity()).navigateFragment(SignUpFragment.class));
+
+        logInButton.setOnClickListener(view ->  ((WelcomeActivity) getActivity()).showLogInPage());
+        signUpButton.setOnClickListener(view -> ((WelcomeActivity) getActivity()).showSignUpPage());
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden && isVisible())
+            ((WelcomeActivity) getActivity()).showToolbar(false);
     }
 
     @Override
     public void refreshViews() {}
-
-    @Override
-    public WelcomeActivityPresenter getMainPresenter(){
-        return ((WelcomeActivity) getActivity()).getMainPresenter();
-    }
 
     @Override
     public void onDestroy() {

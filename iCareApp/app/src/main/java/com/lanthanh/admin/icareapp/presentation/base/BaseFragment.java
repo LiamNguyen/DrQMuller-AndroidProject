@@ -9,10 +9,14 @@ import android.widget.Toast;
  */
 
 public abstract class BaseFragment<T extends BasePresenter> extends Fragment{
+    private Toast toast;
     public abstract void initViews();
     public abstract void refreshViews();
-    public abstract T getMainPresenter();
-    public void showToast(String msg){
+    public  T getMainPresenter() {
+        T t = null;
+        return t;
+    }
+    public void showMessage(String msg){
         Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
         toast.show();
     }

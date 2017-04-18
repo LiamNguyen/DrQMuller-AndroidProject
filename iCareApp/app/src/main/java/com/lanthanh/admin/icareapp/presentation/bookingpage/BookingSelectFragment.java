@@ -12,7 +12,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.jakewharton.rxbinding2.widget.RxAdapterView;
@@ -96,7 +95,7 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
         countrySp.setOnTouchListener(
                 (View v, MotionEvent event) -> {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        showToast(getString(R.string.temp_inform));
+                        showMessage(getString(R.string.temp_inform));
                         return true;
                     }
                     return false;
@@ -105,7 +104,7 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
         citySp.setOnTouchListener(
                 (View v, MotionEvent event) -> {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        showToast(getString(R.string.temp_inform));
+                        showMessage(getString(R.string.temp_inform));
                         return true;
                     }
                     return false;
@@ -113,7 +112,7 @@ public class BookingSelectFragment extends BaseFragment<BookingActivityPresenter
         districtSp.setOnTouchListener(
                 (View v, MotionEvent event) -> {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        showToast(getString(R.string.temp_inform));
+                        showMessage(getString(R.string.temp_inform));
                         return true;
                     }
                     return false;

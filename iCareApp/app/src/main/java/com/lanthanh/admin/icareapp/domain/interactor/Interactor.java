@@ -19,10 +19,10 @@ public class Interactor {
 
     public <T> void execute(BuildUseCase<T> buildUseCase, Consumer<T> onNext, Consumer<Throwable> onError){
         disposables.add(
-                buildUseCase.build()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(onNext, onError)
+            buildUseCase.build()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(onNext, onError)
         );
     }
 

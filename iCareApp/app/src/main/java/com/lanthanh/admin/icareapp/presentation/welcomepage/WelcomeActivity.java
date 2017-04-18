@@ -3,8 +3,6 @@ package com.lanthanh.admin.icareapp.presentation.welcomepage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,9 +12,7 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.repository.UserRepositoryImpl;
 import com.lanthanh.admin.icareapp.data.repository.WelcomeRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
-import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
-import com.lanthanh.admin.icareapp.presentation.base.BaseActivity;
-import com.lanthanh.admin.icareapp.presentation.base.BaseView;
+import com.lanthanh.admin.icareapp.presentation.base.BaseFragmentActivity;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.signupinfopage.UserInfoActivity;
 
@@ -30,96 +26,48 @@ import butterknife.ButterKnife;
  * Created by ADMIN on 17-Oct-16.
  */
 
-public class WelcomeActivity extends BaseActivity {
-    //public final static String TAG = RegisterActivity.class.getSimpleName();
-    //TODO check used fields
-    public static final String CHOOSE_FRAGMENT = ChooseFragment.class.getName();
-    public static final String LOGIN_FRAGMENT = LogInFragment.class.getName();
-    public static final String SIGNUP_FRAGMENT = SignUpFragment.class.getName();
-    public static String CURRENT_FRAGMENT;
-    public static final String CURRENT_FRAGMENT_KEY = "CurrentFragment";
-
-    private WelcomeActivityPresenter registerActivityPresenter;
+public class WelcomeActivity extends BaseFragmentActivity {
+    private WelcomeContract.Presenter mPresenter;
     private ChooseFragment chooseFragment;
     private LogInFragment logInFragment;
     private SignUpFragment signUpFragment;
 
-    @BindView(R.id.toolbar) Toolbar toolBar;
-    @BindView(R.id.progressbar) ProgressBar progressBar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        ButterKnife.bind(this);
 
         //Init fragment
         chooseFragment = new ChooseFragment();
         logInFragment = new LogInFragment();
         signUpFragment = new SignUpFragment();
-        registerActivityPresenter = new WelcomeActivityPresenter(logInFragment, signUpFragment, new WelcomeRepositoryImpl(this), new UserRepositoryImpl(this), new Interactor());
-        registerActivityPresenter.setNavigator(new WelcomeContract.Navigator() {
-            @Override
-            public void goToMainPage() {
-                navigateActivity(MainActivity.class);
-            }
-
-            @Override
-            public void goToUserInfoPage() {
+        //Init presenter
+        mPresenter = new WelcomeActivityPresenter(logInFragment, signUpFragment, new WelcomeRepositoryImpl(this), new UserRepositoryImpl(this), new Interactor());
+        mPresenter.setNavigator(new WelcomeContract.Navigator() {
+            @Override public void goToMainPage() {navigateActivity(MainActivity.class);}
+            @Override public void goToUserInfoPage() {
                 navigateActivity(UserInfoActivity.class);
-            }
-
-            @Override
-            public void swapViews(BaseView view) {
-                if (view instanceof WelcomeContract.LogInView)
-                    navigateFragment(LogInFragment.class);
-                else if (view instanceof WelcomeContract.SignUpView)
-                    navigateFragment(SignUpFragment.class);
-                else
-                    navigateFragment(ChooseFragment.class);
             }
         });
 
-        //Set up for Toolbar
-        setSupportActionBar(toolBar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        if (savedInstanceState == null){
-            //ChooseFragment as default -> hide ToolBar
-            navigateFragment(ChooseFragment.class);
-            CURRENT_FRAGMENT = CHOOSE_FRAGMENT;
-        } else {
-            CURRENT_FRAGMENT = savedInstanceState.getString(CURRENT_FRAGMENT_KEY, "");
-            if (CURRENT_FRAGMENT.equals(LOGIN_FRAGMENT)) {
-                navigateFragment(LogInFragment.class);
-            } else if (CURRENT_FRAGMENT.equals(SIGNUP_FRAGMENT)) {
-                navigateFragment(SignUpFragment.class);
-            } else {
-                navigateFragment(ChooseFragment.class);
-            }
-        }
-
+        navigateFragment(chooseFragment);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        registerActivityPresenter.resume();
+        mPresenter.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        registerActivityPresenter.pause();
+        mPresenter.pause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        registerActivityPresenter.destroy();
+        mPresenter.destroy();
     }
 
     @Override
@@ -131,36 +79,6 @@ public class WelcomeActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(CURRENT_FRAGMENT_KEY, CURRENT_FRAGMENT);
-    }
-
-    public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    public void hideProgress() {
-        progressBar.setVisibility(View.GONE);
-    }
-
-    public void navigateFragment(Class<? extends Fragment> fragmentClass) {
-        hideSoftKeyboard();
-        if (fragmentClass == ChooseFragment.class) {
-            WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.CHOOSE_FRAGMENT;
-            showFragment(chooseFragment);
-        }
-        else if (fragmentClass == LogInFragment.class) {
-            WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.LOGIN_FRAGMENT;
-            showFragment(logInFragment);
-        }
-        else if (fragmentClass == SignUpFragment.class) {
-            WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.SIGNUP_FRAGMENT;
-            showFragment(signUpFragment);
-        }
     }
 
     @Override
@@ -182,6 +100,14 @@ public class WelcomeActivity extends BaseActivity {
         return result;
     }
 
+    public void showLogInPage() {
+        showFragment(logInFragment);
+    }
+
+    public void showSignUpPage() {
+        showFragment(signUpFragment);
+    }
+
     public void backToHomeScreen() {
         hideProgress();
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);
@@ -194,14 +120,10 @@ public class WelcomeActivity extends BaseActivity {
     public void onBackPressed() {
         hideProgress();
         if (logInFragment.isVisible() || signUpFragment.isVisible()) {
-            navigateFragment(ChooseFragment.class);
+            navigateFragment(chooseFragment);
         } else {
             backToHomeScreen();
         }
-    }
-
-    public WelcomeActivityPresenter getMainPresenter() {
-        return registerActivityPresenter;
     }
 
     @Override

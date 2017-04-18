@@ -1,24 +1,16 @@
 package com.lanthanh.admin.icareapp.presentation.welcomepage;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
-import com.lanthanh.admin.icareapp.presentation.base.AbstractPresenter;
-import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
-import com.lanthanh.admin.icareapp.presentation.signupinfopage.UserInfoActivity;
 
 /**
  * Created by ADMIN on 10-Jan-17.
  */
 
 public class WelcomeActivityPresenter implements WelcomeContract.Presenter{
-    public static final String TAG = WelcomeActivityPresenter.class.getSimpleName();
-
     private WelcomeContract.LogInView logInView;
     private WelcomeContract.SignUpView signUpView;
     private WelcomeContract.Navigator navigator;
@@ -45,19 +37,13 @@ public class WelcomeActivityPresenter implements WelcomeContract.Presenter{
     public void login(String username, String password){
         logInView.showLoadingIndicator(true);
         interactor.execute(
-            () -> welcomeRepository.login(username, password),
+            () -> welcomeRepository.login(username, password).concatMap(success -> userRepository.checkUserInformationValidity()),
             success -> {
                 logInView.showLoadingIndicator(false);
-                interactor.execute(
-                    () -> userRepository.checkUserInformationValidity(),
-                    check -> {
-                        if (check == RepositorySimpleStatus.VALID_USER)
-                            navigator.goToMainPage();
-                        else //Default
-                            navigator.goToUserInfoPage();
-                    },
-                    error -> {}
-                );
+                if (success == RepositorySimpleStatus.VALID_USER)
+                    navigator.goToMainPage();
+                else //Default
+                    navigator.goToUserInfoPage();
             },
             error -> {
                 logInView.showLoadingIndicator(false);

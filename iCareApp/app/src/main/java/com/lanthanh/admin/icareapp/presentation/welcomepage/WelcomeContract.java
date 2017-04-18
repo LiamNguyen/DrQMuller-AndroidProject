@@ -30,6 +30,5 @@ public interface WelcomeContract {
     interface Navigator {
         void goToMainPage();
         void goToUserInfoPage();
-        void swapViews(BaseView view);
     }
 }

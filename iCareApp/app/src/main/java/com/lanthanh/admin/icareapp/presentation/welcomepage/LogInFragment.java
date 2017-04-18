@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeContract.Presenter;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
@@ -27,7 +26,7 @@ import io.reactivex.disposables.Disposable;
  * Created by ADMIN on 17-Oct-16.
  */
 
-public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implements WelcomeContract.LogInView{
+public class LogInFragment extends BaseFragment<WelcomeContract.Presenter> implements WelcomeContract.LogInView{
     @BindView(R.id.si_username_input) TextInputEditText editUsername;
     @BindView(R.id.si_password_input) TextInputEditText editPassword;
     @BindView(R.id.si_sign_in_button) AppCompatButton logInButton;
@@ -35,7 +34,7 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implem
     @BindView(R.id.si_username_container) TextInputLayout editUsernameContainer;
     @BindView(R.id.si_password_container) TextInputLayout editPasswordContainer;
 
-    private Presenter mPresenter;
+    private WelcomeContract.Presenter mPresenter;
     private Disposable editTextDisposable;
     private Unbinder unbinder;
 
@@ -45,13 +44,14 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implem
         unbinder = ButterKnife.bind(this, view);
 
         initViews();
-        setHasOptionsMenu(true);
 
         return view;
     }
 
     @Override
     public void initViews() {
+        ((WelcomeActivity) getActivity()).showToolbar(true);
+
         //Apply custom font for UI elements
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
         logInButton.setTypeface(font);
@@ -82,11 +82,6 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implem
     }
 
     @Override
-    public WelcomeActivityPresenter getMainPresenter() {
-        return ((WelcomeActivity) getActivity()).getMainPresenter();
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
         ((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
@@ -102,6 +97,7 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implem
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible()) {
+            ((WelcomeActivity) getActivity()).showToolbar(true);
             ((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
         }
         else
@@ -109,18 +105,18 @@ public class LogInFragment extends BaseFragment<WelcomeActivityPresenter> implem
     }
 
     @Override
-    public void setPresenter(Presenter presenter) {
+    public void setPresenter(WelcomeContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
     @Override
     public void showUsernamePasswordNotMatchMessage() {
-        showToast(getString(R.string.login_fail));
+        showMessage(getString(R.string.login_fail));
     }
 
     @Override
     public void showPatternFailMessage() {
-        showToast(getString(R.string.pattern_fail));
+        showMessage(getString(R.string.pattern_fail));
     }
 
     @Override
