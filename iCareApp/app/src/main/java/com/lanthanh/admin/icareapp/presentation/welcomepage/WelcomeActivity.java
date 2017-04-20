@@ -12,6 +12,7 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.repository.UserRepositoryImpl;
 import com.lanthanh.admin.icareapp.data.repository.WelcomeRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
+import com.lanthanh.admin.icareapp.helper.Injection;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragmentActivity;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.signupinfopage.UserInfoActivity;
@@ -41,7 +42,12 @@ public class WelcomeActivity extends BaseFragmentActivity {
         logInFragment = new LogInFragment();
         signUpFragment = new SignUpFragment();
         //Init presenter
-        mPresenter = new WelcomeActivityPresenter(logInFragment, signUpFragment, new WelcomeRepositoryImpl(this), new UserRepositoryImpl(this), new Interactor());
+        mPresenter = new WelcomeActivityPresenter(
+                                logInFragment,
+                                signUpFragment,
+                                Injection.provideWelcomeRepository(this),
+                                Injection.provideUserRepository(this),
+                                Injection.provideUseCaseHandler());
         mPresenter.setNavigator(new WelcomeContract.Navigator() {
             @Override public void goToMainPage() {navigateActivity(MainActivity.class);}
             @Override public void goToUserInfoPage() {
