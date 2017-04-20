@@ -3,15 +3,8 @@ package com.lanthanh.admin.icareapp.presentation.welcomepage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 
-import com.lanthanh.admin.icareapp.R;
-import com.lanthanh.admin.icareapp.data.repository.UserRepositoryImpl;
-import com.lanthanh.admin.icareapp.data.repository.WelcomeRepositoryImpl;
-import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.helper.Injection;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragmentActivity;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
@@ -19,9 +12,6 @@ import com.lanthanh.admin.icareapp.presentation.signupinfopage.UserInfoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by ADMIN on 17-Oct-16.
