@@ -20,7 +20,7 @@ import butterknife.Unbinder;
  * Created by ADMIN on 18-Oct-16.
  */
 
-public class ChooseFragment extends BaseFragment<WelcomeActivityPresenter>{
+public class ChooseFragment extends BaseFragment<WelcomeContract.Presenter>{
     @BindView(R.id.wel_log_in_button) AppCompatButton logInButton;
     @BindView(R.id.wel_sign_up_button) AppCompatButton signUpButton;
     @BindView(R.id.wel_text) TextView welcomeText;
