@@ -1,107 +1,107 @@
 package com.lanthanh.admin.icareapp.presentation.welcomepage;
 
-import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
+import android.support.annotation.NonNull;
+
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
+import com.lanthanh.admin.icareapp.presentation.base.AbstractPresenter2;
+import com.lanthanh.admin.icareapp.utils.scheduler.BaseSchedulerProvider;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by ADMIN on 10-Jan-17.
  */
 
-public class WelcomeActivityPresenter implements WelcomeContract.Presenter{
-    private WelcomeContract.LogInView logInView;
-    private WelcomeContract.SignUpView signUpView;
-    private WelcomeContract.Navigator navigator;
-    private WelcomeRepository welcomeRepository;
-    private UserRepository userRepository;
-    private Interactor interactor;
+public class WelcomeActivityPresenter extends AbstractPresenter2 implements WelcomeContract.Presenter{
+    @NonNull private WelcomeContract.LogInView mLogInView;
+    @NonNull private WelcomeContract.SignUpView mSignUpView;
+    @NonNull private WelcomeContract.Navigator mNavigator;
+    @NonNull private WelcomeRepository mWelcomeRepository;
+    @NonNull private UserRepository mUserRepository;
+    @NonNull private BaseSchedulerProvider mSchedulerProvider;
 
-    public WelcomeActivityPresenter(WelcomeContract.LogInView logInView, WelcomeContract.SignUpView signUpView, WelcomeRepository welcomeRepository, UserRepository userRepository, Interactor interactor) {
-        this.logInView = logInView;
-        this.signUpView = signUpView;
-        this.welcomeRepository = welcomeRepository;
-        this.userRepository = userRepository;
-        this.interactor = interactor;
+    public WelcomeActivityPresenter(@NonNull WelcomeContract.LogInView logInView, @NonNull WelcomeContract.SignUpView signUpView,
+                                    @NonNull WelcomeRepository welcomeRepository, @NonNull UserRepository userRepository,
+                                    @NonNull BaseSchedulerProvider schedulerProvider) {
+        super();
 
-        logInView.setPresenter(this);
-        signUpView.setPresenter(this);
+        mLogInView = logInView;
+        mSignUpView = signUpView;
+        mWelcomeRepository = welcomeRepository;
+        mUserRepository = userRepository;
+        mSchedulerProvider = schedulerProvider;
+
+        mLogInView.setPresenter(this);
+        mSignUpView.setPresenter(this);
     }
 
     @Override
-    public void setNavigator(WelcomeContract.Navigator navigator) {
-        this.navigator = navigator;
+    public void setNavigator(@NonNull WelcomeContract.Navigator navigator) {
+        mNavigator = navigator;
     }
 
     public void login(String username, String password){
-        logInView.showLoadingIndicator(true);
-        interactor.execute(
-            () -> welcomeRepository.login(username, password).concatMap(success -> userRepository.checkUserInformationValidity()),
-            success -> {
-                logInView.showLoadingIndicator(false);
-                if (success == RepositorySimpleStatus.VALID_USER)
-                    navigator.goToMainPage();
-                else //Default
-                    navigator.goToUserInfoPage();
-            },
-            error -> {
-                logInView.showLoadingIndicator(false);
-                if (error instanceof UseCaseException) {
-                    switch (((UseCaseException) error).getStatus()) {
-                        case PATTERN_FAIL:
-                            logInView.showPatternFailMessage();
-                            break;
-                        case USERNAME_PASSWORD_NOT_MATCH:
-                            logInView.showUsernamePasswordNotMatchMessage();
-                            break;
-                    }
-                }
-            }
-        );
+        mLogInView.showLoadingIndicator(true);
+        Disposable disposable =
+        mWelcomeRepository.login(username, password)
+                         .concatMap(success -> mUserRepository.checkUserInformationValidity())
+                         .subscribeOn(mSchedulerProvider.io())
+                         .observeOn(mSchedulerProvider.ui())
+                         .subscribe(
+                             //onNext
+                             success -> {
+                                 if (success == RepositorySimpleStatus.VALID_USER) mNavigator.goToMainPage();
+                                 else mNavigator.goToUserInfoPage();
+                             },
+                             //onError
+                             error -> {
+                                 mLogInView.showLoadingIndicator(false);
+                                 if (error instanceof UseCaseException) {
+                                     switch (((UseCaseException) error).getStatus()) {
+                                         case PATTERN_FAIL:
+                                             mLogInView.showPatternFailMessage();
+                                             break;
+                                         case USERNAME_PASSWORD_NOT_MATCH:
+                                             mLogInView.showUsernamePasswordNotMatchMessage();
+                                             break;
+                                     }
+                                 }
+                             },
+                             //onComplete
+                             () -> mLogInView.showLoadingIndicator(false)
+                         );
+        mDisposables.add(disposable);
     }
 
     public void signup(String username, String password){
-        signUpView.showLoadingIndicator(true);
-        interactor.execute(
-            () -> welcomeRepository.signup(username, password),
-            success -> {
-                signUpView.showLoadingIndicator(false);
-                navigator.goToUserInfoPage();
-            },
-            error -> {
-                signUpView.showLoadingIndicator(false);
-                if (error instanceof UseCaseException) {
-                    switch (((UseCaseException) error).getStatus()) {
-                        case PATTERN_FAIL:
-                            signUpView.showPatternFailMessage();
-                            break;
-                        case USERNAME_EXISTED:
-                            signUpView.showUsernameAlreadyExistedMessage();
-                            break;
-                    }
-                }
-            }
-        );
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    public void destroy() {
-        interactor.dispose();
+        mSignUpView.showLoadingIndicator(true);
+        Disposable disposable =
+        mWelcomeRepository.signup(username, password)
+                         .subscribeOn(mSchedulerProvider.io())
+                         .observeOn(mSchedulerProvider.ui())
+                         .subscribe(
+                             //onNext
+                             success -> mNavigator.goToUserInfoPage(),
+                             //onError
+                             error -> {
+                                 mSignUpView.showLoadingIndicator(false);
+                                 if (error instanceof UseCaseException) {
+                                     switch (((UseCaseException) error).getStatus()) {
+                                         case PATTERN_FAIL:
+                                             mSignUpView.showPatternFailMessage();
+                                             break;
+                                         case USERNAME_EXISTED:
+                                             mSignUpView.showUsernameAlreadyExistedMessage();
+                                             break;
+                                     }
+                                 }
+                             },
+                             //onComplete
+                             () -> mSignUpView.showLoadingIndicator(false)
+                         );
+        mDisposables.add(disposable);
     }
 }

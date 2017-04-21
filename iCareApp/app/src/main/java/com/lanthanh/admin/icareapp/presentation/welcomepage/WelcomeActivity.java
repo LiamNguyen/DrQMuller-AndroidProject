@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
-import com.lanthanh.admin.icareapp.helper.Injection;
+import com.lanthanh.admin.icareapp.utils.injection.Injection;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragmentActivity;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.signupinfopage.UserInfoActivity;
@@ -37,7 +37,7 @@ public class WelcomeActivity extends BaseFragmentActivity {
                                 signUpFragment,
                                 Injection.provideWelcomeRepository(this),
                                 Injection.provideUserRepository(this),
-                                Injection.provideUseCaseHandler());
+                                Injection.provideScheduleProvider());
         mPresenter.setNavigator(new WelcomeContract.Navigator() {
             @Override public void goToMainPage() {navigateActivity(MainActivity.class);}
             @Override public void goToUserInfoPage() {
