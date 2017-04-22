@@ -1,6 +1,7 @@
 package com.lanthanh.admin.icareapp.presentation.welcomepage;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
@@ -18,7 +19,7 @@ import io.reactivex.disposables.Disposable;
 public class WelcomeActivityPresenter extends AbstractPresenter2 implements WelcomeContract.Presenter{
     @NonNull private WelcomeContract.LogInView mLogInView;
     @NonNull private WelcomeContract.SignUpView mSignUpView;
-    @NonNull private WelcomeContract.Navigator mNavigator;
+    @Nullable private WelcomeContract.Navigator mNavigator;
     @NonNull private WelcomeRepository mWelcomeRepository;
     @NonNull private UserRepository mUserRepository;
     @NonNull private BaseSchedulerProvider mSchedulerProvider;
@@ -38,9 +39,24 @@ public class WelcomeActivityPresenter extends AbstractPresenter2 implements Welc
         mSignUpView.setPresenter(this);
     }
 
+    @Override public void subscribe() {}
+
     @Override
     public void setNavigator(@NonNull WelcomeContract.Navigator navigator) {
         mNavigator = navigator;
+    }
+
+    @Override
+    public void performNavigate(@NonNull WelcomeContract.Navigator.Page page) {
+        if (mNavigator == null) return;
+        switch (page) {
+            case MAIN_PAGE:
+                mNavigator.goToMainPage();
+                break;
+            case USERINFO_PAGE:
+                mNavigator.goToUserInfoPage();
+                break;
+        }
     }
 
     public void login(String username, String password){
@@ -53,8 +69,8 @@ public class WelcomeActivityPresenter extends AbstractPresenter2 implements Welc
                          .subscribe(
                              //onNext
                              success -> {
-                                 if (success == RepositorySimpleStatus.VALID_USER) mNavigator.goToMainPage();
-                                 else mNavigator.goToUserInfoPage();
+                                 if (success == RepositorySimpleStatus.VALID_USER) performNavigate(WelcomeContract.Navigator.Page.MAIN_PAGE);
+                                 else performNavigate(WelcomeContract.Navigator.Page.USERINFO_PAGE);
                              },
                              //onError
                              error -> {
@@ -84,7 +100,7 @@ public class WelcomeActivityPresenter extends AbstractPresenter2 implements Welc
                          .observeOn(mSchedulerProvider.ui())
                          .subscribe(
                              //onNext
-                             success -> mNavigator.goToUserInfoPage(),
+                             success -> performNavigate(WelcomeContract.Navigator.Page.USERINFO_PAGE),
                              //onError
                              error -> {
                                  mSignUpView.showLoadingIndicator(false);

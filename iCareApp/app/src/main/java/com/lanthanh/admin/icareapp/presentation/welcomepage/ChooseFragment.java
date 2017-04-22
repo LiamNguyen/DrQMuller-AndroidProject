@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
+import com.lanthanh.admin.icareapp.presentation.base.BaseFragment2;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import butterknife.BindView;
@@ -20,7 +21,7 @@ import butterknife.Unbinder;
  * Created by ADMIN on 18-Oct-16.
  */
 
-public class ChooseFragment extends BaseFragment<WelcomeContract.Presenter>{
+public class ChooseFragment extends BaseFragment2<WelcomeContract.Presenter> {
     @BindView(R.id.wel_log_in_button) AppCompatButton logInButton;
     @BindView(R.id.wel_sign_up_button) AppCompatButton signUpButton;
     @BindView(R.id.wel_text) TextView welcomeText;

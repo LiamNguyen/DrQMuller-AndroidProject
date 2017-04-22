@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
+import com.lanthanh.admin.icareapp.presentation.base.BaseFragment2;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 import com.lanthanh.admin.icareapp.utils.StringUtils;
 
@@ -26,7 +27,7 @@ import io.reactivex.disposables.Disposable;
  * Created by ADMIN on 17-Oct-16.
  */
 
-public class LogInFragment extends BaseFragment<WelcomeContract.Presenter> implements WelcomeContract.LogInView{
+public class LogInFragment extends BaseFragment2<WelcomeContract.Presenter> implements WelcomeContract.LogInView{
     @BindView(R.id.si_username_input) TextInputEditText editUsername;
     @BindView(R.id.si_password_input) TextInputEditText editPassword;
     @BindView(R.id.si_sign_in_button) AppCompatButton logInButton;

@@ -1,6 +1,6 @@
 package com.lanthanh.admin.icareapp.presentation.welcomepage;
 
-import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
+import com.lanthanh.admin.icareapp.presentation.base.BasePresenter2;
 import com.lanthanh.admin.icareapp.presentation.base.BaseView;
 
 /**
@@ -21,13 +21,18 @@ public interface WelcomeContract {
         void showPatternFailMessage();
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter extends BasePresenter2 {
         void login(String username, String password);
         void signup(String username, String password);
         void setNavigator(Navigator navigator);
+        void performNavigate(Navigator.Page page);
     }
 
     interface Navigator {
+        enum Page {
+            MAIN_PAGE,
+            USERINFO_PAGE
+        }
         void goToMainPage();
         void goToUserInfoPage();
     }

@@ -51,19 +51,13 @@ public class WelcomeActivity extends BaseFragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.resume();
+        mPresenter.subscribe();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mPresenter.pause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mPresenter.destroy();
+        mPresenter.unsubscribe();
     }
 
     @Override

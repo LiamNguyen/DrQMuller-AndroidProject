@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.base.BaseFragment2;
 import com.lanthanh.admin.icareapp.presentation.model.InputRequirement;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
@@ -26,7 +27,7 @@ import io.reactivex.disposables.Disposable;
  * Created by ADMIN on 19-Oct-16.
  */
 
-public class SignUpFragment extends BaseFragment<WelcomeContract.Presenter> implements WelcomeContract.SignUpView{
+public class SignUpFragment extends BaseFragment2<WelcomeContract.Presenter> implements WelcomeContract.SignUpView{
     @BindView(R.id.su_username_input) TextInputEditText editUsername;
     @BindView(R.id.su_password_input) TextInputEditText editPassword;
     @BindView(R.id.su_password_confirm_input) TextInputEditText editPasswordConfirm;
