@@ -42,7 +42,6 @@ public class AppointmentDialogFragment extends DialogFragment {
     @BindView(R.id.appointment_1) TextView appointment1;
     @BindView(R.id.appointment_2) TextView appointment2;
     @BindView(R.id.appointment_3) TextView appointment3;
-    @BindView(R.id.confirm_code) TextView confirmCode;
     @BindView(R.id.cancel_appointment) TextView cancelText;
     @BindView(R.id.button_close) AppCompatButton closeButton;
     private Unbinder unbinder;
@@ -82,7 +81,6 @@ public class AppointmentDialogFragment extends DialogFragment {
         appointment1.setTypeface(font);
         appointment2.setTypeface(font);
         appointment3.setTypeface(font);
-        confirmCode.setTypeface(font);
         cancelText.setTypeface(font);
         closeButton.setTypeface(font);
 
@@ -148,8 +146,6 @@ public class AppointmentDialogFragment extends DialogFragment {
                     appointment3.setText(schedules.get(i));
             }
         }
-
-        confirmCode.setText(getArguments().getString("code", "Không Có"));
 
         if (!appointment2.getText().toString().isEmpty())
             appointment2.setVisibility(View.VISIBLE);

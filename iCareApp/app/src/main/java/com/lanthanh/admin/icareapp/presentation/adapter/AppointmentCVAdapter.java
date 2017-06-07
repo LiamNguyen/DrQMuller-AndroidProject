@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,8 +81,6 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((BodyViewHolder) holder).setVoucher(list.get(position - 1).getVoucher().getVoucherName());
             ((BodyViewHolder) holder).setStartDate(ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getStartDate()));
             ((BodyViewHolder) holder).setEndDate(ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getExpireDate()));
-            ((BodyViewHolder) holder).setStatus(list.get(position - 1).getStatus());
-            final TextView status = ((BodyViewHolder) holder).getStatusTextView();
             ((BodyViewHolder) holder).getDetailTextView().setOnClickListener(
                 (View view) -> {
                     if (!list.get(position - 1).getStatus()) {
@@ -102,7 +101,6 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
                         args.putString("type", list.get(position - 1).getType().getTypeName());
                         args.putString("start_date", ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getStartDate()));
                         args.putString("end_date", ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getExpireDate()));
-                        args.putString("code", list.get(position - 1).getVerificationCode());
                         ArrayList<String> appointmentScheduleString = new ArrayList<>();
                         for (DTOAppointmentSchedule dtoAppointmentSchedule : list.get(position - 1).getAppointmentScheduleList()) {
                             appointmentScheduleString.add(dtoAppointmentSchedule.toString());
@@ -118,22 +116,21 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             );
             ((BodyViewHolder) holder).getCancelAppointmentTextView().setOnClickListener(
-                    (View v) -> {
-                    new AlertDialog.Builder(ctx)
-                            .setMessage(ctx.getString(R.string.cancel_confirm))
-                            .setPositiveButton(
-                                ctx.getString(R.string.agree_button),
-                                (DialogInterface dialog, int which) -> {
-                                    dialog.dismiss();
-                                    ((MainActivity) ctx).getMainPresenter().cancelAppointment(list.get(position - 1).getAppointmentId());
-                                }
-                            )
-                            .setNegativeButton(
-                                ctx.getString(R.string.abort_button),
-                                (DialogInterface dialog, int which) -> dialog.dismiss()
-                            )
-                            .setCancelable(true).show();
-                }
+                (View v) ->
+                new AlertDialog.Builder(ctx)
+                        .setMessage(ctx.getString(R.string.cancel_confirm))
+                        .setPositiveButton(
+                            ctx.getString(R.string.agree_button),
+                            (DialogInterface dialog, int which) -> {
+                                dialog.dismiss();
+                                ((MainActivity) ctx).getMainPresenter().cancelAppointment(list.get(position - 1).getAppointmentId());
+                            }
+                        )
+                        .setNegativeButton(
+                            ctx.getString(R.string.abort_button),
+                            (DialogInterface dialog, int which) -> dialog.dismiss()
+                        )
+                        .setCancelable(true).show()
             );
         }
     }
@@ -144,7 +141,7 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private class BodyViewHolder extends RecyclerView.ViewHolder {
-        private TextView txt1, txt2, txt3, txt4, txt5, txt3title, txt4title, detail, cancel;
+        private TextView txt1, txt2, txt3, txt4, txt3title, txt4title, detail, cancel;
 
         BodyViewHolder(View itemView) {
             super(itemView);
@@ -163,9 +160,6 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
             txt4title = (TextView) itemView.findViewById(R.id.expiredatetitle);
             txt4 = (TextView) itemView.findViewById(R.id.expiredate);
             txt4.setTypeface(font);
-            //Status
-            txt5 = (TextView) itemView.findViewById(R.id.status);
-            txt5.setTypeface(font);
             //Detail
             detail = (TextView) itemView.findViewById(R.id.detail_appointment);
             detail.setTypeface(font);
@@ -211,19 +205,8 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             }
             else {
-                System.out.println("Severe: No expire date from AppointmentCVAdapter class");
+                Log.e(AppointmentCVAdapter.class.getSimpleName(), "Severe: No expire date from AppointmentCVAdapter class");
             }
-        }
-
-        public void setStatus(boolean isConfirmed) {
-            if (isConfirmed)
-                txt5.setText(ctx.getString(R.string.confirmed));
-            else
-                txt5.setText(ctx.getString(R.string.not_confirm_yet));
-        }
-
-        public TextView getStatusTextView(){
-            return txt5;
         }
 
         public TextView getDetailTextView(){

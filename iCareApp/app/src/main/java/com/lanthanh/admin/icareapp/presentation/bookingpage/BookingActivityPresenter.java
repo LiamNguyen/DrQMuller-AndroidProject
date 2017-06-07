@@ -10,6 +10,7 @@ import com.lanthanh.admin.icareapp.data.repository.AppointmentRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
+import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
 import com.lanthanh.admin.icareapp.utils.ConverterUtils;
 import com.lanthanh.admin.icareapp.utils.Function;
@@ -633,9 +634,7 @@ public class BookingActivityPresenter extends BasePresenter{
                     success -> {
                         this.activity.hideProgress();
                         if (success == RepositorySimpleStatus.SUCCESS) {
-                            Bundle data = new Bundle();
-                            data.putString("appointment", ConverterUtils.json.convertObjectToJson(currentAppointment));
-                            navigateActivity(ConfirmBookingActivity.class, data);
+                            navigateActivity(MainActivity.class);
                         }
                     },
                     error -> this.activity.hideProgress()
