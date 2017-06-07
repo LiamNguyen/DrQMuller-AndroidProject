@@ -83,36 +83,30 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((BodyViewHolder) holder).setEndDate(ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getExpireDate()));
             ((BodyViewHolder) holder).getDetailTextView().setOnClickListener(
                 (View view) -> {
-                    if (!list.get(position - 1).getStatus()) {
-                        Bundle data = new Bundle();
-                        data.putString("appointment", ConverterUtils.json.convertObjectToJson(list.get(position - 1)));
-                        ((MainActivity) ctx).getMainPresenter().navigateActivity(ConfirmBookingActivity.class, data);
-                    } else  {
-                        AppointmentDialogFragment frag = new AppointmentDialogFragment();
-                        //TODO put Serialized Variable instead of field by field
-                        //Set information into bundle so that fragment can display
-                        Bundle args = new Bundle();
-                        args.putString("appointmentId", list.get(position - 1).getAppointmentId());
-                        args.putString("title", ctx.getString(R.string.bill));
-                        args.putString("name", list.get(position - 1).getUser().getName());
-                        args.putString("address", list.get(position - 1).getLocation().getAddress() + ", " + list.get(position - 1).getDistrict().getDistrictName() + ", " +
-                                        list.get(position - 1).getCity().getCityName() + ", " + list.get(position - 1).getCountry().getCountryName());
-                        args.putString("voucher", list.get(position - 1).getVoucher().getVoucherName());
-                        args.putString("type", list.get(position - 1).getType().getTypeName());
-                        args.putString("start_date", ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getStartDate()));
-                        args.putString("end_date", ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getExpireDate()));
-                        ArrayList<String> appointmentScheduleString = new ArrayList<>();
-                        for (DTOAppointmentSchedule dtoAppointmentSchedule : list.get(position - 1).getAppointmentScheduleList()) {
-                            appointmentScheduleString.add(dtoAppointmentSchedule.toString());
-                        }
-                        args.putStringArrayList("schedules", appointmentScheduleString);
-
-                        //Attach bundle to fragment
-                        frag.setArguments(args);
-
-                        //Show fragment
-                        frag.show(fm, frag.getClass().getName());
+                    AppointmentDialogFragment frag = new AppointmentDialogFragment();
+                    //TODO put Serialized Variable instead of field by field
+                    //Set information into bundle so that fragment can display
+                    Bundle args = new Bundle();
+                    args.putString("appointmentId", list.get(position - 1).getAppointmentId());
+                    args.putString("title", ctx.getString(R.string.bill));
+                    args.putString("name", list.get(position - 1).getUser().getName());
+                    args.putString("address", list.get(position - 1).getLocation().getAddress() + ", " + list.get(position - 1).getDistrict().getDistrictName() + ", " +
+                                    list.get(position - 1).getCity().getCityName() + ", " + list.get(position - 1).getCountry().getCountryName());
+                    args.putString("voucher", list.get(position - 1).getVoucher().getVoucherName());
+                    args.putString("type", list.get(position - 1).getType().getTypeName());
+                    args.putString("start_date", ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getStartDate()));
+                    args.putString("end_date", ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getExpireDate()));
+                    ArrayList<String> appointmentScheduleString = new ArrayList<>();
+                    for (DTOAppointmentSchedule dtoAppointmentSchedule : list.get(position - 1).getAppointmentScheduleList()) {
+                        appointmentScheduleString.add(dtoAppointmentSchedule.toString());
                     }
+                    args.putStringArrayList("schedules", appointmentScheduleString);
+
+                    //Attach bundle to fragment
+                    frag.setArguments(args);
+
+                    //Show fragment
+                    frag.show(fm, frag.getClass().getName());
                 }
             );
             ((BodyViewHolder) holder).getCancelAppointmentTextView().setOnClickListener(
