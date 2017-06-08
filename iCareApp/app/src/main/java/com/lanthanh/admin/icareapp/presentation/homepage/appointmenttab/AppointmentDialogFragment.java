@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.adapter.AppointmentCVAdapter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
@@ -42,7 +43,6 @@ public class AppointmentDialogFragment extends DialogFragment {
     @BindView(R.id.appointment_1) TextView appointment1;
     @BindView(R.id.appointment_2) TextView appointment2;
     @BindView(R.id.appointment_3) TextView appointment3;
-    @BindView(R.id.confirm_code) TextView confirmCode;
     @BindView(R.id.cancel_appointment) TextView cancelText;
     @BindView(R.id.button_close) AppCompatButton closeButton;
     private Unbinder unbinder;
@@ -82,7 +82,6 @@ public class AppointmentDialogFragment extends DialogFragment {
         appointment1.setTypeface(font);
         appointment2.setTypeface(font);
         appointment3.setTypeface(font);
-        confirmCode.setTypeface(font);
         cancelText.setTypeface(font);
         closeButton.setTypeface(font);
 
@@ -94,7 +93,7 @@ public class AppointmentDialogFragment extends DialogFragment {
                                 getString(R.string.agree_button),
                                 (DialogInterface dialog, int which) -> {
                                     getDialog().dismiss();
-                                    ((MainActivity) getActivity()).getMainPresenter().cancelAppointment(getArguments().getString("appointmentId", ""));
+                                    ((MainActivity) getActivity()).getMainPresenter().cancelAppointment(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_ID, ""));
                                 }
                             )
                             .setNegativeButton(
@@ -107,13 +106,13 @@ public class AppointmentDialogFragment extends DialogFragment {
         closeButton.setOnClickListener(clickedView -> getDialog().dismiss());
 
         // Fetch arguments from bundle
-        name.setText(getArguments().getString("name", "Không Có"));
-        address.setText(getArguments().getString("address", "Không Có"));
-        voucher.setText(getArguments().getString("voucher", "Không Có"));
-        type.setText(getArguments().getString("type", "Không Có"));
+        name.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_CUSTOMER_NAME, getContext().getString(R.string.none)));
+        address.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_ADDRESS, getContext().getString(R.string.none)));
+        voucher.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_VOUCHER, getContext().getString(R.string.none)));
+        type.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_TYPE, getContext().getString(R.string.none)));
 
-        if (getArguments().getString("start_date") != null) {
-            if (getArguments().getString("start_date").equals("11/11/1111")) {
+        if (getArguments().getString(AppointmentCVAdapter.APPOINTMENT_START_DATE) != null) {
+            if (getArguments().getString(AppointmentCVAdapter.APPOINTMENT_START_DATE).equals("11/11/1111")) {
                 startDateTitle.setVisibility(View.GONE);
                 startDate.setVisibility(View.GONE);
                 //If start date = null => one day booking => while hiding start date, move expire date to the left
@@ -128,16 +127,14 @@ public class AppointmentDialogFragment extends DialogFragment {
                 expireDate.setLayoutParams(params);
                 expireDateTitle.setLayoutParams(params_title);
             } else
-                startDate.setText(getArguments().getString("start_date"));
+                startDate.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_START_DATE));
         }
 
-        if (getArguments().getString("end_date") == null)
-            System.out.println("Severe: No expire date from AppointmentCVAdapter class");
-        else {
-            expireDate.setText(getArguments().getString("end_date"));
+        if (getArguments().getString(AppointmentCVAdapter.APPOINTMENT_EXPIRE_DATE) != null) {
+            expireDate.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_EXPIRE_DATE));
         }
 
-        ArrayList<String> schedules = getArguments().getStringArrayList("schedules");
+        ArrayList<String> schedules = getArguments().getStringArrayList(AppointmentCVAdapter.APPOINTMENT_SCHEDULES);
         if (schedules != null){
             for (int i = 0; i < schedules.size(); i++){
                 if (i == 0)
@@ -148,8 +145,6 @@ public class AppointmentDialogFragment extends DialogFragment {
                     appointment3.setText(schedules.get(i));
             }
         }
-
-        confirmCode.setText(getArguments().getString("code", "Không Có"));
 
         if (!appointment2.getText().toString().isEmpty())
             appointment2.setVisibility(View.VISIBLE);

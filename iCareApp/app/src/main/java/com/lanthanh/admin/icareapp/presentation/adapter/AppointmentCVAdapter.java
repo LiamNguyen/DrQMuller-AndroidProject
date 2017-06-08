@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,6 @@ import android.widget.TextView;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointmentSchedule;
 import com.lanthanh.admin.icareapp.utils.ConverterUtils;
-import com.lanthanh.admin.icareapp.presentation.bookingpage.ConfirmBookingActivity;
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment;
@@ -31,6 +31,16 @@ import java.util.List;
  */
 
 public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+    public final static String APPOINTMENT_ID = "appointmentId";
+    public final static String APPOINTMENT_TITLE = "title";
+    public final static String APPOINTMENT_CUSTOMER_NAME = "name";
+    public final static String APPOINTMENT_ADDRESS = "address";
+    public final static String APPOINTMENT_VOUCHER = "voucher";
+    public final static String APPOINTMENT_TYPE = "type";
+    public final static String APPOINTMENT_START_DATE = "start_date";
+    public final static String APPOINTMENT_EXPIRE_DATE = "expire_date";
+    public final static String APPOINTMENT_SCHEDULES = "schedules";
+
     private final int TYPE_HEADER = 0;
     private final int TYPE_BODY = 2;
     private List<DTOAppointment> list;
@@ -80,62 +90,71 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((BodyViewHolder) holder).setVoucher(list.get(position - 1).getVoucher().getVoucherName());
             ((BodyViewHolder) holder).setStartDate(ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getStartDate()));
             ((BodyViewHolder) holder).setEndDate(ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getExpireDate()));
-            ((BodyViewHolder) holder).setStatus(list.get(position - 1).getStatus());
-            final TextView status = ((BodyViewHolder) holder).getStatusTextView();
             ((BodyViewHolder) holder).getDetailTextView().setOnClickListener(
                 (View view) -> {
-                    if (!list.get(position - 1).getStatus()) {
-                        Bundle data = new Bundle();
-                        data.putString("appointment", ConverterUtils.json.convertObjectToJson(list.get(position - 1)));
-                        ((MainActivity) ctx).getMainPresenter().navigateActivity(ConfirmBookingActivity.class, data);
-                    } else  {
-                        AppointmentDialogFragment frag = new AppointmentDialogFragment();
-                        //TODO put Serialized Variable instead of field by field
-                        //Set information into bundle so that fragment can display
-                        Bundle args = new Bundle();
-                        args.putString("appointmentId", list.get(position - 1).getAppointmentId());
-                        args.putString("title", ctx.getString(R.string.bill));
-                        args.putString("name", list.get(position - 1).getUser().getName());
-                        args.putString("address", list.get(position - 1).getLocation().getAddress() + ", " + list.get(position - 1).getDistrict().getDistrictName() + ", " +
-                                        list.get(position - 1).getCity().getCityName() + ", " + list.get(position - 1).getCountry().getCountryName());
-                        args.putString("voucher", list.get(position - 1).getVoucher().getVoucherName());
-                        args.putString("type", list.get(position - 1).getType().getTypeName());
-                        args.putString("start_date", ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getStartDate()));
-                        args.putString("end_date", ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getExpireDate()));
-                        args.putString("code", list.get(position - 1).getVerificationCode());
-                        ArrayList<String> appointmentScheduleString = new ArrayList<>();
-                        for (DTOAppointmentSchedule dtoAppointmentSchedule : list.get(position - 1).getAppointmentScheduleList()) {
-                            appointmentScheduleString.add(dtoAppointmentSchedule.toString());
-                        }
-                        args.putStringArrayList("schedules", appointmentScheduleString);
+                    AppointmentDialogFragment frag = new AppointmentDialogFragment();
+                    //TODO put Serialized Variable instead of field by field
+                    //Set information into bundle so that fragment can display
+                    Bundle args = new Bundle();
 
-                        //Attach bundle to fragment
-                        frag.setArguments(args);
+                    String appointmentId = list.get(position - 1).getAppointmentId();
+                    String title =  ctx.getString(R.string.bill);
+                    String name = list.get(position - 1).getUser().getName();
+                    String address = formFullAddress(position - 1);
+                    String voucher = list.get(position - 1).getVoucher().getVoucherName();
+                    String type = list.get(position - 1).getType().getTypeName();
+                    String startDate = ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getStartDate());
+                    String expireDate = ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getExpireDate());
 
-                        //Show fragment
-                        frag.show(fm, frag.getClass().getName());
+                    args.putString(APPOINTMENT_ID, appointmentId);
+                    args.putString(APPOINTMENT_TITLE, title);
+                    args.putString(APPOINTMENT_CUSTOMER_NAME, name);
+                    args.putString(APPOINTMENT_ADDRESS, address);
+                    args.putString(APPOINTMENT_VOUCHER, voucher);
+                    args.putString(APPOINTMENT_TYPE, type);
+                    args.putString(APPOINTMENT_START_DATE, startDate);
+                    args.putString(APPOINTMENT_EXPIRE_DATE, expireDate);
+
+                    ArrayList<String> appointmentScheduleString = new ArrayList<>();
+                    for (DTOAppointmentSchedule dtoAppointmentSchedule : list.get(position - 1).getAppointmentScheduleList()) {
+                        appointmentScheduleString.add(dtoAppointmentSchedule.toString());
                     }
+                    args.putStringArrayList(APPOINTMENT_SCHEDULES, appointmentScheduleString);
+
+                    //Attach bundle to fragment
+                    frag.setArguments(args);
+
+                    //Show fragment
+                    frag.show(fm, frag.getClass().getName());
                 }
             );
             ((BodyViewHolder) holder).getCancelAppointmentTextView().setOnClickListener(
-                    (View v) -> {
-                    new AlertDialog.Builder(ctx)
-                            .setMessage(ctx.getString(R.string.cancel_confirm))
-                            .setPositiveButton(
-                                ctx.getString(R.string.agree_button),
-                                (DialogInterface dialog, int which) -> {
-                                    dialog.dismiss();
-                                    ((MainActivity) ctx).getMainPresenter().cancelAppointment(list.get(position - 1).getAppointmentId());
-                                }
-                            )
-                            .setNegativeButton(
-                                ctx.getString(R.string.abort_button),
-                                (DialogInterface dialog, int which) -> dialog.dismiss()
-                            )
-                            .setCancelable(true).show();
-                }
+                (View v) ->
+                new AlertDialog.Builder(ctx)
+                        .setMessage(ctx.getString(R.string.cancel_confirm))
+                        .setPositiveButton(
+                            ctx.getString(R.string.agree_button),
+                            (DialogInterface dialog, int which) -> {
+                                dialog.dismiss();
+                                ((MainActivity) ctx).getMainPresenter().cancelAppointment(list.get(position - 1).getAppointmentId());
+                            }
+                        )
+                        .setNegativeButton(
+                            ctx.getString(R.string.abort_button),
+                            (DialogInterface dialog, int which) -> dialog.dismiss()
+                        )
+                        .setCancelable(true).show()
             );
         }
+    }
+
+    private String formFullAddress(int position) {
+        return String.format(
+                "%s, %s, %s, %s",
+                list.get(position).getLocation().getAddress(),
+                list.get(position).getDistrict().getDistrictName(),
+                list.get(position).getCity().getCityName(),
+                list.get(position).getCountry().getCountryName());
     }
 
     @Override
@@ -144,28 +163,25 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private class BodyViewHolder extends RecyclerView.ViewHolder {
-        private TextView txt1, txt2, txt3, txt4, txt5, txt3title, txt4title, detail, cancel;
+        private TextView name, voucher, startDate, expireDate, startDateTitle, expireDateTitle, detail, cancel;
 
         BodyViewHolder(View itemView) {
             super(itemView);
 
             //Name
-            txt1 = (TextView) itemView.findViewById(R.id.name);
-            txt1.setTypeface(font);
+            name = (TextView) itemView.findViewById(R.id.name);
+            name.setTypeface(font);
             //Voucher
-            txt2 = (TextView) itemView.findViewById(R.id.voucher);
-            txt2.setTypeface(font);
+            voucher = (TextView) itemView.findViewById(R.id.voucher);
+            voucher.setTypeface(font);
             //Start date
-            txt3title = (TextView) itemView.findViewById(R.id.startdatetitle);
-            txt3 = (TextView) itemView.findViewById(R.id.startdate);
-            txt3.setTypeface(font);
+            startDateTitle = (TextView) itemView.findViewById(R.id.startdatetitle);
+            startDate = (TextView) itemView.findViewById(R.id.startdate);
+            startDate.setTypeface(font);
             //Expire date
-            txt4title = (TextView) itemView.findViewById(R.id.expiredatetitle);
-            txt4 = (TextView) itemView.findViewById(R.id.expiredate);
-            txt4.setTypeface(font);
-            //Status
-            txt5 = (TextView) itemView.findViewById(R.id.status);
-            txt5.setTypeface(font);
+            expireDateTitle = (TextView) itemView.findViewById(R.id.expiredatetitle);
+            expireDate = (TextView) itemView.findViewById(R.id.expiredate);
+            expireDate.setTypeface(font);
             //Detail
             detail = (TextView) itemView.findViewById(R.id.detail_appointment);
             detail.setTypeface(font);
@@ -175,55 +191,44 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         public void setName(String s) {
-            txt1.setText(s);
+            name.setText(s);
         }
 
         public void setVoucher(String s) {
-            txt2.setText(s);
+            voucher.setText(s);
         }
 
         public void setStartDate(String s) {
             if (s != null) {
                 if (!s.equals("11/11/1111"))
-                    txt3.setText(s);
+                    startDate.setText(s);
                 else{
-                    txt3title.setVisibility(View.GONE);
-                    txt3.setVisibility(View.GONE);
+                    startDateTitle.setVisibility(View.GONE);
+                    startDate.setVisibility(View.GONE);
                 }
             }
         }
 
         public void setEndDate(String s) {
             if (s != null) {
-                txt4.setText(s);
-                if (txt3.getVisibility() == View.GONE){
+                expireDate.setText(s);
+                if (startDate.getVisibility() == View.GONE){
                     //If start date = null => one day booking => while hiding start date, move expire date to the right
                     //rename to Ngay thuc hien
-                    txt4title.setText(ctx.getString(R.string.booking_do_date));
+                    expireDateTitle.setText(ctx.getString(R.string.booking_do_date));
 
                     //move to right
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) txt4.getLayoutParams();
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) expireDate.getLayoutParams();
                     params.addRule(RelativeLayout.ALIGN_PARENT_START);
-                    RelativeLayout.LayoutParams params_title = (RelativeLayout.LayoutParams) txt4title.getLayoutParams();
+                    RelativeLayout.LayoutParams params_title = (RelativeLayout.LayoutParams) expireDateTitle.getLayoutParams();
                     params_title.addRule(RelativeLayout.ALIGN_PARENT_START);
-                    txt4.setLayoutParams(params);
-                    txt4title.setLayoutParams(params_title);
+                    expireDate.setLayoutParams(params);
+                    expireDateTitle.setLayoutParams(params_title);
                 }
             }
             else {
-                System.out.println("Severe: No expire date from AppointmentCVAdapter class");
+                Log.e(AppointmentCVAdapter.class.getSimpleName(), "Severe: No expire date from AppointmentCVAdapter class");
             }
-        }
-
-        public void setStatus(boolean isConfirmed) {
-            if (isConfirmed)
-                txt5.setText(ctx.getString(R.string.confirmed));
-            else
-                txt5.setText(ctx.getString(R.string.not_confirm_yet));
-        }
-
-        public TextView getStatusTextView(){
-            return txt5;
         }
 
         public TextView getDetailTextView(){

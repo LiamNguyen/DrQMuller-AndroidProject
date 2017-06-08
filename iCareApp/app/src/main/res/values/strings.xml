@@ -158,6 +158,8 @@
     <!-- DEFAULT APPOINTMENT -->
     <string name="start_booking">Đặt lịch</string>
     <string name="abort_booking">Hủy bỏ</string>
+    <!-- DIALOG APPOINTMENT -->
+    <string name="none">Không có</string>
 
     <!-- NETWORK -->
     <string name="no_network_connection">Hiện tại quí khách không có kết nối mạng</string>
