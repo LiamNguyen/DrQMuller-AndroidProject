@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.adapter.AppointmentCVAdapter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
@@ -105,13 +106,13 @@ public class AppointmentDialogFragment extends DialogFragment {
         closeButton.setOnClickListener(clickedView -> getDialog().dismiss());
 
         // Fetch arguments from bundle
-        name.setText(getArguments().getString("name", "Không Có"));
-        address.setText(getArguments().getString("address", "Không Có"));
-        voucher.setText(getArguments().getString("voucher", "Không Có"));
-        type.setText(getArguments().getString("type", "Không Có"));
+        name.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_CUSTOMER_NAME, getContext().getString(R.string.none)));
+        address.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_ADDRESS, getContext().getString(R.string.none)));
+        voucher.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_VOUCHER, getContext().getString(R.string.none)));
+        type.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_TYPE, getContext().getString(R.string.none)));
 
-        if (getArguments().getString("start_date") != null) {
-            if (getArguments().getString("start_date").equals("11/11/1111")) {
+        if (getArguments().getString(AppointmentCVAdapter.APPOINTMENT_START_DATE) != null) {
+            if (getArguments().getString(AppointmentCVAdapter.APPOINTMENT_START_DATE).equals("11/11/1111")) {
                 startDateTitle.setVisibility(View.GONE);
                 startDate.setVisibility(View.GONE);
                 //If start date = null => one day booking => while hiding start date, move expire date to the left
@@ -126,16 +127,14 @@ public class AppointmentDialogFragment extends DialogFragment {
                 expireDate.setLayoutParams(params);
                 expireDateTitle.setLayoutParams(params_title);
             } else
-                startDate.setText(getArguments().getString("start_date"));
+                startDate.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_START_DATE));
         }
 
-        if (getArguments().getString("end_date") == null)
-            System.out.println("Severe: No expire date from AppointmentCVAdapter class");
-        else {
-            expireDate.setText(getArguments().getString("end_date"));
+        if (getArguments().getString(AppointmentCVAdapter.APPOINTMENT_EXPIRE_DATE) != null) {
+            expireDate.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_EXPIRE_DATE));
         }
 
-        ArrayList<String> schedules = getArguments().getStringArrayList("schedules");
+        ArrayList<String> schedules = getArguments().getStringArrayList(AppointmentCVAdapter.APPOINTMENT_SCHEDULES);
         if (schedules != null){
             for (int i = 0; i < schedules.size(); i++){
                 if (i == 0)
