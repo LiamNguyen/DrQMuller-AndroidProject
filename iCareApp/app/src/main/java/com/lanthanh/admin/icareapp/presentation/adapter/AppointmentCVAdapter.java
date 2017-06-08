@@ -100,12 +100,7 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
                     String appointmentId = list.get(position - 1).getAppointmentId();
                     String title =  ctx.getString(R.string.bill);
                     String name = list.get(position - 1).getUser().getName();
-                    String address = formFullAddress(
-                            list.get(position - 1).getLocation().getAddress(),
-                            list.get(position - 1).getDistrict().getDistrictName(),
-                            list.get(position - 1).getCity().getCityName(),
-                            list.get(position - 1).getCountry().getCountryName()
-                    );
+                    String address = formFullAddress(position - 1);
                     String voucher = list.get(position - 1).getVoucher().getVoucherName();
                     String type = list.get(position - 1).getType().getTypeName();
                     String startDate = ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getStartDate());
@@ -153,8 +148,13 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    private String formFullAddress(String address, String district, String city, String country) {
-        return String.format("%s, %s, %s, %s", address, district, city, country);
+    private String formFullAddress(int position) {
+        return String.format(
+                "%s, %s, %s, %s",
+                list.get(position).getLocation().getAddress(),
+                list.get(position).getDistrict().getDistrictName(),
+                list.get(position).getCity().getCityName(),
+                list.get(position).getCountry().getCountryName());
     }
 
     @Override
