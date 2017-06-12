@@ -1,5 +1,7 @@
 package com.lanthanh.admin.icareapp.utils;
 
+import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
+
 /**
  * @author longv
  *         Created on 10-Apr-17.
@@ -36,5 +38,14 @@ public class StringUtils {
 
     public static <S1 extends CharSequence, S2 extends CharSequence> boolean isEqual(S1 s1, S2 s2) {
         return s1 != null && s2 != null && s1.toString().equals(s2.toString());
+    }
+
+    public static String formFullAddress(DTOAppointment appointment) {
+        return String.format(
+                "%s, %s, %s, %s",
+                appointment.getLocation().getAddress(),
+                appointment.getDistrict().getDistrictName(),
+                appointment.getCity().getCityName(),
+                appointment.getCountry().getCountryName());
     }
 }

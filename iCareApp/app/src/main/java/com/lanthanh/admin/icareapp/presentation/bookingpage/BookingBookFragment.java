@@ -59,7 +59,7 @@ public class BookingBookFragment extends BaseFragment<BookingActivityPresenter> 
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);//Custom font
         finishButton.setTypeface(font);
 
-        finishButton.setOnClickListener(view -> getMainPresenter().createAppointment());
+        finishButton.setOnClickListener(view -> getMainPresenter().openConfirmationDialog());
         finishButton.setEnabled(false);
 
         /*========================= MACHINE SPINNER =========================*/

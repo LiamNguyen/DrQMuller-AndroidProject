@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.adapter.AppointmentCVAdapter;
+import com.lanthanh.admin.icareapp.presentation.bookingpage.BookingActivity;
+import com.lanthanh.admin.icareapp.presentation.bookingpage.BookingActivityPresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
@@ -32,6 +34,16 @@ import butterknife.Unbinder;
  */
 
 public class AppointmentDialogFragment extends DialogFragment {
+    public final static String APPOINTMENT_ID = "appointmentId";
+    public final static String APPOINTMENT_TITLE = "title";
+    public final static String APPOINTMENT_CUSTOMER_NAME = "name";
+    public final static String APPOINTMENT_ADDRESS = "address";
+    public final static String APPOINTMENT_VOUCHER = "voucher";
+    public final static String APPOINTMENT_TYPE = "type";
+    public final static String APPOINTMENT_START_DATE = "start_date";
+    public final static String APPOINTMENT_EXPIRE_DATE = "expire_date";
+    public final static String APPOINTMENT_SCHEDULES = "schedules";
+    
     @BindView(R.id.name) TextView name;
     @BindView(R.id.address) TextView address;
     @BindView(R.id.voucher) TextView voucher;
@@ -45,8 +57,10 @@ public class AppointmentDialogFragment extends DialogFragment {
     @BindView(R.id.appointment_3) TextView appointment3;
     @BindView(R.id.cancel_appointment) TextView cancelText;
     @BindView(R.id.button_close) AppCompatButton closeButton;
-    private Unbinder unbinder;
 
+    private Unbinder unbinder;
+    private BookingActivityPresenter bookingActivityPresenter;
+    private boolean fromBookingPage;
 
     public AppointmentDialogFragment(){}
 
@@ -55,6 +69,15 @@ public class AppointmentDialogFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.details_diaglog_fragment, container);
         unbinder = ButterKnife.bind(this, view);
+
+        if (getActivity() instanceof BookingActivity) {
+            fromBookingPage = true;
+            bookingActivityPresenter = ((BookingActivity) getActivity()).getMainPresenter();
+            //Change text content
+            cancelText.setText(R.string.abort_button);
+            closeButton.setText(R.string.booking_confirm_button);
+        }
+
         return view;
     }
 
@@ -87,32 +110,44 @@ public class AppointmentDialogFragment extends DialogFragment {
 
         cancelText.setOnClickListener(
                 clickedView -> {
-                    new AlertDialog.Builder(getActivity())
-                            .setMessage(getString(R.string.cancel_confirm))
-                            .setPositiveButton(
-                                getString(R.string.agree_button),
-                                (DialogInterface dialog, int which) -> {
-                                    getDialog().dismiss();
-                                    ((MainActivity) getActivity()).getMainPresenter().cancelAppointment(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_ID, ""));
-                                }
-                            )
-                            .setNegativeButton(
-                                    getString(R.string.no_button),
-                                    (DialogInterface dialog, int which) -> dialog.dismiss()
-                            )
-                            .setCancelable(true).show();
+                    if (fromBookingPage) {
+                        //Current screen is BookingPage
+                        getDialog().dismiss();
+                    } else {
+                        //Current screen is HomePage
+                        new AlertDialog.Builder(getActivity())
+                                .setMessage(getString(R.string.cancel_confirm))
+                                .setPositiveButton(
+                                        getString(R.string.agree_button),
+                                        (DialogInterface dialog, int which) -> {
+                                            getDialog().dismiss();
+                                            ((MainActivity) getActivity()).getMainPresenter().cancelAppointment(getArguments().getString(APPOINTMENT_ID, ""));
+                                        }
+                                )
+                                .setNegativeButton(
+                                        getString(R.string.no_button),
+                                        (DialogInterface dialog, int which) -> dialog.dismiss()
+                                )
+                                .setCancelable(true).show();
+                    }
                 }
         );
-        closeButton.setOnClickListener(clickedView -> getDialog().dismiss());
+        closeButton.setOnClickListener(clickedView -> {
+            if (fromBookingPage) {
+                //Current screen is BookingPage
+                bookingActivityPresenter.createAppointment();
+            }
+            getDialog().dismiss();
+        });
 
         // Fetch arguments from bundle
-        name.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_CUSTOMER_NAME, getContext().getString(R.string.none)));
-        address.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_ADDRESS, getContext().getString(R.string.none)));
-        voucher.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_VOUCHER, getContext().getString(R.string.none)));
-        type.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_TYPE, getContext().getString(R.string.none)));
+        name.setText(getArguments().getString(APPOINTMENT_CUSTOMER_NAME, getContext().getString(R.string.none)));
+        address.setText(getArguments().getString(APPOINTMENT_ADDRESS, getContext().getString(R.string.none)));
+        voucher.setText(getArguments().getString(APPOINTMENT_VOUCHER, getContext().getString(R.string.none)));
+        type.setText(getArguments().getString(APPOINTMENT_TYPE, getContext().getString(R.string.none)));
 
-        if (getArguments().getString(AppointmentCVAdapter.APPOINTMENT_START_DATE) != null) {
-            if (getArguments().getString(AppointmentCVAdapter.APPOINTMENT_START_DATE).equals("11/11/1111")) {
+        if (getArguments().getString(APPOINTMENT_START_DATE) != null) {
+            if (getArguments().getString(APPOINTMENT_START_DATE).equals("11/11/1111")) {
                 startDateTitle.setVisibility(View.GONE);
                 startDate.setVisibility(View.GONE);
                 //If start date = null => one day booking => while hiding start date, move expire date to the left
@@ -127,14 +162,14 @@ public class AppointmentDialogFragment extends DialogFragment {
                 expireDate.setLayoutParams(params);
                 expireDateTitle.setLayoutParams(params_title);
             } else
-                startDate.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_START_DATE));
+                startDate.setText(getArguments().getString(APPOINTMENT_START_DATE));
         }
 
-        if (getArguments().getString(AppointmentCVAdapter.APPOINTMENT_EXPIRE_DATE) != null) {
-            expireDate.setText(getArguments().getString(AppointmentCVAdapter.APPOINTMENT_EXPIRE_DATE));
+        if (getArguments().getString(APPOINTMENT_EXPIRE_DATE) != null) {
+            expireDate.setText(getArguments().getString(APPOINTMENT_EXPIRE_DATE));
         }
 
-        ArrayList<String> schedules = getArguments().getStringArrayList(AppointmentCVAdapter.APPOINTMENT_SCHEDULES);
+        ArrayList<String> schedules = getArguments().getStringArrayList(APPOINTMENT_SCHEDULES);
         if (schedules != null){
             for (int i = 0; i < schedules.size(); i++){
                 if (i == 0)
