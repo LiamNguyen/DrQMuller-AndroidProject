@@ -10,8 +10,8 @@ android {
         applicationId "com.lanthanh.admin.icareapp"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 11
-        versionName "4.0"
+        versionCode 12
+        versionName "4.0.1"
     }
 
     buildTypes {
