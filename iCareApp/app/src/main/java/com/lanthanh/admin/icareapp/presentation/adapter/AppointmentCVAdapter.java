@@ -22,25 +22,26 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
+import com.lanthanh.admin.icareapp.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_ADDRESS;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_CUSTOMER_NAME;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_EXPIRE_DATE;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_ID;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_SCHEDULES;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_START_DATE;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_TITLE;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_TYPE;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_VOUCHER;
 
 /**
  * Created by ADMIN on 21-Nov-16.
  */
 
 public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    public final static String APPOINTMENT_ID = "appointmentId";
-    public final static String APPOINTMENT_TITLE = "title";
-    public final static String APPOINTMENT_CUSTOMER_NAME = "name";
-    public final static String APPOINTMENT_ADDRESS = "address";
-    public final static String APPOINTMENT_VOUCHER = "voucher";
-    public final static String APPOINTMENT_TYPE = "type";
-    public final static String APPOINTMENT_START_DATE = "start_date";
-    public final static String APPOINTMENT_EXPIRE_DATE = "expire_date";
-    public final static String APPOINTMENT_SCHEDULES = "schedules";
-
     private final int TYPE_HEADER = 0;
     private final int TYPE_BODY = 2;
     private List<DTOAppointment> list;
@@ -100,7 +101,7 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
                     String appointmentId = list.get(position - 1).getAppointmentId();
                     String title =  ctx.getString(R.string.bill);
                     String name = list.get(position - 1).getUser().getName();
-                    String address = formFullAddress(position - 1);
+                    String address = StringUtils.formFullAddress(list.get(position - 1));
                     String voucher = list.get(position - 1).getVoucher().getVoucherName();
                     String type = list.get(position - 1).getType().getTypeName();
                     String startDate = ConverterUtils.date.convertDateForDisplay(list.get(position - 1).getStartDate());
@@ -146,15 +147,6 @@ public class AppointmentCVAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .setCancelable(true).show()
             );
         }
-    }
-
-    private String formFullAddress(int position) {
-        return String.format(
-                "%s, %s, %s, %s",
-                list.get(position).getLocation().getAddress(),
-                list.get(position).getDistrict().getDistrictName(),
-                list.get(position).getCity().getCityName(),
-                list.get(position).getCountry().getCountryName());
     }
 
     @Override

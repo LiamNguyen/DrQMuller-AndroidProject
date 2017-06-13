@@ -1,16 +1,20 @@
 package com.lanthanh.admin.icareapp.presentation.bookingpage;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.repository.AppointmentRepositoryImpl;
+import com.lanthanh.admin.icareapp.data.repository.datasource.LocalStorage;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
+import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
 import com.lanthanh.admin.icareapp.utils.ConverterUtils;
 import com.lanthanh.admin.icareapp.utils.Function;
@@ -27,12 +31,23 @@ import com.lanthanh.admin.icareapp.presentation.model.dto.DTOType;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOVoucher;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOWeekDay;
 import com.lanthanh.admin.icareapp.utils.NetworkUtils;
+import com.lanthanh.admin.icareapp.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_ADDRESS;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_CUSTOMER_NAME;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_EXPIRE_DATE;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_ID;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_SCHEDULES;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_START_DATE;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_TITLE;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_TYPE;
+import static com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentDialogFragment.APPOINTMENT_VOUCHER;
 
 /**
  * Created by ADMIN on 24-Jan-17.
@@ -51,6 +66,7 @@ public class BookingActivityPresenter extends BasePresenter{
     private BookingBookFragment bookingBookFragment;
 
     private AppointmentRepository appointmentRepository;
+    private LocalStorage localStorage;
     private Interactor interactor;
 
     public BookingActivityPresenter(BookingActivity activity) {
@@ -66,6 +82,7 @@ public class BookingActivityPresenter extends BasePresenter{
         bookingSelectFragment = new BookingSelectFragment();
         bookingSelectDateFragment = new BookingSelectDateFragment();
         appointmentRepository = new AppointmentRepositoryImpl(this.activity);
+        localStorage = new LocalStorage(this.activity.getSharedPreferences(this.activity.getPackageName(), Context.MODE_PRIVATE));
         interactor = new Interactor();
         currentAppointment = new DTOAppointment();
     }
@@ -620,15 +637,53 @@ public class BookingActivityPresenter extends BasePresenter{
         );
     }
 
+    public void openConfirmationDialog() {
+        FragmentManager fm = activity.getSupportFragmentManager();
+        AppointmentDialogFragment frag = new AppointmentDialogFragment();
+        //TODO put Serialized Variable instead of field by field
+        //Set information into bundle so that fragment can display
+        Bundle args = new Bundle();
+
+        String appointmentId = currentAppointment.getAppointmentId();
+        String title =  activity.getString(R.string.bill);
+        String name = localStorage.getUserFromLocal().getName();
+        String address = StringUtils.formFullAddress(currentAppointment);
+        String voucher = currentAppointment.getVoucher().getVoucherName();
+        String type = currentAppointment.getType().getTypeName();
+        if (currentAppointment.getStartDate() == null) {
+            currentAppointment.setStartDate(ConverterUtils.date.convertStringToDate("11-11-1111"));
+        }
+        String startDate = ConverterUtils.date.convertDateForDisplay(currentAppointment.getStartDate());
+        String expireDate = ConverterUtils.date.convertDateForDisplay(currentAppointment.getExpireDate());
+
+        args.putString(APPOINTMENT_ID, appointmentId);
+        args.putString(APPOINTMENT_TITLE, title);
+        args.putString(APPOINTMENT_CUSTOMER_NAME, name);
+        args.putString(APPOINTMENT_ADDRESS, address);
+        args.putString(APPOINTMENT_VOUCHER, voucher);
+        args.putString(APPOINTMENT_TYPE, type);
+        args.putString(APPOINTMENT_START_DATE, startDate);
+        args.putString(APPOINTMENT_EXPIRE_DATE, expireDate);
+
+        ArrayList<String> appointmentScheduleString = new ArrayList<>();
+        for (DTOAppointmentSchedule dtoAppointmentSchedule : currentAppointment.getAppointmentScheduleList()) {
+            appointmentScheduleString.add(dtoAppointmentSchedule.toString());
+        }
+        args.putStringArrayList(APPOINTMENT_SCHEDULES, appointmentScheduleString);
+
+        //Attach bundle to fragment
+        frag.setArguments(args);
+
+        //Show fragment
+        frag.show(fm, frag.getClass().getName());
+    }
+
     public void createAppointment() {
         if (this.currentAppointment.getAppointmentScheduleList().size() <= 0){
             this.activity.showToast(this.activity.getString(R.string.min_item));
         } else {
             this.activity.showProgress();
             currentAppointment.setVerificationCode(NetworkUtils.generateVerificationCode());
-            if (currentAppointment.getStartDate() == null) {
-                currentAppointment.setStartDate(ConverterUtils.date.convertStringToDate("11-11-1111"));
-            }
             interactor.execute(
                     () -> appointmentRepository.createAppointment(currentAppointment),
                     success -> {
