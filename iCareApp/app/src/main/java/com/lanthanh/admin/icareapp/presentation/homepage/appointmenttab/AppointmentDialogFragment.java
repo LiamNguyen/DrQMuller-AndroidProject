@@ -74,7 +74,7 @@ public class AppointmentDialogFragment extends DialogFragment {
             fromBookingPage = true;
             bookingActivityPresenter = ((BookingActivity) getActivity()).getMainPresenter();
             //Change text content
-            cancelText.setText(R.string.abort_button);
+            cancelText.setText(R.string.edit_button);
             closeButton.setText(R.string.booking_confirm_button);
         }
 
