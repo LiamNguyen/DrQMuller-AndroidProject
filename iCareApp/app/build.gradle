@@ -42,6 +42,10 @@ android {
             buildConfigField 'String', 'APPLICATION_EMAIL_BASE_URL',  '\"http://210.211.109.180/drmuller/api/\"';
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 configurations.all {
