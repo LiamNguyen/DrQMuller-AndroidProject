@@ -20,6 +20,7 @@ import com.lanthanh.admin.icareapp.utils.StringUtils
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.Unbinder
+import com.lanthanh.admin.icareapp.data.repository.WelcomeRepositoryImpl
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
@@ -27,18 +28,15 @@ import io.reactivex.disposables.Disposable
  * Created by ADMIN on 17-Oct-16.
  */
 
-class LogInFragment : BaseFragment<WelcomeActivityPresenter>() {
+class LoginFragment : BaseFragment<WelcomeActivityPresenter>() {
 
-    private val editTextDisposable: Disposable? = null
-    private var binding: FragmentWelcomeLoginBinding? = null
+    private lateinit var editTextDisposable: Disposable
+    private lateinit var binding: FragmentWelcomeLoginBinding
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentWelcomeLoginBinding.inflate(inflater, container, false)
-
-        initViews()
-
-
-        return binding!!.root
+        binding.viewModel = LoginViewModel(WelcomeRepositoryImpl(activity))
+        return binding.root
     }
 
     override fun initViews() {
@@ -46,6 +44,8 @@ class LogInFragment : BaseFragment<WelcomeActivityPresenter>() {
 
         //Apply custom font for UI elements
         val font = Typeface.createFromAsset(activity.assets, GraphicUtils.FONT_LIGHT)
+        listOfNotNull<TextView>(binding.inputUsername, binding.inputPassword, binding.buttonLogin)
+                .forEach { it.typeface = font }
         //        logInButton.setTypeface(font);
         //        editUsername.setTypeface(font);
         //        editPassword.setTypeface(font);
@@ -68,8 +68,8 @@ class LogInFragment : BaseFragment<WelcomeActivityPresenter>() {
     }
 
     override fun refreshViews() {
-        //        editUsername.setText("");
-        //        editPassword.setText("");
+        binding.inputUsername.text.clear()
+        binding.inputPassword.text.clear()
     }
 
     override fun getMainPresenter(): WelcomeActivityPresenter {
@@ -78,13 +78,13 @@ class LogInFragment : BaseFragment<WelcomeActivityPresenter>() {
 
     override fun onStart() {
         super.onStart()
-        //((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
+        (activity as WelcomeActivity).showSoftKeyboard(binding.inputUsername)
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
         if (!hidden && isVisible) {
             (activity as WelcomeActivity).showToolbar(true)
-            //((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
+            (activity as WelcomeActivity).showSoftKeyboard(binding.inputUsername)
         } else
             refreshViews()
     }

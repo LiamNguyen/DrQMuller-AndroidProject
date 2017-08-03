@@ -46,7 +46,7 @@ public class ChooseFragment extends BaseFragment<WelcomeActivityPresenter>{
         welcomeText.setTypeface(font);
         signUpButton.setTypeface(font_light);
         logInButton.setTypeface(font_light);
-        logInButton.setOnClickListener(view ->  getMainPresenter().navigateFragment(LogInFragment.class));
+        logInButton.setOnClickListener(view ->  getMainPresenter().navigateFragment(LoginFragment.class));
         signUpButton.setOnClickListener(view -> getMainPresenter().navigateFragment(SignUpFragment.class));
     }
 

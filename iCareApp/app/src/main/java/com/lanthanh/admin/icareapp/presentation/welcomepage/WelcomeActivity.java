@@ -21,7 +21,7 @@ public class WelcomeActivity extends BaseActivity {
     //public final static String TAG = RegisterActivity.class.getSimpleName();
     //TODO check used fields
     public static final String CHOOSE_FRAGMENT = ChooseFragment.class.getName();
-    public static final String LOGIN_FRAGMENT = LogInFragment.class.getName();
+    public static final String LOGIN_FRAGMENT = LoginFragment.class.getName();
     public static final String SIGNUP_FRAGMENT = SignUpFragment.class.getName();
     public static String CURRENT_FRAGMENT;
     public static final String CURRENT_FRAGMENT_KEY = "CurrentFragment";
@@ -53,7 +53,7 @@ public class WelcomeActivity extends BaseActivity {
         } else {
             CURRENT_FRAGMENT = savedInstanceState.getString(CURRENT_FRAGMENT_KEY, "");
             if (CURRENT_FRAGMENT.equals(LOGIN_FRAGMENT)) {
-                registerActivityPresenter.navigateFragment(LogInFragment.class);
+                registerActivityPresenter.navigateFragment(LoginFragment.class);
             } else if (CURRENT_FRAGMENT.equals(SIGNUP_FRAGMENT)) {
                 registerActivityPresenter.navigateFragment(SignUpFragment.class);
             } else {

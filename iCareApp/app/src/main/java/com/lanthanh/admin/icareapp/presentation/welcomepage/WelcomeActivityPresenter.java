@@ -25,7 +25,7 @@ import java.util.List;
 public class WelcomeActivityPresenter extends BasePresenter {
     public static final String TAG = WelcomeActivityPresenter.class.getSimpleName();
     private ChooseFragment chooseFragment;
-    private LogInFragment logInFragment;
+    private LoginFragment logInFragment;
     private SignUpFragment signUpFragment;
     private WelcomeActivity activity;
 
@@ -42,7 +42,7 @@ public class WelcomeActivityPresenter extends BasePresenter {
     private void init() {
         //Init fragment
         chooseFragment = new ChooseFragment();
-        logInFragment = new LogInFragment();
+        logInFragment = new LoginFragment();
         signUpFragment = new SignUpFragment();
 
         welcomeRepository = new WelcomeRepositoryImpl(this.activity);
@@ -56,7 +56,7 @@ public class WelcomeActivityPresenter extends BasePresenter {
             WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.CHOOSE_FRAGMENT;
             showFragment(chooseFragment);
         }
-        else if (fragmentClass == LogInFragment.class) {
+        else if (fragmentClass == LoginFragment.class) {
             WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.LOGIN_FRAGMENT;
             showFragment(logInFragment);
         }
