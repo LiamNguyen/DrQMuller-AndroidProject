@@ -80,6 +80,7 @@
                     android:textColor="@drawable/button_text_style"
                     android:textSize="18sp"
                     android:enabled="@{viewModel.enableLogin}"
+                    android:onClick="@{() -> viewModel.login()}"
                     android:layout_marginRight="8dp"
                     app:layout_constraintRight_toRightOf="parent"
                     android:layout_marginLeft="8dp"

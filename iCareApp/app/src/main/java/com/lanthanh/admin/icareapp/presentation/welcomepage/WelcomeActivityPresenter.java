@@ -109,7 +109,7 @@ public class WelcomeActivityPresenter extends BasePresenter {
     public void login(String username, String password){
         this.activity.showProgress();
         interactor.execute(
-            () -> welcomeRepository.login(username, password),
+            () -> welcomeRepository.login2(username, password),
             success -> {
                 this.activity.hideProgress();
                 interactor.execute(

@@ -2,31 +2,51 @@ package com.lanthanh.admin.icareapp.presentation.welcomepage
 
 import android.databinding.ObservableField
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository
-import com.lanthanh.admin.icareapp.utils.asObservable
+import com.lanthanh.admin.icareapp.core.extension.toRxObservable
+import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus
+import com.lanthanh.admin.icareapp.presentation.base.BaseViewModel
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by long.vu on 8/3/2017.
  */
-class LoginViewModel (val welcomeRepository: WelcomeRepository) {
-    val username : ObservableField<String> =  ObservableField()
-    val password : ObservableField<String> = ObservableField()
-    val enableLogin : ObservableField<Boolean> = ObservableField()
-    val disposables : CompositeDisposable = CompositeDisposable()
+class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel() {
+    val username : ObservableField<String> =  ObservableField() // Observable value for username input.
+    val password : ObservableField<String> = ObservableField() // Observable value for password input.
+    val enableLogin : ObservableField<Boolean> = ObservableField() // Observable value for login button.
 
-    fun resume () {
-        bindRx()
-    }
-
-    fun bindRx () {
+    override fun resume () {
+        // Only when username and password are valid that button is enabled
         Observable.combineLatest(
-            username.asObservable().map { username -> username.isNotEmpty() },
-            username.asObservable().map { password -> password.isNotEmpty() },
+            username.toRxObservable().map { username -> username.isNotEmpty() },
+            username.toRxObservable().map { password -> password.isNotEmpty() },
             BiFunction<Boolean, Boolean, Boolean> { validUsername, validPassword -> validUsername && validPassword })
         .subscribe(enableLogin::set)
+        .addTo(disposables)
+    }
+
+    fun login () {
+        welcomeRepository.login(username.get(), password.get())
+        .observeOn(Schedulers.io())
+        .subscribeOn(AndroidSchedulers.mainThread())
+        .subscribeBy(
+            onError = { print("error") } ,
+            onSuccess = {
+                when (it) {
+                    RepositorySimpleStatus.SUCCESS -> print("Success")
+                    RepositorySimpleStatus.PATTERN_FAIL -> print("Invalid username password")
+                    RepositorySimpleStatus.USERNAME_PASSWORD_NOT_MATCH -> print("Username password not match")
+                    else -> {
+                        print("Unknown status")
+                    }
+                }
+            }
+        )
         .addTo(disposables)
     }
 }
