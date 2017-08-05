@@ -5,7 +5,7 @@ import android.databinding.ObservableField
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository
 import com.lanthanh.admin.icareapp.core.extension.toRxObservable
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus
-import com.lanthanh.admin.icareapp.presentation.base.BaseViewModel
+import com.lanthanh.admin.icareapp.core.app.BaseViewModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
@@ -17,9 +17,11 @@ import io.reactivex.schedulers.Schedulers
  * Created by long.vu on 8/3/2017.
  */
 class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel() {
-    val username : ObservableField<String> =  ObservableField() // Observable value for username input.
-    val password : ObservableField<String> = ObservableField() // Observable value for password input.
-    val enableLogin : ObservableBoolean = ObservableBoolean(false) // Observable value for login button.
+    val username : ObservableField<String> =  ObservableField() // Observable value for username input (two ways binding).
+    val password : ObservableField<String> = ObservableField() // Observable value for password input (two ways binding).
+    val enableLogin : ObservableBoolean = ObservableBoolean(false) // Determine whether login button should be enabled.
+    val showKeyboard : ObservableBoolean = ObservableBoolean(false) // Determine whether soft keyboard should be shown.
+    val showToolbar : ObservableBoolean = ObservableBoolean(false) // Determine whether toolbar should be shown
 
     override fun resume () {
         // Only when username and password are valid that button is enabled
@@ -28,7 +30,7 @@ class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel(
             password.toRxObservable().map { password -> password.isNotEmpty() },
             BiFunction<Boolean, Boolean, Boolean> { validUsername, validPassword -> validUsername && validPassword })
         .distinctUntilChanged()
-        .subscribe(enableLogin::set)
+        .subscribeBy(onNext = enableLogin::set)
         .addTo(disposables)
     }
 
@@ -50,5 +52,9 @@ class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel(
             }
         )
         .addTo(disposables)
+    }
+
+    fun onHiddenChange (hidden : Boolean) {
+
     }
 }

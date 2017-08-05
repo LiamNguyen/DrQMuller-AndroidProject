@@ -1,4 +1,4 @@
-package com.lanthanh.admin.icareapp.presentation.base
+package com.lanthanh.admin.icareapp.core.app
 
 import io.reactivex.disposables.CompositeDisposable
 
