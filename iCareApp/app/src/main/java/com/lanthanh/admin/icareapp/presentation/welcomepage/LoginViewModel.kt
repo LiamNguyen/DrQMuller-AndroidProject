@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.presentation.welcomepage
 
+import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository
 import com.lanthanh.admin.icareapp.core.extension.toRxObservable
@@ -18,14 +19,15 @@ import io.reactivex.schedulers.Schedulers
 class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel() {
     val username : ObservableField<String> =  ObservableField() // Observable value for username input.
     val password : ObservableField<String> = ObservableField() // Observable value for password input.
-    val enableLogin : ObservableField<Boolean> = ObservableField() // Observable value for login button.
+    val enableLogin : ObservableBoolean = ObservableBoolean(false) // Observable value for login button.
 
     override fun resume () {
         // Only when username and password are valid that button is enabled
         Observable.combineLatest(
             username.toRxObservable().map { username -> username.isNotEmpty() },
-            username.toRxObservable().map { password -> password.isNotEmpty() },
+            password.toRxObservable().map { password -> password.isNotEmpty() },
             BiFunction<Boolean, Boolean, Boolean> { validUsername, validPassword -> validUsername && validPassword })
+        .distinctUntilChanged()
         .subscribe(enableLogin::set)
         .addTo(disposables)
     }

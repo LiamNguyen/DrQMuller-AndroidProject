@@ -28,6 +28,16 @@ class LoginFragment : BaseFragment<WelcomeActivityPresenter>() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.viewModel.resume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.viewModel.pause()
+    }
+
     override fun initViews() {
         (activity as WelcomeActivity).showToolbar(true)
 
