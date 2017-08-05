@@ -3,7 +3,6 @@ package com.lanthanh.admin.icareapp.presentation.welcomepage
 import android.databinding.Observable
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
 
 import android.view.LayoutInflater
 import android.view.View
@@ -50,9 +49,9 @@ class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
     }
 
     fun setupSoftKeyboard () {
-        viewModel?.showKeyboard!!.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+        viewModel.showKeyboard.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                if (viewModel?.showKeyboard!!.get()) hostActivity.showSoftKeyboard(binding.inputUsername)
+                if (viewModel.showKeyboard.get()) hostActivity.showSoftKeyboard(binding.inputUsername)
                 else hostActivity.hideSoftKeyboard()
             }
         })
@@ -67,7 +66,6 @@ class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
-        Log.e("yaya", "asdasd :::: " + hidden)
         viewModel?.onHiddenChange(hidden = hidden)
         if (!hidden && isVisible) {
             hostActivity.showToolbar(true)

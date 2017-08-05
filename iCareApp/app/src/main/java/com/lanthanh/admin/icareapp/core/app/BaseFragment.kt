@@ -12,10 +12,11 @@ import com.lanthanh.admin.icareapp.presentation.base.BaseActivity
  * *         Created on 05-Aug-17.
  */
 
-abstract class BaseFragment<out A : BaseActivity, VM : ViewModel> : Fragment() {
+abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment() {
 
-    var viewModel : VM? = null
+    protected lateinit var viewModel : VM
 
+    @Suppress("UNCHECKED_CAST")
     val hostActivity by lazy {
         activity as A
     }
