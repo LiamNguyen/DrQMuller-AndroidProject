@@ -9,7 +9,7 @@ import io.reactivex.android.MainThreadDisposable
 /**
  * Created by long.vu on 8/3/2017.
  */
-class ObservableFieldObservable<T>  (val observableField : ObservableField<T>): Observable<T>() {
+class ObservableFieldRx<T> (val observableField : ObservableField<T>): Observable<T>() {
 
     override fun subscribeActual(observer: Observer<in T>?) {
         val callback = object : OnPropertyChangedCallback() {
