@@ -31,27 +31,24 @@ class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-        hostActivity.showSoftKeyboard(binding.inputUsername)
-    }
-
-    override fun initViews () {
-        hostActivity.showToolbar(true)
-
-        //Apply custom font for UI elements
-        val font = Typeface.createFromAsset(activity.assets, GraphicUtils.FONT_LIGHT)
-        listOfNotNull<TextView>(binding.inputUsername, binding.inputPassword, binding.buttonLogin).forEach { it.typeface = font }
+    override fun setupView () {
+        applyFont()
 
         setupSoftKeyboard()
 
         setupToolbar()
     }
 
+    fun applyFont () {
+        //Apply custom font for UI elements
+        val font = Typeface.createFromAsset(activity.assets, GraphicUtils.FONT_LIGHT)
+        listOfNotNull<TextView>(binding.inputUsername, binding.inputPassword, binding.buttonLogin).forEach { it.typeface = font }
+    }
+
     fun setupSoftKeyboard () {
-        viewModel.showKeyboard.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+        viewModel?.showKeyboard!!.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                if (viewModel.showKeyboard.get()) hostActivity.showSoftKeyboard(binding.inputUsername)
+                if (viewModel?.showKeyboard!!.get()) hostActivity.showSoftKeyboard(binding.inputUsername)
                 else hostActivity.hideSoftKeyboard()
             }
         })
@@ -67,10 +64,6 @@ class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
 
     override fun onHiddenChanged(hidden: Boolean) {
         viewModel?.onHiddenChange(hidden = hidden)
-        if (!hidden && isVisible) {
-            hostActivity.showToolbar(true)
-            hostActivity.showSoftKeyboard(binding.inputUsername)
-        }
     }
 }
 

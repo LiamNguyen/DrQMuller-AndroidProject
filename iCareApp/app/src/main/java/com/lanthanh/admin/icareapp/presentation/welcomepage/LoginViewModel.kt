@@ -17,11 +17,12 @@ import io.reactivex.schedulers.Schedulers
  * Created by long.vu on 8/3/2017.
  */
 class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel() {
-    val username : ObservableField<String> =  ObservableField() // Observable value for username input (two ways binding).
-    val password : ObservableField<String> = ObservableField() // Observable value for password input (two ways binding).
-    val enableLogin : ObservableBoolean = ObservableBoolean(false) // Determine whether login button should be enabled.
-    val showKeyboard : ObservableBoolean = ObservableBoolean(false) // Determine whether soft keyboard should be shown.
-    val showToolbar : ObservableBoolean = ObservableBoolean(false) // Determine whether toolbar should be shown
+
+    val username : ObservableField<String> =  ObservableField() // Binding property (two-way) for username input.
+    val password : ObservableField<String> = ObservableField() // Binding property (two-way) for password input.
+    val enableLogin : ObservableBoolean = ObservableBoolean() // Binding property for login button.
+    val showKeyboard : ObservableBoolean = ObservableBoolean() // Binding property for soft keyboard.
+    val showToolbar : ObservableBoolean = ObservableBoolean() // Binding property for toolbar.
 
     override fun resume () {
         // Only when username and password are valid that button is enabled
@@ -34,10 +35,16 @@ class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel(
         .addTo(disposables)
     }
 
+    override fun setupView () {
+        showToolbar.set(true)
+        showKeyboard.set(true)
+        enableLogin.set(false)
+    }
+
     fun login () {
         welcomeRepository.login(username.get(), password.get())
-        .observeOn(Schedulers.io())
         .subscribeOn(AndroidSchedulers.mainThread())
+        .observeOn(Schedulers.io())
         .subscribeBy(
             onError = { print("error") } ,
             onSuccess = {
@@ -55,6 +62,8 @@ class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel(
     }
 
     fun onHiddenChange (hidden : Boolean) {
-
+        val visible = !hidden
+        showKeyboard.set(visible)
+        showToolbar.set(visible)
     }
 }
