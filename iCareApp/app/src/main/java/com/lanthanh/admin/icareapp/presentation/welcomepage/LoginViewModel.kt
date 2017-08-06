@@ -21,8 +21,6 @@ class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel(
     val username : ObservableField<String> =  ObservableField() // Binding property (two-way) for username input.
     val password : ObservableField<String> = ObservableField() // Binding property (two-way) for password input.
     val enableLogin : ObservableBoolean = ObservableBoolean() // Binding property for login button.
-    val showKeyboard : ObservableBoolean = ObservableBoolean() // Binding property for soft keyboard.
-    val showToolbar : ObservableBoolean = ObservableBoolean() // Binding property for toolbar.
 
     override fun resume () {
         // Only when username and password are valid that button is enabled
@@ -36,8 +34,6 @@ class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel(
     }
 
     override fun setupView () {
-        showToolbar.set(true)
-        showKeyboard.set(true)
         enableLogin.set(false)
     }
 
@@ -59,11 +55,5 @@ class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel(
             }
         )
         .addTo(disposables)
-    }
-
-    fun onHiddenChange (hidden : Boolean) {
-        val visible = !hidden
-        showKeyboard.set(visible)
-        showToolbar.set(visible)
     }
 }

@@ -9,12 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.lanthanh.admin.icareapp.core.app.BaseFragment
+import com.lanthanh.admin.icareapp.core.extension.toRxObservable
 
 
 import com.lanthanh.admin.icareapp.utils.GraphicUtils
 
 import com.lanthanh.admin.icareapp.data.repository.WelcomeRepositoryImpl
 import com.lanthanh.admin.icareapp.databinding.FragmentWelcomeLoginBinding
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 
 /**
  * Created by ADMIN on 17-Oct-16.
@@ -34,9 +38,9 @@ class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
     override fun setupView () {
         applyFont()
 
-        setupSoftKeyboard()
+        hostActivity.showSoftKeyboard(binding.inputUsername)
 
-        setupToolbar()
+        hostActivity.showToolbar(true)
     }
 
     fun applyFont () {
@@ -45,25 +49,13 @@ class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
         listOfNotNull<TextView>(binding.inputUsername, binding.inputPassword, binding.buttonLogin).forEach { it.typeface = font }
     }
 
-    fun setupSoftKeyboard () {
-        viewModel?.showKeyboard!!.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                if (viewModel?.showKeyboard!!.get()) hostActivity.showSoftKeyboard(binding.inputUsername)
-                else hostActivity.hideSoftKeyboard()
-            }
-        })
-    }
-
-    fun setupToolbar () {
-        viewModel?.showToolbar!!.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                hostActivity.showToolbar(viewModel?.showToolbar!!.get())
-            }
-        })
-    }
-
     override fun onHiddenChanged(hidden: Boolean) {
-        viewModel?.onHiddenChange(hidden = hidden)
+        val visible = !hidden
+
+        if (visible) hostActivity.showSoftKeyboard(binding.inputUsername)
+        else hostActivity.hideSoftKeyboard()
+
+        hostActivity.showToolbar(visible)
     }
 }
 
