@@ -1,11 +1,10 @@
 package com.lanthanh.admin.icareapp.core.app
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import com.lanthanh.admin.icareapp.presentation.base.BaseActivity
+import io.reactivex.disposables.CompositeDisposable
 
 /**
  * @author longv
@@ -14,7 +13,7 @@ import com.lanthanh.admin.icareapp.presentation.base.BaseActivity
 
 abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment() {
 
-    protected lateinit var viewModel : VM
+    protected var viewModel : VM? = null
 
     @Suppress("UNCHECKED_CAST")
     val hostActivity by lazy {
@@ -23,7 +22,8 @@ abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment()
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews()
+        setupView()
+        viewModel?.setupView()
     }
 
     override fun onResume () {
@@ -36,5 +36,5 @@ abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment()
         viewModel?.pause()
     }
 
-    abstract fun initViews ()
+    abstract fun setupView ()
 }

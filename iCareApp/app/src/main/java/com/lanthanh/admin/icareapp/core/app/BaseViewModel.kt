@@ -7,11 +7,13 @@ import io.reactivex.disposables.CompositeDisposable
  * Created on 03-Aug-17.
  */
 abstract class BaseViewModel : ViewModel {
-    override val disposables: CompositeDisposable = CompositeDisposable()
+    protected val disposables: CompositeDisposable = CompositeDisposable()
 
-    override abstract fun resume()
+    override abstract fun resume ()
 
-    override fun pause() {
+    override fun pause () {
         if (!disposables.isDisposed) disposables.dispose()
     }
+
+    override abstract fun setupView ()
 }

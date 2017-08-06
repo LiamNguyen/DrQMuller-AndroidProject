@@ -7,7 +7,7 @@ import io.reactivex.disposables.CompositeDisposable
  * Created on 03-Aug-17.
  */
 interface ViewModel {
-    val disposables : CompositeDisposable
     fun resume ()
     fun pause ()
+    fun setupView ()
 }
