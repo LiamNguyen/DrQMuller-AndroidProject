@@ -53,15 +53,15 @@ public class WelcomeActivityPresenter extends BasePresenter {
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {
         this.activity.hideSoftKeyboard();
         if (fragmentClass == ChooseFragment.class) {
-            WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.CHOOSE_FRAGMENT;
+            //WelcomeActivity.Companion.getCURRENT_FRAGMENT() = WelcomeActivity.Companion.getCHOOSE_FRAGMENT();
             showFragment(chooseFragment);
         }
         else if (fragmentClass == LogInFragment.class) {
-            WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.LOGIN_FRAGMENT;
+            //WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.LOGIN_FRAGMENT;
             showFragment(logInFragment);
         }
         else if (fragmentClass == SignUpFragment.class) {
-            WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.SIGNUP_FRAGMENT;
+            //WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.SIGNUP_FRAGMENT;
             showFragment(signUpFragment);
         }
     }

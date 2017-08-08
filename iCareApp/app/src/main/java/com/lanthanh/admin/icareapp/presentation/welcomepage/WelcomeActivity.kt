@@ -2,6 +2,8 @@ package com.lanthanh.admin.icareapp.presentation.welcomepage
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
@@ -12,6 +14,9 @@ import com.lanthanh.admin.icareapp.presentation.base.BaseActivity
 
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.lanthanh.admin.icareapp.di.ui.welcome.DaggerWelcomePageComponent
+import java.util.ArrayList
+import javax.inject.Inject
 
 /**
  * Created by ADMIN on 17-Oct-16.
@@ -22,14 +27,20 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
     var mainPresenter: WelcomeActivityPresenter? = null
         private set
 
-    @BindView(R.id.toolbar) internal var toolBar: Toolbar? = null
-    @BindView(R.id.progressbar) internal var progressBar: ProgressBar? = null
+    @BindView(R.id.toolbar) lateinit var toolBar: Toolbar
+    @BindView(R.id.progressbar) lateinit var progressBar: ProgressBar
 
+    @Inject lateinit var chooseFragment : ChooseFragment
+    @Inject lateinit var logInFragment : LogInFragment
+    @Inject lateinit var signUpFragment : SignUpFragment
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
+
+        DaggerWelcomePageComponent.builder().build().inject(this)
+
         ButterKnife.bind(this)
 
         init()
@@ -41,21 +52,7 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        if (savedInstanceState == null) {
-            //ChooseFragment as default -> hide ToolBar
-            mainPresenter!!.navigateFragment(ChooseFragment::class.java)
-            CURRENT_FRAGMENT = CHOOSE_FRAGMENT
-        } else {
-            CURRENT_FRAGMENT = savedInstanceState.getString(CURRENT_FRAGMENT_KEY, "")
-            if (CURRENT_FRAGMENT == LOGIN_FRAGMENT) {
-                mainPresenter!!.navigateFragment(LogInFragment::class.java)
-            } else if (CURRENT_FRAGMENT == SIGNUP_FRAGMENT) {
-                mainPresenter!!.navigateFragment(SignUpFragment::class.java)
-            } else {
-                mainPresenter!!.navigateFragment(ChooseFragment::class.java)
-            }
-        }
-
+        loadWelcomeScreen()
     }
 
     fun init() {
@@ -133,16 +130,56 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
         val CURRENT_FRAGMENT_KEY = "CurrentFragment"
     }
 
+
+    fun getVisibleFragments(): List<Fragment> {
+        // We have 3 fragments, so initialize the arrayList to 3 to optimize memory
+        val result = ArrayList<Fragment>(3)
+
+        // Add each visible fragment to the result
+        if (chooseFragment.isVisible()) {
+            result.add(chooseFragment)
+        }
+        if (logInFragment.isVisible()) {
+            result.add(logInFragment)
+        }
+        if (signUpFragment.isVisible()) {
+            result.add(signUpFragment)
+        }
+
+        return result
+    }
+
+    fun hideFragments(ft: FragmentTransaction, visibleFrags: List<Fragment>) {
+        visibleFrags.forEach { ft.hide(it) }
+    }
+
+    fun showFragment(f: Fragment) {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                                                        R.anim.slide_in_left, R.anim.slide_out_right);*/
+        //Hide all current visible fragment
+        hideFragments(fragmentTransaction, getVisibleFragments())
+
+        if (!f.isAdded) {
+            fragmentTransaction.add(R.id.wel_fragment_container, f, f.javaClass.name)
+        } else {
+            fragmentTransaction.show(f)
+        }
+
+        fragmentTransaction.addToBackStack(null).commit()
+    }
+
+
     override fun loadLoginScreen() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        showFragment(logInFragment)
     }
 
     override fun loadSignupScreen() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        showFragment(signUpFragment)
     }
 
     override fun loadWelcomeScreen() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        showFragment(chooseFragment)
     }
 
     override fun loadHomePage() {

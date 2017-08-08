@@ -16,6 +16,8 @@ import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 import com.lanthanh.admin.icareapp.utils.StringUtils;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -37,6 +39,9 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> {
 
     private Disposable editTextDisposable;
     private Unbinder unbinder;
+
+    @Inject
+    public SignUpFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
