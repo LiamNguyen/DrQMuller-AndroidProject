@@ -15,5 +15,7 @@ abstract class BaseViewModel : ViewModel {
         if (!disposables.isDisposed) disposables.dispose()
     }
 
+    override fun backPressed() {}
+
     override abstract fun setupView ()
 }

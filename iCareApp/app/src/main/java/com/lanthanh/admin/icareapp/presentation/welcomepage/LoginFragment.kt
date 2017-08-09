@@ -50,6 +50,13 @@ class LoginFragment @Inject constructor() : BaseFragment<WelcomeActivity, LoginV
         listOfNotNull<TextView>(binding.inputUsername, binding.inputPassword, binding.buttonLogin).forEach { it.typeface = font }
     }
 
+    override fun onBackPressed(): Boolean {
+        if (!isVisible) return false
+
+        viewModel?.backPressed()
+        return true
+    }
+
     override fun onHiddenChanged(hidden: Boolean) {
         val visible = !hidden
 

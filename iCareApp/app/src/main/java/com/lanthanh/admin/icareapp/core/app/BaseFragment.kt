@@ -3,8 +3,6 @@ package com.lanthanh.admin.icareapp.core.app
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
-import com.lanthanh.admin.icareapp.presentation.base.BaseActivity
-import io.reactivex.disposables.CompositeDisposable
 
 /**
  * @author longv
@@ -35,6 +33,8 @@ abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment()
         super.onPause()
         viewModel?.pause()
     }
+
+    open fun onBackPressed () : Boolean = false
 
     abstract fun setupView ()
 }

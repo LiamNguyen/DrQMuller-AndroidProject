@@ -25,31 +25,16 @@ import javax.inject.Inject
 
 class WelcomeActivity : BaseActivity(), WelcomeNavigator {
 
-    var mainPresenter: WelcomeActivityPresenter? = null
-        private set
-
     @BindView(R.id.toolbar) lateinit var toolBar: Toolbar
     @BindView(R.id.progressbar) lateinit var progressBar: ProgressBar
-
-    @Inject lateinit var chooseFragment : ChooseFragment
-    @Inject lateinit var loginFragment : LoginFragment
-    @Inject lateinit var signupFragment : SignUpFragment
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
-        DaggerWelcomePageComponent.builder().build().inject(this)
-
         ButterKnife.bind(this)
 
-        //Set up for Toolbar
-        setSupportActionBar(toolBar)
-        supportActionBar!!.setDisplayShowTitleEnabled(false)
-        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp)
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        setupToolbar()
 
         loadWelcomeScreen()
     }
@@ -57,12 +42,20 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                mainPresenter!!.onBackPressed()
+                onBackPressed()
                 return true
             }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    fun setupToolbar () {
+        setSupportActionBar(toolBar)
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp)
+        supportActionBar!!.setHomeButtonEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
     fun showProgress() {
@@ -93,62 +86,16 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
 
     }
 
-    companion object {
-        //public final static String TAG = RegisterActivity.class.getSimpleName();
-        //TODO check used fields
-        val CHOOSE_FRAGMENT = ChooseFragment::class.java.name
-        val LOGIN_FRAGMENT = LoginFragment::class.java.name
-        val SIGNUP_FRAGMENT = SignUpFragment::class.java.name
-        var CURRENT_FRAGMENT = ""
-        val CURRENT_FRAGMENT_KEY = "CurrentFragment"
-    }
-
-
-    fun getVisibleFragments () : List<Fragment> {
-        // We have 3 fragments, so initialize the arrayList to 3 to optimize memory
-        val result = ArrayList<Fragment>(3)
-
-        // Add each visible fragment to the result
-        if (chooseFragment.isVisible) {
-            result.add(chooseFragment)
-        }
-        if (loginFragment.isVisible) {
-            result.add(loginFragment)
-        }
-        if (signupFragment.isVisible) {
-            result.add(signupFragment)
-        }
-
-        return result
-    }
-
-    fun showFragment (fragment: Fragment) {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                                                        R.anim.slide_in_left, R.anim.slide_out_right);*/
-        //Hide all current visible fragment
-        getVisibleFragments().forEach { fragmentTransaction.hide(it) }
-
-        if (!fragment.isAdded) {
-            fragmentTransaction.add(R.id.wel_fragment_container, fragment, fragment.javaClass.name)
-        } else {
-            fragmentTransaction.show(fragment)
-        }
-
-        fragmentTransaction.addToBackStack(null).commit()
-    }
-
-
     override fun loadLoginScreen() {
-        showFragment(loginFragment)
+        showFragment(LoginFragment::class)
     }
 
     override fun loadSignupScreen() {
-        showFragment(signupFragment)
+        showFragment(SignUpFragment::class)
     }
 
     override fun loadWelcomeScreen() {
-        showFragment(chooseFragment)
+        showFragment(ChooseFragment::class)
     }
 
     override fun loadHomePage() {

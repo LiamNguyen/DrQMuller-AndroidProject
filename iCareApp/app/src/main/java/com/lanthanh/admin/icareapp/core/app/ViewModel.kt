@@ -10,4 +10,5 @@ interface ViewModel {
     fun resume ()
     fun pause ()
     fun setupView ()
+    fun backPressed ()
 }

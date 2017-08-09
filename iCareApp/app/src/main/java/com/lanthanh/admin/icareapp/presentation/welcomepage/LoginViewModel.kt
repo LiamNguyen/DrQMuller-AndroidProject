@@ -37,6 +37,10 @@ class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel(
         enableLogin.set(false)
     }
 
+    override fun backPressed () {
+
+    }
+
     fun login () {
         welcomeRepository.login(username.get(), password.get())
         .subscribeOn(AndroidSchedulers.mainThread())
