@@ -11,7 +11,7 @@ import android.view.View
 
 abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment() {
 
-    protected var viewModel : VM? = null
+    protected open var viewModel : VM? = null
 
     @Suppress("UNCHECKED_CAST")
     val hostActivity by lazy {
@@ -20,21 +20,31 @@ abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment()
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupView()
+
         viewModel?.setupView()
     }
 
     override fun onResume () {
         super.onResume()
+
         viewModel?.resume()
     }
 
     override fun onPause() {
         super.onPause()
+
         viewModel?.pause()
     }
 
-    open fun onBackPressed () : Boolean = false
+    fun onBackPressed () : Boolean {
+        if (!isVisible) return false
+
+        viewModel?.backPressed()
+
+        return true
+    }
 
     abstract fun setupView ()
 }

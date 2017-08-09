@@ -25,7 +25,7 @@ import javax.inject.Inject
  * Created by ADMIN on 17-Oct-16.
  */
 
-class LoginFragment @Inject constructor() : BaseFragment<WelcomeActivity, LoginViewModel>() {
+class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
 
     private lateinit var binding: FragmentWelcomeLoginBinding
 
@@ -33,6 +33,7 @@ class LoginFragment @Inject constructor() : BaseFragment<WelcomeActivity, LoginV
         binding = FragmentWelcomeLoginBinding.inflate(inflater, container, false)
         binding.viewModel = LoginViewModel(WelcomeRepositoryImpl(activity))
         viewModel = binding.viewModel
+        viewModel!!.navigator = hostActivity
         return binding.root
     }
 
@@ -48,13 +49,6 @@ class LoginFragment @Inject constructor() : BaseFragment<WelcomeActivity, LoginV
         //Apply custom font for UI elements
         val font = Typeface.createFromAsset(activity.assets, GraphicUtils.FONT_LIGHT)
         listOfNotNull<TextView>(binding.inputUsername, binding.inputPassword, binding.buttonLogin).forEach { it.typeface = font }
-    }
-
-    override fun onBackPressed(): Boolean {
-        if (!isVisible) return false
-
-        viewModel?.backPressed()
-        return true
     }
 
     override fun onHiddenChanged(hidden: Boolean) {

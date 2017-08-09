@@ -22,6 +22,8 @@ class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel(
     val password : ObservableField<String> = ObservableField() // Binding property (two-way) for password input.
     val enableLogin : ObservableBoolean = ObservableBoolean() // Binding property for login button.
 
+    var navigator : WelcomeNavigator? = null
+
     override fun resume () {
         // Only when username and password are valid that button is enabled
         Observable.combineLatest(
@@ -38,7 +40,7 @@ class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel(
     }
 
     override fun backPressed () {
-
+        navigator?.loadWelcomeScreen()
     }
 
     fun login () {

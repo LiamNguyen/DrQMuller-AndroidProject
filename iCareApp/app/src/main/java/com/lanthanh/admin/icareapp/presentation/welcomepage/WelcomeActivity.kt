@@ -2,22 +2,15 @@ package com.lanthanh.admin.icareapp.presentation.welcomepage
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import android.widget.ProgressBar
 
 import com.lanthanh.admin.icareapp.R
-
 
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.lanthanh.admin.icareapp.core.app.BaseActivity
-import com.lanthanh.admin.icareapp.di.ui.welcome.DaggerWelcomePageComponent
-import java.util.ArrayList
-import javax.inject.Inject
 
 /**
  * Created by ADMIN on 17-Oct-16.
@@ -26,7 +19,6 @@ import javax.inject.Inject
 class WelcomeActivity : BaseActivity(), WelcomeNavigator {
 
     @BindView(R.id.toolbar) lateinit var toolBar: Toolbar
-    @BindView(R.id.progressbar) lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,30 +44,18 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
 
     fun setupToolbar () {
         setSupportActionBar(toolBar)
-        supportActionBar!!.setDisplayShowTitleEnabled(false)
-        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp)
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-    }
-
-    fun showProgress() {
-        progressBar!!.visibility = View.VISIBLE
-    }
-
-    fun hideProgress() {
-        progressBar!!.visibility = View.GONE
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp)
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     //Hide/show tool bar
-    fun showToolbar(shouldShow: Boolean) {
-        if (shouldShow)
-            toolBar!!.visibility = View.VISIBLE
-        else
-            toolBar!!.visibility = View.GONE
+    fun showToolbar(shouldShow: Boolean = true) {
+        toolBar.visibility = if (shouldShow) View.VISIBLE else View.GONE
     }
 
     fun backToHomeScreen() {
-        hideProgress()
         val homeIntent = Intent(Intent.ACTION_MAIN)
         homeIntent.addCategory(Intent.CATEGORY_HOME)
         homeIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -91,7 +71,7 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
     }
 
     override fun loadSignupScreen() {
-        showFragment(SignUpFragment::class)
+        //showFragment(SignUpFragment::class)
     }
 
     override fun loadWelcomeScreen() {

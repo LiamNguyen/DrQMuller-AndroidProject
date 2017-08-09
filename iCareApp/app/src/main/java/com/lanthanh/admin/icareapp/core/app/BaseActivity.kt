@@ -1,6 +1,8 @@
 package com.lanthanh.admin.icareapp.core.app
 
 import android.content.Context
+import android.content.res.Resources
+import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -14,10 +16,12 @@ import kotlin.reflect.full.createInstance
  * @author longv
  * Created on 05-Aug-17.
  */
-abstract class BaseActivity : AppCompatActivity() {
-    private val fragments = ArrayList<Fragment>()
+typealias GeneralBaseFragment = BaseFragment<*, *>
 
-    fun <F : Fragment> showFragment (fragmentClass: KClass<F>) {
+abstract class BaseActivity : AppCompatActivity() {
+    private val fragments = ArrayList<GeneralBaseFragment>()
+
+    fun <F : GeneralBaseFragment> showFragment (fragmentClass: KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                                                         R.anim.slide_in_left, R.anim.slide_out_right);*/
@@ -30,11 +34,24 @@ abstract class BaseActivity : AppCompatActivity() {
         if (fragment == null) {
             fragment = fragmentClass.createInstance()
             fragments.add(fragment)
-            fragmentTransaction.add(R.id.wel_fragment_container, fragment, fragmentClass.qualifiedName)
+            try {
+                fragmentTransaction.add(containerId, fragment, fragmentClass.qualifiedName)
+            } catch (e : Resources.NotFoundException) {
+                throw Exception("No container found for fragment. Please specified a correct ID for the fragment container or else make sure your layout contains a fragment container having ID: fragmentContainer")
+            }
         } else {
             fragmentTransaction.show(fragment)
         }
         fragmentTransaction.addToBackStack(null).commit()
+    }
+
+    override fun onBackPressed() {
+        fragments.forEach {
+            // If onBackPressed event has been handle (fragment onBackPressed return true)
+            if (it.onBackPressed()) return
+        }
+        // Else finish current activity
+        finish()
     }
 
     /**

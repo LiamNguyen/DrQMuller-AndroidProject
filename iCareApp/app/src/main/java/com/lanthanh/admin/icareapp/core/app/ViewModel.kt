@@ -7,8 +7,8 @@ import io.reactivex.disposables.CompositeDisposable
  * Created on 03-Aug-17.
  */
 interface ViewModel {
-    fun resume ()
-    fun pause ()
+    fun resume () // Called in view's OnResume()
+    fun pause () // Called in view's OnPause()
     fun setupView ()
     fun backPressed ()
 }
