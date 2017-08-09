@@ -16,7 +16,6 @@ import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.DefaultA
 import com.lanthanh.admin.icareapp.presentation.homepage.usertab.UserFragment;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 import com.lanthanh.admin.icareapp.presentation.model.dto.DTOAppointment;
-import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
 
 import java.util.ArrayList;
 import java.util.List;

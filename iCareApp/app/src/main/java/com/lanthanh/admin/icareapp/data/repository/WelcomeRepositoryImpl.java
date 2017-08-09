@@ -10,6 +10,7 @@ import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * @author longv
@@ -26,7 +27,7 @@ public class WelcomeRepositoryImpl implements WelcomeRepository{
     }
 
     @Override
-    public Observable<RepositorySimpleStatus> login(String username, String password) {
+    public Observable<RepositorySimpleStatus> login2(String username, String password) {
         return restClient.login(localStorage::saveUserToLocal, username, password).flatMap(
                 resp -> {
                     if (resp == RepositorySimpleStatus.SUCCESS)
@@ -56,5 +57,10 @@ public class WelcomeRepositoryImpl implements WelcomeRepository{
                     return Observable.error(new UseCaseException(resp));
                 }
         );
+    }
+
+    @Override
+    public Single<RepositorySimpleStatus> login(String username, String password) {
+        return Single.just(RepositorySimpleStatus.SUCCESS);
     }
 }

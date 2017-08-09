@@ -10,10 +10,11 @@ import android.view.View
 import android.widget.ProgressBar
 
 import com.lanthanh.admin.icareapp.R
-import com.lanthanh.admin.icareapp.presentation.base.BaseActivity
+
 
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.lanthanh.admin.icareapp.core.app.BaseActivity
 import com.lanthanh.admin.icareapp.di.ui.welcome.DaggerWelcomePageComponent
 import java.util.ArrayList
 import javax.inject.Inject
@@ -31,8 +32,8 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
     @BindView(R.id.progressbar) lateinit var progressBar: ProgressBar
 
     @Inject lateinit var chooseFragment : ChooseFragment
-    @Inject lateinit var logInFragment : LogInFragment
-    @Inject lateinit var signUpFragment : SignUpFragment
+    @Inject lateinit var loginFragment : LoginFragment
+    @Inject lateinit var signupFragment : SignUpFragment
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,8 +43,6 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
         DaggerWelcomePageComponent.builder().build().inject(this)
 
         ButterKnife.bind(this)
-
-        init()
 
         //Set up for Toolbar
         setSupportActionBar(toolBar)
@@ -55,25 +54,6 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
         loadWelcomeScreen()
     }
 
-    fun init() {
-        mainPresenter = WelcomeActivityPresenter(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mainPresenter!!.resume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mainPresenter!!.pause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mainPresenter!!.destroy()
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -83,11 +63,6 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(CURRENT_FRAGMENT_KEY, CURRENT_FRAGMENT)
     }
 
     fun showProgress() {
@@ -115,55 +90,49 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
     }
 
     override fun onBackPressed() {
-        mainPresenter!!.onBackPressed()
-    }
 
-    override fun refreshAfterLosingNetwork() {}
+    }
 
     companion object {
         //public final static String TAG = RegisterActivity.class.getSimpleName();
         //TODO check used fields
         val CHOOSE_FRAGMENT = ChooseFragment::class.java.name
-        val LOGIN_FRAGMENT = LogInFragment::class.java.name
+        val LOGIN_FRAGMENT = LoginFragment::class.java.name
         val SIGNUP_FRAGMENT = SignUpFragment::class.java.name
         var CURRENT_FRAGMENT = ""
         val CURRENT_FRAGMENT_KEY = "CurrentFragment"
     }
 
 
-    fun getVisibleFragments(): List<Fragment> {
+    fun getVisibleFragments () : List<Fragment> {
         // We have 3 fragments, so initialize the arrayList to 3 to optimize memory
         val result = ArrayList<Fragment>(3)
 
         // Add each visible fragment to the result
-        if (chooseFragment.isVisible()) {
+        if (chooseFragment.isVisible) {
             result.add(chooseFragment)
         }
-        if (logInFragment.isVisible()) {
-            result.add(logInFragment)
+        if (loginFragment.isVisible) {
+            result.add(loginFragment)
         }
-        if (signUpFragment.isVisible()) {
-            result.add(signUpFragment)
+        if (signupFragment.isVisible) {
+            result.add(signupFragment)
         }
 
         return result
     }
 
-    fun hideFragments(ft: FragmentTransaction, visibleFrags: List<Fragment>) {
-        visibleFrags.forEach { ft.hide(it) }
-    }
-
-    fun showFragment(f: Fragment) {
+    fun showFragment (fragment: Fragment) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                                                         R.anim.slide_in_left, R.anim.slide_out_right);*/
         //Hide all current visible fragment
-        hideFragments(fragmentTransaction, getVisibleFragments())
+        getVisibleFragments().forEach { fragmentTransaction.hide(it) }
 
-        if (!f.isAdded) {
-            fragmentTransaction.add(R.id.wel_fragment_container, f, f.javaClass.name)
+        if (!fragment.isAdded) {
+            fragmentTransaction.add(R.id.wel_fragment_container, fragment, fragment.javaClass.name)
         } else {
-            fragmentTransaction.show(f)
+            fragmentTransaction.show(fragment)
         }
 
         fragmentTransaction.addToBackStack(null).commit()
@@ -171,11 +140,11 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
 
 
     override fun loadLoginScreen() {
-        showFragment(logInFragment)
+        showFragment(loginFragment)
     }
 
     override fun loadSignupScreen() {
-        showFragment(signUpFragment)
+        showFragment(signupFragment)
     }
 
     override fun loadWelcomeScreen() {

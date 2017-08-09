@@ -22,10 +22,10 @@ import java.util.List;
  * Created by ADMIN on 10-Jan-17.
  */
 
-public class WelcomeActivityPresenter extends BasePresenter {
+public class WelcomeActivityPresenter  {
     public static final String TAG = WelcomeActivityPresenter.class.getSimpleName();
     private ChooseFragment chooseFragment;
-    private LogInFragment logInFragment;
+    private LoginFragment logInFragment;
     private SignUpFragment signUpFragment;
     private WelcomeActivity activity;
 
@@ -34,7 +34,7 @@ public class WelcomeActivityPresenter extends BasePresenter {
     private Interactor interactor;
 
     public WelcomeActivityPresenter(WelcomeActivity activity) {
-        super(activity);
+        //super(activity);
         this.activity = activity;
         init();
     }
@@ -42,7 +42,7 @@ public class WelcomeActivityPresenter extends BasePresenter {
     private void init() {
         //Init fragment
         chooseFragment = new ChooseFragment();
-        logInFragment = new LogInFragment();
+        logInFragment = new LoginFragment();
         signUpFragment = new SignUpFragment();
 
         welcomeRepository = new WelcomeRepositoryImpl(this.activity);
@@ -56,7 +56,7 @@ public class WelcomeActivityPresenter extends BasePresenter {
             //WelcomeActivity.Companion.getCURRENT_FRAGMENT() = WelcomeActivity.Companion.getCHOOSE_FRAGMENT();
             showFragment(chooseFragment);
         }
-        else if (fragmentClass == LogInFragment.class) {
+        else if (fragmentClass == LoginFragment.class) {
             //WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.LOGIN_FRAGMENT;
             showFragment(logInFragment);
         }
@@ -109,16 +109,16 @@ public class WelcomeActivityPresenter extends BasePresenter {
     public void login(String username, String password){
         this.activity.showProgress();
         interactor.execute(
-            () -> welcomeRepository.login(username, password),
+            () -> welcomeRepository.login2(username, password),
             success -> {
                 this.activity.hideProgress();
                 interactor.execute(
                         () -> userRepository.checkUserInformationValidity(),
                         check -> {
-                            if (check == RepositorySimpleStatus.VALID_USER)
-                                navigateActivity(MainActivity.class);
-                            else //Default
-                                navigateActivity(UserInfoActivity.class);
+//                            if (check == RepositorySimpleStatus.VALID_USER)
+//                                //navigateActivity(MainActivity.class);
+//                            else //Default
+//                                navigateActivity(UserInfoActivity.class);
                         },
                         error -> {}
                 );
@@ -128,10 +128,10 @@ public class WelcomeActivityPresenter extends BasePresenter {
                 if (error instanceof UseCaseException) {
                     switch (((UseCaseException) error).getStatus()) {
                         case PATTERN_FAIL:
-                            this.activity.showToast(this.activity.getString(R.string.pattern_fail));
+                            //this.activity.showToast(this.activity.getString(R.string.pattern_fail));
                             break;
                         case USERNAME_PASSWORD_NOT_MATCH:
-                            this.activity.showToast(this.activity.getString(R.string.login_fail));
+                            //this.activity.showToast(this.activity.getString(R.string.login_fail));
                             break;
                     }
                 }
@@ -154,17 +154,17 @@ public class WelcomeActivityPresenter extends BasePresenter {
             () -> welcomeRepository.signup(username, password),
             success -> {
                 this.activity.hideProgress();
-                navigateActivity(UserInfoActivity.class);
+                //navigateActivity(UserInfoActivity.class);
             },
                 error -> {
                     this.activity.hideProgress();
                     if (error instanceof UseCaseException) {
                         switch (((UseCaseException) error).getStatus()) {
                             case PATTERN_FAIL:
-                                this.activity.showToast(this.activity.getString(R.string.pattern_fail));
+                                //this.activity.showToast(this.activity.getString(R.string.pattern_fail));
                                 break;
                             case USERNAME_EXISTED:
-                                this.activity.showToast(this.activity.getString(R.string.username_unavailable));
+                                //this.activity.showToast(this.activity.getString(R.string.username_unavailable));
                                 break;
                         }
                     }
@@ -172,8 +172,8 @@ public class WelcomeActivityPresenter extends BasePresenter {
         );
     }
 
-    @Override
-    public void destroy() {
-        interactor.dispose();
-    }
+//    @Override
+//    public void destroy() {
+//        interactor.dispose();
+//    }
 }

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
-import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 
 import butterknife.BindView;
