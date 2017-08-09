@@ -7,13 +7,9 @@ import com.lanthanh.admin.icareapp.R;
 import com.lanthanh.admin.icareapp.data.repository.UserRepositoryImpl;
 import com.lanthanh.admin.icareapp.data.repository.WelcomeRepositoryImpl;
 import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
-import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
-import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
-import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
-import com.lanthanh.admin.icareapp.presentation.signupinfopage.UserInfoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,7 +140,7 @@ public class WelcomeActivityPresenter  {
         if (logInFragment.isVisible() || signUpFragment.isVisible()) {
             navigateFragment(ChooseFragment.class);
         } else {
-            this.activity.backToHomeScreen();
+            this.activity.backToDeviceHomeScreen();
         }
     }
 

@@ -55,7 +55,7 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
         toolBar.visibility = if (shouldShow) View.VISIBLE else View.GONE
     }
 
-    fun backToHomeScreen() {
+    fun backToDeviceHomeScreen() {
         val homeIntent = Intent(Intent.ACTION_MAIN)
         homeIntent.addCategory(Intent.CATEGORY_HOME)
         homeIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP

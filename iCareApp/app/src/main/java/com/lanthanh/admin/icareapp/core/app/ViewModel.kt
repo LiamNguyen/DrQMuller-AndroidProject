@@ -11,4 +11,5 @@ interface ViewModel {
     fun pause () // Called in view's OnPause()
     fun setupView ()
     fun backPressed ()
+    fun hiddenChanged (hidden : Boolean) // Called if view is a fragment
 }

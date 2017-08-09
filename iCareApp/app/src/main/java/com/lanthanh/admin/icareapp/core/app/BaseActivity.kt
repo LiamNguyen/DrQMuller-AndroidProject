@@ -1,6 +1,7 @@
 package com.lanthanh.admin.icareapp.core.app
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
@@ -21,8 +22,9 @@ typealias GeneralBaseFragment = BaseFragment<*, *>
 abstract class BaseActivity : AppCompatActivity() {
     private val fragments = ArrayList<GeneralBaseFragment>()
 
-    fun <F : GeneralBaseFragment> showFragment (fragmentClass: KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
+    fun <F : GeneralBaseFragment> showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
+
         /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                                                         R.anim.slide_in_left, R.anim.slide_out_right);*/
 
@@ -43,6 +45,11 @@ abstract class BaseActivity : AppCompatActivity() {
             fragmentTransaction.show(fragment)
         }
         fragmentTransaction.addToBackStack(null).commit()
+    }
+
+    fun showActivity (activityClass : KClass<AppCompatActivity>) {
+        val intent = Intent(this, activityClass.java)
+        startActivity(intent)
     }
 
     override fun onBackPressed() {

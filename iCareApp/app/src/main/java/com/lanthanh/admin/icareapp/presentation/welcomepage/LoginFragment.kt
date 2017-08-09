@@ -37,27 +37,28 @@ class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
         return binding.root
     }
 
-    override fun setupView () {
-        applyFont()
+    override fun onResume() {
+        super.onResume()
 
-        hostActivity.showSoftKeyboard(binding.inputUsername)
+        viewModel!!.showToolbar.toRxObservable()
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeBy {
+            if (it) hostActivity.showSoftKeyboard(binding.inputUsername)
+            else hostActivity.hideSoftKeyboard()
+        }
+        .addTo(disposables)
 
-        hostActivity.showToolbar(true)
+        viewModel!!.showKeyboard.toRxObservable()
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeBy {
+            hostActivity.showToolbar(it)
+        }
     }
 
-    fun applyFont () {
+    override fun setupView () {
         //Apply custom font for UI elements
         val font = Typeface.createFromAsset(activity.assets, GraphicUtils.FONT_LIGHT)
         listOfNotNull<TextView>(binding.inputUsername, binding.inputPassword, binding.buttonLogin).forEach { it.typeface = font }
-    }
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        val visible = !hidden
-
-        if (visible) hostActivity.showSoftKeyboard(binding.inputUsername)
-        else hostActivity.hideSoftKeyboard()
-
-        hostActivity.showToolbar(visible)
     }
 }
 

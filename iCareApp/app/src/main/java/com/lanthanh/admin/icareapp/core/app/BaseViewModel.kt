@@ -7,6 +7,7 @@ import io.reactivex.disposables.CompositeDisposable
  * Created on 03-Aug-17.
  */
 abstract class BaseViewModel : ViewModel {
+
     protected val disposables: CompositeDisposable = CompositeDisposable()
 
     override fun resume () {}
@@ -16,6 +17,8 @@ abstract class BaseViewModel : ViewModel {
     }
 
     override fun backPressed() {}
+
+    override fun hiddenChanged(hidden : Boolean) {}
 
     override abstract fun setupView ()
 }

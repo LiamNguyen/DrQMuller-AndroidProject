@@ -18,10 +18,18 @@ import io.reactivex.schedulers.Schedulers
  */
 class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel() {
 
+    // Binding properties
     val username : ObservableField<String> =  ObservableField() // Binding property (two-way) for username input.
     val password : ObservableField<String> = ObservableField() // Binding property (two-way) for password input.
     val enableLogin : ObservableBoolean = ObservableBoolean() // Binding property for login button.
+    val showToolbar : ObservableBoolean = ObservableBoolean() // Binding property for toolbar.
+    val showKeyboard : ObservableBoolean = ObservableBoolean() // Binding property for soft keyboard.
 
+    // LoginViewModel's current state
+    var validAccount : Boolean = false // Account is not valid by default
+    var visible : Boolean = true // When view model is instantiated for the first time, view is visible by default
+
+    // Helper navigator for view model
     var navigator : WelcomeNavigator? = null
 
     override fun resume () {
@@ -31,16 +39,28 @@ class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel(
             password.toRxObservable().map { password -> password.isNotEmpty() },
             BiFunction<Boolean, Boolean, Boolean> { validUsername, validPassword -> validUsername && validPassword })
         .distinctUntilChanged()
-        .subscribeBy(onNext = enableLogin::set)
+        .subscribeBy(
+            onNext = {
+                validAccount = it
+                setupView()
+            }
+        )
         .addTo(disposables)
     }
 
     override fun setupView () {
-        enableLogin.set(false)
+        showToolbar.set(visible)
+        showKeyboard.set(visible)
+        enableLogin.set(validAccount)
     }
 
     override fun backPressed () {
         navigator?.loadWelcomeScreen()
+    }
+
+    override fun hiddenChanged(hidden: Boolean) {
+        visible = !hidden
+        setupView()
     }
 
     fun login () {

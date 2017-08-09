@@ -3,6 +3,7 @@ package com.lanthanh.admin.icareapp.core.app
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
+import io.reactivex.disposables.CompositeDisposable
 
 /**
  * @author longv
@@ -12,6 +13,7 @@ import android.view.View
 abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment() {
 
     protected open var viewModel : VM? = null
+    protected val disposables: CompositeDisposable = CompositeDisposable()
 
     @Suppress("UNCHECKED_CAST")
     val hostActivity by lazy {
@@ -35,6 +37,8 @@ abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment()
     override fun onPause() {
         super.onPause()
 
+        if (!disposables.isDisposed) disposables.dispose()
+
         viewModel?.pause()
     }
 
@@ -44,6 +48,10 @@ abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment()
         viewModel?.backPressed()
 
         return true
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        viewModel?.hiddenChanged(hidden)
     }
 
     abstract fun setupView ()
