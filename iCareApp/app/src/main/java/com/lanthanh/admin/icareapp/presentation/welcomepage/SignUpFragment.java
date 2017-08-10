@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.core.app.BaseFragment;
+import com.lanthanh.admin.icareapp.core.app.ViewModel;
 import com.lanthanh.admin.icareapp.presentation.model.InputRequirement;
-import com.lanthanh.admin.icareapp.presentation.base.BaseFragment;
+
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 import com.lanthanh.admin.icareapp.utils.StringUtils;
 
@@ -28,7 +30,7 @@ import io.reactivex.disposables.Disposable;
  * Created by ADMIN on 19-Oct-16.
  */
 
-public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> {
+public class SignUpFragment extends BaseFragment<WelcomeActivity, ViewModel> {
     @BindView(R.id.su_username_input) TextInputEditText editUsername;
     @BindView(R.id.su_password_input) TextInputEditText editPassword;
     @BindView(R.id.su_password_confirm_input) TextInputEditText editPasswordConfirm;
@@ -47,14 +49,11 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_register_signup, container, false);
         unbinder = ButterKnife.bind(this, view);
-
-        initViews();
-
         return view;
     }
 
     @Override
-    public void initViews() {
+    public void setupView() {
         ((WelcomeActivity) getActivity()).showToolbar(true);
 
         //Apply custom font for UI elements
@@ -74,7 +73,7 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> {
         editPasswordContainer.setErrorEnabled(true);
 
         //Set up listener for button
-        signUpButton.setOnClickListener(view -> getMainPresenter().signup(editUsername.getText().toString().trim(), editPassword.getText().toString()));
+        //signUpButton.setOnClickListener(view -> getMainPresenter().signup(editUsername.getText().toString().trim(), editPassword.getText().toString()));
 
         //Observe edit texts' value
         Observable<Boolean> usernameObservable = RxTextView.textChanges(editUsername)
@@ -125,12 +124,6 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> {
                                         .subscribe(signUpButton::setEnabled);
     }
 
-    @Override
-    public void refreshViews() {
-        editUsername.setText("");
-        editPassword.setText("");
-        editPasswordConfirm.setText("");
-    }
 
     @Override
     public void onStart() {
@@ -144,13 +137,7 @@ public class SignUpFragment extends BaseFragment<WelcomeActivityPresenter> {
             ((WelcomeActivity) getActivity()).showToolbar(true);
             ((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
         }
-        else
-            refreshViews();
-    }
 
-    @Override
-    public WelcomeActivityPresenter getMainPresenter() {
-        return ((WelcomeActivity) getActivity()).getMainPresenter();
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.lanthanh.admin.icareapp.domain.interactor.Interactor;
 import com.lanthanh.admin.icareapp.domain.repository.AppointmentRepository;
 import com.lanthanh.admin.icareapp.domain.repository.UserRepository;
 import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
+import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
 import com.lanthanh.admin.icareapp.utils.Function;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.AppointmentFragment;
 import com.lanthanh.admin.icareapp.presentation.homepage.appointmenttab.DefaultAppointmentFragment;

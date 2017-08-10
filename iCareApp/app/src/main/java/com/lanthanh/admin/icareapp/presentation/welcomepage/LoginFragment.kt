@@ -40,7 +40,7 @@ class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
     override fun onResume() {
         super.onResume()
 
-        viewModel!!.showToolbar.toRxObservable()
+        viewModel!!.showToolbar.toRxObservable().defaultIfEmpty(true)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeBy {
             if (it) hostActivity.showSoftKeyboard(binding.inputUsername)
@@ -48,7 +48,7 @@ class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
         }
         .addTo(disposables)
 
-        viewModel!!.showKeyboard.toRxObservable()
+        viewModel!!.showKeyboard.toRxObservable().defaultIfEmpty(true)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeBy {
             hostActivity.showToolbar(it)

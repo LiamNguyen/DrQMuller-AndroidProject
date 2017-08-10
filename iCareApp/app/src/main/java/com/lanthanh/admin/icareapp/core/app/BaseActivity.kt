@@ -22,13 +22,15 @@ typealias GeneralBaseFragment = BaseFragment<*, *>
 abstract class BaseActivity : AppCompatActivity() {
 
     private val fragments = ArrayList<GeneralBaseFragment>()
-    private val fragmentCount = 0
+    private var fragmentCount = 0
 
     fun <F : GeneralBaseFragment> showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
-        /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                                                        R.anim.slide_in_left, R.anim.slide_out_right);*/
+        fragmentTransaction.setCustomAnimations(
+                R.anim.slide_in_right, R.anim.slide_out_left,
+                R.anim.slide_in_left, R.anim.slide_out_right
+        )
 
         // Hide all current visible fragment
         fragments.forEach { if (it.isVisible) fragmentTransaction.hide(it) }
@@ -46,51 +48,64 @@ abstract class BaseActivity : AppCompatActivity() {
         } else {
             fragmentTransaction.show(fragment)
         }
-        fragmentTransaction.addToBackStack(null).commit()
+        fragmentTransaction.commit()
     }
 
-    fun <F : GeneralBaseFragment> showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
+    fun <F : GeneralBaseFragment> showFragment (fragmentClass : KClass<F>, replace : Boolean = true, @LayoutRes containerId : Int = R.id.fragmentContainer) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
-        /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                                                        R.anim.slide_in_left, R.anim.slide_out_right);*/
+        fragmentTransaction.setCustomAnimations(
+            R.anim.slide_in_right, R.anim.slide_out_left,
+            R.anim.slide_in_left, R.anim.slide_out_right
+        )
 
-        // Hide all current visible fragment
-        fragments.forEach { if (it.isVisible) fragmentTransaction.hide(it) }
+        var fragment = supportFragmentManager.findFragmentByTag(fragmentClass.qualifiedName) ?: fragmentClass.createInstance()
+        if (replace) {
+            try {
+                fragmentTransaction.replace(containerId, fragment, fragmentTag(fragmentCount))
+            } catch (e : Resources.NotFoundException) {
+                throw RuntimeException("No container found for fragment. Please specified a correct ID for the fragment container or else make sure your layout contains a fragment container having ID: fragmentContainer")
+            }
+        } else {
 
+        }
         // Show the desired fragment
-        var fragment = supportFragmentManager.findFragmentByTag(fragmentClass.qualifiedName)
+        //var fragment = supportFragmentManager.findFragmentByTag(fragmentClass.qualifiedName)
         if (fragment == null) {
             fragment = fragmentClass.createInstance()
             fragments.add(fragment)
-            try {
-                fragmentTransaction.add(containerId, fragment, fragmentClass.qualifiedName)
-            } catch (e : Resources.NotFoundException) {
-                throw Exception("No container found for fragment. Please specified a correct ID for the fragment container or else make sure your layout contains a fragment container having ID: fragmentContainer")
-            }
-        } else {
-            fragmentTransaction.show(fragment)
+        }
+        try {
+            fragmentTransaction.replace(containerId, fragment, fragmentClass.qualifiedName)
+        } catch (e : Resources.NotFoundException) {
+            throw RuntimeException("No container found for fragment. Please specified a correct ID for the fragment container or else make sure your layout contains a fragment container having ID: fragmentContainer")
         }
         fragmentTransaction.addToBackStack(null).commit()
-        supportFragmentManager.findFragmentById()
     }
- 
+
     fun fragmentTag (position : Int) = "fragment#{$position}"
+
+    fun <F : GeneralBaseFragment> findFragment (fragmentClass: KClass<F>) : Fragment? {
+        for (i in 0..fragmentCount) {
+            val fragment = supportFragmentManager.findFragmentByTag(fragmentTag(i))
+            if (fragment != null && fragmentClass.isInstance(fragment)) return fragment
+        }
+        return null
+    }
 
     fun showActivity (activityClass : KClass<AppCompatActivity>) {
         val intent = Intent(this, activityClass.java)
         startActivity(intent)
     }
 
-    override fun onBackPressed() {
-        // Find the current visible fragment
-        val fragment = fragments.find { it.isVisible }
-        // If onBackPressed event has been handle (fragment onBackPressed return true), do nothing
-        if (fragment?.onBackPressed() ?: false) return
-        // Else
-
-        super.onBackPressed()
-    }
+//    override fun onBackPressed() {
+//        // Find the current visible fragment
+//        val fragment = fragments.find { it.isVisible }
+//        // If onBackPressed event has been handle (fragment onBackPressed return true), do nothing
+//        if (fragment?.onBackPressed() ?: false) return
+//        // Else
+//        super.onBackPressed()
+//    }
 
     /**
      * This method is used for hiding soft keyboard if it is visible

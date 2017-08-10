@@ -54,8 +54,9 @@ class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel(
         enableLogin.set(validAccount)
     }
 
-    override fun backPressed () {
+    override fun backPressed () : Boolean {
         navigator?.loadWelcomeScreen()
+        return true
     }
 
     override fun hiddenChanged(hidden: Boolean) {

@@ -15,6 +15,7 @@ import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 import com.lanthanh.admin.icareapp.presentation.application.iCareApplication;
 import com.lanthanh.admin.icareapp.presentation.base.BasePresenter;
 import com.lanthanh.admin.icareapp.presentation.homepage.MainActivity;
+import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
 
 /**
  * @author longv

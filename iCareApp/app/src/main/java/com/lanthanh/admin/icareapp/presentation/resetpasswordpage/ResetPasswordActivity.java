@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 
 import com.lanthanh.admin.icareapp.presentation.broadcastreceivers.NetworkBroadcastReceiver;
 import com.lanthanh.admin.icareapp.R;
+import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity;
 
 import java.util.List;
 

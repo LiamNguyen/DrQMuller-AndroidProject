@@ -94,7 +94,7 @@ public class WelcomeActivityPresenter  {
         hideFragments(fragmentTransaction, getVisibleFragments());
 
         if (!f.isAdded()){
-            fragmentTransaction.add(R.id.wel_fragment_container, f, f.getClass().getName());
+            fragmentTransaction.add(R.id.fragmentContainer, f, f.getClass().getName());
         }else{
             fragmentTransaction.show(f);
         }
@@ -103,11 +103,11 @@ public class WelcomeActivityPresenter  {
     }
 
     public void login(String username, String password){
-        this.activity.showProgress();
+        //this.activity.showProgress();
         interactor.execute(
             () -> welcomeRepository.login2(username, password),
             success -> {
-                this.activity.hideProgress();
+                //this.activity.hideProgress();
                 interactor.execute(
                         () -> userRepository.checkUserInformationValidity(),
                         check -> {
@@ -120,7 +120,7 @@ public class WelcomeActivityPresenter  {
                 );
             },
             error -> {
-                this.activity.hideProgress();
+                //this.activity.hideProgress();
                 if (error instanceof UseCaseException) {
                     switch (((UseCaseException) error).getStatus()) {
                         case PATTERN_FAIL:
@@ -136,7 +136,7 @@ public class WelcomeActivityPresenter  {
     }
 
     public void onBackPressed() {
-        this.activity.hideProgress();
+        //this.activity.hideProgress();
         if (logInFragment.isVisible() || signUpFragment.isVisible()) {
             navigateFragment(ChooseFragment.class);
         } else {
@@ -145,15 +145,15 @@ public class WelcomeActivityPresenter  {
     }
 
     public void signup(String username, String password){
-        this.activity.showProgress();
+        //this.activity.showProgress();
         interactor.execute(
             () -> welcomeRepository.signup(username, password),
             success -> {
-                this.activity.hideProgress();
+                //this.activity.hideProgress();
                 //navigateActivity(UserInfoActivity.class);
             },
                 error -> {
-                    this.activity.hideProgress();
+                    //this.activity.hideProgress();
                     if (error instanceof UseCaseException) {
                         switch (((UseCaseException) error).getStatus()) {
                             case PATTERN_FAIL:

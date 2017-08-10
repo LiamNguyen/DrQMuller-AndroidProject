@@ -62,10 +62,6 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
         startActivity(homeIntent)
     }
 
-    override fun onBackPressed() {
-
-    }
-
     override fun loadLoginScreen() {
         showFragment(LoginFragment::class)
     }

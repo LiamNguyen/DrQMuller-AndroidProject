@@ -21,6 +21,11 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".presentation.welcomepage.WelcomeActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
+
         <activity android:name=".presentation.homepage.MainActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden|adjustResize">
