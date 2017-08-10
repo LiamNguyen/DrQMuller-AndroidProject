@@ -20,7 +20,9 @@ import kotlin.reflect.full.createInstance
 typealias GeneralBaseFragment = BaseFragment<*, *>
 
 abstract class BaseActivity : AppCompatActivity() {
+
     private val fragments = ArrayList<GeneralBaseFragment>()
+    private val fragmentCount = 0
 
     fun <F : GeneralBaseFragment> showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -47,18 +49,47 @@ abstract class BaseActivity : AppCompatActivity() {
         fragmentTransaction.addToBackStack(null).commit()
     }
 
+    fun <F : GeneralBaseFragment> showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+        /*.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                                                        R.anim.slide_in_left, R.anim.slide_out_right);*/
+
+        // Hide all current visible fragment
+        fragments.forEach { if (it.isVisible) fragmentTransaction.hide(it) }
+
+        // Show the desired fragment
+        var fragment = supportFragmentManager.findFragmentByTag(fragmentClass.qualifiedName)
+        if (fragment == null) {
+            fragment = fragmentClass.createInstance()
+            fragments.add(fragment)
+            try {
+                fragmentTransaction.add(containerId, fragment, fragmentClass.qualifiedName)
+            } catch (e : Resources.NotFoundException) {
+                throw Exception("No container found for fragment. Please specified a correct ID for the fragment container or else make sure your layout contains a fragment container having ID: fragmentContainer")
+            }
+        } else {
+            fragmentTransaction.show(fragment)
+        }
+        fragmentTransaction.addToBackStack(null).commit()
+        supportFragmentManager.findFragmentById()
+    }
+ 
+    fun fragmentTag (position : Int) = "fragment#{$position}"
+
     fun showActivity (activityClass : KClass<AppCompatActivity>) {
         val intent = Intent(this, activityClass.java)
         startActivity(intent)
     }
 
     override fun onBackPressed() {
-        fragments.forEach {
-            // If onBackPressed event has been handle (fragment onBackPressed return true)
-            if (it.onBackPressed()) return
-        }
-        // Else finish current activity
-        finish()
+        // Find the current visible fragment
+        val fragment = fragments.find { it.isVisible }
+        // If onBackPressed event has been handle (fragment onBackPressed return true), do nothing
+        if (fragment?.onBackPressed() ?: false) return
+        // Else
+
+        super.onBackPressed()
     }
 
     /**

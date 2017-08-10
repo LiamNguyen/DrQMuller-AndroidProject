@@ -42,13 +42,7 @@ abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment()
         viewModel?.pause()
     }
 
-    fun onBackPressed () : Boolean {
-        if (!isVisible) return false
-
-        viewModel?.backPressed()
-
-        return true
-    }
+    fun onBackPressed () : Boolean = viewModel?.backPressed() ?: false
 
     override fun onHiddenChanged(hidden: Boolean) {
         viewModel?.hiddenChanged(hidden)
