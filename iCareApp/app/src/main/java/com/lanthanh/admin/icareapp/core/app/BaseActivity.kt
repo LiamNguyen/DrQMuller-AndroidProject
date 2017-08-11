@@ -59,31 +59,32 @@ abstract class BaseActivity : AppCompatActivity() {
             R.anim.slide_in_left, R.anim.slide_out_right
         )
 
-        var fragment = supportFragmentManager.findFragmentByTag(fragmentClass.qualifiedName) ?: fragmentClass.createInstance()
-        if (replace) {
+        // Check whether fragment needed to be shown is already in stack
+        if (findFragmentByClass(fragmentClass) != null) {
+            throw IllegalStateException("Try to show fragment that already in stack")
+        } else {
             try {
-                fragmentTransaction.replace(containerId, fragment, fragmentTag(fragmentCount))
+                fragmentCount++
+                val fragment = fragmentClass.createInstance()
+                fragmentTransaction.add(containerId, fragment, fragmentTag(fragmentCount))
             } catch (e : Resources.NotFoundException) {
                 throw RuntimeException("No container found for fragment. Please specified a correct ID for the fragment container or else make sure your layout contains a fragment container having ID: fragmentContainer")
             }
-        } else {
-
         }
-        // Show the desired fragment
-        //var fragment = supportFragmentManager.findFragmentByTag(fragmentClass.qualifiedName)
-        if (fragment == null) {
-            fragment = fragmentClass.createInstance()
-            fragments.add(fragment)
-        }
-        try {
-            fragmentTransaction.replace(containerId, fragment, fragmentClass.qualifiedName)
-        } catch (e : Resources.NotFoundException) {
-            throw RuntimeException("No container found for fragment. Please specified a correct ID for the fragment container or else make sure your layout contains a fragment container having ID: fragmentContainer")
-        }
-        fragmentTransaction.addToBackStack(null).commit()
+        fragmentTransaction.commit()
     }
 
-    fun fragmentTag (position : Int) = "fragment#{$position}"
+    private fun fragmentTag (position : Int) = "fragment#{$position}"
+
+    fun topFragment () = supportFragmentManager.findFragmentByTag(fragmentTag(fragmentCount))
+
+    fun <F : GeneralBaseFragment> findFragmentByClass (fragmentClass : KClass<F>) : Fragment? {
+        for (i in 0..fragmentCount) {
+            val fragment = supportFragmentManager.findFragmentByTag(fragmentTag(i))
+            if (fragment != null && fragmentClass.isInstance(fragment)) return fragment
+        }
+        return null
+    }
 
     fun <F : GeneralBaseFragment> findFragment (fragmentClass: KClass<F>) : Fragment? {
         for (i in 0..fragmentCount) {
