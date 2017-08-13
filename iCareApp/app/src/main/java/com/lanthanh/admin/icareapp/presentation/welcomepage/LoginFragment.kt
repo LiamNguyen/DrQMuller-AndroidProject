@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.presentation.welcomepage
 
+import android.content.Context
 import android.databinding.Observable
 import android.graphics.Typeface
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.lanthanh.admin.icareapp.utils.GraphicUtils
 
 import com.lanthanh.admin.icareapp.data.repository.WelcomeRepositoryImpl
 import com.lanthanh.admin.icareapp.databinding.FragmentWelcomeLoginBinding
+import dagger.android.support.AndroidSupportInjection
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
@@ -29,12 +31,20 @@ class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
 
     private lateinit var binding: FragmentWelcomeLoginBinding
 
+    override var viewModel: LoginViewModel? = null
+        @Inject set
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentWelcomeLoginBinding.inflate(inflater, container, false)
         binding.viewModel = LoginViewModel(WelcomeRepositoryImpl(activity))
         viewModel = binding.viewModel
         viewModel!!.navigator = hostActivity
         return binding.root
+    }
+
+    override fun onAttach(context: Context?) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
     }
 
     override fun onResume() {

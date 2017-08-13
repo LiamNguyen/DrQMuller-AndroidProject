@@ -16,19 +16,13 @@ import javax.inject.Inject
 
 abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment() {
 
-    protected var viewModel : VM? = null
-            @Inject set
+    protected open var viewModel : VM? = null
 
     protected val disposables: CompositeDisposable = CompositeDisposable()
 
     @Suppress("UNCHECKED_CAST")
     val hostActivity by lazy {
         activity as A
-    }
-
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {

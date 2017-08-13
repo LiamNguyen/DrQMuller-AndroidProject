@@ -13,10 +13,10 @@ import dagger.Component
  * @author longv
  * Created on 08-Aug-17.
  */
-@FragmentScope
-@Component(
-    dependencies = arrayOf(AppComponent::class)
-)
-interface WelcomePageComponent {
-    fun inject (fragment : LoginFragment)
-}
+//@FragmentScope
+//@Component(
+//    dependencies = arrayOf(AppComponent::class)
+//)
+//interface WelcomePageComponent {
+//    fun inject (fragment : LoginFragment)
+//}

@@ -3,15 +3,25 @@ package com.lanthanh.admin.icareapp.core.app
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.lanthanh.admin.icareapp.R
+import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import java.util.ArrayList
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
+
+
 
 /**
  * @author longv
@@ -21,10 +31,16 @@ typealias GeneralBaseFragment = BaseFragment<*, *>
 
 abstract class BaseActivity : AppCompatActivity() {
 
+
     private val fragments = ArrayList<GeneralBaseFragment>()
     private var fragmentCount = 0
 
-    fun <F : GeneralBaseFragment> showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+       // AndroidInjection.inject(this)
+        super.onCreate(savedInstanceState)
+    }
+
+    fun <F : GeneralBaseFragment> showFragment1 (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
         fragmentTransaction.setCustomAnimations(
@@ -107,6 +123,7 @@ abstract class BaseActivity : AppCompatActivity() {
 //        // Else
 //        super.onBackPressed()
 //    }
+
 
     /**
      * This method is used for hiding soft keyboard if it is visible

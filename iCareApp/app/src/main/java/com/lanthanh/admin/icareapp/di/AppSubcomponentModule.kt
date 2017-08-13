@@ -10,14 +10,14 @@ import dagger.multibindings.IntoMap
  * @author longv
  * Created on 13-Aug-17.
  */
-@Module(
-    subcomponents = arrayOf(RepositoryComponent::class)
-)
-class AppSubcomponentModule {
-
-    @Provides
-    @IntoMap
-    @ClassKey(RepositoryComponent::class)
-    fun provideRepositoryComponent (builder : RepositoryComponent.Builder) : RepositoryComponent
-    = builder.build()
-}
+//@Module(
+//    subcomponents = arrayOf(RepositoryComponent::class)
+//)
+//class AppSubcomponentModule {
+//
+//    @Provides
+//    @IntoMap
+//    @ClassKey(RepositoryComponent::class)
+//    fun provideRepositoryComponent (builder : RepositoryComponent.Builder) : RepositoryComponent
+//    = builder.build()
+//}
