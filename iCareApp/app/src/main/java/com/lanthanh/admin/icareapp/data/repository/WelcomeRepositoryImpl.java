@@ -9,6 +9,9 @@ import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus;
 import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository;
 import com.lanthanh.admin.icareapp.exceptions.UseCaseException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -16,11 +19,12 @@ import io.reactivex.Single;
  * @author longv
  * Created on 19-Mar-17.
  */
-
+@Singleton
 public class WelcomeRepositoryImpl implements WelcomeRepository{
     private RestClient restClient;
     private LocalStorage localStorage;
 
+    @Inject
     public WelcomeRepositoryImpl(Context context){
         restClient = RestClientImpl.createRestClient();
         localStorage =  new LocalStorage(context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE));

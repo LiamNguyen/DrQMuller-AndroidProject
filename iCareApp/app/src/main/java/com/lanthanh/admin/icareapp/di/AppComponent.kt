@@ -15,6 +15,7 @@ import javax.inject.Singleton
 @Component(
     modules = arrayOf(
         AppModule::class,
+        ViewModule::class,
         RepositoryModule::class
     )
 )

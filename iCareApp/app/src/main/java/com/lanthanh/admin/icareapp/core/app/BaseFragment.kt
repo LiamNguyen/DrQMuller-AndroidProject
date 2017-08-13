@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
 import dagger.android.AndroidInjection
+import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
@@ -23,6 +24,11 @@ abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment()
     @Suppress("UNCHECKED_CAST")
     val hostActivity by lazy {
         activity as A
+    }
+
+    override fun onAttach(context: Context?) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
