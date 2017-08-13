@@ -1,9 +1,12 @@
 package com.lanthanh.admin.icareapp.core.app
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
+import dagger.android.AndroidInjection
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
 /**
  * @author longv
@@ -12,7 +15,9 @@ import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment() {
 
-    protected open var viewModel : VM? = null
+    protected var viewModel : VM? = null
+            @Inject set
+
     protected val disposables: CompositeDisposable = CompositeDisposable()
 
     @Suppress("UNCHECKED_CAST")

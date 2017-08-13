@@ -1,5 +1,11 @@
 package com.lanthanh.admin.icareapp.di.ui.welcome
 
+import android.content.Context
+import com.lanthanh.admin.icareapp.di.ActivityScope
+import com.lanthanh.admin.icareapp.di.AppComponent
+import com.lanthanh.admin.icareapp.di.FragmentScope
+import com.lanthanh.admin.icareapp.di.data.RepositoryComponent
+import com.lanthanh.admin.icareapp.presentation.welcomepage.LoginFragment
 import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity
 import dagger.Component
 
@@ -7,7 +13,10 @@ import dagger.Component
  * @author longv
  * Created on 08-Aug-17.
  */
-@Component
+@FragmentScope
+@Component(
+    dependencies = arrayOf(AppComponent::class)
+)
 interface WelcomePageComponent {
-    fun inject (activity : WelcomeActivity)
+    fun inject (fragment : LoginFragment)
 }

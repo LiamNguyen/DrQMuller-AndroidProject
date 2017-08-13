@@ -6,17 +6,20 @@ import com.lanthanh.admin.icareapp.domain.repository.WelcomeRepository
 import com.lanthanh.admin.icareapp.core.extension.toRxObservable
 import com.lanthanh.admin.icareapp.domain.repository.RepositorySimpleStatus
 import com.lanthanh.admin.icareapp.core.app.BaseViewModel
+import com.lanthanh.admin.icareapp.di.FragmentScope
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 /**
  * Created by long.vu on 8/3/2017.
  */
-class LoginViewModel (val welcomeRepository: WelcomeRepository) : BaseViewModel() {
+@FragmentScope
+class LoginViewModel @Inject constructor (val welcomeRepository: WelcomeRepository) : BaseViewModel() {
 
     // Binding properties
     val username : ObservableField<String> =  ObservableField() // Binding property (two-way) for username input.
