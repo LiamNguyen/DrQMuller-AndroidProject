@@ -1,22 +1,18 @@
 package com.lanthanh.admin.icareapp.core.app
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
-import dagger.android.AndroidInjection
-import dagger.android.support.AndroidSupportInjection
+import com.lanthanh.admin.icareapp.core.mvvm.MVVMView
+import com.lanthanh.admin.icareapp.core.mvvm.MVVMViewModel
 import io.reactivex.disposables.CompositeDisposable
-import javax.inject.Inject
 
 /**
  * @author longv
  * *         Created on 05-Aug-17.
  */
 
-abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment() {
-
-    protected open var viewModel : VM? = null
+abstract class BaseFragment<out A : BaseActivity, out VM : MVVMViewModel> : Fragment(), MVVMView<VM> {
 
     protected val disposables: CompositeDisposable = CompositeDisposable()
 
@@ -30,13 +26,13 @@ abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment()
 
         setupView()
 
-        viewModel?.setupView()
+        viewModel.setupView()
     }
 
     override fun onResume () {
         super.onResume()
 
-        viewModel?.resume()
+        viewModel.resume()
     }
 
     override fun onPause() {
@@ -44,13 +40,13 @@ abstract class BaseFragment< out A : BaseActivity, VM : ViewModel > : Fragment()
 
         if (!disposables.isDisposed) disposables.dispose()
 
-        viewModel?.pause()
+        viewModel.pause()
     }
 
-    fun onBackPressed () : Boolean = viewModel?.backPressed() ?: false
+    fun onBackPressed () : Boolean = viewModel.backPressed() ?: false
 
     override fun onHiddenChanged(hidden: Boolean) {
-        viewModel?.hiddenChanged(hidden)
+        viewModel.hiddenChanged(hidden)
     }
 
     abstract fun setupView ()

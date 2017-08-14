@@ -13,18 +13,16 @@ import com.lanthanh.admin.icareapp.R
 import com.lanthanh.admin.icareapp.core.app.BaseFragment
 import com.lanthanh.admin.icareapp.utils.GraphicUtils
 
-import javax.inject.Inject
-
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.Unbinder
-import com.lanthanh.admin.icareapp.core.app.ViewModel
+import com.lanthanh.admin.icareapp.core.mvvm.MVVMViewModel
 
 /**
  * Created by ADMIN on 18-Oct-16.
  */
 
-class ChooseFragment : BaseFragment<WelcomeActivity, ViewModel>() {
+class ChooseFragment : BaseFragment<WelcomeActivity, MVVMViewModel>() {
     @BindView(R.id.wel_log_in_button) lateinit var logInButton: AppCompatButton
     @BindView(R.id.wel_sign_up_button) lateinit var signUpButton: AppCompatButton
     @BindView(R.id.wel_text) lateinit var welcomeText: TextView

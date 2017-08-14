@@ -1,4 +1,4 @@
-package com.lanthanh.admin.icareapp.core.app
+package com.lanthanh.admin.icareapp.core.mvvm
 
 import io.reactivex.disposables.CompositeDisposable
 
@@ -6,7 +6,7 @@ import io.reactivex.disposables.CompositeDisposable
  * @author longv
  * Created on 03-Aug-17.
  */
-interface ViewModel {
+interface MVVMViewModel {
     fun resume () // Called in view's OnResume()
     fun pause () // Called in view's OnPause()
     fun setupView ()
