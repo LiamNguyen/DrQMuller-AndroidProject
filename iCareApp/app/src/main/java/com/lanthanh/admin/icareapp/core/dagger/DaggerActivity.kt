@@ -2,6 +2,7 @@ package com.lanthanh.admin.icareapp.core.dagger
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import com.lanthanh.admin.icareapp.core.app.BaseActivity
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
@@ -13,7 +14,7 @@ import javax.inject.Inject
  * @author longv
  * Created on 13-Aug-17.
  */
-class DaggerActivity : BaseActivity(), HasSupportFragmentInjector {
+open class DaggerActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
 

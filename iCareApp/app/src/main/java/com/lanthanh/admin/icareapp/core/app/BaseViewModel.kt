@@ -11,15 +11,7 @@ abstract class BaseViewModel : MVVMViewModel {
 
     protected val disposables: CompositeDisposable = CompositeDisposable()
 
-    override fun resume () {}
-
     override fun pause () {
         if (!disposables.isDisposed) disposables.dispose()
     }
-
-    override fun backPressed() = false
-
-    override fun hiddenChanged(hidden : Boolean) {}
-
-    override abstract fun setupView ()
 }

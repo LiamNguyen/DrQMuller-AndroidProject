@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.lanthanh.admin.icareapp.R
+import com.lanthanh.admin.icareapp.core.dagger.DaggerActivity
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -29,45 +30,13 @@ import javax.inject.Inject
  */
 typealias GeneralBaseFragment = BaseFragment<*, *>
 
-abstract class BaseActivity : AppCompatActivity() {
-
+abstract class BaseActivity<F : GeneralBaseFragment> : DaggerActivity() {
 
     private val fragments = ArrayList<GeneralBaseFragment>()
     private var fragmentCount = 0
+    private var topFragment = supportFragmentManager.findFragmentByTag(fragmentTag(fragmentCount)) as F
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-       // AndroidInjection.inject(this)
-        super.onCreate(savedInstanceState)
-    }
-
-    fun <F : GeneralBaseFragment> showFragment1 (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-
-        fragmentTransaction.setCustomAnimations(
-                R.anim.slide_in_right, R.anim.slide_out_left,
-                R.anim.slide_in_left, R.anim.slide_out_right
-        )
-
-        // Hide all current visible fragment
-        fragments.forEach { if (it.isVisible) fragmentTransaction.hide(it) }
-
-        // Show the desired fragment
-        var fragment = supportFragmentManager.findFragmentByTag(fragmentClass.qualifiedName)
-        if (fragment == null) {
-            fragment = fragmentClass.createInstance()
-            fragments.add(fragment)
-            try {
-                fragmentTransaction.add(containerId, fragment, fragmentClass.qualifiedName)
-            } catch (e : Resources.NotFoundException) {
-                throw Exception("No container found for fragment. Please specified a correct ID for the fragment container or else make sure your layout contains a fragment container having ID: fragmentContainer")
-            }
-        } else {
-            fragmentTransaction.show(fragment)
-        }
-        fragmentTransaction.commit()
-    }
-
-    fun <F : GeneralBaseFragment> showFragment (fragmentClass : KClass<F>, replace : Boolean = true, @LayoutRes containerId : Int = R.id.fragmentContainer) {
+    fun showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
         fragmentTransaction.setCustomAnimations(
@@ -90,19 +59,13 @@ abstract class BaseActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    private fun fragmentTag (position : Int) = "fragment#{$position}"
+    fun closeTopmostFragment() {
 
-    fun topFragment () = supportFragmentManager.findFragmentByTag(fragmentTag(fragmentCount))
-
-    fun <F : GeneralBaseFragment> findFragmentByClass (fragmentClass : KClass<F>) : Fragment? {
-        for (i in 0..fragmentCount) {
-            val fragment = supportFragmentManager.findFragmentByTag(fragmentTag(i))
-            if (fragment != null && fragmentClass.isInstance(fragment)) return fragment
-        }
-        return null
     }
 
-    fun <F : GeneralBaseFragment> findFragment (fragmentClass: KClass<F>) : Fragment? {
+    private fun fragmentTag (position : Int) = "fragment#{$position}"
+
+    fun findFragmentByClass (fragmentClass : KClass<F>) : Fragment? {
         for (i in 0..fragmentCount) {
             val fragment = supportFragmentManager.findFragmentByTag(fragmentTag(i))
             if (fragment != null && fragmentClass.isInstance(fragment)) return fragment
@@ -115,15 +78,14 @@ abstract class BaseActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-//    override fun onBackPressed() {
-//        // Find the current visible fragment
-//        val fragment = fragments.find { it.isVisible }
-//        // If onBackPressed event has been handle (fragment onBackPressed return true), do nothing
-//        if (fragment?.onBackPressed() ?: false) return
-//        // Else
-//        super.onBackPressed()
-//    }
-
+    override fun onBackPressed() {
+        if (fragmentCount > 1) {
+            if (topFragment.onBackPressed()) return
+            else closeTopmostFragment()
+        } else {
+            super.onBackPressed()
+        }
+    }
 
     /**
      * This method is used for hiding soft keyboard if it is visible

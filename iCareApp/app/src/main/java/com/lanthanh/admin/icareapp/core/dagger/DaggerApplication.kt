@@ -11,7 +11,7 @@ import javax.inject.Inject
  * @author longv
  * Created on 13-Aug-17.
  */
-class DaggerApplication : Application(), HasActivityInjector {
+open class DaggerApplication : Application(), HasActivityInjector {
     @Inject lateinit var activityInjector: DispatchingAndroidInjector<Activity>
     override fun activityInjector(): AndroidInjector<Activity> = activityInjector
 

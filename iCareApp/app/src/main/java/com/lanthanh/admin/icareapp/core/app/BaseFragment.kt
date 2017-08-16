@@ -1,8 +1,10 @@
 package com.lanthanh.admin.icareapp.core.app
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.lanthanh.admin.icareapp.core.mvvm.MVVMView
 import com.lanthanh.admin.icareapp.core.mvvm.MVVMViewModel
 import io.reactivex.disposables.CompositeDisposable
@@ -43,11 +45,32 @@ abstract class BaseFragment<out A : BaseActivity, out VM : MVVMViewModel> : Frag
         viewModel.pause()
     }
 
-    fun onBackPressed () : Boolean = viewModel.backPressed() ?: false
+    fun onBackPressed () : Boolean = viewModel.backPressed()
 
     override fun onHiddenChanged(hidden: Boolean) {
         viewModel.hiddenChanged(hidden)
     }
 
     abstract fun setupView ()
+
+    /**
+     * This method is used for hiding soft keyboard if it is visible
+     */
+    fun hideSoftKeyboard() {
+        val view = hostActivity.currentFocus
+        if (view != null) {
+            val imm = hostActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
+
+    /**
+     * This method is used for showing soft keyboard when needed
+     */
+    fun showSoftKeyboard(view: View) {
+        if (view.requestFocus()) {
+            val imm = hostActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+        }
+    }
 }

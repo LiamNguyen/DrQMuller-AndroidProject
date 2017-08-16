@@ -14,7 +14,7 @@ import javax.inject.Inject
  * @author longv
  * Created on 13-Aug-17.
  */
-class DaggerFragment : BaseFragment<DaggerActivity, MVVMViewModel>(), HasSupportFragmentInjector {
+open class DaggerFragment : Fragment(), HasSupportFragmentInjector {
     @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
 
@@ -22,6 +22,4 @@ class DaggerFragment : BaseFragment<DaggerActivity, MVVMViewModel>(), HasSupport
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
-
-    override fun setupView() {}
 }
