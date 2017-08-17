@@ -31,14 +31,14 @@ class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
 
     private lateinit var binding: FragmentWelcomeLoginBinding
 
-    override var viewModel: LoginViewModel? = null
+    override lateinit var viewModel: LoginViewModel
         @Inject set
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentWelcomeLoginBinding.inflate(inflater, container, false)
         binding.viewModel = LoginViewModel(WelcomeRepositoryImpl(activity))
         viewModel = binding.viewModel
-        viewModel!!.navigator = hostActivity
+        viewModel.navigator = hostActivity
         return binding.root
     }
 
@@ -50,7 +50,7 @@ class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
     override fun onResume() {
         super.onResume()
 
-        viewModel!!.showToolbar.toRxObservable().defaultIfEmpty(true)
+        viewModel.showToolbar.toRxObservable().defaultIfEmpty(true)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeBy {
             if (it) hostActivity.showSoftKeyboard(binding.inputUsername)
@@ -58,7 +58,7 @@ class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
         }
         .addTo(disposables)
 
-        viewModel!!.showKeyboard.toRxObservable().defaultIfEmpty(true)
+        viewModel.showKeyboard.toRxObservable().defaultIfEmpty(true)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeBy {
             hostActivity.showToolbar(it)
