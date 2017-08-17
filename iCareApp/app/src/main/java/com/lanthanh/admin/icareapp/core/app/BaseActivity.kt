@@ -1,28 +1,15 @@
 package com.lanthanh.admin.icareapp.core.app
 
-import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
-import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.view.View
-import android.view.inputmethod.InputMethodManager
+
 import com.lanthanh.admin.icareapp.R
-import com.lanthanh.admin.icareapp.core.dagger.DaggerActivity
-import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
-import java.util.ArrayList
+
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.AndroidSupportInjection
-import javax.inject.Inject
-
-
 
 /**
  * @author longv
@@ -30,7 +17,7 @@ import javax.inject.Inject
  */
 typealias GeneralBaseFragment = BaseFragment<*, *>
 
-abstract class BaseActivity : DaggerActivity() {
+abstract class BaseActivity : AppCompatActivity() {
 
     private var fragmentCount = 0
     private var topFragment = supportFragmentManager.findFragmentByTag(fragmentTag(fragmentCount))

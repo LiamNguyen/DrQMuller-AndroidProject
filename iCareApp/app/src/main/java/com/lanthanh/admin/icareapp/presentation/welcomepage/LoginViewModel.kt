@@ -25,17 +25,19 @@ class LoginViewModel @Inject constructor (val welcomeRepository: WelcomeReposito
     val username : ObservableField<String> =  ObservableField() // Binding property (two-way) for username input.
     val password : ObservableField<String> = ObservableField() // Binding property (two-way) for password input.
     val enableLogin : ObservableBoolean = ObservableBoolean() // Binding property for login button.
-    val showUsernameKeyboard : ObservableBoolean = ObservableBoolean() // Binding property for soft keyboard.
+    val showUsernameKeyboard : ObservableBoolean = ObservableBoolean() // Binding property for username keyboard.
+    val showPasswordKeyboard : ObservableBoolean = ObservableBoolean() // Binding property for password keyboard.
 
     // LoginViewModel's current state
     var validAccount : Boolean = false // Account is not valid by default
+    var authenticating : Boolean = false // Whether the view is authenticating
 
     // Helper navigator for view model
     var navigator : WelcomeNavigator? = null
 
     override fun create() {
-        showUsernameKeyboard.set(true)
         setupView()
+        showUsernameKeyboard.set(true)
     }
 
     override fun resume () {
@@ -56,15 +58,33 @@ class LoginViewModel @Inject constructor (val welcomeRepository: WelcomeReposito
 
     override fun setupView () {
         enableLogin.set(validAccount)
+
+        if (authenticating) {
+            showUsernameKeyboard.set(false)
+            showPasswordKeyboard.set(false)
+            TODO("show loading indicator")
+        } else {
+            TODO("hide loading indicator")
+        }
     }
 
     fun login () {
+        authenticating = true
+        setupView()
+
         welcomeRepository.login(username.get(), password.get())
-        .subscribeOn(AndroidSchedulers.mainThread())
-        .observeOn(Schedulers.io())
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
         .subscribeBy(
-            onError = { print("error") } ,
+            onError = {
+                authenticating = false
+                setupView()
+                print("error")
+            },
             onSuccess = {
+                authenticating = false
+                setupView()
+
                 when (it) {
                     RepositorySimpleStatus.SUCCESS -> print("Success")
                     RepositorySimpleStatus.PATTERN_FAIL -> print("Invalid username password")

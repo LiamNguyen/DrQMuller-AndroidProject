@@ -12,6 +12,7 @@ import com.lanthanh.admin.icareapp.di.AppModule
 import com.lanthanh.admin.icareapp.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.DaggerApplication
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
@@ -20,8 +21,9 @@ import javax.inject.Inject
  * *         Created on 23-Mar-17.
  */
 
-class iCareApplication : Application(), HasSupportFragmentInjector {
-    @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+class iCareApplication : DaggerApplication() {
+    @Inject lateinit var applicationInjector: DispatchingAndroidInjector<iCareApplication>
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> = applicationInjector
 
     val packageInfo: PackageInfo?
         get() {
@@ -47,9 +49,9 @@ class iCareApplication : Application(), HasSupportFragmentInjector {
 
 
     private var appComponent: AppComponent? = null
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
 
     override fun onCreate() {
+        setupAppComponent()
         super.onCreate()
 //        registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
 //            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle) {
@@ -63,8 +65,10 @@ class iCareApplication : Application(), HasSupportFragmentInjector {
 //            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
 //            override fun onActivityDestroyed(activity: Activity) {}
 //        })
-        setupAppComponent()
+
     }
+
+
 
     fun setupAppComponent () {
         appComponent = DaggerAppComponent.builder()
