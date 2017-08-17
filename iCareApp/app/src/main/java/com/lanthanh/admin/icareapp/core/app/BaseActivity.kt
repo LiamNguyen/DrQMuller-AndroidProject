@@ -30,13 +30,12 @@ import javax.inject.Inject
  */
 typealias GeneralBaseFragment = BaseFragment<*, *>
 
-abstract class BaseActivity<F : GeneralBaseFragment> : DaggerActivity() {
+abstract class BaseActivity : DaggerActivity() {
 
-    private val fragments = ArrayList<GeneralBaseFragment>()
     private var fragmentCount = 0
-    private var topFragment = supportFragmentManager.findFragmentByTag(fragmentTag(fragmentCount)) as F
+    private var topFragment = supportFragmentManager.findFragmentByTag(fragmentTag(fragmentCount))
 
-    fun showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
+    fun <F : GeneralBaseFragment> showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
         fragmentTransaction.setCustomAnimations(
@@ -60,12 +59,22 @@ abstract class BaseActivity<F : GeneralBaseFragment> : DaggerActivity() {
     }
 
     fun closeTopmostFragment() {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
 
+        fragmentTransaction.setCustomAnimations(
+                R.anim.slide_in_right, R.anim.slide_out_left,
+                R.anim.slide_in_left, R.anim.slide_out_right
+        )
+
+        fragmentTransaction.remove(topFragment)
+        fragmentCount--
+
+        fragmentTransaction.commit()
     }
 
     private fun fragmentTag (position : Int) = "fragment#{$position}"
 
-    fun findFragmentByClass (fragmentClass : KClass<F>) : Fragment? {
+    fun <F : GeneralBaseFragment> findFragmentByClass (fragmentClass : KClass<F>) : Fragment? {
         for (i in 0..fragmentCount) {
             val fragment = supportFragmentManager.findFragmentByTag(fragmentTag(i))
             if (fragment != null && fragmentClass.isInstance(fragment)) return fragment
@@ -80,8 +89,12 @@ abstract class BaseActivity<F : GeneralBaseFragment> : DaggerActivity() {
 
     override fun onBackPressed() {
         if (fragmentCount > 1) {
-            if (topFragment.onBackPressed()) return
-            else closeTopmostFragment()
+            val topFragment = topFragment
+            if (topFragment is GeneralBaseFragment) {
+                if (topFragment.onBackPressed()) return
+            }
+
+            closeTopmostFragment()
         } else {
             super.onBackPressed()
         }
