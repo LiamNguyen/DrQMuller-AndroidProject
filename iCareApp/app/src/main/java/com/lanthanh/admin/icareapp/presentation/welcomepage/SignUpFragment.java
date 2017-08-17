@@ -18,6 +18,8 @@ import com.lanthanh.admin.icareapp.presentation.model.InputRequirement;
 import com.lanthanh.admin.icareapp.utils.GraphicUtils;
 import com.lanthanh.admin.icareapp.utils.StringUtils;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -145,6 +147,12 @@ public class SignUpFragment extends BaseFragment<WelcomeActivity, MVVMViewModel>
         super.onDestroy();
         unbinder.unbind();
         editTextDisposable.dispose();
+    }
+
+    @NotNull
+    @Override
+    public MVVMViewModel getViewModel() {
+        return null;
     }
 }
 

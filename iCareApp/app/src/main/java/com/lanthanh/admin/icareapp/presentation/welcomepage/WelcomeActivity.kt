@@ -45,9 +45,6 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
     fun setupToolbar () {
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_48dp)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     //Hide/show tool bar

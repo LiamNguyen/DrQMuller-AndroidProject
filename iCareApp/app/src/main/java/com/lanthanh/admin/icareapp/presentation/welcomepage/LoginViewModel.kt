@@ -25,12 +25,10 @@ class LoginViewModel @Inject constructor (val welcomeRepository: WelcomeReposito
     val username : ObservableField<String> =  ObservableField() // Binding property (two-way) for username input.
     val password : ObservableField<String> = ObservableField() // Binding property (two-way) for password input.
     val enableLogin : ObservableBoolean = ObservableBoolean() // Binding property for login button.
-    val showToolbar : ObservableBoolean = ObservableBoolean() // Binding property for toolbar.
     val showKeyboard : ObservableBoolean = ObservableBoolean() // Binding property for soft keyboard.
 
     // LoginViewModel's current state
     var validAccount : Boolean = false // Account is not valid by default
-    var visible : Boolean = true // When view model is instantiated for the first time, view is visible by default
 
     // Helper navigator for view model
     var navigator : WelcomeNavigator? = null
@@ -52,19 +50,7 @@ class LoginViewModel @Inject constructor (val welcomeRepository: WelcomeReposito
     }
 
     override fun setupView () {
-        showToolbar.set(visible)
-        showKeyboard.set(visible)
         enableLogin.set(validAccount)
-    }
-
-    override fun backPressed () : Boolean {
-        navigator?.loadWelcomeScreen()
-        return true
-    }
-
-    override fun hiddenChanged(hidden: Boolean) {
-        visible = !hidden
-        setupView()
     }
 
     fun login () {

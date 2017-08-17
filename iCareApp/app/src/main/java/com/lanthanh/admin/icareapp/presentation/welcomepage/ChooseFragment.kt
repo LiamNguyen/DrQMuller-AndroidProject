@@ -28,6 +28,9 @@ class ChooseFragment : BaseFragment<WelcomeActivity, MVVMViewModel>() {
     @BindView(R.id.wel_text) lateinit var welcomeText: TextView
     private var unbinder: Unbinder? = null
 
+    override val viewModel: MVVMViewModel
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_register_choose, container, false)
         unbinder = ButterKnife.bind(this, view)

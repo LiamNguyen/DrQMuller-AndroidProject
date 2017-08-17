@@ -52,25 +52,4 @@ abstract class BaseFragment<out A : BaseActivity, out VM : MVVMViewModel> : Frag
     }
 
     abstract fun setupView ()
-
-    /**
-     * This method is used for hiding soft keyboard if it is visible
-     */
-    fun hideSoftKeyboard() {
-        val view = hostActivity.currentFocus
-        if (view != null) {
-            val imm = hostActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
-    }
-
-    /**
-     * This method is used for showing soft keyboard when needed
-     */
-    fun showSoftKeyboard(view: View) {
-        if (view.requestFocus()) {
-            val imm = hostActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-        }
-    }
 }

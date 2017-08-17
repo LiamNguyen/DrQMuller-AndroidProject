@@ -82,8 +82,8 @@ abstract class BaseActivity : DaggerActivity() {
         return null
     }
 
-    fun showActivity (activityClass : KClass<AppCompatActivity>) {
-        val intent = Intent(this, activityClass.java)
+    fun showActivity (activityClass : Class<AppCompatActivity>) {
+        val intent = Intent(this, activityClass)
         startActivity(intent)
     }
 
@@ -97,27 +97,6 @@ abstract class BaseActivity : DaggerActivity() {
             closeTopmostFragment()
         } else {
             super.onBackPressed()
-        }
-    }
-
-    /**
-     * This method is used for hiding soft keyboard if it is visible
-     */
-    fun hideSoftKeyboard() {
-        val view = this.currentFocus
-        if (view != null) {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
-    }
-
-    /**
-     * This method is used for showing soft keyboard when needed
-     */
-    fun showSoftKeyboard(view: View) {
-        if (view.requestFocus()) {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
         }
     }
 }
