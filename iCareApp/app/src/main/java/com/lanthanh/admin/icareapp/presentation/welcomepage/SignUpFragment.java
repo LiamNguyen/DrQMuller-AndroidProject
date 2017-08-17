@@ -130,14 +130,14 @@ public class SignUpFragment extends BaseFragment<WelcomeActivity, MVVMViewModel>
     @Override
     public void onStart() {
         super.onStart();
-        ((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
+        //((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden && isVisible()) {
             ((WelcomeActivity) getActivity()).showToolbar(true);
-            ((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
+            //((WelcomeActivity) getActivity()).showSoftKeyboard(editUsername);
         }
 
     }

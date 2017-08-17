@@ -47,7 +47,7 @@ public class WelcomeActivityPresenter  {
     }
 
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {
-        this.activity.hideSoftKeyboard();
+        //this.activity.hideSoftKeyboard();
         if (fragmentClass == ChooseFragment.class) {
             //WelcomeActivity.Companion.getCURRENT_FRAGMENT() = WelcomeActivity.Companion.getCHOOSE_FRAGMENT();
             showFragment(chooseFragment);

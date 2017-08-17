@@ -25,13 +25,18 @@ class LoginViewModel @Inject constructor (val welcomeRepository: WelcomeReposito
     val username : ObservableField<String> =  ObservableField() // Binding property (two-way) for username input.
     val password : ObservableField<String> = ObservableField() // Binding property (two-way) for password input.
     val enableLogin : ObservableBoolean = ObservableBoolean() // Binding property for login button.
-    val showKeyboard : ObservableBoolean = ObservableBoolean() // Binding property for soft keyboard.
+    val showUsernameKeyboard : ObservableBoolean = ObservableBoolean() // Binding property for soft keyboard.
 
     // LoginViewModel's current state
     var validAccount : Boolean = false // Account is not valid by default
 
     // Helper navigator for view model
     var navigator : WelcomeNavigator? = null
+
+    override fun create() {
+        showUsernameKeyboard.set(true)
+        setupView()
+    }
 
     override fun resume () {
         // Only when username and password are valid that button is enabled

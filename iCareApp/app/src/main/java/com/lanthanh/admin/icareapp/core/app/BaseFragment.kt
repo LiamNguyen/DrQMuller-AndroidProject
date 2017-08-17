@@ -28,7 +28,7 @@ abstract class BaseFragment<out A : BaseActivity, out VM : MVVMViewModel> : Frag
 
         setupView()
 
-        viewModel.setupView()
+        viewModel.create()
     }
 
     override fun onResume () {

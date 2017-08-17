@@ -49,12 +49,5 @@ class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
         val font = Typeface.createFromAsset(activity.assets, GraphicUtils.FONT_LIGHT)
         listOfNotNull<TextView>(binding.inputUsername, binding.inputPassword, binding.buttonLogin).forEach { it.typeface = font }
     }
-
-    @BindingAdapter("showKeyboard")
-    fun showKeyboard(editText: EditText, show: Boolean) {
-        if (show) showSoftKeyboard(editText)
-        else hideSoftKeyboard()
-
-    }
 }
 
