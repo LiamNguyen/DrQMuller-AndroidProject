@@ -18,7 +18,7 @@ import kotlin.reflect.full.createInstance
  * @author longv
  * Created on 05-Aug-17.
  */
-typealias GeneralBaseFragment = BaseFragment<*, *>
+typealias GeneralBaseFragment = BaseFragment<*>
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -94,9 +94,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val fragmentToBeClosed = topFragment
-        if (fragmentToBeClosed is GeneralBaseFragment) {
-            if (fragmentToBeClosed.onBackPressed()) return
-        }
+        if ((fragmentToBeClosed as? GeneralBaseFragment)?.onBackPressed() ?: false) return
 
         closeTopFragment()
     }

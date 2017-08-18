@@ -14,9 +14,7 @@ import io.reactivex.disposables.CompositeDisposable
  * *         Created on 05-Aug-17.
  */
 
-abstract class BaseFragment<out A : BaseActivity, out VM : MVVMViewModel> : Fragment(), MVVMView<VM> {
-
-    protected val disposables: CompositeDisposable = CompositeDisposable()
+abstract class BaseFragment<out A : BaseActivity> : Fragment() {
 
     @Suppress("UNCHECKED_CAST")
     val hostActivity by lazy {
@@ -30,31 +28,10 @@ abstract class BaseFragment<out A : BaseActivity, out VM : MVVMViewModel> : Frag
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupView()
-
-        viewModel.create()
     }
 
-    override fun onResume () {
-        super.onResume()
-
-        viewModel.resume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        if (!disposables.isDisposed) disposables.dispose()
-
-        viewModel.pause()
-    }
-
-    fun onBackPressed () : Boolean = viewModel.backPressed()
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        viewModel.hiddenChanged(hidden)
-    }
+    open fun onBackPressed () : Boolean = false
 
     abstract fun setupView ()
 }

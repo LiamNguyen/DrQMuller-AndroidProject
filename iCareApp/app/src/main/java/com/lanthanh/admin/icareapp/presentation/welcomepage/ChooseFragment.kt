@@ -16,6 +16,7 @@ import com.lanthanh.admin.icareapp.utils.GraphicUtils
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.Unbinder
+import com.lanthanh.admin.icareapp.core.mvvm.MVVMFragment
 import com.lanthanh.admin.icareapp.core.mvvm.MVVMViewModel
 import javax.inject.Inject
 
@@ -23,7 +24,7 @@ import javax.inject.Inject
  * Created by ADMIN on 18-Oct-16.
  */
 
-class ChooseFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
+class ChooseFragment : MVVMFragment<WelcomeActivity, LoginViewModel>() {
     @BindView(R.id.wel_log_in_button) lateinit var logInButton: AppCompatButton
     @BindView(R.id.wel_sign_up_button) lateinit var signUpButton: AppCompatButton
     @BindView(R.id.wel_text) lateinit var welcomeText: TextView

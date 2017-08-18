@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import com.lanthanh.admin.icareapp.core.app.BaseFragment
+import com.lanthanh.admin.icareapp.core.mvvm.MVVMFragment
 
 
 import com.lanthanh.admin.icareapp.utils.GraphicUtils
@@ -21,7 +22,7 @@ import javax.inject.Inject
  * Created by ADMIN on 17-Oct-16.
  */
 
-class LoginFragment : BaseFragment<WelcomeActivity, LoginViewModel>() {
+class LoginFragment : MVVMFragment<WelcomeActivity, LoginViewModel>() {
 
     private lateinit var binding: FragmentWelcomeLoginBinding
 
