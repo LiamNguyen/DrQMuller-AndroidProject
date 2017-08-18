@@ -23,7 +23,8 @@ typealias GeneralBaseFragment = BaseFragment<*, *>
 abstract class BaseActivity : AppCompatActivity() {
 
     private var fragmentCount = 0
-    private var topFragment = supportFragmentManager.findFragmentByTag(fragmentTag(fragmentCount))
+    private val topFragment: Fragment?
+        get() = supportFragmentManager.findFragmentByTag(fragmentTag(fragmentCount))
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         AndroidInjection.inject(this)
@@ -31,40 +32,49 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun <F : GeneralBaseFragment> showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-
-        fragmentTransaction.setCustomAnimations(
-            R.anim.slide_in_right, R.anim.slide_out_left,
-            R.anim.slide_in_left, R.anim.slide_out_right
-        )
-
-        // Check whether fragment needed to be shown is already in stack
+        // Check whether requested fragment needed to be shown is already in stack
         if (findFragmentByClass(fragmentClass) != null) {
             throw IllegalStateException("Try to show fragment that already in stack")
         } else {
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+            // Set custom animation for fragment transaction
+            // We will want different animations between the first added fragment and the later ones
+            if (topFragment == null) fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+            else fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+
+            // Show requested fragment
             try {
-                fragmentCount++
+                if (topFragment != null) fragmentTransaction.hide(topFragment)
                 val fragment = fragmentClass.createInstance()
+                fragmentCount++
                 fragmentTransaction.add(R.id.fragmentContainer, fragment, fragmentTag(fragmentCount))
             } catch (e : Resources.NotFoundException) {
                 throw RuntimeException("No container found for fragment. Please specified a correct ID for the fragment container or else make sure your layout contains a fragment container having ID: fragmentContainer")
             }
+
+            fragmentTransaction.commit()
         }
-        fragmentTransaction.commit()
     }
 
-    fun closeTopmostFragment() {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
+    fun closeTopFragment() {
+        if (fragmentCount == 1) {
+            // End this activity if there is only one fragment left
+            finish()
+        } else {
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
 
-        fragmentTransaction.setCustomAnimations(
-            R.anim.slide_in_right, R.anim.slide_out_left,
-            R.anim.slide_in_left, R.anim.slide_out_right
-        )
+            // Set custom animation for fragment transaction
+            fragmentTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
 
-        fragmentTransaction.remove(topFragment)
-        fragmentCount--
+            // Remove top fragment
+            fragmentTransaction.remove(topFragment)
+            fragmentCount--
+            // Since previous top fragment is hidden when showing a new one, show it again
+            fragmentTransaction.show(topFragment)
 
-        fragmentTransaction.commit()
+            fragmentTransaction.commit()
+        }
     }
 
     private fun fragmentTag (position : Int) = "fragment#{$position}"
@@ -83,15 +93,11 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (fragmentCount > 1) {
-            val topFragment = topFragment
-            if (topFragment is GeneralBaseFragment) {
-                if (topFragment.onBackPressed()) return
-            }
-
-            closeTopmostFragment()
-        } else {
-            super.onBackPressed()
+        val fragmentToBeClosed = topFragment
+        if (fragmentToBeClosed is GeneralBaseFragment) {
+            if (fragmentToBeClosed.onBackPressed()) return
         }
+
+        closeTopFragment()
     }
 }

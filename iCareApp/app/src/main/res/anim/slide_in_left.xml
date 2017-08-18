@@ -4,5 +4,5 @@
         android:duration="@integer/fade_anim_duration"/>
     <alpha
         android:fromAlpha="0.0" android:toAlpha="1.0"
-        android:duration="@integer/fade_anim_duration" />
+        android:duration="@integer/fade_anim_duration"/>
 </set>
