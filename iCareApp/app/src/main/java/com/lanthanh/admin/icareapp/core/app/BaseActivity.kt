@@ -31,9 +31,9 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState, persistentState)
     }
 
-    fun <F : GeneralBaseFragment> showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
+    fun <F : Fragment> showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
         // Check whether requested fragment needed to be shown is already in stack
-        if (findFragmentByClass(fragmentClass) != null) {
+        if (fragmentExists(fragmentClass)) {
             throw IllegalStateException("Try to show fragment that already in stack")
         } else {
             val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -79,12 +79,12 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private fun fragmentTag (position : Int) = "fragment#{$position}"
 
-    fun <F : GeneralBaseFragment> findFragmentByClass (fragmentClass : KClass<F>) : Fragment? {
+    fun <F : Fragment> fragmentExists(fragmentClass : KClass<F>) : Boolean {
         for (i in 0..fragmentCount) {
             val fragment = supportFragmentManager.findFragmentByTag(fragmentTag(i))
-            if (fragment != null && fragmentClass.isInstance(fragment)) return fragment
+            if (fragment != null && fragmentClass.isInstance(fragment)) return true
         }
-        return null
+        return false
     }
 
     fun showActivity (activityClass : Class<AppCompatActivity>) {
