@@ -34,7 +34,7 @@ abstract class BaseActivity : AppCompatActivity() {
     fun <F : Fragment> showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
         // Check whether requested fragment needed to be shown is already in stack
         if (fragmentExists(fragmentClass)) {
-            throw IllegalStateException("Try to show fragment that already in stack")
+            throw IllegalStateException("Try to show fragment that is already in stack")
         } else {
             val fragmentTransaction = supportFragmentManager.beginTransaction()
 
