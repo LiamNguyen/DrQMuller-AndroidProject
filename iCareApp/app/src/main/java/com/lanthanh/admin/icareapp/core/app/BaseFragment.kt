@@ -4,9 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import com.lanthanh.admin.icareapp.core.mvvm.MVVMView
 import com.lanthanh.admin.icareapp.core.mvvm.MVVMViewModel
+import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -21,6 +21,11 @@ abstract class BaseFragment<out A : BaseActivity, out VM : MVVMViewModel> : Frag
     @Suppress("UNCHECKED_CAST")
     val hostActivity by lazy {
         activity as A
+    }
+
+    override fun onAttach(context: Context?) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {

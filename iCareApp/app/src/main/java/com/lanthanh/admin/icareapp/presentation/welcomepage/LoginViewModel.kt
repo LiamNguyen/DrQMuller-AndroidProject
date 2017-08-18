@@ -62,9 +62,9 @@ class LoginViewModel @Inject constructor (val welcomeRepository: WelcomeReposito
         if (authenticating) {
             showUsernameKeyboard.set(false)
             showPasswordKeyboard.set(false)
-            TODO("show loading indicator")
+
         } else {
-            TODO("hide loading indicator")
+
         }
     }
 

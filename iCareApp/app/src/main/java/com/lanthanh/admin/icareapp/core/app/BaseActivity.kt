@@ -2,11 +2,14 @@ package com.lanthanh.admin.icareapp.core.app
 
 import android.content.Intent
 import android.content.res.Resources
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 
 import com.lanthanh.admin.icareapp.R
+import dagger.android.AndroidInjection
 
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
@@ -21,6 +24,11 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private var fragmentCount = 0
     private var topFragment = supportFragmentManager.findFragmentByTag(fragmentTag(fragmentCount))
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        AndroidInjection.inject(this)
+        super.onCreate(savedInstanceState, persistentState)
+    }
 
     fun <F : GeneralBaseFragment> showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -37,7 +45,7 @@ abstract class BaseActivity : AppCompatActivity() {
             try {
                 fragmentCount++
                 val fragment = fragmentClass.createInstance()
-                fragmentTransaction.add(containerId, fragment, fragmentTag(fragmentCount))
+                fragmentTransaction.add(R.id.fragmentContainer, fragment, fragmentTag(fragmentCount))
             } catch (e : Resources.NotFoundException) {
                 throw RuntimeException("No container found for fragment. Please specified a correct ID for the fragment container or else make sure your layout contains a fragment container having ID: fragmentContainer")
             }
@@ -49,8 +57,8 @@ abstract class BaseActivity : AppCompatActivity() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
         fragmentTransaction.setCustomAnimations(
-                R.anim.slide_in_right, R.anim.slide_out_left,
-                R.anim.slide_in_left, R.anim.slide_out_right
+            R.anim.slide_in_right, R.anim.slide_out_left,
+            R.anim.slide_in_left, R.anim.slide_out_right
         )
 
         fragmentTransaction.remove(topFragment)

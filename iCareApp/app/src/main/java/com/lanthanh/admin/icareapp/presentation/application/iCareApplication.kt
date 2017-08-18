@@ -22,8 +22,11 @@ import javax.inject.Inject
  */
 
 class iCareApplication : DaggerApplication() {
-    @Inject lateinit var applicationInjector: DispatchingAndroidInjector<iCareApplication>
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> = applicationInjector
+    override fun applicationInjector(): AndroidInjector<iCareApplication> =
+        DaggerAppComponent.builder()
+        .requestAppModule(AppModule(this))
+        .create(this)
+
 
     val packageInfo: PackageInfo?
         get() {
@@ -51,7 +54,6 @@ class iCareApplication : DaggerApplication() {
     private var appComponent: AppComponent? = null
 
     override fun onCreate() {
-        setupAppComponent()
         super.onCreate()
 //        registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
 //            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle) {
@@ -66,14 +68,5 @@ class iCareApplication : DaggerApplication() {
 //            override fun onActivityDestroyed(activity: Activity) {}
 //        })
 
-    }
-
-
-
-    fun setupAppComponent () {
-        appComponent = DaggerAppComponent.builder()
-                        .appModule(AppModule(this))
-                        .build()
-        appComponent?.inject(this)
     }
 }
