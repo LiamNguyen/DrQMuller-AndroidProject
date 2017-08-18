@@ -21,11 +21,6 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment() {
         activity as A
     }
 
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
-
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()

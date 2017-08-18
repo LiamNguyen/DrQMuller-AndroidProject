@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.presentation.welcomepage
 
+import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.widget.AppCompatButton
@@ -18,6 +19,7 @@ import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.lanthanh.admin.icareapp.core.mvvm.MVVMFragment
 import com.lanthanh.admin.icareapp.core.mvvm.MVVMViewModel
+import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
 /**
@@ -33,6 +35,10 @@ class ChooseFragment : MVVMFragment<WelcomeActivity, LoginViewModel>() {
     override lateinit var viewModel: LoginViewModel
     @Inject set
 
+    override fun onAttach(context: Context?) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_register_choose, container, false)

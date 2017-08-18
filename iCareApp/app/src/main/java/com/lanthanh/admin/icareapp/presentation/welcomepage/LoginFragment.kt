@@ -1,5 +1,6 @@
 package com.lanthanh.admin.icareapp.presentation.welcomepage
 
+import android.content.Context
 import android.databinding.BindingAdapter
 import android.graphics.Typeface
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.lanthanh.admin.icareapp.core.mvvm.MVVMFragment
 import com.lanthanh.admin.icareapp.utils.GraphicUtils
 
 import com.lanthanh.admin.icareapp.databinding.FragmentWelcomeLoginBinding
+import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
 /**
@@ -28,6 +30,11 @@ class LoginFragment : MVVMFragment<WelcomeActivity, LoginViewModel>() {
 
     override lateinit var viewModel: LoginViewModel
         @Inject set
+
+    override fun onAttach(context: Context?) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentWelcomeLoginBinding.inflate(inflater, container, false)

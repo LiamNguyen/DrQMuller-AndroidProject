@@ -26,11 +26,6 @@ abstract class BaseActivity : AppCompatActivity() {
     private val topFragment: Fragment?
         get() = supportFragmentManager.findFragmentByTag(fragmentTag(fragmentCount))
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        AndroidInjection.inject(this)
-        super.onCreate(savedInstanceState, persistentState)
-    }
-
     fun <F : Fragment> showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
         // Check whether requested fragment needed to be shown is already in stack
         if (fragmentExists(fragmentClass)) {
