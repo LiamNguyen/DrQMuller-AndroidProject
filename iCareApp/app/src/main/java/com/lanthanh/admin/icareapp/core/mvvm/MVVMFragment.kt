@@ -1,12 +1,9 @@
 package com.lanthanh.admin.icareapp.core.mvvm
 
-import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.View
 import com.lanthanh.admin.icareapp.core.app.BaseActivity
 import com.lanthanh.admin.icareapp.core.app.BaseFragment
-import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -18,24 +15,24 @@ abstract class MVVMFragment<out A : BaseActivity, out VM : MVVMViewModel> : Base
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.create()
+        viewModel.onCreated()
     }
 
     override fun onResume () {
         super.onResume()
-        viewModel.resume()
+        viewModel.onResume()
     }
 
     override fun onPause() {
         super.onPause()
         if (!disposables.isDisposed) disposables.dispose()
-        viewModel.pause()
+        viewModel.onPause()
     }
 
-    override fun onBackPressed () : Boolean = viewModel.backPressed()
+    override fun onBackPressed () : Boolean = viewModel.onBackPressed()
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        viewModel.hiddenChanged(hidden)
+        viewModel.onHiddenChanged(hidden)
     }
 }

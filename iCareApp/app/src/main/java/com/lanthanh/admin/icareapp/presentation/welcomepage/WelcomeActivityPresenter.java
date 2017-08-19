@@ -20,7 +20,7 @@ import java.util.List;
 
 public class WelcomeActivityPresenter  {
     public static final String TAG = WelcomeActivityPresenter.class.getSimpleName();
-    private ChooseFragment chooseFragment;
+    //private ChooseFragment chooseFragment;
     private LoginFragment logInFragment;
     private SignUpFragment signUpFragment;
     private WelcomeActivity activity;
@@ -37,7 +37,7 @@ public class WelcomeActivityPresenter  {
 
     private void init() {
         //Init fragment
-        chooseFragment = new ChooseFragment();
+        //chooseFragment = new ChooseFragment();
         logInFragment = new LoginFragment();
         signUpFragment = new SignUpFragment();
 
@@ -48,18 +48,18 @@ public class WelcomeActivityPresenter  {
 
     public void navigateFragment(Class<? extends Fragment> fragmentClass) {
         //this.activity.hideSoftKeyboard();
-        if (fragmentClass == ChooseFragment.class) {
+        //if (fragmentClass == ChooseFragment.class) {
             //WelcomeActivity.Companion.getCURRENT_FRAGMENT() = WelcomeActivity.Companion.getCHOOSE_FRAGMENT();
-            showFragment(chooseFragment);
-        }
-        else if (fragmentClass == LoginFragment.class) {
+            //showFragment(chooseFragment);
+      //  }
+        //else if (fragmentClass == LoginFragment.class) {
             //WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.LOGIN_FRAGMENT;
-            showFragment(logInFragment);
-        }
-        else if (fragmentClass == SignUpFragment.class) {
-            //WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.SIGNUP_FRAGMENT;
-            showFragment(signUpFragment);
-        }
+         //   showFragment(logInFragment);
+    //    }
+      //  else if (fragmentClass == SignUpFragment.class) {
+      //      //WelcomeActivity.CURRENT_FRAGMENT = WelcomeActivity.SIGNUP_FRAGMENT;
+     //       showFragment(signUpFragment);
+    ////    }
     }
 
     public List<Fragment> getVisibleFragments() {
@@ -67,9 +67,9 @@ public class WelcomeActivityPresenter  {
         List<Fragment> result = new ArrayList<>(3);
 
         // Add each visible fragment to the result
-        if (chooseFragment.isVisible()) {
-            result.add(chooseFragment);
-        }
+        //if (chooseFragment.isVisible()) {
+         //   result.add(chooseFragment);
+       // }
         if (logInFragment.isVisible()) {
             result.add(logInFragment);
         }
@@ -138,7 +138,7 @@ public class WelcomeActivityPresenter  {
     public void onBackPressed() {
         //this.activity.hideProgress();
         if (logInFragment.isVisible() || signUpFragment.isVisible()) {
-            navigateFragment(ChooseFragment.class);
+            //navigateFragment(ChooseFragment.class);
         } else {
             this.activity.backToDeviceHomeScreen();
         }

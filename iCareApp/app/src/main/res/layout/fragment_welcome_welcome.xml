@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeViewModel"/>
+    </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/welcomeText"
             android:text="@string/welcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/wel_text"
             android:textSize="60sp"
             android:textColor="@color/colorWhite"
             android:gravity="center"
@@ -26,7 +31,7 @@
             android:layout_marginEnd="8dp" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/wel_log_in_button"
+            android:id="@+id/loginButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -36,14 +41,15 @@
             android:text="@string/sign_in_button"
             android:textColor="@color/colorWhite"
             android:textSize="18sp"
+            android:onClick="@{() -> viewModel.loadLoginScreen()}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/wel_text"
+            app:layout_constraintTop_toBottomOf="@+id/welcomeText"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/wel_sign_up_button"
+            android:id="@+id/signupButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -53,9 +59,10 @@
             android:text="@string/sign_up_button"
             android:textColor="@color/colorWhite"
             android:textSize="18sp"
+            android:onClick="@{() -> viewModel.loadSignupScreen()}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/wel_log_in_button"
+            app:layout_constraintTop_toBottomOf="@+id/loginButton"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp" />
 

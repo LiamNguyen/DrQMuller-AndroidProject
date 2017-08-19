@@ -11,7 +11,11 @@ abstract class BaseViewModel : MVVMViewModel {
 
     protected val disposables: CompositeDisposable = CompositeDisposable()
 
-    override fun pause () {
+    override fun onCreated() {}
+
+    override fun onResume() {}
+
+    override fun onPause() {
         if (!disposables.isDisposed) disposables.dispose()
     }
 }

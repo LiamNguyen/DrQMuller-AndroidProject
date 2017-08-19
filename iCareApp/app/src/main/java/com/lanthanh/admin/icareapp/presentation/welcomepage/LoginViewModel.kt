@@ -35,12 +35,12 @@ class LoginViewModel @Inject constructor (val welcomeRepository: WelcomeReposito
     // Helper navigator for view model
     var navigator : WelcomeNavigator? = null
 
-    override fun create() {
+    override fun onCreated() {
         setupView()
         showUsernameKeyboard.set(true)
     }
 
-    override fun resume () {
+    override fun onResume() {
         // Only when username and password are valid that button is enabled
         Observable.combineLatest(
             username.toRxObservable().map { username -> username.isNotEmpty() },

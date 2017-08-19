@@ -1,9 +1,9 @@
 package com.lanthanh.admin.icareapp.di
 
-import com.lanthanh.admin.icareapp.presentation.welcomepage.ChooseFragment
 import com.lanthanh.admin.icareapp.presentation.welcomepage.LoginFragment
 import com.lanthanh.admin.icareapp.presentation.welcomepage.SignUpFragment
 import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeActivity
+import com.lanthanh.admin.icareapp.presentation.welcomepage.WelcomeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -20,7 +20,7 @@ abstract class ViewModule {
 
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun contributeChooseFragmentInjector() : ChooseFragment
+    abstract fun contributeWelcomeFragmentInjector() : WelcomeFragment
 
     @FragmentScope
     @ContributesAndroidInjector

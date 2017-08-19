@@ -46,7 +46,7 @@ class LoginFragment : MVVMFragment<WelcomeActivity, LoginViewModel>() {
 
     override fun initView() {
         val font = Typeface.createFromAsset(activity.assets, GraphicUtils.FONT_LIGHT)
-        listOfNotNull<TextView>(binding.inputUsername, binding.inputPassword, binding.buttonLogin).forEach { it.typeface = font }
+        listOfNotNull<TextView>(binding.inputUsername, binding.inputPassword, binding.loginButton).forEach { it.typeface = font }
         hostActivity.supportActionBar?.setHomeButtonEnabled(true)
         hostActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }

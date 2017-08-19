@@ -7,11 +7,11 @@ import com.lanthanh.admin.icareapp.core.app.BaseViewModel
  * Created on 06-Aug-17.
  */
 class WelcomeActivityViewModel : BaseViewModel() {
-    override fun create() {
+    override fun onCreated() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun resume() {
+    override fun onResume() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

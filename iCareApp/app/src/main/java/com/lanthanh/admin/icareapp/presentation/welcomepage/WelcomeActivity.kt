@@ -57,7 +57,7 @@ class WelcomeActivity : BaseActivity(), WelcomeNavigator {
     }
 
     override fun loadWelcomeScreen() {
-        showFragment(ChooseFragment::class)
+        showFragment(WelcomeFragment::class)
     }
 
     override fun loadHomePage() {

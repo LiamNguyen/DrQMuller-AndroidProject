@@ -7,10 +7,10 @@ import io.reactivex.disposables.CompositeDisposable
  * Created on 03-Aug-17.
  */
 interface MVVMViewModel {
-    fun create() // Called when view model is first created
-    fun resume() // Called when view resumes
-    fun pause() // Called when view pauses
+    fun onCreated() // Called when view model is first created
+    fun onResume() // Called when view resumes
+    fun onPause() // Called when view pauses
     fun setupView()
-    fun backPressed() : Boolean = false
-    fun hiddenChanged(hidden : Boolean) = {} // Called if view is a fragment
+    fun onBackPressed() : Boolean = false
+    fun onHiddenChanged(hidden : Boolean) = {} // Called if view is a fragment
 }
