@@ -1,6 +1,8 @@
 package com.lanthanh.admin.icareapp.core.extension
 
 import android.content.Context
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 
@@ -20,4 +22,14 @@ fun EditText.hideKeyboard() {
         val imm = this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
+}
+
+fun ViewGroup.flattenChildViews(): List<View> {
+    val views = mutableListOf<View>()
+    for (i in 0..(this.childCount - 1)) {
+        val child = this.getChildAt(i)
+        views.add(child)
+        if (child is ViewGroup) views.addAll(child.flattenChildViews())
+    }
+    return views
 }

@@ -39,13 +39,11 @@ class WelcomeFragment : MVVMFragment<WelcomeActivity, WelcomeViewModel>() {
     }
 
     override fun initView() {
+        setFont(GraphicUtils.FONT_LIGHT)
+        setFont(GraphicUtils.FONT_WELCOME, binding.welcomeText)
+
         hostActivity.supportActionBar?.setHomeButtonEnabled(false)
         hostActivity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
-
-        val font = Typeface.createFromAsset(activity.assets, GraphicUtils.FONT_WELCOME)
-        val font_light = Typeface.createFromAsset(activity.assets, GraphicUtils.FONT_LIGHT)
-        binding.welcomeText.typeface = font
-        listOfNotNull<TextView>(binding.loginButton, binding.signupButton).forEach { it.typeface = font_light }
     }
 
     override fun onHiddenChanged(hidden: Boolean) {

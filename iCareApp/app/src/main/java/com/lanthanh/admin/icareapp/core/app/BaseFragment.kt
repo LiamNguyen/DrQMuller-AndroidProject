@@ -1,13 +1,14 @@
 package com.lanthanh.admin.icareapp.core.app
 
-import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
-import com.lanthanh.admin.icareapp.core.mvvm.MVVMView
-import com.lanthanh.admin.icareapp.core.mvvm.MVVMViewModel
-import dagger.android.support.AndroidSupportInjection
-import io.reactivex.disposables.CompositeDisposable
+import android.widget.TextView
+
+import android.view.ViewGroup
+
+import com.lanthanh.admin.icareapp.core.extension.flattenChildViews
 
 /**
  * @author longv
@@ -26,11 +27,30 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment() {
         initView()
     }
 
-    open fun onBackPressed() : Boolean = false
+    open fun onBackPressed(): Boolean = false
 
     /**
      * This method is only be called once to initialize view after it is created.
      * Setup UI events, adapter, font, etc. should be placed here.
      */
     abstract fun initView()
+
+    fun setFont(font: String) {
+        val rootView = view
+
+        if (rootView is ViewGroup) {
+            setFont(font, *rootView.flattenChildViews().toTypedArray())
+            return
+        }
+
+        if (rootView is View) {
+            setFont(font, rootView)
+            return
+        }
+    }
+
+    fun setFont(font: String, vararg views: View) {
+        val requestedFont = Typeface.createFromAsset(hostActivity.assets, font)
+        views.forEach { if (it is TextView) it.typeface = requestedFont }
+    }
 }
