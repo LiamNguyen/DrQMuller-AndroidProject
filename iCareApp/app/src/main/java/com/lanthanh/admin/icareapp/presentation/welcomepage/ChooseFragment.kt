@@ -43,35 +43,23 @@ class ChooseFragment : MVVMFragment<WelcomeActivity, LoginViewModel>() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_register_choose, container, false)
         unbinder = ButterKnife.bind(this, view)
-        return view
-    }
-
-    //    @Override
-    //    public void initViews(){
-    //        ((WelcomeActivity) getActivity()).showToolbar(false);
-    //        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_WELCOME);
-    //        Typeface font_light = Typeface.createFromAsset(getActivity().getAssets(), GraphicUtils.FONT_LIGHT);
-    //        welcomeText.setTypeface(font);
-    //        signUpButton.setTypeface(font_light);
-    //        logInButton.setTypeface(font_light);
-    //        logInButton.setOnClickListener(view ->  getMainPresenter().navigateFragment(LoginFragment.class));
-    //        signUpButton.setOnClickListener(view -> getMainPresenter().navigateFragment(SignUpFragment.class));
-    //    }
-
-    override fun setupView() {
-        (activity as WelcomeActivity).showToolbar(false)
         val font = Typeface.createFromAsset(activity.assets, GraphicUtils.FONT_WELCOME)
         val font_light = Typeface.createFromAsset(activity.assets, GraphicUtils.FONT_LIGHT)
         welcomeText!!.typeface = font
         signUpButton!!.typeface = font_light
         logInButton!!.typeface = font_light
         logInButton!!.setOnClickListener { view -> hostActivity.showFragment(LoginFragment::class) }
-        //signUpButton!!.setOnClickListener { view -> hostActivity.showFragment(SignUpFragment::class) }
+        return view
+    }
+
+    override fun setupView() {
+        hostActivity.supportActionBar?.setHomeButtonEnabled(false)
+        hostActivity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
-        if (!hidden && isVisible)
-            (activity as WelcomeActivity).showToolbar(false)
+        super.onHiddenChanged(hidden)
+        setupView()
     }
 
     override fun onDestroy() {

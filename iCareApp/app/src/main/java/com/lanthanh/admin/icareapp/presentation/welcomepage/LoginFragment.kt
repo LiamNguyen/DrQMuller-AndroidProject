@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import com.lanthanh.admin.icareapp.R
 import com.lanthanh.admin.icareapp.core.app.BaseFragment
 import com.lanthanh.admin.icareapp.core.mvvm.MVVMFragment
 
@@ -40,6 +41,7 @@ class LoginFragment : MVVMFragment<WelcomeActivity, LoginViewModel>() {
         binding = FragmentWelcomeLoginBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.viewModel.navigator = hostActivity
+        setupView()
         return binding.root
     }
 
