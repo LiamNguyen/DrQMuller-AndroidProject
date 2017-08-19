@@ -35,8 +35,7 @@ abstract class MVVMFragment<out A : BaseActivity, out VM : MVVMViewModel> : Base
     override fun onBackPressed () : Boolean = viewModel.backPressed()
 
     override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
         viewModel.hiddenChanged(hidden)
     }
-
-    override abstract fun setupView ()
 }

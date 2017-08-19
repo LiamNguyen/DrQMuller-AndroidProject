@@ -56,7 +56,7 @@ public class SignUpFragment extends MVVMFragment<WelcomeActivity, MVVMViewModel>
     }
 
     @Override
-    public void setupView() {
+    public void initView() {
         ((WelcomeActivity) getActivity()).showToolbar(true);
 
         //Apply custom font for UI elements

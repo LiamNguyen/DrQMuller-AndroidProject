@@ -23,10 +23,14 @@ abstract class BaseFragment<out A : BaseActivity> : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView()
+        initView()
     }
 
-    open fun onBackPressed () : Boolean = false
+    open fun onBackPressed() : Boolean = false
 
-    abstract fun setupView ()
+    /**
+     * This method is only be called once to initialize view after it is created.
+     * Setup UI events, adapter, font, etc. should be placed here.
+     */
+    abstract fun initView()
 }

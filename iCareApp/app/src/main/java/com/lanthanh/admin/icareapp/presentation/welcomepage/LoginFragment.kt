@@ -41,23 +41,14 @@ class LoginFragment : MVVMFragment<WelcomeActivity, LoginViewModel>() {
         binding = FragmentWelcomeLoginBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.viewModel.navigator = hostActivity
-        setupView()
         return binding.root
     }
 
-    override fun setupView () {
-        setupFont()
-        setupToolbar()
-    }
-
-    fun setupToolbar() {
-        hostActivity.supportActionBar?.setHomeButtonEnabled(true)
-        hostActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
-    fun setupFont() {
+    override fun initView() {
         val font = Typeface.createFromAsset(activity.assets, GraphicUtils.FONT_LIGHT)
         listOfNotNull<TextView>(binding.inputUsername, binding.inputPassword, binding.buttonLogin).forEach { it.typeface = font }
+        hostActivity.supportActionBar?.setHomeButtonEnabled(true)
+        hostActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 }
 
