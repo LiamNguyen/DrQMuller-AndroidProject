@@ -90,7 +90,7 @@ abstract class BaseActivity : AppCompatActivity() {
     private fun fragmentTag (position : Int) = "fragment#{$position}"
 
     fun <F : Fragment> fragmentExists(fragmentClass : KClass<F>) : Boolean {
-        for (i in 0..fragmentCount) {
+        for (i in 1..fragmentCount) {
             val fragment = supportFragmentManager.findFragmentByTag(fragmentTag(i))
             if (fragment != null && fragmentClass.isInstance(fragment)) return true
         }
