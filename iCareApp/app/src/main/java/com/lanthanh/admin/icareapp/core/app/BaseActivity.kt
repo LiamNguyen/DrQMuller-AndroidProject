@@ -2,17 +2,12 @@ package com.lanthanh.admin.icareapp.core.app
 
 import android.content.Intent
 import android.content.res.Resources
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 
 import com.lanthanh.admin.icareapp.R
-import dagger.android.AndroidInjection
 
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
@@ -24,8 +19,6 @@ import kotlin.reflect.full.createInstance
 typealias GeneralBaseFragment = BaseFragment<*>
 
 abstract class BaseActivity : AppCompatActivity() {
-
-    private val mainLooperHandler = Handler(Looper.getMainLooper())
 
     private var fragmentCount = 0
     private val topFragment: Fragment?
@@ -43,10 +36,6 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun <F : Fragment> showFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
-        postToUIThred { internalOpenFragment(fragmentClass, containerId) }
-    }
-
-    private fun <F : Fragment> internalOpenFragment (fragmentClass : KClass<F>, @LayoutRes containerId : Int = R.id.fragmentContainer) {
         // Check whether requested fragment needed to be shown is already in stack
         if (fragmentExists(fragmentClass)) {
             throw IllegalStateException("Try to show fragment that is already in stack")
@@ -58,9 +47,10 @@ abstract class BaseActivity : AppCompatActivity() {
             if (topFragment == null) fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
             else fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
 
+            if (topFragment != null) fragmentTransaction.hide(topFragment)
+
             // Show requested fragment
             try {
-                if (topFragment != null) fragmentTransaction.hide(topFragment)
                 val fragment = fragmentClass.createInstance()
                 fragmentCount++
                 fragmentTransaction.add(R.id.fragmentContainer, fragment, fragmentTag(fragmentCount))
@@ -72,17 +62,19 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    private fun internalCloseFragment(fragment: Fragment) {
+    fun closeTopFragment() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
         // Set custom animation for fragment transaction
         fragmentTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
 
         // Remove top fragment
-        fragmentTransaction.remove(topFragment)
-        fragmentCount--
+        if (topFragment != null) {
+            fragmentTransaction.remove(topFragment)
+            fragmentCount--
+        }
         // Since previous top fragment is hidden when showing a new one, show it again
-        fragmentTransaction.show(topFragment)
+        if (topFragment != null) fragmentTransaction.show(topFragment)
 
         fragmentTransaction.commit()
     }
@@ -106,15 +98,8 @@ abstract class BaseActivity : AppCompatActivity() {
         val fragmentToBeClosed = topFragment
         if ((fragmentToBeClosed as? GeneralBaseFragment)?.onBackPressed() == true) return
 
-        if (fragmentCount == 1) {
-            // End this activity if there is only one fragment left
-            finish()
-        } else {
-            if (fragmentToBeClosed != null) postToUIThred { internalCloseFragment(fragmentToBeClosed) }
-        }
-    }
-
-    fun postToUIThred(runnable : () -> Unit) {
-        mainLooperHandler.post(runnable)
+        // End this activity if there is only one fragment left
+        if (fragmentCount == 1) finish()
+        else closeTopFragment()
     }
 }
