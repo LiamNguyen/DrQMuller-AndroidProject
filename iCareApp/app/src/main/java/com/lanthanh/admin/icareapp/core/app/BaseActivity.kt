@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.MenuItem
 
 import com.lanthanh.admin.icareapp.R
@@ -20,9 +21,9 @@ typealias GeneralBaseFragment = BaseFragment<*>
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    private var fragmentCount = 0
+    private var fragments = listOf<Fragment>()
     private val topFragment: Fragment?
-        get() = supportFragmentManager.findFragmentByTag(fragmentTag(fragmentCount))
+        get() = fragments.lastOrNull()
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -52,8 +53,8 @@ abstract class BaseActivity : AppCompatActivity() {
             // Show requested fragment
             try {
                 val fragment = fragmentClass.createInstance()
-                fragmentCount++
-                fragmentTransaction.add(R.id.fragmentContainer, fragment, fragmentTag(fragmentCount))
+                fragmentTransaction.add(R.id.fragmentContainer, fragment)
+                fragments = fragments.plus(fragment)
             } catch (e : Resources.NotFoundException) {
                 throw RuntimeException("No container found for fragment. Please specified a correct ID for the fragment container or else make sure your layout contains a fragment container having ID: fragmentContainer")
             }
@@ -71,7 +72,7 @@ abstract class BaseActivity : AppCompatActivity() {
         // Remove top fragment
         if (topFragment != null) {
             fragmentTransaction.remove(topFragment)
-            fragmentCount--
+            fragments = fragments.dropLast(1)
         }
         // Since previous top fragment is hidden when showing a new one, show it again
         if (topFragment != null) fragmentTransaction.show(topFragment)
@@ -82,9 +83,8 @@ abstract class BaseActivity : AppCompatActivity() {
     private fun fragmentTag (position : Int) = "fragment#{$position}"
 
     fun <F : Fragment> fragmentExists(fragmentClass : KClass<F>) : Boolean {
-        for (i in 1..fragmentCount) {
-            val fragment = supportFragmentManager.findFragmentByTag(fragmentTag(i))
-            if (fragment != null && fragmentClass.isInstance(fragment)) return true
+        fragments.forEach {
+            if (fragmentClass.isInstance(it)) return true
         }
         return false
     }
@@ -95,11 +95,10 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val fragmentToBeClosed = topFragment
-        if ((fragmentToBeClosed as? GeneralBaseFragment)?.onBackPressed() == true) return
+        if ((topFragment as? GeneralBaseFragment)?.onBackPressed() == true) return
 
         // End this activity if there is only one fragment left
-        if (fragmentCount == 1) finish()
+        if (fragments.size == 1) finish()
         else closeTopFragment()
     }
 }
